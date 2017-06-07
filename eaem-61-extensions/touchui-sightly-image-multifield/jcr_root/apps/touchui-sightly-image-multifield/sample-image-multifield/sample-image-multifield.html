@@ -1,0 +1,31 @@
+<div    data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"
+        style="display: block; padding: 10px">
+
+    <sly data-sly-call="${clientLib.all @ categories='eaem.slideshow'}" />
+
+    <b>Image Multi Field Sample</b>
+
+    <br><br>
+
+    <div data-sly-use.images="imgHelper.js" data-sly-unwrap>
+        <div data-sly-test="${images.gallery}" style="margin-bottom: 15px">
+            Gallery - ${images.gallery}
+        </div>
+
+        <div data-sly-test="${!images.artists && wcmmode.edit}">
+            Add images using component dialog
+        </div>
+
+        <div data-sly-test="${images.artists}" class="eaem-slideshow">
+            <div data-sly-list.artist="${images.artists}">
+                <div class="show-pic ${artistList.first ? 'active' : ''}">
+                    <img src="${artist.painting}" height="530px" width="700px"/>
+                    <div class="overlayText">
+                        <span class="overlayTitle">${artist.name}</span>
+                        <div class="overlayDesc">${artist.desc}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+#CQ .x-html-editor-tb .x-edit-addcolor {
+    background: url(addcolor.png) center no-repeat;
+}
+
+@-moz-document url-prefix() {
+    #CQ .x-color-palette {
+        width: auto;
+        height: 92px;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <assetsavailablecolumns jcr:primaryType="nt:unstructured">
+        <assetsCount
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="cq/gui/components/siteadmin/admin/pages/headers/deflt"
+            class="assetsCount"
+            columnGroup="Experience AEM"
+            default="{Boolean}true"
+            ignorecase="{Boolean}true"
+            show-selector=".label .assetsCount"
+            sort-selector=".label .assetsCount"
+            sort-type="numeric"
+            title="Folder Assets Count"/>
+        <createdBy
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="cq/gui/components/siteadmin/admin/pages/headers/deflt"
+            class="createdBy"
+            columnGroup="Experience AEM"
+            default="{Boolean}true"
+            ignorecase="{Boolean}true"
+            show-selector=".label .createdBy"
+            sort-selector=".label .createdBy"
+            title="Created By"/>
+    </assetsavailablecolumns>
+</jcr:root>

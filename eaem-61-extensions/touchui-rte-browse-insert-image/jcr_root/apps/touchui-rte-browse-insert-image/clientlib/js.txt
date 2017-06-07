@@ -1,0 +1,2 @@
+image-insert.js
+popover.js

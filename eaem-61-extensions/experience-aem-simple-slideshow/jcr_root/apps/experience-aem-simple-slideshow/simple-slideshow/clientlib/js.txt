@@ -1,0 +1,2 @@
+html5-smart-image-multi-field.js
+simple-slideshow.js

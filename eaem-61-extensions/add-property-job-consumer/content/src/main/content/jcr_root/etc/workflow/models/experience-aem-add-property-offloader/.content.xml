@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2015-06-15T10:24:44.331-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Experience AEM Add Property Offloader"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <workflowoffloadingpr
+                jcr:created="{Date}2015-06-15T10:24:20.197-05:00"
+                jcr:createdBy="admin"
+                jcr:description="Workflow Offloading"
+                jcr:lastModified="{Date}2015-06-15T10:24:44.262-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Add Property Offloading"
+                sling:resourceType="cq/workflow/components/workflow/workflowoffloadingprocess"
+                advanceOnTimeout="true"
+                EXTERNAL_PROCESS="com.adobe.granite.offloading.workflow.impl.WorkflowOffloadingProcess"
+                period="5"
+                PROCESS_AUTO_ADVANCE="true"
+                timeout="3600">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    advanceOnTimeout="true"
+                    EXTERNAL_PROCESS="com.adobe.granite.offloading.workflow.impl.WorkflowOffloadingProcess"
+                    offloadingInputIncludeWorkflowModel="true"
+                    offloadingInputIncludeWorkflowPayload="true"
+                    offloadingOutputIncludeWorkflowModel="true"
+                    offloadingOutputIncludeWorkflowPayload="true"
+                    period="5"
+                    PROCESS_AUTO_ADVANCE="true"
+                    timeout="3600"/>
+            </workflowoffloadingpr>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

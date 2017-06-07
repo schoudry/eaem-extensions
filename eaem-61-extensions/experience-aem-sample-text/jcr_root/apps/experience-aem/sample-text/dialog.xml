@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Experience AEM Sample Component"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            layout="fit"
+            title="Add">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <definitions
+                    jcr:primaryType="cq:Widget"
+                    border="false"
+                    fieldLabel="Definitions"
+                    name="./definitions"
+                    orderable="{Boolean}true"
+                    xtype="multifield">
+                    <fieldConfig
+                        jcr:primaryType="cq:Widget"
+                        xtype="multifieldpanel">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <term
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Term"
+                                key="term"
+                                width="150"
+                                xtype="textfield"/>
+                            <definition
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Definition"
+                                key="definition"
+                                width="150"
+                                xtype="textarea"/>
+                        </items>
+                    </fieldConfig>
+                </definitions>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>

@@ -1,0 +1,41 @@
+.eaem-slideshow {
+    position: relative;
+}
+
+.eaem-slideshow .show-pic{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 8;
+}
+
+.eaem-slideshow .active {
+    z-index: 10;
+}
+
+.eaem-slideshow .last-active {
+    z-index: 9;
+}
+
+.eaem-slideshow .show-pic .overlayText {
+    position: absolute;
+    top: 350px;
+    opacity: 0.7;
+    background-color: #999;
+    width: 600px;
+    height: 80px;
+    margin-left: 30px;
+    padding: 30px 20px;
+}
+
+.eaem-slideshow .show-pic .overlayText .overlayTitle{
+    font-size: 30px;
+    color: #002341;
+}
+
+.eaem-slideshow .show-pic .overlayText .overlayDesc{
+    display: block;
+    margin-top: 15px;
+    font-size: 20px;
+    color: #770000;
+}

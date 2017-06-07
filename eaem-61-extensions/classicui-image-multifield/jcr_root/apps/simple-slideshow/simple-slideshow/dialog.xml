@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    activeTab="{Long}0"
+    title="Slideshow Images"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <basic
+            jcr:primaryType="cq:Widget"
+            title="Images"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <images
+                    jcr:primaryType="cq:Widget"
+                    border="false"
+                    name="./images"
+                    xtype="imagemultifield">
+                    <fieldConfig
+                        jcr:primaryType="cq:Widget"
+                        border="false"
+                        layout="form"
+                        xtype="imagemultifieldpanel">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <title
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Title Text"
+                                name="./titleText"
+                                width="250px"
+                                xtype="textfield"/>
+                            <description
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Description Text"
+                                name="./descText"
+                                width="250px"
+                                xtype="textarea"/>
+                            <resolution
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Add Image"
+                                name="./resolution"
+                                type="select"
+                                xtype="selection">
+                                <options jcr:primaryType="cq:WidgetCollection">
+                                    <o0
+                                        jcr:primaryType="nt:unstructured"
+                                        value="High"/>
+                                    <o1
+                                        jcr:primaryType="nt:unstructured"
+                                        value="Low"/>
+                                </options>
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    selectionchanged="function(){&#xa;alert(&quot;ashish&quot;);&#xa;} "/>
+                            </resolution>
+                            <first
+                                jcr:primaryType="cq:Widget"
+                                cropParameter="./imageCrop"
+                                ddGroups="[media]"
+                                fieldLabel="First Image"
+                                fileNameParameter="./fileName"
+                                fileReferenceParameter="./fileReference"
+                                height="250"
+                                imageSlingResourceType="foundation/components/parbase"
+                                mapParameter="./imageMap"
+                                name="./first"
+                                rotateParameter="./imageRotate"
+                                sizeLimit="100"
+                                xtype="imagemultifieldsmartimage"/>
+                            <second
+                                jcr:primaryType="cq:Widget"
+                                cropParameter="./imageCrop"
+                                ddGroups="[media]"
+                                fieldLabel="Second Image"
+                                fileNameParameter="./fileName"
+                                fileReferenceParameter="./fileReference"
+                                height="250"
+                                imageSlingResourceType="foundation/components/parbase"
+                                mapParameter="./imageMap"
+                                name="./second"
+                                rotateParameter="./imageRotate"
+                                sizeLimit="100"
+                                xtype="imagemultifieldsmartimage"/>
+                        </items>
+                    </fieldConfig>
+                </images>
+            </items>
+        </basic>
+    </items>
+</jcr:root>

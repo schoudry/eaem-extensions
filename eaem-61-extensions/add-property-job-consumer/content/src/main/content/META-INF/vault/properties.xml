@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Custom Vault Properties</comment>
+<entry key="version">1.0-SNAPSHOT</entry>
+<entry key="name">add-property-job-consumer-content</entry>
+<entry key="buildCount">1</entry>
+<entry key="description">Experience AEM Add Property Job Consumer Package</entry>
+<entry key="dependencies"/>
+<entry key="path">/etc/packages/Experience AEM/add-property-job-consumer-content-1.0-SNAPSHOT.zip</entry>
+<entry key="group">Experience AEM</entry>
+<entry key="packageFormatVersion">2</entry>
+</properties>

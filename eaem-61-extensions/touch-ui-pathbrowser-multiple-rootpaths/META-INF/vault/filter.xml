@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/touch-ui-pathbrowser-multiple-rootpaths"/>
+    <filter root="/apps/experience-aem"/>
+</workspaceFilter>
