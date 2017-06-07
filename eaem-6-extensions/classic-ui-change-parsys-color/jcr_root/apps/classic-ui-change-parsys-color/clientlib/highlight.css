@@ -1,0 +1,19 @@
+#CQ .cq-editrollover-highlight-left {
+     background-color: red !important;
+}
+
+#CQ .cq-editrollover-highlight-bottom {
+    background-color: red !important;
+}
+
+#CQ .cq-editrollover-highlight-top {
+    background-color: red !important;
+}
+
+#CQ .cq-editrollover-highlight-right {
+    background-color: red !important;
+}
+
+#CQ .cq-editrollover-insert-message {
+    color: red !important;
+}

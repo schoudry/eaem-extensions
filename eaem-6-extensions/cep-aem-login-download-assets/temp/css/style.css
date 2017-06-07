@@ -1,0 +1,98 @@
+body {
+    font-family: sans-serif;
+    font-size: 12px;
+    color: #dedcdd;
+    background-color: #494949;
+}
+
+label {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.sign-in {
+    padding: 20px;
+}
+
+.sign-in div:first-child{
+    margin-bottom: 30px;
+}
+
+h3{
+    text-align: center
+}
+
+input {
+    color: #dedcdd;
+    padding: 4px 5px;
+    display: block;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 0;
+    margin: 4px 0 15px 0;
+}
+
+button {
+    cursor: pointer;
+    background-color: #00a5e6;
+    border: 0;
+    display: block;
+    color: #fff;
+}
+
+.sign-in button {
+    width: 100%;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 40px 0 0 5px;
+}
+
+.top-right button {
+    width: 100px;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+.top-left {
+    position: absolute;
+    top: 10px;
+    left: 8px;
+}
+
+.top-left input{
+    height: 20px;
+}
+
+.top-right {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+}
+
+.results{
+    margin-top: 40px;
+}
+
+.result-block {
+    cursor: pointer;
+    margin: 20px 10px 0 0;
+    display: inline-block;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 4px 4px 3px 0px rgba(50, 50, 50, 0.75);
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #8a8a8a;
+    -webkit-box-shadow: none;
+}

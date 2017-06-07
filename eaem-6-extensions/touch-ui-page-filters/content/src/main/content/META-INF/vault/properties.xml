@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Custom Vault Properties</comment>
+<entry key="version">1.0-SNAPSHOT</entry>
+<entry key="buildCount">1</entry>
+<entry key="name">touch-ui-page-filters-content</entry>
+<entry key="description">Touch UI Page Filters Package</entry>
+<entry key="dependencies"/>
+<entry key="packageFormatVersion">2</entry>
+<entry key="group">Experience AEM</entry>
+<entry key="path">/etc/packages/Experience AEM/touch-ui-page-filters-content-1.0-SNAPSHOT.zip</entry>
+</properties>

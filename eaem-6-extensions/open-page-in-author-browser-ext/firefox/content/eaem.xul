@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<overlay id="eaem-browser-overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://eaem/content/eaem.js" />
+
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="eaem-string-bundle"
+                      src="chrome://eaem/content/eaem.properties" />
+    </stringbundleset>
+
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="eaem-navbar-button"
+                       class="toolbarbutton-1 chromeclass-toolbar-additional"
+                       label="Access Edit"
+                       image="chrome://eaem/content/pencil.png"
+                       tooltiptext="Access and Editing"
+                       oncommand="ExperienceAEM.AccessAndEditing.open(event)">
+        </toolbarbutton>
+    </toolbarpalette>
+
+</overlay>

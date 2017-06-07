@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/replicate-60author-61author"/>
+    <filter root="/etc/replication/agents.author/61_author"/>
+    <filter root="/etc/workflow/models/replicate-to-61-author"/>
+</workspaceFilter>

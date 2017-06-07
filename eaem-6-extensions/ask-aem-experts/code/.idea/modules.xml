@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/aem/aem.iml" filepath="$PROJECT_DIR$/aem/aem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-dialog-listeners/touchui-dialog-listeners.iml" filepath="$PROJECT_DIR$/touchui-dialog-listeners/touchui-dialog-listeners.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-extend-widget/touchui-extend-widget.iml" filepath="$PROJECT_DIR$/touchui-extend-widget/touchui-extend-widget.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-sample-component/touchui-sample-component.iml" filepath="$PROJECT_DIR$/touchui-sample-component/touchui-sample-component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-sample-toolbar-action/touchui-sample-toolbar-action.iml" filepath="$PROJECT_DIR$/touchui-sample-toolbar-action/touchui-sample-toolbar-action.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-select-all-assets/touchui-select-all-assets.iml" filepath="$PROJECT_DIR$/touchui-select-all-assets/touchui-select-all-assets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touchui-sling-resource-merger/touchui-sling-resource-merger.iml" filepath="$PROJECT_DIR$/touchui-sling-resource-merger/touchui-sling-resource-merger.iml" />
+    </modules>
+  </component>
+</project>
+

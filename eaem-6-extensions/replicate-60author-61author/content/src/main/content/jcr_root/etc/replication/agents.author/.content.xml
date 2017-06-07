@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content/>
+    <publish/>
+    <flush/>
+    <publish_reverse/>
+    <static/>
+    <test_and_target/>
+    <offloading_outbox/>
+    <offloading_62f312d5-03ba-44d0-a2a3-9b10288dff6c/>
+    <offloading_reverse_62f312d5-03ba-44d0-a2a3-9b10288dff6c/>
+    <_x0036_1_author/>
+</jcr:root>

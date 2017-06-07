@@ -1,0 +1,3 @@
+content eaem content/
+
+overlay chrome://browser/content/browser.xul  chrome://eaem/content/eaem.xul

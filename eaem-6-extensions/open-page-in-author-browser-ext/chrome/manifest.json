@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "Access and Edit",
+    "description": "Access and Editing Tool for Adobe Experience Manager",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "pencil.png"
+    },
+
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ],
+
+    "background": {
+        "scripts": ["eaem.js"]
+    }
+}

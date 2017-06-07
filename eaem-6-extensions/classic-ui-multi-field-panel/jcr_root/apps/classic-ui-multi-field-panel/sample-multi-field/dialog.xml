@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Multi Field"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Add">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <map
+                        jcr:primaryType="cq:Widget"
+                        hideLabel="false"
+                        name="./map"
+                        title="Map"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            border="true"
+                            hideLabel="true"
+                            layout="form"
+                            padding="10px"
+                            width="1000"
+                            xtype="multi-field-panel">
+                            <items jcr:primaryType="cq:WidgetCollection">
+                                <product-year-value
+                                    jcr:primaryType="cq:Widget"
+                                    dName="year"
+                                    fieldLabel="Year"
+                                    width="60"
+                                    xtype="textfield"/>
+                                <product-price-value
+                                    jcr:primaryType="cq:Widget"
+                                    dName="price"
+                                    fieldLabel="Price"
+                                    width="60"
+                                    xtype="textfield"/>
+                                <product-version-value
+                                    jcr:primaryType="cq:Widget"
+                                    dName="version"
+                                    fieldLabel="Path to Version"
+                                    xtype="pathfield"/>
+                                <product-lowStock-value
+                                    jcr:primaryType="cq:Widget"
+                                    dName="lowStock"
+                                    fieldLabel="Low Stock ?"
+                                    width="25"
+                                    xtype="checkbox"/>
+                                <product-country
+                                    jcr:primaryType="cq:Widget"
+                                    dName="country"
+                                    fieldLabel="Country"
+                                    options="$PATH/countries.options.json"
+                                    type="select"
+                                    xtype="selection"/>
+                            </items>
+                        </fieldConfig>
+                    </map>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

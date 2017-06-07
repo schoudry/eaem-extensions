@@ -1,0 +1,837 @@
+<?xml version="1.0"?>
+<Project_Data Version="8.00">
+<Project_Settings>
+<ProfileName></ProfileName>
+<ProjectWidth>1680</ProjectWidth>
+<ProjectHeight>1016</ProjectHeight>
+<IsCustomProject>1</IsCustomProject>
+<SavedProjectSettings>1</SavedProjectSettings>
+<LastFlashTemplate>-1</LastFlashTemplate>
+</Project_Settings>
+
+
+<AutoSaveFile>C:\Users\nalabotu\AppData\Local\TechSmith\Camtasia Studio\8.0\Auto-Saves\classic-ui date time auto advancer203b12f.autosave.camproj</AutoSaveFile>
+
+<ProjectID>38B26714-ABAC-445B-8FA5-E086992A1235</ProjectID>
+
+<PowerPointProject>0</PowerPointProject>
+
+<PowerPointFilename></PowerPointFilename>
+
+
+<Project_Notes>
+</Project_Notes>
+
+<Project_MetaData>
+<Project_MetaData_Object>
+<FieldArrayKey>8</FieldArrayKey>
+<Value>classic-ui date time auto advancer</Value>
+</Project_MetaData_Object>
+<Project_MetaData_Object>
+<FieldArrayKey>13</FieldArrayKey>
+<Value>2015-04-05 07:09:35 PM</Value>
+</Project_MetaData_Object>
+<Project_MetaData_Object>
+<FieldArrayKey>16</FieldArrayKey>
+<Value>ENU</Value>
+</Project_MetaData_Object>
+</Project_MetaData>
+
+<CSMLData>
+<GoProject id="1" version="1.0" >
+ <Project id="2" editRate="30/1" version="2.0" >
+  <Author></Author>
+  <Comment></Comment>
+  <System></System>
+  <SourceBin id="3"  >
+    <Source id="4" src="C:\dev\code\projects\cq6-extensions\classicui-auto-advancer-date-time-selector\docs\date time auto advancer step.camrec" lastMod="20150406T002726" rect="(0,0,1680,1016)" >
+      <SourceTrack range="(0,4125000000)" type="0" editRate="10000000/1" trackRect="(0,0,1680,1016)" sampleRate="10000000/333333" bitDepth="24" numChannels="0" filename="date time auto advancer step.camrec!Screen_Stream.avi" metaData="date time auto advancer step.camrec!Events.dat;date time auto advancer step.camrec!manifest.camxml;" />
+    </Source>
+  </SourceBin>
+  <Timeline id="5"  >
+   <Attributes>
+    <Attribute id="6" value="1680" name="width"/>
+    <Attribute id="7" value="1016" name="height"/>
+    <Attribute id="8" value="(0,0,0,255)" name="backgroundColor"/>
+   </Attributes>
+    <GenericMixer id="9"  name="Unified Mixer">
+     <MetaData>
+      <entry key="MixerType" val="TimelineMixer"/>
+     </MetaData>
+     <Tracks>
+      <GenericTrack id="10"  >
+       <Attributes>
+        <Attribute id="11" value="" name="ident"/>
+       </Attributes>
+       <MetaData>
+        <entry key="IsLocked" val="False"/>
+        <entry key="WinTrackHeight" val="62"/>
+       </MetaData>
+       <Medias>
+        <ScreenVMFile id="12" start="0" duration="12375" scalar="1/1" mediaStart="0/1" mediaDuration="12375/1" trackNumber="0" src="4" >
+         <Transformer>
+          <VectorParam id="13"  name="translation">
+           <InterpolatingParam id="14"  >
+            <Parameters>
+             <Parameter id="15"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="16"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="17"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="18"  >
+            <Parameters>
+             <Parameter id="19"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="20"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="21"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="22"  >
+            <Parameters>
+             <Parameter id="23"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="24"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="25"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+          </VectorParam>
+          <VectorParam id="26"  name="rotation">
+           <InterpolatingParam id="27"  >
+            <Parameters>
+             <Parameter id="28"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="29"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="30"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="31"  >
+            <Parameters>
+             <Parameter id="32"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="33"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="34"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="35"  >
+            <Parameters>
+             <Parameter id="36"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="37"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="38"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+          </VectorParam>
+          <VectorParam id="39"  name="shear">
+           <InterpolatingParam id="40"  >
+            <Parameters>
+             <Parameter id="41"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="42"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="43"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="44"  >
+            <Parameters>
+             <Parameter id="45"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="46"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="47"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="48"  >
+            <Parameters>
+             <Parameter id="49"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="50"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="51"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+          </VectorParam>
+          <VectorParam id="52"  name="scale">
+           <InterpolatingParam id="53"  >
+            <Parameters>
+             <Parameter id="54"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="55"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="56"  time="-9999999/1" value="1" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="57"  >
+            <Parameters>
+             <Parameter id="58"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="59"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="60"  time="-9999999/1" value="1" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="61"  >
+            <Parameters>
+             <Parameter id="62"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="63"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="64"  time="-9999999/1" value="1" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+          </VectorParam>
+          <VectorParam id="65"  name="anchor">
+           <InterpolatingParam id="66" interp="linr" value="0"  />
+           <InterpolatingParam id="67" interp="linr" value="0"  />
+           <InterpolatingParam id="68" interp="linr" value="0"  />
+          </VectorParam>
+         </Transformer>
+         <Parameters>
+          <VectorParam id="69"  name="sourceCrop">
+           <InterpolatingParam id="70" interp="linr" value="0"  />
+           <InterpolatingParam id="71" interp="linr" value="0"  />
+           <InterpolatingParam id="72" interp="linr" value="0"  />
+           <InterpolatingParam id="73" interp="linr" value="0"  />
+          </VectorParam>
+          <VectorParam id="74"  name="geometryCrop">
+           <InterpolatingParam id="75"  >
+            <Parameters>
+             <Parameter id="76"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="77"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="78"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="79"  >
+            <Parameters>
+             <Parameter id="80"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="81"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="82"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="83"  >
+            <Parameters>
+             <Parameter id="84"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="85"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="86"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+           <InterpolatingParam id="87"  >
+            <Parameters>
+             <Parameter id="88"  name="interpolater">
+              <Keyframes>
+              <Keyframe id="89"  time="0/1" value="linr" leadInLength="0/1" />
+              </Keyframes>
+             </Parameter>
+            </Parameters>
+            <Keyframes>
+            <Keyframe id="90"  time="-9999999/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </InterpolatingParam>
+          </VectorParam>
+          <InterpolatingParam id="91"  name="opacity">
+           <Parameters>
+            <Parameter id="92"  name="interpolater">
+             <Keyframes>
+             <Keyframe id="93"  time="0/1" value="linr" leadInLength="0/1" />
+             </Keyframes>
+            </Parameter>
+           </Parameters>
+           <Keyframes>
+           <Keyframe id="94"  time="-9999999/1" value="1" leadInLength="0/1" />
+           </Keyframes>
+          </InterpolatingParam>
+          <InterpolatingParam id="95" interp="linr" value="1"  name="cursorOpacity"/>
+          <InterpolatingParam id="96" interp="linr" value="1"  name="cursorScale"/>
+         </Parameters>
+         <Effects>
+          <GenericEffect id="97" name = "CursorBaseEffectName" >
+           <Parameters>
+           <InterpolatingParam id="98" interp="linr" value="1"   name="cursorSize"/>
+           <InterpolatingParam id="99" interp="linr" value="1"   name="highlightBlurRadius"/>
+           <InterpolatingParam id="100" interp="linr" value="1"   name="highlightColorBlue"/>
+           <InterpolatingParam id="101" interp="linr" value="1"   name="highlightColorGreen"/>
+           <InterpolatingParam id="102" interp="linr" value="1"   name="highlightColorRed"/>
+           <InterpolatingParam id="103" interp="linr" value="1"   name="highlightFeatherSize"/>
+           <InterpolatingParam id="104" interp="linr" value="1"   name="highlightMagnification"/>
+           <InterpolatingParam id="105" interp="linr" value="1"   name="highlightOpacity"/>
+           <InterpolatingParam id="106" interp="linr" value="1"   name="highlightSize"/>
+           <Parameter id="107"   name="highlightType">
+            <Keyframes>
+            <Keyframe id="108"  time="0/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </Parameter>
+           <InterpolatingParam id="109" interp="linr" value="1"   name="leftClickColorBlue"/>
+           <InterpolatingParam id="110" interp="linr" value="1"   name="leftClickColorGreen"/>
+           <InterpolatingParam id="111" interp="linr" value="1"   name="leftClickColorRed"/>
+           <InterpolatingParam id="112" interp="linr" value="1"   name="leftClickDuration"/>
+           <InterpolatingParam id="113" interp="linr" value="1"   name="leftClickSize"/>
+           <Parameter id="114"   name="leftClickSoundFilename">
+            <Keyframes>
+            <Keyframe id="115"  time="0/1" value="" leadInLength="0/1" />
+            </Keyframes>
+           </Parameter>
+           <InterpolatingParam id="116" interp="linr" value="1"   name="leftClickSoundVolume"/>
+           <Parameter id="117"   name="leftClickType">
+            <Keyframes>
+            <Keyframe id="118"  time="0/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </Parameter>
+           <InterpolatingParam id="119" interp="linr" value="1"   name="opacity"/>
+           <InterpolatingParam id="120" interp="linr" value="1"   name="rightClickColorBlue"/>
+           <InterpolatingParam id="121" interp="linr" value="1"   name="rightClickColorGreen"/>
+           <InterpolatingParam id="122" interp="linr" value="1"   name="rightClickColorRed"/>
+           <InterpolatingParam id="123" interp="linr" value="1"   name="rightClickDuration"/>
+           <InterpolatingParam id="124" interp="linr" value="1"   name="rightClickSize"/>
+           <Parameter id="125"   name="rightClickSoundFilename">
+            <Keyframes>
+            <Keyframe id="126"  time="0/1" value="" leadInLength="0/1" />
+            </Keyframes>
+           </Parameter>
+           <InterpolatingParam id="127" interp="linr" value="1"   name="rightClickSoundVolume"/>
+           <Parameter id="128"   name="rightClickType">
+            <Keyframes>
+            <Keyframe id="129"  time="0/1" value="0" leadInLength="0/1" />
+            </Keyframes>
+           </Parameter>
+           </Parameters>
+          </GenericEffect>
+         </Effects>
+         <Attributes>
+          <Attribute id="130" value="" name="ident"/>
+         </Attributes>
+         <MetaData>
+          <entry key="AutoAppliedSmartFocus" val="False"/>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+         <ExtraData>
+          <Entry key="ZoomPanBin">
+           <ZoomPanBin id="131"  >
+            <ZoomPanKeyframes>
+             <ZoomPanKeyframe id="132" timeRangeStart="-9999999/1" timeRangeDuration="0/1"  />
+            </ZoomPanKeyframes>
+           </ZoomPanBin>
+          </Entry>
+          <Entry key="CursorEffectBin">
+           <CursorEffectBin id="133"  >
+            <CursorEffectKeyframes>
+            </CursorEffectKeyframes>
+           </CursorEffectBin>
+          </Entry>
+         </ExtraData>
+        </ScreenVMFile>
+       </Medias>
+      </GenericTrack>
+      <GenericTrack id="134"  >
+       <Attributes>
+        <Attribute id="135" value="" name="ident"/>
+       </Attributes>
+       <MetaData>
+        <entry key="IsLocked" val="False"/>
+        <entry key="WinTrackHeight" val="62"/>
+       </MetaData>
+       <Medias>
+        <Caption id="136" start="0" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="137"  name="captionData">
+           <Keyframes>
+           <Keyframe id="138"  time="-9999999/1" value="{62,Configure Request for Activation with Date Time &#xa;Auto Advancer,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="139"  name="toc"/>
+          <Parameter id="140"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="141" start="339" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="142"  name="captionData">
+           <Keyframes>
+           <Keyframe id="143"  time="-9999999/1" value="{84,&quot;Waiting for activation&quot; step was configured  &#xa;with ootb Absoulte Time Auto Advancer,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="144"  name="toc"/>
+          <Parameter id="145"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="146" start="502" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="147"  name="captionData">
+           <Keyframes>
+           <Keyframe id="148"  time="-9999999/1" value="{67,Just an alert showing the selected handler &#xa;cannot handle date time,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="149"  name="toc"/>
+          <Parameter id="150"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="151" start="727" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="152"  name="captionData">
+           <Keyframes>
+           <Keyframe id="153"  time="-9999999/1" value="{116,Selecting &quot;Experience AEM Date Time Auto &#xa;Advancer&quot; and &quot;Timeout&quot; as &quot;Date Time&quot; brings &#xa;up the Set Date Time dialog,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="154"  name="toc"/>
+          <Parameter id="155"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="156" start="1100" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="157"  name="captionData">
+           <Keyframes>
+           <Keyframe id="158"  time="-9999999/1" value="{90,The workflow admin can select the times of day  &#xa;&quot;Waiting for activation&quot; step can timeout,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="159"  name="toc"/>
+          <Parameter id="160"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="161" start="1308" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="162"  name="captionData">
+           <Keyframes>
+           <Keyframe id="163"  time="-9999999/1" value="{38,Selected 10:00 AM, 3:30 PM and 7:30 PM,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="164"  name="toc"/>
+          <Parameter id="165"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="166" start="1677" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="167"  name="captionData">
+           <Keyframes>
+           <Keyframe id="168"  time="-9999999/1" value="{67,The selected times are saved as json string &#xa;&quot;eaemTimeoutDateTimes&quot;,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="169"  name="toc"/>
+          <Parameter id="170"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="171" start="2662" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="172"  name="captionData">
+           <Keyframes>
+           <Keyframe id="173"  time="-9999999/1" value="{65,Cant wait till 7:30 PM, its 6-7 mts away, so &#xa;reset it to 7:24 PM,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="174"  name="toc"/>
+          <Parameter id="175"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="176" start="3624" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="177"  name="captionData">
+           <Keyframes>
+           <Keyframe id="178"  time="-9999999/1" value="{47,Lets unpublish the published asset - Desert.jpg,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="179"  name="toc"/>
+          <Parameter id="180"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="181" start="3952" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="182"  name="captionData">
+           <Keyframes>
+           <Keyframe id="183"  time="-9999999/1" value="{78,Start the Request for Activation workflow to &#xa;publish this asset after 7:24 PM,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="184"  name="toc"/>
+          <Parameter id="185"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="186" start="4255" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="187"  name="captionData">
+           <Keyframes>
+           <Keyframe id="188"  time="-9999999/1" value="{113,Approve the Activation request, after which it &#xa;moves to &quot;Create Version&quot; step, then to &#xa;&quot;Waiting for activation&quot;,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="189"  name="toc"/>
+          <Parameter id="190"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="191" start="4984" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="192"  name="captionData">
+           <Keyframes>
+           <Keyframe id="193"  time="-9999999/1" value="{129,Access /var/eventing/timed-jobs to check if a &#xa;job was created to timeout at the specified time &#xa;7:24 PM, well 7:24:26 PM exactly,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="194"  name="toc"/>
+          <Parameter id="195"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="196" start="5275" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="197"  name="captionData">
+           <Keyframes>
+           <Keyframe id="198"  time="-9999999/1" value="{58,Job was created, lets wait till the clock hits &#xa;7:24:26 PM,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="199"  name="toc"/>
+          <Parameter id="200"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="201" start="6398" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="202"  name="captionData">
+           <Keyframes>
+           <Keyframe id="203"  time="-9999999/1" value="{43,Get a cup of coffee, we still have ~60 secs,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="204"  name="toc"/>
+          <Parameter id="205"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="206" start="8060" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="207"  name="captionData">
+           <Keyframes>
+           <Keyframe id="208"  time="-9999999/1" value="{53,Ok approaching 7:24:26 PM, lets check the job &#xa;status,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="209"  name="toc"/>
+          <Parameter id="210"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="211" start="8251" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="212"  name="captionData">
+           <Keyframes>
+           <Keyframe id="213"  time="-9999999/1" value="{71,Workflow moved to the next step &quot;Activate&quot; and &#xa;the asset got published,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="214"  name="toc"/>
+          <Parameter id="215"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="216" start="8379" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="217"  name="captionData">
+           <Keyframes>
+           <Keyframe id="218"  time="-9999999/1" value="{29,The job gets deleted from CRX,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="219"  name="toc"/>
+          <Parameter id="220"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="221" start="8537" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="222"  name="captionData">
+           <Keyframes>
+           <Keyframe id="223"  time="-9999999/1" value="{56,Published asset, check the date &amp; time it was &#xa;published,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="224"  name="toc"/>
+          <Parameter id="225"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="226" start="8934" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="227"  name="captionData">
+           <Keyframes>
+           <Keyframe id="228"  time="-9999999/1" value="{133,Admin can set date time, when a page/asset &#xa;should get published, if its gets past the &#xa;previous &apos;Approve Step&apos; before specified date,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="229"  name="toc"/>
+          <Parameter id="230"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="231" start="9659" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="232"  name="captionData">
+           <Keyframes>
+           <Keyframe id="233"  time="-9999999/1" value="{92,The earliest date available would be April 06, &#xa;2015 7:00 AM, if the asset gets approved now,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="234"  name="toc"/>
+          <Parameter id="235"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="236" start="10493" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="237"  name="captionData">
+           <Keyframes>
+           <Keyframe id="238"  time="-9999999/1" value="{41,Start the Request for Activation workflow,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="239"  name="toc"/>
+          <Parameter id="240"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="241" start="11277" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="242"  name="captionData">
+           <Keyframes>
+           <Keyframe id="243"  time="-9999999/1" value="{130,If the user approves content after April 06 2015 &#xa;7:00 AM, the next available date for activation &#xa;would be April 06 2015 10:00 AM,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="244"  name="toc"/>
+          <Parameter id="245"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="246" start="11596" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="247"  name="captionData">
+           <Keyframes>
+           <Keyframe id="248"  time="-9999999/1" value="{49,Check the date time of sling evening job &#xa;created,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="249"  name="toc"/>
+          <Parameter id="250"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+        <Caption id="251" start="12034" duration="120" scalar="1/1" mediaStart="0/1" mediaDuration="120/1" maxMediaDuration="9.22337e+018"  allowTrimOut="1"  >
+         <Parameters>
+          <Parameter id="252"  name="captionData">
+           <Keyframes>
+           <Keyframe id="253"  time="-9999999/1" value="{110,Using a Date Time Auto Advancer a user gets  &#xa;more control on when an asset gets published &#xa;after its approved,0}" leadInLength="0/1" />
+           </Keyframes>
+          </Parameter>
+          <Parameter id="254"  name="toc"/>
+          <Parameter id="255"  name="quiz"/>
+         </Parameters>
+         <Attributes>
+         </Attributes>
+         <MetaData>
+          <entry key="WinSubProjectDisplayName" val=""/>
+         </MetaData>
+        </Caption>
+       </Medias>
+      </GenericTrack>
+      <GenericTrack id="256"  >
+       <Attributes>
+        <Attribute id="257" value="" name="ident"/>
+       </Attributes>
+       <MetaData>
+        <entry key="IsLocked" val="False"/>
+        <entry key="WinTrackHeight" val="62"/>
+       </MetaData>
+       <Medias>
+       </Medias>
+      </GenericTrack>
+     </Tracks>
+    </GenericMixer>
+   <CaptionAttributes id="258"  >
+    <Attribute id="259" value="1" name="captionsEnabled"/>
+    <Attribute id="260" value="Arial" name="captionsFontName"/>
+    <Attribute id="261" value="36" name="captionsFontSize"/>
+    <Attribute id="262" value="(0,0,0,255)" name="captionsBackgroundColor"/>
+    <Attribute id="263" value="(255,255,255,255)" name="captionsForegroundColor"/>
+    <Attribute id="264" value="en" name="lang"/>
+    <Attribute id="265" value="0" name="captionsAlignment"/>
+    <Attribute id="266" value="1" name="captionsDefaultFontSize"/>
+    <Attribute id="267" value="0.5" name="captionsOpacity"/>
+    <Attribute id="268" value="1" name="captionsBackgroundEnabled"/>
+    <Attribute id="269" value="1" name="captionsBackgroundOnlyAroundText"/>
+   </CaptionAttributes>
+   <Parameters>
+    <VectorParam id="270"  name="eyePosition">
+     <InterpolatingParam id="271" interp="linr" value="0"  />
+     <InterpolatingParam id="272" interp="linr" value="0"  />
+     <InterpolatingParam id="273" interp="linr" value="3000"  />
+    </VectorParam>
+    <VectorParam id="274"  name="eyeLookAtPosition">
+     <InterpolatingParam id="275" interp="linr" value="0"  />
+     <InterpolatingParam id="276" interp="linr" value="0"  />
+     <InterpolatingParam id="277" interp="linr" value="0"  />
+    </VectorParam>
+    <VectorParam id="278"  name="eyeUpVector">
+     <InterpolatingParam id="279" interp="linr" value="0"  />
+     <InterpolatingParam id="280" interp="linr" value="1"  />
+     <InterpolatingParam id="281" interp="linr" value="0"  />
+    </VectorParam>
+    <InterpolatingParam id="282" interp="linr" value="0.335484296"  name="fov"/>
+    <InterpolatingParam id="283" interp="linr" value="1.5"  name="nearClipDistance"/>
+    <InterpolatingParam id="284" interp="linr" value="6000"  name="farClipDistance"/>
+    <Parameter id="285"  name="toc">
+     <Keyframes>
+     <Keyframe id="286"  time="1320/1" value="Marker 1" leadInLength="0/1" >
+      <MetaData>
+       <entry key="Checked" val="True"/>
+       <entry key="IndentLevel" val="0"/>
+      </MetaData>
+     </Keyframe>
+     </Keyframes>
+    </Parameter>
+   </Parameters>
+  </Timeline>
+ </Project>
+</GoProject>
+</CSMLData>
+
+</Project_Data>

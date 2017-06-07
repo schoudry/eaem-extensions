@@ -1,0 +1,6 @@
+.cq-Overlay.is-active,
+.cq-Overlay.is-hover,
+.cq-Overlay.is-selected {
+    border-color:  red;
+    color: red;
+}

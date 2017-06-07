@@ -1,0 +1,65 @@
+<project name="CEP Search AEM" basedir="." default="copy">
+    <property environment="env" />
+
+    <condition property="isMac" >
+        <os family="mac" />
+    </condition>
+
+    <condition property="isWindows" >
+        <os family="windows" />
+    </condition>
+
+    <condition property="live.extensions.dir" value="${env.APPDATA}/Adobe/CEP/extensions/search-aem" >
+        <isset property="isWindows" />
+    </condition>
+
+    <condition property="live.extensions.dir" value="/Library/Application Support/Adobe/CEP/extensions/search-aem" >
+        <isset property="isMac" />
+    </condition>
+
+    <!--Use this target for development purporse-->
+    <target name="copy">
+        <delete dir="${live.extensions.dir}" />
+
+        <mkdir dir="${live.extensions.dir}"/>
+
+        <copy todir="${live.extensions.dir}" failonerror="false">
+            <fileset dir="${basedir}">
+                <exclude name="*.xml"/>
+                <exclude name="*.iml"/>
+                <exclude name="lib/**"/>
+                <exclude name="temp/**"/>
+                <exclude name="docs/**"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!--
+    Use this target for creating zxp, installed using Adobe Extension Manager
+    The ZXPSignCmd library is different for MAC, the following targets use windows library
+    -->
+    <target name="zxp" if="isWindows">
+        <delete dir="${basedir}/temp" />
+
+        <mkdir dir="${basedir}/temp" />
+
+        <copy todir="${basedir}/temp" failonerror="false">
+            <fileset dir="${basedir}">
+                <exclude name="*.xml"/>
+                <exclude name="*.iml"/>
+                <exclude name="lib/**"/>
+                <exclude name="temp/**"/>
+                <exclude name="docs/**"/>
+                <exclude name=".debug"/>
+            </fileset>
+        </copy>
+
+        <exec executable="${basedir}/lib/ZXPSignCmd">
+            <arg line="-sign ${basedir}/temp" />
+            <arg value="${basedir}/temp/search-aem.zxp" />
+            <arg value="${basedir}/lib/experience-aem-cep.p12" />
+            <arg value="experience-aem" />  <!-- cert password -->
+        </exec>
+    </target>
+
+</project>

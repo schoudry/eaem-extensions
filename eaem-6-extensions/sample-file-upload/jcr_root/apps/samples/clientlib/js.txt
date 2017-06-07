@@ -1,0 +1,5 @@
+#base=js/source
+jquery.iframe-transport.js
+jquery-ui-widget.js
+jquery-file-upload.js
+

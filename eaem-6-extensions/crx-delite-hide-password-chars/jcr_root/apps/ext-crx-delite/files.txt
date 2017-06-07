@@ -1,0 +1,1 @@
+/apps/ext-crx-delite/hide-password.js

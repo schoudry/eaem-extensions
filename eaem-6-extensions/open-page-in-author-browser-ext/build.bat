@@ -1,0 +1,1 @@
+jar cvf eaem_access_edit.xpi -C firefox .

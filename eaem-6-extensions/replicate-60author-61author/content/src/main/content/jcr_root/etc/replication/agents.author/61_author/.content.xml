@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-08-13T11:51:39.314-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/replication/templates/agent"
+        jcr:lastModified="{Date}2015-08-13T11:51:39.286-05:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Replicate to 61 Author"
+        sling:resourceType="cq/replication/components/agent"
+        enabled="true"
+        protocolHTTPMethod="POST"
+        serializationType="durbo"
+        ssl="default"
+        transportPassword="\{2878481d659c461d12b8db7a89ee0c422749e5f2958a757d00a79819da0f0187}"
+        transportUri="http://localhost:5502/bin/receive?sling:authRequestLogin=1"
+        transportUser="admin"
+        triggerSpecific="true"/>
+</jcr:root>

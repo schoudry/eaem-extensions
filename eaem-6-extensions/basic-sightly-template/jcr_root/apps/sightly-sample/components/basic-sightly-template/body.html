@@ -1,0 +1,16 @@
+<style>
+    .hf{
+        text-align: center;
+        margin: 50px 0 50px 0;
+        font-size: 20px
+    }
+</style>
+<div class="hf">
+    Page: ${properties['jcr:title']}
+</div>
+<div data-sly-resource="${@path='par/myresource', resourceType='foundation/components/parsys'}">
+    This div is replaced with par fragment
+</div>
+<div class="hf">
+    Footer
+</div>
