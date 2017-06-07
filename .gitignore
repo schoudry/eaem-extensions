@@ -7,7 +7,7 @@
 *.avi
 *.camrec
 *.cpvc
-/author
-/publish
+**/author
+**/publish
 target
 target
