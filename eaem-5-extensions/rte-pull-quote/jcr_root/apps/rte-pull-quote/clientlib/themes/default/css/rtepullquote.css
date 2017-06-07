@@ -1,0 +1,7 @@
+#CQ .x-html-editor-tb .x-edit-addquote {
+    background: url(addquote.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-removequote {
+    background: url(removequote.png) center no-repeat;
+}

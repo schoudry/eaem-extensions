@@ -1,0 +1,11 @@
+#cq-switcher .cq-switcher-crxde {
+    background: url(/crx/de/icons/16x16/unstructured.png) no-repeat;
+}
+
+#cq-switcher .cq-switcher-crxde-inactive {
+    background: url(/crx/de/icons/16x16/unstructured.png) no-repeat;
+}
+
+#apps .crxde {
+    background: url(/crx/de/icons/16x16/unstructured.png) no-repeat scroll 15px 20px transparent;
+}

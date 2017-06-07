@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    activeTab="{Long}0"
+    title="Logo (Design)"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <img
+            jcr:primaryType="cq:Widget"
+            _x0032_To1AspectRatio="2,1"
+            _x0032_To1AspectRatioText="2:1"
+            _x0035_To1AspectRatio="5,1"
+            _x0035_To1AspectRatioText="5:1"
+            _x0039_To1AspectRatio="9,1"
+            _x0039_To1AspectRatioText="9:1"
+            cropParameter="./imageCrop"
+            ddGroups="[media]"
+            fieldLabel="Image"
+            fileNameParameter="./imageName"
+            fileReferenceParameter="./imageReference"
+            mapParameter="./imageMap"
+            name="./image"
+            rotateParameter="./imageRotate"
+            sizeLimit="100"
+            title="Image"
+            xtype="myhtml5smartimage"/>
+    </items>
+</jcr:root>

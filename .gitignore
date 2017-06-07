@@ -3,6 +3,9 @@
 .mp4
 *.mp4
 *.zip
+*.pdf
+*.avi
+*.camrec
 /author
 /publish
 target

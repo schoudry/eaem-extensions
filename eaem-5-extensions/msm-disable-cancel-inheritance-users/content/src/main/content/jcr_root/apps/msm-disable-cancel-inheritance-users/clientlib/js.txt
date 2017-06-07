@@ -1,0 +1,1 @@
+disable-cancel-inheritance-for-users.js

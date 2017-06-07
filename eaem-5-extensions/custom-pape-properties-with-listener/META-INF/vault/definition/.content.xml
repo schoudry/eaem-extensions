@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:created="{Date}2013-09-11T13:26:24.970-05:00"
+    jcr:createdBy="admin"
+    jcr:description=""
+    jcr:lastModified="{Date}2013-09-11T13:26:24.970-05:00"
+    jcr:lastModifiedBy="admin"
+    jcr:primaryType="vlt:PackageDefinition"
+    buildCount="1"
+    builtWith="Adobe CQ-5.6.0.20130125"
+    group="my_packages"
+    lastUnwrapped="{Date}2013-09-11T13:26:24.970-05:00"
+    lastUnwrappedBy="admin"
+    lastWrapped="{Date}2013-09-11T13:26:24.970-05:00"
+    lastWrappedBy="admin"
+    name="custom pape properties with listener"
+    version="">
+    <filter jcr:primaryType="nt:unstructured">
+        <f0
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/samples"
+            rules="[]"/>
+    </filter>
+</jcr:root>

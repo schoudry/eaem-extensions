@@ -1,0 +1,9 @@
+.header, .footer {
+    font-size: 3em;
+    text-align: center;
+    padding: 40px 0 20px;
+}
+
+.figure span{
+    text-align: left;
+}

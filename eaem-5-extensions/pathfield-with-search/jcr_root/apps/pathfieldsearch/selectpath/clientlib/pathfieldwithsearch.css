@@ -1,0 +1,12 @@
+#pathfield-browsedialog-searchpanel .search-result {
+    padding: 3px 3px 3px 0;
+}
+
+#pathfield-browsedialog-searchpanel .search-result:hover {
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+#pathfield-browsedialog-searchpanel .search-result-selected  {
+    background-color: gainsboro;
+}

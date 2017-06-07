@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Image Dialog"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <image
+            jcr:primaryType="cq:Widget"
+            cropParameter="./jcr:content/imageCrop"
+            fieldLabel="Image"
+            height="250"
+            xtype="inboxsmartimage"/>
+    </items>
+</jcr:root>

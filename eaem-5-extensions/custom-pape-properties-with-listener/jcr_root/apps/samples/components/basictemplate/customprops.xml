@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:TabPanel"
+    activeTab="{Long}0"
+    title="Custom Properties"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <details
+            jcr:primaryType="cq:Widget"
+            title="Details"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <message
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="Welcome to CQ"
+                    fieldLabel="Welcome Message"
+                    name="./title"
+                    xtype="textfield"/>
+            </items>
+        </details>
+    </items>
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        afterrender="function(dialog){ myTitleFn(dialog); }"/>
+</jcr:root>

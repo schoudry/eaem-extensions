@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-04-25T09:11:28.671-05:00"
+        cq:lastModifiedBy="admin"
+        cq:targetPath="/content/my-scaffolding-pages"
+        cq:targetTemplate="/apps/samples/templates/basictemplate"
+        cq:template="/libs/wcm/scaffolding/templates/scaffolding"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="My Text Image"
+        sling:resourceType="wcm/scaffolding/components/scaffolding">
+        <dialog/>
+    </jcr:content>
+</jcr:root>

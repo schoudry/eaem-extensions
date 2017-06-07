@@ -1,0 +1,23 @@
+.spotText{
+    position: absolute;
+    color: white;
+    background: #222;
+    padding: 5px;
+    font-family: verdana;
+    font-size: 10px;
+    opacity:0.6;
+}
+
+div.image {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+div.image img {
+    display: block;
+}
+
+div.image small {
+    display: block;
+}
+
