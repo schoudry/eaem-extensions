@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Css Class"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+            margin="{Boolean}false"/>
+        <items jcr:primaryType="nt:unstructured">
+            <column
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <css-classes
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/select"
+                        emptyText="Select css class..."
+                        name="./cssClass">
+                        <items jcr:primaryType="nt:unstructured">
+                            <red
+                                jcr:primaryType="nt:unstructured"
+                                text="coral-Tag--red"/>
+                            <magenta
+                                jcr:primaryType="nt:unstructured"
+                                text="coral-Tag--magenta"/>
+                            <fuchsia
+                                jcr:primaryType="nt:unstructured"
+                                text="coral-Tag--fuchsia"/>
+                            <plum
+                                jcr:primaryType="nt:unstructured"
+                                text="coral-Tag--plum"/>
+                            <blue
+                                jcr:primaryType="nt:unstructured"
+                                text="coral-Tag--blue"/>
+                        </items>
+                        <select
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/button"
+                            class="coral-Button--primary"
+                            text="Select"/>
+                    </css-classes>
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>

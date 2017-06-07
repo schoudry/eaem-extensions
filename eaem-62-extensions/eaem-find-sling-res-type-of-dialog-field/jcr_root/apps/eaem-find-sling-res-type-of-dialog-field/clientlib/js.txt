@@ -1,0 +1,1 @@
+find-resource-type.js

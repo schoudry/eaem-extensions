@@ -6,6 +6,7 @@
 *.pdf
 *.avi
 *.camrec
+*.cpvc
 /author
 /publish
 target

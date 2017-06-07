@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ExtensionManifest Version="5.0" ExtensionBundleId="com.experience.aem.cep.idsn"
+                   ExtensionBundleVersion="2.0.1"
+                   ExtensionBundleName="Experience AEM CEP Place AEM Assets in Indesign" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+     <Abstract>
+		<![CDATA[Experience AEM CEP Place AEM Assets in Indesign]]>
+     </Abstract>	                   
+    <ExtensionList>
+        <Extension Id="com.experience.aem.cep.idsn.place" Version="1.0"/>
+    </ExtensionList>
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="IDSN" Version="11.0"/>
+            <!-- Add other CC products here -->
+        </HostList>
+        <LocaleList>
+            <Locale Code="All"/>
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="5.0"/>
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+    <DispatchInfoList>
+        <Extension Id="com.experience.aem.cep.idsn.place">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./html/place-aem-assets.html</MainPath>
+                    <ScriptPath>./jsx/place-assets.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--enable-nodejs</Parameter>
+                        <Parameter>--mixed-context</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>Place AEM Assets</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>500</Height>
+                            <Width>500</Width>
+                        </Size>
+                    </Geometry>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>

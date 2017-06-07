@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="SearchAEM">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Place AEM Assets</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+<div ng-controller="placeController">
+    <div class="sign-in" ng-show="showLogin">
+        <div>
+            <h3>DIGITAL ASSET MANAGEMENT</h3>
+        </div>
+        <div>
+            <label>User Name</label>
+            <input type="text" ng-model="j_username" ng-enter="login()"/>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" ng-model="j_password" ng-enter="login()"/>
+        </div>
+        <div>
+            <label>DAM Host</label>
+            <input type="text" value="{{damHost}}" ng-model="damHost" ng-enter="login()"/>
+        </div>
+
+        <button type="button" ng-click="login()">Sign In</button>
+    </div>
+
+    <div ng-show="!showLogin">
+        <div class="top">
+            <div class="top-left">
+                <input type="text" placeholder="AEM PDF Upload Path" ng-model="uploadPath"/>
+                <input type="text" placeholder="Search text" ng-model="term" ng-enter="search()"/>
+            </div>
+            <div class="top-right">
+                <button ng-click="search()">Search</button>
+            </div>
+        </div>
+        <div class="results">
+            <div class="result-block" ng-class="{ selected : result.selected } "
+                 ng-repeat="result in results" ng-click="select(result)">
+                <div>
+                    <img ng-src="{{result.imgPath}}"/>
+                </div>
+                <div>
+                    {{result.name}}
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="bottom-left" ng-show="results.length > 0">
+                <button ng-click="place()">Place</button>
+            </div>
+            <div class="bottom-right">
+                <button ng-click="generatePDFAndUpload()">Generate PDF & Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.js"></script>
+<script src="../js/CSInterface-5.2.js"></script>
+<script src="../js/init-service.js"></script>
+<script src="../js/aem-service.js"></script>
+<script src="../js/place-controller.js"></script>
+</body>
+</html>

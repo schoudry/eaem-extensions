@@ -1,0 +1,36 @@
+<project name="CEP Sample" basedir="." default="copy">
+    <property environment="env" />
+
+    <condition property="isMac" >
+        <os family="mac" />
+    </condition>
+
+    <condition property="isWindows" >
+        <os family="windows" />
+    </condition>
+
+    <condition property="live.extensions.dir" value="${env.APPDATA}/Adobe/CEP/extensions/eaem-cep-sample" >
+        <isset property="isWindows" />
+    </condition>
+
+    <condition property="live.extensions.dir" value="/Library/Application Support/Adobe/CEP/extensions/eaem-cep-sample" >
+        <isset property="isMac" />
+    </condition>
+
+    <!--Use this target for development purporse-->
+    <target name="copy">
+        <delete dir="${live.extensions.dir}" />
+
+        <mkdir dir="${live.extensions.dir}"/>
+
+        <copy todir="${live.extensions.dir}" failonerror="false">
+            <fileset dir="${basedir}">
+                <exclude name="*.xml"/>
+                <exclude name="*.iml"/>
+                <exclude name="lib/**"/>
+                <exclude name="temp/**"/>
+                <exclude name="docs/**"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

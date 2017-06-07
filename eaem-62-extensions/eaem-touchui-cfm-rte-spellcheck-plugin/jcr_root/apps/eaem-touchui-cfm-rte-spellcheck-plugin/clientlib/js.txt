@@ -1,0 +1,3 @@
+/etc/clientlibs/granite/coralui2/optional/rte/js/components/rte/plugins/AbstractSpellCheckerPlugin.js
+/libs/cq/gui/components/authoring/editors/clientlibs/core/js/editors/RTE.SpellCheckerPlugin.js
+cfm-rte-spellcheck.js

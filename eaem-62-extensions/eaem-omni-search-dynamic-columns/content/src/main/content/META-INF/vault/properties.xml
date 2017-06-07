@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Custom Vault Properties</comment>
+<entry key="version">1.0-SNAPSHOT</entry>
+<entry key="name">eaem-omni-search-dynamic-columns-content</entry>
+<entry key="buildCount">1</entry>
+<entry key="description">Experience AEM Omni Search Columns Package</entry>
+<entry key="dependencies"/>
+<entry key="path">/etc/packages/Experience AEM/eaem-omni-search-dynamic-columns-content-1.0-SNAPSHOT.zip</entry>
+<entry key="group">Experience AEM</entry>
+<entry key="packageFormatVersion">2</entry>
+</properties>

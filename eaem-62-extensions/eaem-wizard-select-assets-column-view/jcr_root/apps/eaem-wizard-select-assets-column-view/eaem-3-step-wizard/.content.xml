@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:mixinTypes="[sling:VanityPath]"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="EAEM 3 Step Wizard"
+        sling:resourceType="/apps/eaem-wizard-select-assets-column-view/page">
+        <head jcr:primaryType="nt:unstructured">
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation,eaem.wizard]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <form
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    action="/apps/eaem-wizard-select-assets-column-view/eaem-3-step-wizard/jcr:content"
+                    foundationForm="{Boolean}true"
+                    maximized="{Boolean}true"
+                    method="post"
+                    novalidate="{Boolean}true"
+                    style="vertical">
+                    <successresponse
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Success"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
+                        open="/apps/eaem-wizard-select-assets-column-view/eaem-3-step-wizard.html"
+                        redirect="/apps/eaem-wizard-select-assets-column-view/eaem-3-step-wizard.html"
+                        text="Your data was submitted"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <charset
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            name="_charset_"
+                            value="utf-8"/>
+                        <wizard
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Experience AEM 3 Step Wizard"
+                            sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                            <items jcr:primaryType="nt:unstructured">
+                                <step1
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Select Folder"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <title
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/section">
+                                            <layout
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                                                margin="{Boolean}false"/>
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <assetsPath
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                                            fieldLabel="Assets Path"
+                                                            name="eaemAssetsPath"
+                                                            rootPath="/content/dam"/>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </title>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            text="Next"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </step1>
+                                <step2
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Column View"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/include"
+                                            path="/libs/dam/gui/content/assets/jcr:content/views/column"/>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            text="Next"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </step2>
+                                <step3
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Additional Info"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <footer
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/section">
+                                            <layout
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                                                margin="{Boolean}false"/>
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <text
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                                            fieldLabel="Text"
+                                                            name="eaemText"/>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </footer>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            text="GO"
+                                            type="submit"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </step3>
+                            </items>
+                            <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                suffix="${requestPathInfo.suffix}"/>
+                        </wizard>
+                    </items>
+                </form>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>

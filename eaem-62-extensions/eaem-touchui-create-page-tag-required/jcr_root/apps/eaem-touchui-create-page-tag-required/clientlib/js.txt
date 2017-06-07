@@ -1,0 +1,1 @@
+tag-required.js

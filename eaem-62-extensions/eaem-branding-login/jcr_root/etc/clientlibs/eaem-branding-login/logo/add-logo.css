@@ -1,0 +1,21 @@
+.eaem-logo{
+    position:absolute;
+    background-repeat: no-repeat;
+}
+
+.eaem-login-logo {
+    top: 3%;
+    left: 3%;
+    height: 200px;
+    width: 250px;
+    background-image:url('/etc/clientlibs/eaem-branding-login/img/eaem-logo-large.png');
+}
+
+.eaem-aem-logo{
+    transform: translate(-50%, 0%);
+    top: 2px;
+    left: 50%;
+    height: 50px;
+    width: 100px;
+    background-image:url('/etc/clientlibs/eaem-branding-login/img/eaem-logo-small.png');
+}

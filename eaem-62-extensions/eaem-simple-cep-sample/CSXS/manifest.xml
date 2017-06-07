@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ExtensionManifest Version="5.0" ExtensionBundleId="com.experience.aem.cep"
+                   ExtensionBundleVersion="2.0.1"
+                   ExtensionBundleName="Experience AEM CEP" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+     <Abstract>
+		<![CDATA[Experience AEM CEP Extensions]]>
+     </Abstract>	                   
+    <ExtensionList>
+        <Extension Id="com.experience.aem.cep.sample" Version="1.0"/>
+    </ExtensionList>
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="ILST" Version="18.1"/>
+            <Host Name="IDSN" Version="11.5.5"/>
+            <!-- Add other CC products here -->
+        </HostList>
+        <LocaleList>
+            <Locale Code="All"/>
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="6.0" />
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+    <DispatchInfoList>
+        <Extension Id="com.experience.aem.cep.sample">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./html/index.html</MainPath>
+                    <ScriptPath>./js/cc.js</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--enable-nodejs</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>Experience AEM CEP Sample</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>400</Height>
+                            <Width>350</Width>
+                        </Size>
+                    </Geometry>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>
