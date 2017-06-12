@@ -1,12 +1,48 @@
 (function($, CUI){
     var GROUP = "experience-aem",
         COLOR_PICKER_FEATURE = "colorPicker",
+        TCP_DIALOG = "eaemTouchUIColorPickerDialog",
         COLOR_PICKER_MODAL_DIV = "eaem-color-picker",
         PICKER_NAME_IN_POPOVER = "color",
         REQUESTER = "requester",
         PICKER_URL = "/apps/eaem-touchui-dialog-rte-color-picker/color-picker-popover/cq:dialog.html";
 
     addPluginToDefaultUISettings();
+
+    addDialogTemplate();
+
+    var EAEMColorPickerDialog = new Class({
+        extend: CUI.rte.ui.cui.AbstractDialog,
+
+        toString: "EAEMColorPickerDialog",
+
+        initialize: function(config) {
+            //exec function passes the color value to plugin command
+            this.exec = config.execute;
+        },
+
+        getDataType: function() {
+            return TCP_DIALOG;
+        },
+
+        attach: function(config, $container, editorKernel) {
+            this.superClass.attach.call(this, config, $container, editorKernel);
+        },
+
+        apply: function() {
+            if(!this.eaemColorPickerDialog){
+                return;
+            }
+
+            var picker = this.eaemColorPickerDialog;
+
+            this.hide();
+        },
+
+        cancel: function() {
+            this.hide();
+        }
+    });
 
     var TouchUIColorPickerPlugin = new Class({
         toString: "TouchUIColorPickerPlugin",
@@ -34,79 +70,23 @@
         },
 
         execute: function (id, value, envOptions) {
-            if(!isValidSelection()){
-                return;
-            }
+            var EAEM_COLOR_PICKER_DIALOG_ID = "EAEM_COLOR_PICKER_DIALOG_ID",
+                dm = this.editorKernel.getDialogManager(),
+                context = this.editorKernel.getEditContext(),
+                $container = CUI.rte.UIUtils.getUIContainer($(context.root));
 
-            var context = envOptions.editContext,
-                selection = CUI.rte.Selection.createProcessingSelection(context),
-                ek = this.editorKernel,
-                startNode = selection.startNode;
-
-            if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
-                startNode = startNode.nextSibling;
-            }
-
-            var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"),
-                content = this.getPickerIFrameContent($(tag).css("color"));
-
-            this.addModalDiv();
-
-            var modal = new CUI.Modal({
-                element : '#' + COLOR_PICKER_MODAL_DIV,
-                heading : "Pick a Color",
-                content: content
-            });
-
-            registerReceiveDataListener(receiveMessage);
-
-            function isValidSelection(){
-                var winSel = window.getSelection();
-                return winSel && winSel.rangeCount == 1 && winSel.getRangeAt(0).toString().length > 0;
-            }
-
-            function removeReceiveDataListener(handler) {
-                if (window.removeEventListener) {
-                    window.removeEventListener("message", handler);
-                } else if (window.detachEvent) {
-                    window.detachEvent("onmessage", handler);
-                }
-            }
-
-            function registerReceiveDataListener(handler) {
-                if (window.addEventListener) {
-                    window.addEventListener("message", handler, false);
-                } else if (window.attachEvent) {
-                    window.attachEvent("onmessage", handler);
-                }
-            }
-
-            function receiveMessage(event) {
-                if (_.isEmpty(event.data)) {
-                    return;
-                }
-
-                var message = JSON.parse(event.data),
-                    action;
-
-                if (!message || message.sender !== GROUP) {
-                    return;
-                }
-
-                action = message.action;
-
-                if (action === "submit") {
-                    if (!_.isEmpty(message.data)) {
-                        ek.relayCmd(id, message.data);
+            var propConfig = {
+                    'parameters': {
+                        'command': this.pluginId + '#' + COLOR_PICKER_FEATURE
                     }
-                }else if(action === "remove"){
-                    ek.relayCmd(id);
-                }
+                };
 
-                modal.hide();
+            var dialog = new EAEMColorPickerDialog();
+            dialog.attach(propConfig, $container, this.editorKernel);
 
-                removeReceiveDataListener(receiveMessage);
-            }
+            dm.show(dialog);
+
+            this.eaemColorPickerDialog = dialog;
         },
 
         //to mark the icon selected/deselected
@@ -116,46 +96,6 @@
             if (this.pickerUI != null) {
                 this.pickerUI.setSelected(hasUC);
             }
-        },
-
-        getModalHtml: function(){
-            return "<div class=\"coral-Modal-header\">"
-                        + "<h2 class=\"coral-Modal-title coral-Heading coral-Heading--2\"></h2>"
-                        + "<i class=\"coral-Modal-typeIcon coral-Icon coral-Icon--sizeS\"></i>"
-                        + "<button type=\"button\" "
-                            + "class=\"coral-MinimalButton coral-Modal-closeButton\" "
-                            + "data-dismiss=\"modal\">"
-                        + "<i class=\"coral-Icon coral-Icon--sizeXS coral-Icon--close "
-                                + "coral-MinimalButton-icon\"></i>" + "</button>"
-                    + "</div>"
-                    + "<div class=\"coral-Modal-body legacy-margins\"></div>";
-        },
-
-        addModalDiv: function(){
-            var $modalDiv = $("#" + COLOR_PICKER_MODAL_DIV);
-
-            if (!_.isEmpty($modalDiv) ) {
-                return;
-            }
-
-            var tag = {
-                class: "coral-Modal",
-                id: COLOR_PICKER_MODAL_DIV
-            };
-
-            var insertModal = $("<div>", tag).hide().html(this.getModalHtml());
-
-            $(document.body).append(insertModal);
-        },
-
-        getPickerIFrameContent: function(color){
-            var url = PICKER_URL + "?" + REQUESTER + "=" + GROUP;
-
-            if(!_.isEmpty(color)){
-                url = url + "&" + PICKER_NAME_IN_POPOVER + "=" + color;
-            }
-
-            return "<iframe width='520px' height='405px' frameBorder='0' src='" + url + "'></iframe>";
         }
     });
 
@@ -224,6 +164,27 @@
         toolbar.splice(3, 0, GROUP + "#" + COLOR_PICKER_FEATURE);
     }
 
+    function addDialogTemplate(){
+        var url = PICKER_URL + "?" + REQUESTER + "=" + GROUP;
+
+        var html = '<div class="rte-dialog-columnContainer">' +
+                        '<div class="rte-dialog-column">' +
+                            "<iframe width='520px' height='405px' frameBorder='0' src='" + url + "'></iframe>" +
+                        '</div>' +
+                    '</div>';
+
+        if(_.isUndefined(CUI.rte.Templates)){
+            CUI.rte.Templates = {};
+        }
+
+        if(_.isUndefined(CUI.rte.templates)){
+            CUI.rte.templates = {};
+        }
+
+        CUI.rte.templates['dlg-' + TCP_DIALOG] = CUI.rte.Templates['dlg-' + TCP_DIALOG] = Handlebars.compile(html);
+
+        //Coral.templates.RichTextEditor['dlg_' + TCP_DIALOG] = Handlebars.compile(html);
+    }
 }(jQuery, window.CUI));
 
 (function($, $document){
