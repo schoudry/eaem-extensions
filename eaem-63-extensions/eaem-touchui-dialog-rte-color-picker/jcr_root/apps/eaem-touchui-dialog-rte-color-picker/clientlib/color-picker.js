@@ -84,6 +84,8 @@
             var dialog = new EAEMColorPickerDialog();
             dialog.attach(propConfig, $container, this.editorKernel);
 
+            dialog.$dialog.css("-webkit-transform", "scale(0.8)").css("-webkit-transform-origin", "0 0");
+
             dm.show(dialog);
 
             this.eaemColorPickerDialog = dialog;
@@ -167,11 +169,7 @@
     function addDialogTemplate(){
         var url = PICKER_URL + "?" + REQUESTER + "=" + GROUP;
 
-        var html = '<div class="rte-dialog-columnContainer">' +
-                        '<div class="rte-dialog-column">' +
-                            "<iframe width='520px' height='405px' frameBorder='0' src='" + url + "'></iframe>" +
-                        '</div>' +
-                    '</div>';
+        var html = "<iframe width='410px' height='425px' frameBorder='0' src='" + url + "'></iframe>";
 
         if(_.isUndefined(CUI.rte.Templates)){
             CUI.rte.Templates = {};
@@ -198,9 +196,11 @@
         return;
     }
 
-    $document.on("foundation-contentloaded", stylePopoverIframe);
+    $(function(){
+        _.defer(stylePopoverIframe);
+    });
 
-    function queryParameters() {
+   function queryParameters() {
         var result = {}, param,
             params = document.location.search.split(/\?|\&/);
 
@@ -217,10 +217,18 @@
     }
 
     function stylePopoverIframe(){
-        var queryParams = queryParameters();
+        var queryParams = queryParameters(),
+            $dialog = $(".coral-Dialog");
 
-        var $dialog = $(".cq-dialog").css("background", "white"),
-            $addColor = $dialog.find(ADD_COLOR_BUT),
+        if(_.isEmpty($dialog)){
+            return;
+        }
+
+        $dialog.css("overflow", "hidden");
+
+        $dialog[0].open = true;
+
+        var $addColor = $dialog.find(ADD_COLOR_BUT),
             $removeColor = $dialog.find(REMOVE_COLOR_BUT),
             $colorPicker = $document.find(".coral-ColorPicker"),
             pickerInstance = $colorPicker.data("colorpicker");
@@ -229,10 +237,11 @@
             pickerInstance._setColor(decodeURIComponent(queryParams[COLOR]));
         }
 
-        $dialog.find(".cq-dialog-header").hide();
-        $dialog.find(".cq-dialog-content").css("top", ".1rem");
+        $dialog.css("background-color", "#fff").find(".coral-Dialog-header").hide();
+        $dialog.find(".coral-Dialog-wrapper").css("margin","0").find(".coral-Dialog-content").css("padding","0");
         $colorPicker.closest(".coral-Form-fieldwrapper").css("margin-bottom", "285px");
-        $(ADD_COLOR_BUT).css("margin-left", "250px");
+
+        $(ADD_COLOR_BUT).css("margin-left", "150px");
 
         $addColor.click(sendDataMessage);
         $removeColor.click(sendRemoveMessage);
