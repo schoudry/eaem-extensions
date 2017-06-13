@@ -64,18 +64,15 @@
                 startNode = startNode.nextSibling;
             }
 
-            var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"),
+            var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"), plugin = this, dialog,
                 color = $(tag).css("color"),
                 dm = ek.getDialogManager(),
-                $container = CUI.rte.UIUtils.getUIContainer($(context.root));
-
-            var propConfig = {
+                $container = CUI.rte.UIUtils.getUIContainer($(context.root)),
+                propConfig = {
                     'parameters': {
                         'command': this.pluginId + '#' + COLOR_PICKER_FEATURE
                     }
                 };
-
-            var dialog;
 
             if(this.eaemColorPickerDialog){
                 dialog = this.eaemColorPickerDialog;
@@ -147,6 +144,8 @@
                     }
                 }else if(action === "remove"){
                     ek.relayCmd(id);
+                }else if(action === "cancel"){
+                    plugin.eaemColorPickerDialog = null;
                 }
 
                 dialog.hide();
@@ -233,7 +232,7 @@
     function addDialogTemplate(){
         var url = PICKER_URL + "?" + REQUESTER + "=" + GROUP;
 
-        var html = "<iframe width='410px' height='425px' frameBorder='0' src='" + url + "'></iframe>";
+        var html = "<iframe width='410px' height='450px' frameBorder='0' src='" + url + "'></iframe>";
 
         if(_.isUndefined(CUI.rte.Templates)){
             CUI.rte.Templates = {};
@@ -301,14 +300,41 @@
             pickerInstance._setColor(decodeURIComponent(queryParams[COLOR]));
         }
 
-        $dialog.css("background-color", "#fff").find(".coral-Dialog-header").hide();
+        adjustHeader($dialog);
+
         $dialog.find(".coral-Dialog-wrapper").css("margin","0").find(".coral-Dialog-content").css("padding","0");
+
         $colorPicker.closest(".coral-Form-fieldwrapper").css("margin-bottom", "285px");
 
         $(ADD_COLOR_BUT).css("margin-left", "150px");
 
         $addColor.click(sendDataMessage);
+
         $removeColor.click(sendRemoveMessage);
+    }
+
+    function adjustHeader($dialog){
+        var $header = $dialog.css("background-color", "#fff").find(".coral-Dialog-header");
+
+        $header.find(".cq-dialog-submit").remove();
+
+        $header.find(".cq-dialog-cancel").click(function(event){
+            event.preventDefault();
+
+            $dialog.remove();
+
+            sendCancelMessage();
+        });
+    }
+
+    function sendCancelMessage(){
+        var message = {
+            sender: SENDER,
+            action: "cancel"
+        };
+
+        parent.postMessage(JSON.stringify(message), "*");
+
     }
 
     function sendRemoveMessage(){
