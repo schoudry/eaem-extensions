@@ -75,20 +75,26 @@
                     }
                 };
 
-            var dialog = new EAEMColorPickerDialog();
+            var dialog;
 
-            dialog.attach(propConfig, $container, this.editorKernel);
+            if(this.eaemColorPickerDialog){
+                dialog = this.eaemColorPickerDialog;
+            }else{
+                dialog = new EAEMColorPickerDialog();
 
-            dialog.$dialog.css("-webkit-transform", "scale(0.8)").css("-webkit-transform-origin", "0 0")
-                        .css("-moz-transform", "scale(0.8)").css("-moz-transform-origin", "0px 0px");
+                dialog.attach(propConfig, $container, this.editorKernel);
 
-            dialog.$dialog.find("iframe").attr("src", getPickerIFrameUrl(color));
+                dialog.$dialog.css("-webkit-transform", "scale(0.8)").css("-webkit-transform-origin", "0 0")
+                    .css("-moz-transform", "scale(0.8)").css("-moz-transform-origin", "0px 0px");
+
+                dialog.$dialog.find("iframe").attr("src", getPickerIFrameUrl(color));
+
+                this.eaemColorPickerDialog = dialog;
+            }
 
             dm.show(dialog);
 
             registerReceiveDataListener(receiveMessage);
-
-            this.eaemColorPickerDialog = dialog;
 
             function isValidSelection(){
                 var winSel = window.getSelection();
