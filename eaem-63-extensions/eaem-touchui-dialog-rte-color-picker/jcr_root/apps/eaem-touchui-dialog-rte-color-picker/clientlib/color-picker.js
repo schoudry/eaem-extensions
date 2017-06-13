@@ -1,4 +1,4 @@
-(function($, CUI){
+(function($, CUI, $document){
     var GROUP = "experience-aem",
         COLOR_PICKER_FEATURE = "colorPicker",
         TCP_DIALOG = "eaemTouchUIColorPickerDialog",
@@ -17,30 +17,11 @@
         toString: "EAEMColorPickerDialog",
 
         initialize: function(config) {
-            //exec function passes the color value to plugin command
             this.exec = config.execute;
         },
 
         getDataType: function() {
             return TCP_DIALOG;
-        },
-
-        attach: function(config, $container, editorKernel) {
-            this.superClass.attach.call(this, config, $container, editorKernel);
-        },
-
-        apply: function() {
-            if(!this.eaemColorPickerDialog){
-                return;
-            }
-
-            var picker = this.eaemColorPickerDialog;
-
-            this.hide();
-        },
-
-        cancel: function() {
-            this.hide();
         }
     });
 
@@ -70,9 +51,22 @@
         },
 
         execute: function (id, value, envOptions) {
-            var EAEM_COLOR_PICKER_DIALOG_ID = "EAEM_COLOR_PICKER_DIALOG_ID",
-                dm = this.editorKernel.getDialogManager(),
-                context = this.editorKernel.getEditContext(),
+            if(!isValidSelection()){
+                return;
+            }
+
+            var context = envOptions.editContext,
+                selection = CUI.rte.Selection.createProcessingSelection(context),
+                ek = this.editorKernel,
+                startNode = selection.startNode;
+
+            if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
+                startNode = startNode.nextSibling;
+            }
+
+            var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"),
+                color = $(tag).css("color"),
+                dm = ek.getDialogManager(),
                 $container = CUI.rte.UIUtils.getUIContainer($(context.root));
 
             var propConfig = {
@@ -82,13 +76,77 @@
                 };
 
             var dialog = new EAEMColorPickerDialog();
+
             dialog.attach(propConfig, $container, this.editorKernel);
 
-            dialog.$dialog.css("-webkit-transform", "scale(0.8)").css("-webkit-transform-origin", "0 0");
+            dialog.$dialog.css("-webkit-transform", "scale(0.8)").css("-webkit-transform-origin", "0 0")
+                        .css("-moz-transform", "scale(0.8)").css("-moz-transform-origin", "0px 0px");
+
+            dialog.$dialog.find("iframe").attr("src", getPickerIFrameUrl(color));
 
             dm.show(dialog);
 
+            registerReceiveDataListener(receiveMessage);
+
             this.eaemColorPickerDialog = dialog;
+
+            function isValidSelection(){
+                var winSel = window.getSelection();
+                return winSel && winSel.rangeCount == 1 && winSel.getRangeAt(0).toString().length > 0;
+            }
+
+            function getPickerIFrameUrl(color){
+                var url = PICKER_URL + "?" + REQUESTER + "=" + GROUP;
+
+                if(!_.isEmpty(color)){
+                    url = url + "&" + PICKER_NAME_IN_POPOVER + "=" + color;
+                }
+
+                return url;
+            }
+
+            function removeReceiveDataListener(handler) {
+                if (window.removeEventListener) {
+                    window.removeEventListener("message", handler);
+                } else if (window.detachEvent) {
+                    window.detachEvent("onmessage", handler);
+                }
+            }
+
+            function registerReceiveDataListener(handler) {
+                if (window.addEventListener) {
+                    window.addEventListener("message", handler, false);
+                } else if (window.attachEvent) {
+                    window.attachEvent("onmessage", handler);
+                }
+            }
+
+            function receiveMessage(event) {
+                if (_.isEmpty(event.data)) {
+                    return;
+                }
+
+                var message = JSON.parse(event.data),
+                    action;
+
+                if (!message || message.sender !== GROUP) {
+                    return;
+                }
+
+                action = message.action;
+
+                if (action === "submit") {
+                    if (!_.isEmpty(message.data)) {
+                        ek.relayCmd(id, message.data);
+                    }
+                }else if(action === "remove"){
+                    ek.relayCmd(id);
+                }
+
+                dialog.hide();
+
+                removeReceiveDataListener(receiveMessage);
+            }
         },
 
         //to mark the icon selected/deselected
@@ -183,7 +241,7 @@
 
         //Coral.templates.RichTextEditor['dlg_' + TCP_DIALOG] = Handlebars.compile(html);
     }
-}(jQuery, window.CUI));
+}(jQuery, window.CUI,jQuery(document)));
 
 (function($, $document){
     var SENDER = "experience-aem",
