@@ -1,8 +1,7 @@
-(function($, CUI, $document){
+(function($, CUI){
     var GROUP = "experience-aem",
         COLOR_PICKER_FEATURE = "colorPicker",
         TCP_DIALOG = "eaemTouchUIColorPickerDialog",
-        COLOR_PICKER_MODAL_DIV = "eaem-color-picker",
         PICKER_NAME_IN_POPOVER = "color",
         REQUESTER = "requester",
         PICKER_URL = "/apps/eaem-touchui-dialog-rte-color-picker/color-picker-popover/cq:dialog.html";
@@ -334,7 +333,6 @@
         };
 
         parent.postMessage(JSON.stringify(message), "*");
-
     }
 
     function sendRemoveMessage(){
