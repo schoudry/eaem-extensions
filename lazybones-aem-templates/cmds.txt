@@ -1,0 +1,10 @@
+Install Template
+
+gradlew installTemplateAemSimpleMultimoduleProject
+
+Create Project
+
+lazybones create aem-simple-multimodule-project 0.0.1-SNAPSHOT .
+
+lazybones create aem-simple-multimodule-project 0.0.1-SNAPSHOT . -PgroupId=apps.experienceaem.assets -PartifactId=eaem-assets-list-view-columns -PprojectName="EAEM Assets List View Columns" -PappsFolderName="eaem-assets-list-view-columns"
+
