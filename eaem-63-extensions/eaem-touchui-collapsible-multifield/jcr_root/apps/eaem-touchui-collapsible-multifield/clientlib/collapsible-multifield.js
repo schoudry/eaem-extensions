@@ -19,7 +19,7 @@
     $document.on("dialog-ready", addCollapsers);
 
     function addCollapsers(){
-        var $multifields = $(CORAL_MULTIFIELD);
+        var $multifields = $(CORAL_MULTIFIELD).css("padding-right", "2.5rem");
 
         if(_.isEmpty($multifields)){
             return;
@@ -31,20 +31,66 @@
             $multifields.find(CORAL_MULTIFIELD_ITEM).each(handler);
         });
 
-        loadShowLabelCreatorFunctions($multifields);
+        loadShowSummaryCreatorFunctions();
+
+        addExpandCollapseAll($multifields);
+
 
         function handler(){
-            var $item = $(this);
+            var $mfItem = $(this);
 
-            if(!_.isEmpty($item.find("[icon=accordionUp]"))){
+            if(!_.isEmpty($mfItem.find("[icon=accordionUp]"))){
                 return;
             }
 
-            addAccordionIcons($item);
+            addAccordionIcons($mfItem);
+
+            addSummarySection($mfItem);
         }
     }
 
-    function loadShowLabelCreatorFunctions(){
+    function addSummarySection($mfItem){
+        var $summarySection = $("<div/>").insertAfter($mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT))
+            .addClass("coral-Well").css("cursor", "pointer").hide();
+
+        $summarySection.click(function(){
+            $mfItem.find("[icon='accordionDown']").click();
+        });
+    }
+
+    function addExpandCollapseAll($multifields){
+        var $mfAdd, expandAll, collapseAll;
+
+        $multifields.find("[coral-multifield-add]").each(handler);
+
+        function handler(){
+            $mfAdd = $(this);
+
+            expandAll = new Coral.Button().set({
+                variant: 'secondary',
+                innerText: "Expand All"
+            });
+
+            expandAll.$.css("margin-left", "10px").click(function(){
+                event.preventDefault();
+                $(this).closest(CORAL_MULTIFIELD).find("[icon='accordionDown']").click();
+            });
+
+            collapseAll = new Coral.Button().set({
+                variant: 'secondary',
+                innerText: "Collapse All"
+            });
+
+            collapseAll.$.css("margin-left", "10px").click(function(){
+                event.preventDefault();
+                $(this).closest(CORAL_MULTIFIELD).find("[icon='accordionUp']").click();
+            });
+
+            $mfAdd.after(expandAll).after(collapseAll);
+        }
+    }
+
+    function loadShowSummaryCreatorFunctions(){
         var editable = gAuthor.DialogFrame.currentDialog.editable;
 
         if(!editable){
@@ -102,55 +148,65 @@
                 $mfItem = $(this).closest(CORAL_MULTIFIELD_ITEM),
                 $summarySection = $mfItem.children("div");
 
-            if(_.isEmpty($summarySection)){
-                $summarySection = $("<div/>").insertAfter($mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT))
-                    .addClass("coral-Well").click(handler).css("cursor", "pointer");
-            }
-
             $summarySection.html(getSummary($mfItem, mfName));
 
-            adjustUI($summarySection);
-        }
-
-        function getSummary($mfItem, mfName){
-            var summary = "Click to expand";
-
-            try{
-                if(labelCreators[mfName]){
-                    var fields = {};
-
-                    $mfItem.find("input").each(function(){
-                        var $input = $(this);
-                        fields[$input.attr("name")] = $input.val();
-                    });
-
-                    summary = eval(labelCreators[mfName])(fields);
-                }
-            }catch(err){}
-
-            if(!summary){
-                summary = "Click to expand";
-            }
-
-            return summary;
+            adjustUI.call(this, $summarySection);
         }
 
         function adjustUI($summarySection){
-            var $content = $mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT);
+            var icon = $(this).find("coral-icon").attr("icon"),
+                $content = $mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT);
 
-            if(down.$.css("display") == "none"){
-                $content.hide();
+            if(icon == "accordionUp"){
+                if($summarySection.css("display") !== "none"){
+                    return;
+                }
+
                 $summarySection.show();
+
+                $content.slideToggle( "fast", function() {
+                    $content.hide();
+                });
 
                 up.$.hide();
                 down.$.show();
             }else{
-                $content.show();
+                if($summarySection.css("display") === "none"){
+                    return;
+                }
+
                 $summarySection.hide();
+
+                $content.slideToggle( "fast", function() {
+                    $content.show();
+                });
 
                 up.$.show();
                 down.$.hide();
             }
         }
+    }
+
+    function getSummary($mfItem, mfName){
+        var summary = "Click to expand";
+
+        try{
+            if(labelCreators[mfName]){
+                var fields = {};
+
+                $mfItem.find("input").each(function(){
+                    var $input = $(this);
+                    fields[$input.attr("name")] = $input.val();
+                });
+
+                summary = eval(labelCreators[mfName])(fields);
+            }
+        }catch(err){}
+
+        if(!summary){
+            summary = "Click to expand";
+        }
+
+        return summary;
     }
 }(jQuery, jQuery(document), Granite.author));
