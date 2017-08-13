@@ -3,13 +3,14 @@
         EAEM = {};
     }
 
+    //the function executed when user clicks collapse; returns summary of multifield item data
     EAEM.showProductName = function(fields){
         return Object.values(fields)[0];
     }
 }());
 
 (function ($, $document, gAuthor) {
-    var labelCreators = {},
+    var summaryCreators = {},
         CORAL_MULTIFIELD = "coral-multifield",
         CORAL_MULTIFIELD_ITEM = "coral-multifield-item",
         CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
@@ -34,7 +35,6 @@
         loadShowSummaryCreatorFunctions();
 
         addExpandCollapseAll($multifields);
-
 
         function handler(){
             var $mfItem = $(this);
@@ -107,7 +107,7 @@
             _.each(obj, function(value){
                 if(value["sling:resourceType"] === RS_MULTIFIELD){
                     if(!_.isEmpty(value.field) && !_.isEmpty(value.field.name)) {
-                        labelCreators[value.field.name] = value[EAEM_SHOW_ON_COLLAPSE];
+                        summaryCreators[value.field.name] = value[EAEM_SHOW_ON_COLLAPSE];
                     }
                 }else{
                     if(_.isObject(value) && !_.isEmpty(value)){
@@ -191,7 +191,7 @@
         var summary = "Click to expand";
 
         try{
-            if(labelCreators[mfName]){
+            if(summaryCreators[mfName]){
                 var fields = {};
 
                 $mfItem.find("input").each(function(){
@@ -199,7 +199,7 @@
                     fields[$input.attr("name")] = $input.val();
                 });
 
-                summary = eval(labelCreators[mfName])(fields);
+                summary = eval(summaryCreators[mfName])(fields);
             }
         }catch(err){}
 
