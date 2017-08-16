@@ -11,7 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="CQ" level="application" />
+    <orderEntry type="module" module-name="aem63" exported="" />
+    <orderEntry type="library" exported="" name="CQ" level="application" />
     <orderEntry type="library" exported="" name="uber-jar-6.3.0-apis" level="project" />
   </component>
 </module>
