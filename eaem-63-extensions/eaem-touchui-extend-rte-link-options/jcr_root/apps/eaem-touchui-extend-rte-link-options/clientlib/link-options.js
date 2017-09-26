@@ -12,7 +12,7 @@
     }
 
     var EAEMLinkBaseDialog = new Class({
-        extend: CUI.rte.ui.cui.LinkBaseDialog,
+        extend: CUI.rte.ui.cui.CQLinkBaseDialog,
 
         toString: "EAEMLinkBaseDialog",
 
