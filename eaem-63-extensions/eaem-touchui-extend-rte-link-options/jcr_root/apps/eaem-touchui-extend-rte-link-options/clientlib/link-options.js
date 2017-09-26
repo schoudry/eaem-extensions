@@ -40,6 +40,26 @@
             }
 
             this.objToEdit.attributes["rel"] = relVal;
+        },
+
+        dlgFromModel: function() {
+            this.superClass.dlgFromModel.call(this);
+
+            if(_.isEmpty(this.objToEdit.attributes)){
+                return;
+            }
+
+            var relValue = this.objToEdit.attributes['rel'];
+
+            if(_.isEmpty(relValue)){
+                return;
+            }
+
+            var relSelect = this.$rteDialog.find("[data-type='rel']")[0];
+
+            relSelect.items.getAll().forEach(function(elem) {
+                elem.selected = (elem.value === relValue);
+            });
         }
     });
 
