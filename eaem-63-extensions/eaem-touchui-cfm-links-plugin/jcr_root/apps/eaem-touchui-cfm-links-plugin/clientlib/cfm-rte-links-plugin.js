@@ -2,8 +2,8 @@
     var EAEM_LINK = "eaemLink",
         EAEM_REMOVE_LINK = "eaemRemoveLink",
         PATH_BROWSER_ID = "eaemLinkPathBrowser",
-        pluginAdded = false,
-        url = document.location.pathname;
+        POPOVER_BUTTONS = "eaemLinkPopoverButtons",
+        pluginAdded = false;
 
     var EAEM_CFM_LINKS_PLUGIN = new Class({
         toString: "EAEMCFMLinksPlugin",
@@ -27,23 +27,37 @@
                 return;
             }
 
-            var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-                $popover = pathBrowserEle.closest("coral-popover");
-
-            $popover[0].open = true;
-
-            setTimeout(applyStyles, 100);
-
-            function applyStyles(){
-                $popover.css("left", "0").css("padding", "10px")
-                    .find("coral-popover-content").children().css("margin-bottom", "10px");
-
-                $(".editor-tools").css("height", "600px");
-            }
+            openLinksPopover();
         }
     });
 
     $document.on("cfm:contentchange", addLinksPlugin);
+
+    function closeLinksPopover(){
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $popover[0].open = false;
+    }
+
+    function openLinksPopover(){
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $popover[0].open = true;
+
+        setTimeout(applyStyles, 100);
+
+        function applyStyles(){
+            var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+                $popover = pathBrowserEle.closest("coral-popover");
+
+            $popover.css("left", "0").css("padding", "10px")
+                .find("coral-popover-content").children().css("margin-bottom", "10px");
+
+            $(".editor-tools").css("height", "600px");
+        }
+    }
 
     function addLinksPlugin(event, data) {
         if (pluginAdded) {
@@ -69,6 +83,53 @@
         linkElement.notifyToolbar(ek.toolbar);
 
         createPathBrowser();
+
+        registerListeners();
+    }
+
+    function registerListeners(){
+        var $buttons = $("#" + POPOVER_BUTTONS),
+            $cancel = $buttons.children("button:first"),
+            $save = $buttons.children("button:last");
+
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $cancel.click(closeLinksPopover);
+
+        $save.click(handleSave);
+
+        function handleSave(){
+            var $popoverContent = $popover.find("coral-popover-content"),
+                path = pathBrowserEle.find("input").val(),
+                altText = $popoverContent.children("input").val(),
+                target = $popoverContent.children("coral-select").val();
+
+            closeLinksPopover();
+        }
+    }
+
+    function fillPathBrowserInput(event){
+        var $pathBrowser = $(event.target), paths = [];
+
+        var selections = $pathBrowser.find(".coral-ColumnView").data("columnView").getSelectedItems();
+
+        if (_.isEmpty(selections)) {
+            return;
+        }
+
+        $.each(selections, function () {
+            paths.push( decodeURIComponent(this.item.data('value')));
+        });
+
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $popover[0].open = true;
+
+        pathBrowserEle.find("input").val(paths[0]);
+
+        openLinksPopover();
     }
 
     function createPathBrowser(){
@@ -84,7 +145,7 @@
         });
 
         pathBrowser.$picker.data("pathbrowser-type", "content-browser");
-        pathBrowser.$picker.on("coral-pathbrowser-picker-confirm", function(){});
+        pathBrowser.$picker.on("coral-pathbrowser-picker-confirm", fillPathBrowserInput);
     }
 
     function getOptionHtml(option, value){
@@ -113,7 +174,7 @@
     }
 
     function getButtonHtml(){
-        return '<div style="float:right">' +
+        return '<div style="float:right" id="' + POPOVER_BUTTONS + '">' +
                     '<button is="coral-button" title="Close" variant="secondary" style="margin-right: 5px">' +
                         '<coral-icon icon="close" size="S"/>' +
                     '</button>' +
