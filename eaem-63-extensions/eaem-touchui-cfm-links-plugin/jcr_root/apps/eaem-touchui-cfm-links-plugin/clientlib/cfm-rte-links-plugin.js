@@ -32,13 +32,20 @@
 
             $popover[0].open = true;
 
-            setTimeout(function(){
-                $popover.css("left", "0").css("padding", "10px").find("coral-popover-content").children().css("margin-bottom", "10px");
-            }, 100);
+            setTimeout(applyStyles, 100);
 
             pathBrowserEle.find("input:last").click(function(){
                 pathBrowserEle.find("input:first").click();
             });
+
+            function applyStyles(){
+                var $popover = pathBrowserEle.closest("coral-popover");
+
+                $popover.css("left", "0").css("padding", "10px")
+                    .find("coral-popover-content").children().css("margin-bottom", "10px");
+
+                $(".editor-tools").css("height", "600px");
+            }
         }
     });
 
@@ -86,6 +93,22 @@
         pathBrowser.$picker.on("coral-pathbrowser-picker-confirm", function(){});
     }
 
+    function getOptionHtml(option, value){
+        return "<coral-select-item value='" + value + "'>" + option + "</coral-select-item>"
+    }
+
+    function getTargetHtml(){
+        var targetSel = "<coral-select data-type='rel' placeholder='Choose \"target\"'>";
+
+        var options = {"_self" : "Same Tab", "_blank" : "New tab", "_parent" : "Parent Frame", "_top" : "Top Frame"};
+
+        _.each(options, function(option, value){
+            targetSel = targetSel + getOptionHtml(option, value);
+        });
+
+        return (targetSel + "</coral-select>");
+    }
+
     function getLinkHtml(){
         return '<div class="cfm-toolbar-section">' +
                     '<button id="eaemLink" is="coral-button" variant="quiet" icon="link" iconsize="S" data-rte-command="' +
@@ -98,6 +121,7 @@
                                 '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Path" value="">' +
                             '</div>' +
                             '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Alt text" value="">' +
+                            getTargetHtml() +
                         '</coral-popover-content>' +
                     '<coral-popover-header hidden></coral-popover-header>' +
                     '</coral-popover>' +
