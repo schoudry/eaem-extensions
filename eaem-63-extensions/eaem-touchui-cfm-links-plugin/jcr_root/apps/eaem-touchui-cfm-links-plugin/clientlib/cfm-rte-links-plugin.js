@@ -34,10 +34,6 @@
 
             setTimeout(applyStyles, 100);
 
-            pathBrowserEle.find("input:last").click(function(){
-                pathBrowserEle.find("input:first").click();
-            });
-
             function applyStyles(){
                 $popover.css("left", "0").css("padding", "10px")
                     .find("coral-popover-content").children().css("margin-bottom", "10px");
@@ -95,6 +91,15 @@
         return "<coral-select-item value='" + value + "'>" + option + "</coral-select-item>"
     }
 
+    function getPathBrowserHtml(){
+        return  '<div id="' + PATH_BROWSER_ID + '" data-picker-multiselect="false" style="display:inline">' +
+                    '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Path" style="width: 69% ">' +
+                    '<button class="js-coral-pathbrowser-button" is="coral-button" title="Select path" style="margin-bottom: 10px; border-radius: 0; border-left:0">' +
+                        '<coral-icon icon="select" size="S"/>' +
+                    '</button>' +
+                '</div>';
+    }
+
     function getTargetHtml(){
         var targetSel = "<coral-select data-type='rel' placeholder='Choose link \"target\" attribute...'>";
 
@@ -125,10 +130,7 @@
                     '</button>' +
                     '<coral-popover placement="bottom" target="#eaemLink">' +
                         '<coral-popover-content>' +
-                            '<div id="' + PATH_BROWSER_ID + '" data-picker-multiselect="false" data-resource-path="">' +
-                                '<input class="js-coral-pathbrowser-button" value="" type="hidden" >' +
-                                '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Path" value="">' +
-                            '</div>' +
+                            getPathBrowserHtml() +
                             '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Alt text" value="">' +
                             getTargetHtml() + getButtonHtml() +
                         '</coral-popover-content>' +
