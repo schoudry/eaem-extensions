@@ -1,6 +1,7 @@
 (function ($, $document) {
     var EAEM_LINK = "eaemLink",
         EAEM_REMOVE_LINK = "eaemRemoveLink",
+        PATH_BROWSER_ID = "eaemLinkPathBrowser",
         pluginAdded = false,
         url = document.location.pathname;
 
@@ -26,9 +27,8 @@
                 return;
             }
 
-            var pathBrowserEle = $("#eaemLinkPathBrowser");
-
-            var $popover = pathBrowserEle.closest("coral-popover");
+            var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+                $popover = pathBrowserEle.closest("coral-popover");
 
             $popover[0].open = true;
 
@@ -39,8 +39,6 @@
             });
 
             function applyStyles(){
-                var $popover = pathBrowserEle.closest("coral-popover");
-
                 $popover.css("left", "0").css("padding", "10px")
                     .find("coral-popover-content").children().css("margin-bottom", "10px");
 
@@ -78,7 +76,7 @@
     }
 
     function createPathBrowser(){
-        var pathBrowserEle = $("#eaemLinkPathBrowser");
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID);
 
         var pathBrowser = new CUI.PathBrowser({
             element: pathBrowserEle,
@@ -98,7 +96,7 @@
     }
 
     function getTargetHtml(){
-        var targetSel = "<coral-select data-type='rel' placeholder='Choose \"target\"'>";
+        var targetSel = "<coral-select data-type='rel' placeholder='Choose link \"target\" attribute...'>";
 
         var options = {"_self" : "Same Tab", "_blank" : "New tab", "_parent" : "Parent Frame", "_top" : "Top Frame"};
 
@@ -109,6 +107,17 @@
         return (targetSel + "</coral-select>");
     }
 
+    function getButtonHtml(){
+        return '<div style="float:right">' +
+                    '<button is="coral-button" title="Close" variant="secondary" style="margin-right: 5px">' +
+                        '<coral-icon icon="close" size="S"/>' +
+                    '</button>' +
+                    '<button is="coral-button" title="Save" variant="primary" >' +
+                        '<coral-icon icon="check" size="S"/>' +
+                    '</button>' +
+                '</div>';
+    }
+
     function getLinkHtml(){
         return '<div class="cfm-toolbar-section">' +
                     '<button id="eaemLink" is="coral-button" variant="quiet" icon="link" iconsize="S" data-rte-command="' +
@@ -116,12 +125,12 @@
                     '</button>' +
                     '<coral-popover placement="bottom" target="#eaemLink">' +
                         '<coral-popover-content>' +
-                            '<div id="eaemLinkPathBrowser" data-picker-multiselect="false" data-resource-path="">' +
+                            '<div id="' + PATH_BROWSER_ID + '" data-picker-multiselect="false" data-resource-path="">' +
                                 '<input class="js-coral-pathbrowser-button" value="" type="hidden" >' +
                                 '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Path" value="">' +
                             '</div>' +
                             '<input class="js-coral-pathbrowser-input" is="coral-textfield" placeholder="Alt text" value="">' +
-                            getTargetHtml() +
+                            getTargetHtml() + getButtonHtml() +
                         '</coral-popover-content>' +
                     '<coral-popover-header hidden></coral-popover-header>' +
                     '</coral-popover>' +
