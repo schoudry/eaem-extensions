@@ -84,10 +84,10 @@
 
         createPathBrowser();
 
-        registerListeners();
+        registerListeners(ek);
     }
 
-    function registerListeners(){
+    function registerListeners(ek){
         var $buttons = $("#" + POPOVER_BUTTONS),
             $cancel = $buttons.children("button:first"),
             $save = $buttons.children("button:last");
@@ -100,10 +100,30 @@
         $save.click(handleSave);
 
         function handleSave(){
-            var $popoverContent = $popover.find("coral-popover-content"),
-                path = pathBrowserEle.find("input").val(),
-                altText = $popoverContent.children("input").val(),
-                target = $popoverContent.children("coral-select").val();
+            var $popoverContent = $popover.find("coral-popover-content"), cmd = "modifylink",
+                objToEdit = {
+                    url:  pathBrowserEle.find("input").val(),
+                    attributes: {
+                        title: $popoverContent.children("input").val()
+                    },
+                    target: $popoverContent.children("coral-select").val()
+                };
+
+            var editContext = ek.getEditContext();
+
+            editContext.setState("CUI.SelectionLock", 1);
+
+            var env = {
+                "editContext": editContext
+            };
+
+            ek.dialogManager.isShown = function(){};
+
+            var linksPlugin = ek.registeredPlugins["links"];
+
+            linksPlugin.linkDialog = { objToEdit : objToEdit};
+
+            linksPlugin.applyLink(editContext);
 
             closeLinksPopover();
         }
