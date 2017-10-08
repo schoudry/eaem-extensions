@@ -104,9 +104,11 @@
         $save.click(handleSave);
 
         function handleSave(){
+            CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
+
             var $popoverContent = $popover.find("coral-popover-content"), cmd = "modifylink",
                 objToEdit = {
-                    url:  pathBrowserEle.find("input").val(),
+                    href:  pathBrowserEle.find("input").val(),
                     attributes: {
                         title: $popoverContent.children("input").val()
                     },
@@ -116,12 +118,6 @@
             var editContext = ek.getEditContext();
 
             editContext.setState("CUI.SelectionLock", 1);
-
-            var env = {
-                "editContext": editContext
-            };
-
-            ek.dialogManager.isShown = function(){};
 
             var linksPlugin = ek.registeredPlugins["links"];
 
