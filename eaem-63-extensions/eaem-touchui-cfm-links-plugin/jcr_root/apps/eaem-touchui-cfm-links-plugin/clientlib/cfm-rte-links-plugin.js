@@ -3,7 +3,7 @@
         EAEM_REMOVE_LINK = "eaemRemoveLink",
         PATH_BROWSER_ID = "eaemLinkPathBrowser",
         POPOVER_BUTTONS = "eaemLinkPopoverButtons",
-        pluginAdded = false;
+        pluginAdded = false, bookmark = {};
 
     var EAEM_CFM_LINKS_PLUGIN = new Class({
         toString: "EAEMCFMLinksPlugin",
@@ -27,7 +27,11 @@
                 return;
             }
 
-            openLinksPopover();
+            bookmark.context = context;
+
+            bookmark.selection = CUI.rte.Selection.createRangeBookmark(context);
+
+            openLinksPopover(context);
         }
     });
 
@@ -130,6 +134,8 @@
     }
 
     function fillPathBrowserInput(event){
+        CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
+
         var $pathBrowser = $(event.target), paths = [];
 
         var selections = $pathBrowser.find(".coral-ColumnView").data("columnView").getSelectedItems();
