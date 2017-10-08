@@ -37,32 +37,6 @@
 
     $document.on("cfm:contentchange", addLinksPlugin);
 
-    function closeLinksPopover(){
-        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-            $popover = pathBrowserEle.closest("coral-popover");
-
-        $popover[0].open = false;
-    }
-
-    function openLinksPopover(){
-        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-            $popover = pathBrowserEle.closest("coral-popover");
-
-        $popover[0].open = true;
-
-        setTimeout(applyStyles, 100);
-
-        function applyStyles(){
-            var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-                $popover = pathBrowserEle.closest("coral-popover");
-
-            $popover.css("left", "0").css("padding", "10px")
-                .find("coral-popover-content").children().css("margin-bottom", "10px");
-
-            $(".editor-tools").css("height", "600px");
-        }
-    }
-
     function addLinksPlugin(event, data) {
         if (pluginAdded) {
             return;
@@ -91,67 +65,8 @@
         registerListeners(ek);
     }
 
-    function registerListeners(ek){
-        var $buttons = $("#" + POPOVER_BUTTONS),
-            $cancel = $buttons.children("button:first"),
-            $save = $buttons.children("button:last");
-
-        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-            $popover = pathBrowserEle.closest("coral-popover");
-
-        $cancel.click(closeLinksPopover);
-
-        $save.click(handleSave);
-
-        function handleSave(){
-            CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
-
-            var $popoverContent = $popover.find("coral-popover-content"), cmd = "modifylink",
-                objToEdit = {
-                    href:  pathBrowserEle.find("input").val(),
-                    attributes: {
-                        title: $popoverContent.children("input").val()
-                    },
-                    target: $popoverContent.children("coral-select").val()
-                };
-
-            var editContext = ek.getEditContext();
-
-            editContext.setState("CUI.SelectionLock", 1);
-
-            var linksPlugin = ek.registeredPlugins["links"];
-
-            linksPlugin.linkDialog = { objToEdit : objToEdit};
-
-            linksPlugin.applyLink(editContext);
-
-            closeLinksPopover();
-        }
-    }
-
-    function fillPathBrowserInput(event){
-        CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
-
-        var $pathBrowser = $(event.target), paths = [];
-
-        var selections = $pathBrowser.find(".coral-ColumnView").data("columnView").getSelectedItems();
-
-        if (_.isEmpty(selections)) {
-            return;
-        }
-
-        $.each(selections, function () {
-            paths.push( decodeURIComponent(this.item.data('value')));
-        });
-
-        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
-            $popover = pathBrowserEle.closest("coral-popover");
-
-        $popover[0].open = true;
-
-        pathBrowserEle.find("input").val(paths[0]);
-
-        openLinksPopover();
+    function getLinkPlugin(editorKernel){
+        return new EAEM_CFM_LINKS_PLUGIN(editorKernel, EAEM_LINK);
     }
 
     function createPathBrowser(){
@@ -162,7 +77,6 @@
             pickerTitle: "Select Content",
             crumbRoot: "Content",
             rootPath: "/content",
-            pickerAdditionalTabs: undefined,
             pickerSrc: "/libs/wcm/core/content/common/pathbrowser/column.html/content/dam?predicate=hierarchyNotFile"
         });
 
@@ -170,8 +84,89 @@
         pathBrowser.$picker.on("coral-pathbrowser-picker-confirm", fillPathBrowserInput);
     }
 
+    function fillPathBrowserInput(event){
+        CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
+
+        var $pathBrowser = $(event.target), paths = [],
+            selections = $pathBrowser.find(".coral-ColumnView").data("columnView").getSelectedItems();
+
+        if (_.isEmpty(selections)) {
+            return;
+        }
+
+        $.each(selections, function () {
+            paths.push( decodeURIComponent(this.item.data('value')));
+        });
+
+        $("#" + PATH_BROWSER_ID).find("input").val(paths[0]);
+
+        openLinksPopover();
+    }
+
+    function registerListeners(ek){
+        var $buttons = $("#" + POPOVER_BUTTONS),
+            $cancel = $buttons.children("button:first"),
+            $save = $buttons.children("button:last"),
+            pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $cancel.click(closeLinksPopover);
+
+        $save.click(handleSave);
+
+        function handleSave(){
+            CUI.rte.Selection.selectRangeBookmark(bookmark.context, bookmark.selection);
+
+            var $popoverContent = $popover.find("coral-popover-content"),
+                editContext = ek.getEditContext(), linksPlugin = ek.registeredPlugins["links"],
+                linkProps = {
+                    href:  pathBrowserEle.find("input").val(),
+                    attributes: {
+                        title: $popoverContent.children("input").val()
+                    },
+                    target: $popoverContent.children("coral-select").val()
+                };
+
+            editContext.setState("CUI.SelectionLock", 1);
+
+            linksPlugin.linkDialog = { objToEdit : linkProps };
+
+            linksPlugin.applyLink(editContext);
+
+            closeLinksPopover();
+        }
+    }
+
+    function closeLinksPopover(){
+        setLinksPopoverVisibility(false);
+    }
+
+    function openLinksPopover(){
+        setLinksPopoverVisibility(true);
+
+        setTimeout(applyStyles, 100);
+
+        function applyStyles(){
+            var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+                $popover = pathBrowserEle.closest("coral-popover");
+
+            $popover.css("left", "0").css("padding", "10px")
+                    .find("coral-popover-content").children()
+                    .css("margin-bottom", "10px");
+
+            $(".editor-tools").css("height", "600px");
+        }
+    }
+
+    function setLinksPopoverVisibility(open){
+        var pathBrowserEle = $("#" + PATH_BROWSER_ID),
+            $popover = pathBrowserEle.closest("coral-popover");
+
+        $popover[0].open = open;
+    }
+
     function getOptionHtml(option, value){
-        return "<coral-select-item value='" + value + "'>" + option + "</coral-select-item>"
+        return "<coral-select-item value='" + value + "'>" + option + "</coral-select-item>";
     }
 
     function getPathBrowserHtml(){
@@ -184,9 +179,8 @@
     }
 
     function getTargetHtml(){
-        var targetSel = "<coral-select data-type='rel' placeholder='Choose link \"target\" attribute...'>";
-
-        var options = {"_self" : "Same Tab", "_blank" : "New tab", "_parent" : "Parent Frame", "_top" : "Top Frame"};
+        var targetSel = "<coral-select data-type='rel' placeholder='Choose link \"target\" attribute...'>",
+            options = {"_self" : "Same Tab", "_blank" : "New tab", "_parent" : "Parent Frame", "_top" : "Top Frame"};
 
         _.each(options, function(option, value){
             targetSel = targetSel + getOptionHtml(option, value);
@@ -225,7 +219,4 @@
                 '</div>';
     }
 
-    function getLinkPlugin(editorKernel){
-        return new EAEM_CFM_LINKS_PLUGIN(editorKernel, EAEM_LINK);
-    }
 }(jQuery, jQuery(document)));
