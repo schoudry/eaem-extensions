@@ -10,12 +10,6 @@
 
         extend: CUI.rte.plugins.Plugin,
 
-        assetUI: null,
-
-        config: undefined,
-
-        _callback: undefined,
-
         getFeatures: function () {
             return [ EAEM_LINK, EAEM_REMOVE_LINK ];
         },
@@ -23,15 +17,13 @@
         execute: function (pluginCommand, value, envOptions) {
             var context = envOptions.editContext;
 
-            if (pluginCommand !== EAEM_LINK) {
-                return;
+            if (pluginCommand === EAEM_REMOVE_LINK) {
+                this.editorKernel.execCmd("unlink", undefined, context);
+            }else{
+                bookmark.context = context;
+                bookmark.selection = CUI.rte.Selection.createRangeBookmark(context);
+                openLinksPopover(context);
             }
-
-            bookmark.context = context;
-
-            bookmark.selection = CUI.rte.Selection.createRangeBookmark(context);
-
-            openLinksPopover(context);
         }
     });
 
@@ -52,13 +44,18 @@
 
         var ek = editor.rte.getEditorKernel(),
             $toolbar = $(".editor-tools .toolbar .tools"),
-            linkPlugin = getLinkPlugin(ek);
+            linkPlugin = getLinkPlugin(ek),
+            linkRemovePlugin = getLinkRemovePlugin(ek);
 
         $toolbar.append(getLinkHtml());
 
         var linkElement = new CUI.rte.ui.stub.ElementImpl(EAEM_LINK, linkPlugin, true);
 
         linkElement.notifyToolbar(ek.toolbar);
+
+        var linkRemoveElement = new CUI.rte.ui.stub.ElementImpl(EAEM_REMOVE_LINK, linkRemovePlugin, true);
+
+        linkRemoveElement.notifyToolbar(ek.toolbar);
 
         createPathBrowser();
 
@@ -69,11 +66,13 @@
         return new EAEM_CFM_LINKS_PLUGIN(editorKernel, EAEM_LINK);
     }
 
-    function createPathBrowser(){
-        var pathBrowserEle = $("#" + PATH_BROWSER_ID);
+    function getLinkRemovePlugin(editorKernel){
+        return new EAEM_CFM_LINKS_PLUGIN(editorKernel, EAEM_REMOVE_LINK);
+    }
 
+    function createPathBrowser(){
         var pathBrowser = new CUI.PathBrowser({
-            element: pathBrowserEle,
+            element: $("#" + PATH_BROWSER_ID),
             pickerTitle: "Select Content",
             crumbRoot: "Content",
             rootPath: "/content",
@@ -202,7 +201,7 @@
 
     function getLinkHtml(){
         return '<div class="cfm-toolbar-section">' +
-                    '<button id="eaemLink" is="coral-button" variant="quiet" icon="link" iconsize="S" data-rte-command="' +
+                    '<button id="eaemLink" is="coral-button" variant="quiet" icon="link" title="Add Link" iconsize="S" data-rte-command="' +
                         EAEM_LINK + '">' +
                     '</button>' +
                     '<coral-popover placement="bottom" target="#eaemLink">' +
@@ -213,10 +212,9 @@
                         '</coral-popover-content>' +
                     '<coral-popover-header hidden></coral-popover-header>' +
                     '</coral-popover>' +
-                    '<button is="coral-button" variant="quiet" icon="linkOff" iconsize="S" data-rte-command="'
+                    '<button is="coral-button" variant="quiet" icon="linkOff" iconsize="S" title="Remove Link" data-rte-command="'
                             + EAEM_REMOVE_LINK + '">' +
                     '</button>' +
                 '</div>';
     }
-
 }(jQuery, jQuery(document)));
