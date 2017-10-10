@@ -22,24 +22,37 @@
 
         cuiTabView = cuiTabView[0];
 
-        var customTab = $(getCustomTab()).appendTo(cuiTabView.$.children("coral-tablist").append());
+        var $customTab = $(getCustomTab()).appendTo(cuiTabView.$.children("coral-tablist")),
+            $panel = $(getCustomPanel()).appendTo(cuiTabView.$.children("coral-panelstack")),
+            $iFrame = $panel.find("iframe");
 
-        cuiTabView.$.children("coral-panelstack").append(getCustomPanel());
-
-        customTab.on("click",function(){
-            var panel = $("#" + $(this).attr("aria-controls")),
-                $iframe = panel.find("iframe");
-
-            if(!_.isEmpty($iframe.attr("src"))){
+        $customTab.on("click",function(){
+            if(!_.isEmpty($iFrame.attr("src"))){
                 return;
             }
 
-            $iframe.attr("src", CUSTOM_DIALOG + ".html");
+            $iFrame.attr("src", CUSTOM_DIALOG + ".html");
         });
 
-        $("form").on("submit", function(e) {
-            alert("hello");
-        })
+        addDummySubmit();
+    }
+
+    function addDummySubmit(){
+        var $submit = $("button[type=submit]"), $dummySubmit;
+
+        $dummySubmit = $("<button variant='primary' is='coral-button'>Save</button>").insertAfter($submit);
+
+        $submit.hide();
+
+        $dummySubmit.click(handler);
+
+        function handler(event){
+            event.preventDefault();
+        }
+    }
+
+    function sendDataMessage(message){
+        $metadataIFrame[0].contentWindow.postMessage(JSON.stringify(message), "*");
     }
 
     function handlePropertiesDialog(){
