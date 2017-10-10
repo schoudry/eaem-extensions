@@ -1,6 +1,6 @@
 (function($, $document) {
     var FOLDER_SHARE_WIZARD = "/mnt/overlay/dam/gui/content/assets/foldersharewizard.html",
-        CUSTOM_DIALOG = "/apps/eaem-touchui-custom-folder-properties/dialog.html",
+        CUSTOM_DIALOG = "/apps/eaem-touchui-custom-folder-properties/dialog",
         url = document.location.pathname;
 
     if( url.indexOf(FOLDER_SHARE_WIZARD) == 0 ){
@@ -34,7 +34,11 @@
                 return;
             }
 
-            $iframe.attr("src", CUSTOM_DIALOG);
+            $iframe.attr("src", CUSTOM_DIALOG + ".html");
+        });
+
+        $("form").on("submit", function(e) {
+            alert("hello");
         })
     }
 
@@ -45,13 +49,19 @@
     }
 
     function getCustomTab(){
+        var title = "Custom";
+
+        $.ajax( { url: CUSTOM_DIALOG + ".json", async: false}).done(function(data){
+            title = data["jcr:title"];
+        });
+
         return  '<coral-tab>' +
-                    '<coral-tab-label>Custom</coral-tab-label>' +
+                    '<coral-tab-label>' + title + '</coral-tab-label>' +
                 '</coral-tab>';
     }
 
     function getCustomPanel(){
-        var iFrame = '<iframe width="750px" height="750px" frameborder="0" />';
+        var iFrame = '<iframe width="750px" height="750px" seamless="seamless" frameborder="0" />';
 
         return  '<coral-panel>' +
                     '<div style="margin-top: 5px">' +  iFrame + '</div>' +
