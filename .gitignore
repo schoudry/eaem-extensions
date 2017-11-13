@@ -10,4 +10,5 @@
 **/author
 **/publish
 target
-target
+temp
+dist
