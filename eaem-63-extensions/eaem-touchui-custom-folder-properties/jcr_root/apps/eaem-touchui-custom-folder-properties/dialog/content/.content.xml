@@ -11,18 +11,20 @@
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/coral/foundation/container">
             <items jcr:primaryType="nt:unstructured">
-                <desc
+                <webTitle
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                    fieldDescription="Enter Title"
+                    fieldLabel="Web Title"
+                    name="./eaemWebTitle"
+                    required="{Boolean}true"/>
+                <webDesc
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
                     fieldDescription="Enter Description"
-                    fieldLabel="Description"
-                    name="./eaemDesc"
+                    fieldLabel="Web Description"
+                    name="./eaemWebDesc"
                     required="{Boolean}true"/>
-                <onlyForWeb
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                    name="./eaemOnlyForWeb"
-                    text="Only for web?"/>
             </items>
         </column>
     </items>
