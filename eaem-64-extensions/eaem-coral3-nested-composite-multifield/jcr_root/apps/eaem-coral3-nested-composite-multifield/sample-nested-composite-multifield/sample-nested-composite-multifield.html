@@ -1,0 +1,25 @@
+<div>
+    <b>64 Nested Composite Multifield</b>
+
+    <br><br>
+
+    <div data-sly-use.company="helper.js" data-sly-unwrap>
+        <div data-sly-test="${!company.products && wcmmode.edit}">
+            Add products using component dialog
+        </div>
+
+        <div data-sly-test="${company.products}">
+            <div data-sly-list.product="${company.products}">
+                <div>
+                    <div>${product.name}</div>
+
+                    <div data-sly-list.component="${product.components}" style="margin-left:40px">
+                        <div><b>${component.name}</b></div>
+                        <div>${component.compPath}</div>
+                        <div>${component.size}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
