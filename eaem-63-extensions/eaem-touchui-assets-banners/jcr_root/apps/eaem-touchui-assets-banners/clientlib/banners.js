@@ -14,7 +14,7 @@
         EAEM_BANNER = ".eaem-banner",
         FOUNDATION_COLLECTION_ITEM_TITLE = ".foundation-collection-item-title",
         MED_SIZE_LIMIT = "4194304", //4mb
-        LARGE_SIZE_LIMIT = "52428800", //4mb
+        LARGE_SIZE_LIMIT = "52428800", //50mb
         colViewListenerAdded = false,
         DAM_ADMIN_CHILD_PAGES = ".cq-damadmin-admin-childpages";
 
