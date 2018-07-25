@@ -233,7 +233,7 @@
             return deferred.promise;
 
             function readNextBytes(offset){
-                var buffer = nbuffer.Buffer(BUFFER_SIZE, 'base64'),
+                var buffer = nbuffer.Buffer(BUFFER_SIZE),
                     bytes = nfs.readSync(file, buffer, 0, BUFFER_SIZE, null),
                     complete = false;
 

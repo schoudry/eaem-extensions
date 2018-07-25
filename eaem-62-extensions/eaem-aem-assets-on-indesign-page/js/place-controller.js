@@ -24,6 +24,9 @@
     function PlaceController($scope, aemService, searchService, $http, csi, cep){
         $scope.damHost = "localhost:4502";
         $scope.showLogin = true;
+        $scope.j_username = "admin";
+        $scope.j_password = "admin";
+        $scope.uploadPath = "/content/dam/experience-aem";
 
         var searchDefaults = {
             'path': "/content/dam",

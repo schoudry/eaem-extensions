@@ -6,7 +6,7 @@
 
     var otbIsMimeTypeAccepted = CUI.RichText.prototype._isMimeTypeAccepted;
 
-     function disableJpegDragAndDropInRTE(mimeType) {
+    function disableJpegDragAndDropInRTE(mimeType) {
         if(_.isEmpty(mimeType) || (mimeType != 'image/jpeg') ){
             return otbIsMimeTypeAccepted.apply(this, arguments);
         }
