@@ -42,15 +42,15 @@
 
         $stepBack.css("color", "#777777");
 
-         overrideStepBack();
+        overrideStepBack();
     }
 
     function overrideStepBack(){
         var origFn = window.CQ.Inbox.UI.commons.stepBackWorkitem;
 
-        window.CQ.Inbox.UI.commons.stepBackWorkitem = eaemEtepBackWorkitem;
+        window.CQ.Inbox.UI.commons.stepBackWorkitem = eaemStepBackWorkitem;
 
-        function eaemEtepBackWorkitem(workitemId, successURL){
+        function eaemStepBackWorkitem(workitemId, successURL){
             $.ajax(getWorkflowId(workitemId) + ".json").done(function(data){
                 if(data.model != REQ_FOR_ACT_MODEL){
                     return origFn(workitemId, successURL);
