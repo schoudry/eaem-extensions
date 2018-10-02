@@ -2,66 +2,32 @@
     "use strict";
 
     var _ = window._,
-        eaemNavigatorAdded = false,
+        eaemZoomAdded = false,
         TITLE_BAR = ".granite-title",
         ANNOTATE_PAGE_URL = "/mnt/overlay/dam/gui/content/assets/annotate.html",
-        ASSET_DETAILS_PAGE_URL = "/assetdetails.html",
-        FOUNDATION_CONTENT_REL = ".foundation-content-path",
-        NAVIGATION_EVENT = "asset-detail-navigation",
-        NAVIGATOR_UI = "/apps/eaem-touchui-asset-navigator-in-annotate/ui/asset-navigator.html";
+        ZOOM_UI = "/apps/eaem-touchui-asset-zoom-in-annotate/ui/asset-zoom.html";
 
-	$document.on("foundation-contentloaded", addAssetNavigation);
+	$document.on("foundation-contentloaded", addAssetZoom);
 
-    function addAssetNavigation(){
-        if(!isAnnotatePage() || !!eaemNavigatorAdded){
+    function addAssetZoom(){
+        if(!isAnnotatePage() || !!eaemZoomAdded){
             return;
         }
 
-        eaemNavigatorAdded = true;
+        eaemZoomAdded = true;
 
-        $.ajax(NAVIGATOR_UI + getAssetPath()).done(addNavigationUI);
+        $.ajax(ZOOM_UI + getAssetPath()).done(addZoomUI);
     }
 
-    function addNavigationUI(html){
+    function addZoomUI(html){
         var $titleBar = $(TITLE_BAR);
 
-        html = html.substring(html.indexOf("<div"));
+        var $zoomContainer = $(html).appendTo($("betty-titlebar-primary"));
 
-        html = "<div class='assetdetails-title-container'>" + $titleBar.html() + html + "</div>";
-
-        $titleBar.html(html);
+        $zoomContainer.find("coral-actionbar").css("background-color", "#f0f0f0")
+                        .width("165px").css("height" , "2.5rem").css("padding", "0");
 
         $document.trigger("foundation-contentloaded");
-
-        $(FOUNDATION_CONTENT_REL).off(NAVIGATION_EVENT).on(NAVIGATION_EVENT, navigateTo);
-
-        $document.on('keydown', handleHotKeyNavigation);
-    }
-
-    function handleHotKeyNavigation(event){
-        var $mainImage = $("#asset-mainimage");
-
-        if (event.keyCode == 37){
-            navigateTo( { asset : getPathInAssetDetailsPage($mainImage.attr("prev"))} )
-        }else if(event.keyCode == 39){
-            navigateTo( { asset : getPathInAssetDetailsPage($mainImage.attr("next"))} )
-        }
-    }
-
-    function getPathInAssetDetailsPage(path){
-        if(_.isEmpty(path)){
-            return;
-        }
-
-        return path.substring(path.indexOf(ASSET_DETAILS_PAGE_URL) + ASSET_DETAILS_PAGE_URL.length);
-    }
-
-    function navigateTo(data){
-        if (_.isEmpty(data.asset)) {
-            return;
-        }
-
-        window.location.href = Granite.HTTP.externalize(ANNOTATE_PAGE_URL + data.asset);
     }
 
     function isAnnotatePage() {
