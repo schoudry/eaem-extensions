@@ -7,6 +7,7 @@
         ANNOTATION_CONTAINER = "asset-annotation",
         ASSET_DETAIL_CONTAINER = "asset-detail",
         ASSET_MAIN_IMAGE_ID = "asset-mainimage",
+        ANNOTATION_CANVAS = ".asset-annotation canvas",
         ANNOTATE_PAGE_URL = "/mnt/overlay/dam/gui/content/assets/annotate.html",
         ZOOM_UI = "/apps/eaem-touchui-asset-zoom-in-annotate/ui/asset-zoom.html";
 
@@ -41,6 +42,10 @@
 
     function showMainImage(){
         $("#" + ASSET_MAIN_IMAGE_ID).css("display", "inline");
+
+        $("#" + ZOOM_CANVAS_ID).remove();
+
+        $("." + ANNOTATION_CONTAINER).find("canvas").show();
     }
 
     function reAddImageToCanvas(){
@@ -48,6 +53,10 @@
             imageHtml = $mainImage[0].outerHTML;
 
         $mainImage.css("display", "none");
+
+        $("." + ANNOTATION_CONTAINER).find("canvas").not("#" + ZOOM_CANVAS_ID).hide();
+
+        $document.off(ANNOTATION_CANVAS);
 
         if(!_.isEmpty($(ZOOM_CANVAS_ID))){
             return;
