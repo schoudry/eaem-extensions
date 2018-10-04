@@ -37,15 +37,21 @@
 
         $document.on("click", ".dam-asset-zoomIn", reAddImageToCanvas);
 
+        $(document).on("click", ".dam-asset-zoomOut", showZoomCanvas);
+
         $document.on("click", ".dam-asset-reset", showMainImage);
+    }
+
+    function showZoomCanvas(){
+        $("#" + ZOOM_CANVAS_ID).show();
     }
 
     function showMainImage(){
         $("#" + ASSET_MAIN_IMAGE_ID).css("display", "inline");
 
-        $("#" + ZOOM_CANVAS_ID).remove();
+        $("#" + ZOOM_CANVAS_ID).hide();
 
-        $("." + ANNOTATION_CONTAINER).find("canvas").show();
+        $("." + ANNOTATION_CONTAINER).find("canvas").not("#" + ZOOM_CANVAS_ID).show();
     }
 
     function reAddImageToCanvas(){
@@ -55,6 +61,8 @@
         $mainImage.css("display", "none");
 
         $("." + ANNOTATION_CONTAINER).find("canvas").not("#" + ZOOM_CANVAS_ID).hide();
+
+        $("#" + ZOOM_CANVAS_ID).show();
 
         $document.off(ANNOTATION_CANVAS);
 
