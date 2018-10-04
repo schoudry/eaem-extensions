@@ -4,6 +4,8 @@
     var _ = window._,
         eaemZoomAdded = false,
         ZOOM_CANVAS_ID = "dam-aasetdetail-zoom-canvas",
+        ANNOTATION_CONTAINER = "asset-annotation",
+        ASSET_DETAIL_CONTAINER = "asset-detail",
         ASSET_MAIN_IMAGE_ID = "asset-mainimage",
         ANNOTATE_PAGE_URL = "/mnt/overlay/dam/gui/content/assets/annotate.html",
         ZOOM_UI = "/apps/eaem-touchui-asset-zoom-in-annotate/ui/asset-zoom.html";
@@ -29,6 +31,8 @@
 
         $zoomContainer.find("coral-actionbar").css("background-color", "#f0f0f0")
                         .width("200px").css("height" , "2.5rem").css("padding", "0");
+
+        $("." + ANNOTATION_CONTAINER).addClass(ASSET_DETAIL_CONTAINER);
 
         $document.on("click", ".dam-asset-zoomIn", reAddImageToCanvas);
 
