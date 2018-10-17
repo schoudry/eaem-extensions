@@ -11,35 +11,24 @@
         ANNOTATE_PAGE_URL = "/mnt/overlay/dam/gui/content/assets/annotate.html",
         ZOOM_UI = "/apps/eaem-touchui-asset-zoom-in-annotate/ui/asset-zoom.html";
 
-	$document.on("foundation-contentloaded", addAssetZoom);
+    function overrideAnnotate(){
+        var origFn = $.Annotation.prototype._endDraw;
 
-    overrideAnnotate();
+        $.Annotation.prototype._endDraw = function(e) {
+            origFn.call(this, e);
 
-    function addAssetZoom(){
-        if(!isAnnotatePage() || !!eaemZoomAdded){
-            return;
-        }
-
-        eaemZoomAdded = true;
-
-        $.ajax(ZOOM_UI + getAssetPath()).done(addZoomUI);
+            $("#" + ASSET_MAIN_IMAGE_ID).trigger("annotateEnd", [ e.data.self ]);
+        };
     }
 
-    function addZoomUI(html){
-        html = html.substring(html.indexOf("<div"));
+    function isAnnotatePage() {
+        return (window.location.pathname.indexOf(ANNOTATE_PAGE_URL) >= 0);
+    }
 
-        var $zoomContainer = $(html).appendTo($("betty-titlebar-primary"));
+    function getAssetPath() {
+        var path = window.location.pathname;
 
-        $zoomContainer.find("coral-actionbar").css("background-color", "#f0f0f0")
-                        .width("200px").css("height" , "2.5rem").css("padding", "0");
-
-        $("." + ANNOTATION_CONTAINER).addClass(ASSET_DETAIL_CONTAINER);
-
-        $document.on("click", ".dam-asset-zoomIn", reAddImageToCanvas);
-
-        $(document).on("click", ".dam-asset-zoomOut", showZoomCanvas);
-
-        $document.on("click", ".dam-asset-reset", showMainImage);
+        return (path.substring(path.indexOf(ANNOTATE_PAGE_URL) + ANNOTATE_PAGE_URL.length));
     }
 
     function showZoomCanvas(){
@@ -81,23 +70,34 @@
         });
     }
 
-    function overrideAnnotate(){
-        var origFn = $.Annotation.prototype._endDraw;
+    function addZoomUI(html){
+        html = html.substring(html.indexOf("<div"));
 
-        $.Annotation.prototype._endDraw = function(e) {
-            origFn.call(this, e);
+        var $zoomContainer = $(html).appendTo($("betty-titlebar-primary"));
 
-            $("#" + ASSET_MAIN_IMAGE_ID).trigger("annotateEnd", [ e.data.self ]);
-        };
+        $zoomContainer.find("coral-actionbar").css("background-color", "#f0f0f0")
+            .width("200px").css("height" , "2.5rem").css("padding", "0");
+
+        $("." + ANNOTATION_CONTAINER).addClass(ASSET_DETAIL_CONTAINER);
+
+        $document.on("click", ".dam-asset-zoomIn", reAddImageToCanvas);
+
+        $(document).on("click", ".dam-asset-zoomOut", showZoomCanvas);
+
+        $document.on("click", ".dam-asset-reset", showMainImage);
     }
 
-    function isAnnotatePage() {
-        return (window.location.pathname.indexOf(ANNOTATE_PAGE_URL) >= 0);
+    function addAssetZoom(){
+        if(!isAnnotatePage() || !!eaemZoomAdded){
+            return;
+        }
+
+        eaemZoomAdded = true;
+
+        $.ajax(ZOOM_UI + getAssetPath()).done(addZoomUI);
     }
 
-    function getAssetPath() {
-        var path = window.location.pathname;
+    overrideAnnotate();
 
-        return (path.substring(path.indexOf(ANNOTATE_PAGE_URL) + ANNOTATE_PAGE_URL.length));
-    }
-})(jQuery, jQuery(document));
+    $document.on("foundation-contentloaded", addAssetZoom);
+}(jQuery, jQuery(document)));

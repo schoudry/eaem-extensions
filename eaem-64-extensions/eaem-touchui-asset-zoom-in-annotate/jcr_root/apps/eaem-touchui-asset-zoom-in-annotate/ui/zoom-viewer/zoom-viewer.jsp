@@ -9,7 +9,7 @@
 
 <%
     Resource currentResource = UIHelper.getCurrentSuffixResource(slingRequest);
-	Asset asset = currentResource.adaptTo(Asset.class);
+    Asset asset = currentResource.adaptTo(Asset.class);
 %>
 
 <sling:include path="<%= asset.getPath() %>" resourceType="dam/gui/components/admin/assetview/zoomviewer" />
