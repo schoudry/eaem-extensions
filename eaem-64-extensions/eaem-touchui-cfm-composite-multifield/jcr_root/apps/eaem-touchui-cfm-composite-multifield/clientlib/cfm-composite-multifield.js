@@ -30,7 +30,7 @@
         }
 
         _.each($composites, function(mField){
-            mfValArr = vData[($(mField)).attr(MF_NAME_ATTR)];
+            mfValArr = vData[getNameDotSlashRemoved(($(mField)).attr(MF_NAME_ATTR))];
 
             if(_.isEmpty(mfValArr)){
                 return;
@@ -172,7 +172,7 @@
                 values.push(JSON.stringify(value));
             });
 
-            mfData[ ($(mField)).attr(MF_NAME_ATTR)] = values;
+            mfData[ getNameDotSlashRemoved(($(mField)).attr(MF_NAME_ATTR))] = values;
         });
 
         return mfData;
