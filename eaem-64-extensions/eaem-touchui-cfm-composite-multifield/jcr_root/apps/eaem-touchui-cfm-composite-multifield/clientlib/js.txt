@@ -1,1 +1,1 @@
-composite-multifield.js
+cfm-composite-multifield.js
