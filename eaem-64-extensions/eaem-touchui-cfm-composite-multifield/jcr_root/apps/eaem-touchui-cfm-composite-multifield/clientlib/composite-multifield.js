@@ -1,4 +1,4 @@
-(function ($, $document) {
+(function ($) {
     var CFM = window.Dam.CFM,
         MASTER = "master",
         CFM_EDITOR_SEL = ".content-fragment-editor",
@@ -156,6 +156,10 @@
                 _.each($fields, function(field){
                     $field = $(field);
 
+                    if(canbeSkipped($field)){
+                        return;
+                    }
+
                     value[getNameDotSlashRemoved($field.attr("name"))] =  $field.val();
                 });
 
@@ -168,6 +172,14 @@
         return mfData;
     }
 
+    function canbeSkipped($field){
+        if(_.isEmpty($field)){
+            return;
+        }
+
+        return ($field.attr("type") == "hidden");
+    }
+
     function getNameDotSlashRemoved(name){
         if(_.isEmpty(name)){
             return name;
@@ -175,4 +187,4 @@
 
         return ((name.indexOf("./") == 0) ? name.substr(2) : name);
     }
-}(jQuery, jQuery(document)));
+}(jQuery));
