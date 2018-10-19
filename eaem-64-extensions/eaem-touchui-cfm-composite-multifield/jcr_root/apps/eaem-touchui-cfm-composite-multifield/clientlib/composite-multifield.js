@@ -76,8 +76,16 @@
                 return;
             }
 
-            field.value = fValue;
+            setFieldValue(field, fValue);
         });
+    }
+
+    function setFieldValue(field, value){
+        if( field.tagName == "CORAL-CHECKBOX"){
+            field.checked = (field.getAttribute("value") == value);
+        }else{
+            field.value = value;
+        }
     }
 
     function getVariation(){
@@ -143,7 +151,7 @@
 
     function getMultifieldData(){
         var $composites = $(COMPOSITE_MF_SEL), value,
-            mfData = {}, values, $fields, $field;
+            mfData = {}, values, $fields;
 
         _.each($composites, function(mField){
             values = [];
@@ -154,13 +162,11 @@
                 value = {};
 
                 _.each($fields, function(field){
-                    $field = $(field);
-
-                    if(canbeSkipped($field)){
+                    if(canbeSkipped(field)){
                         return;
                     }
 
-                    value[getNameDotSlashRemoved($field.attr("name"))] =  $field.val();
+                    value[getNameDotSlashRemoved(field.getAttribute("name"))] =  getFieldValue(field);
                 });
 
                 values.push(JSON.stringify(value));
@@ -172,12 +178,20 @@
         return mfData;
     }
 
-    function canbeSkipped($field){
-        if(_.isEmpty($field)){
-            return;
+    function getFieldValue(field){
+        var value;
+
+        if( field.tagName == "CORAL-CHECKBOX"){
+            value = field.checked ? field.getAttribute("value") : "";
+        }else{
+            value = field.value;
         }
 
-        return ($field.attr("type") == "hidden");
+        return value;
+    }
+
+    function canbeSkipped(field){
+        return (($(field).attr("type") == "hidden") || (field.type == "checkbox"));
     }
 
     function getNameDotSlashRemoved(name){
