@@ -23,8 +23,7 @@ import java.io.IOException;
         @Property(  name = "sling.filter.pattern",
                     value = {"/mnt/overlay/dam/gui/content/assets/jcr:content/views/.*"},
                     propertyPrivate = true),
-        @Property(name = "service.ranking",intValue = {-99},propertyPrivate = true
-)})
+        @Property(name = "service.ranking",intValue = {-99},propertyPrivate = true)})
 public class EAEMAssetDataSourceFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(EAEMAssetDataSourceFilter.class);
 

@@ -11,5 +11,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="aem64" exported="" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="CQ" level="application" />
   </component>
 </module>
