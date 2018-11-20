@@ -20,20 +20,18 @@ import java.util.*;
 
 @Component(
         metatype = true,
-        description = "Experience AEM Request filter for CreateAssetServlet",
-        label = "EAEM CreateAssetServlet InputStream Filter")
+        description = "Experience AEM Request Decrypt Filter for CreateAssetServlet",
+        label = "EAEM CreateAssetServlet InputStream Decrypt Filter")
 @Service({Filter.class})
 @Properties({
-        @Property(name = "sling.filter.scope",value = {"REQUEST"},propertyPrivate = true)
+        @Property(name = "sling.filter.scope",value = {"REQUEST"}, propertyPrivate = true)
 })
 public class DecryptAssetsFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(DecryptAssetsFilter.class);
 
-    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         if (!(request instanceof SlingHttpServletRequest) || !(response instanceof SlingHttpServletResponse)) {
@@ -42,14 +40,13 @@ public class DecryptAssetsFilter implements Filter {
         }
 
         final SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
-        final SlingHttpServletResponse slingResponse = (SlingHttpServletResponse) response;
 
         if (!StringUtils.equals("POST", slingRequest.getMethod()) || !isCreateAssetRequest(slingRequest) ) {
             chain.doFilter(request, response);
             return;
         }
 
-        log.info("Filtering create asset request - " + slingRequest.getRequestURI());
+        log.info("Decoding create asset request - " + slingRequest.getRequestURI());
 
         Iterator parts = (Iterator)request.getAttribute("request-parts-iterator");
 
@@ -59,9 +56,10 @@ public class DecryptAssetsFilter implements Filter {
         }
 
         List<Part> otherParts = new ArrayList<Part>();
+        Part part = null;
 
         while(parts.hasNext()) {
-            Part part = (Part) parts.next();
+            part = (Part) parts.next();
 
             otherParts.add(new EAEMDecryptRequestPart(part));
         }
@@ -71,39 +69,50 @@ public class DecryptAssetsFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private boolean isFormField(Part part) {
-        return (part.getSubmittedFileName() == null);
-    }
-
-    private boolean isStreaming(SlingHttpServletRequest request) {
-        Iterator itr = (Iterator)request.getAttribute("request-parts-iterator");
-        return ((itr != null) && (itr.hasNext()));
-    }
-
     private boolean isCreateAssetRequest(SlingHttpServletRequest slingRequest){
         String[] selectors = slingRequest.getRequestPathInfo().getSelectors();
-        boolean isCreateRequest = false;
 
         if(ArrayUtils.isEmpty(selectors) || (selectors.length > 1)){
-            return isCreateRequest;
+            return false;
         }
 
-        isCreateRequest = selectors[0].equals("createasset");
-
-        return isCreateRequest;
+        return selectors[0].equals("createasset");
     }
 
-    @Override
     public void destroy() {
     }
 
     private static class EAEMDecryptRequestPart implements Part {
         private final Part part;
         private final InputStream inputStream;
+        private static final String TEMP_PREFIX = "eaem_decrypt_";
 
         public EAEMDecryptRequestPart(Part part) throws IOException {
             this.part = part;
-            this.inputStream = new ByteArrayInputStream(IOUtils.toByteArray(part.getInputStream()));
+
+            if(!isFilePart(part)){
+                this.inputStream = new ByteArrayInputStream(IOUtils.toByteArray(part.getInputStream()));
+            }else{
+                this.inputStream = this.getDecodedStream(part);
+            }
+        }
+
+        private InputStream getDecodedStream(Part part) throws IOException{
+            File tmpFile = File.createTempFile(TEMP_PREFIX, ".tmp");
+
+            byte[] decoded = Base64.getDecoder().decode(IOUtils.toByteArray(part.getInputStream()));
+
+            FileOutputStream decodedStream = new FileOutputStream(tmpFile);
+
+            decodedStream.write(decoded);
+
+            decodedStream.close();
+
+            return new FileInputStream(tmpFile);
+        }
+
+        private boolean isFilePart(Part part) {
+            return StringUtils.isNotEmpty(part.getSubmittedFileName());
         }
 
         public InputStream getInputStream() throws IOException {
@@ -127,7 +136,6 @@ public class DecryptAssetsFilter implements Filter {
         }
 
         public  void delete() throws IOException {
-            // no underlying storage is used, so nothing to delete.
         }
 
         public  String getHeader(String headerName) {
