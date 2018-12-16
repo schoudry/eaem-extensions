@@ -16,7 +16,7 @@
             <clientlibs
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
-                categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral]"/>
+                categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral, eaem-cfm.rte.plugin]"/>
         </head>
         <body
             jcr:primaryType="nt:unstructured"
