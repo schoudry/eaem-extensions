@@ -1,7 +1,8 @@
 (function ($, $document) {
     var EAEM_PLUGIN_ID = "eaemfont",
         EAEM_TEXT_FONT_FEATURE = "eaemTextFont",
-        EAEM_TEXT_FONT_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_FONT_FEATURE;
+        EAEM_TEXT_FONT_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_FONT_FEATURE,
+        FONT_SELECTOR_URL = "/apps/eaem-touchui-cfm-font-size-plugin/font-selector.html";
 
     extendStyledTextEditor();
 
@@ -79,12 +80,10 @@
         },
 
         showFontModal: function(){
-            var pickerUrl = "/aem/assetpicker?mode=single&assettype=images";
-            var $iframe = $('<iframe>');
-            var $modal = $('<div>').addClass('cfm-asset-picker coral-Modal');
+            var $iframe = $('<iframe>'),
+                $modal = $('<div>').addClass('coral-Modal');
 
-            /* create modal with asset picker */
-            $iframe.attr('src', Granite.HTTP.externalize(pickerUrl)).appendTo($modal);
+            $iframe.attr('src', Granite.HTTP.externalize(FONT_SELECTOR_URL)).appendTo($modal);
 
             $modal.appendTo('body').modal({
                 type: 'default',

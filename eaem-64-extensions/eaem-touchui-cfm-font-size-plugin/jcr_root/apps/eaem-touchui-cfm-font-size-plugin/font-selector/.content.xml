@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         jcr:mixinTypes="[sling:VanityPath]"
@@ -21,7 +21,85 @@
         <body
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/coral/foundation/page/body">
-            <items jcr:primaryType="nt:unstructured"/>
+            <items jcr:primaryType="nt:unstructured">
+                <form
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    class="foundation-form content-container"
+                    maximized="{Boolean}true"
+                    style="vertical">
+                    <items jcr:primaryType="nt:unstructured">
+                        <wizard
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Select Text Font Color..."
+                            sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                            <items jcr:primaryType="nt:unstructured">
+                                <text
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Select Text Font Color..."
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <fixedColumns
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                            margin="{Boolean}true">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <fontSize
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Size"
+                                                            name="size"/>
+                                                        <color
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
+                                                            fieldLabel="Text Color"
+                                                            name="color"
+                                                            showProperties="{Boolean}true"
+                                                            value="#FFCC00">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <defaultcolor
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    value="#FFCC00"/>
+                                                            </items>
+                                                        </color>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </fixedColumns>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                            text="Cancel">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            disabled="{Boolean}true"
+                                            text="Apply"
+                                            type="submit"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </text>
+                            </items>
+                        </wizard>
+                    </items>
+                </form>
+            </items>
         </body>
     </jcr:content>
 </jcr:root>
