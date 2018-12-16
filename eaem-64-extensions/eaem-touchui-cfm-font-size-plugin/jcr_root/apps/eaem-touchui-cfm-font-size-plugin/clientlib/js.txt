@@ -1,0 +1,1 @@
+cfm-rte-font-size-plugin.js
