@@ -50,12 +50,33 @@
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <fontSize
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                            fieldDescription="Select text size"
                                                             fieldLabel="Size"
-                                                            name="size"/>
+                                                            name="./size">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <def
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Select Size"
+                                                                    value=""/>
+                                                                <small
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Small (3px)"
+                                                                    value="3px"/>
+                                                                <medium
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Medium (6px)"
+                                                                    value="6px"/>
+                                                                <large
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Large (9px)"
+                                                                    value="9px"/>
+                                                            </items>
+                                                        </fontSize>
                                                         <color
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
+                                                            fieldDescription="Select text color"
                                                             fieldLabel="Text Color"
                                                             name="color"
                                                             showProperties="{Boolean}true"
