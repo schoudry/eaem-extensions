@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:mixinTypes="[sling:VanityPath]"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="EAEM Font Selector"
+        sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured"/>
+        </body>
+    </jcr:content>
+</jcr:root>

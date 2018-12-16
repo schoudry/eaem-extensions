@@ -67,9 +67,32 @@
         execute: function (pluginCommand, value, envOptions) {
             var context = envOptions.editContext;
 
-            if (pluginCommand == EAEM_TEXT_FONT_FEATURE) {
-                this.insertTextAttributes(context);
+            if (pluginCommand != EAEM_TEXT_FONT_FEATURE) {
+                return;
             }
+
+            this.insertTextAttributes(context);
+        },
+
+        insertTextAttributes: function(context){
+            this.showFontModal();
+        },
+
+        showFontModal: function(){
+            var pickerUrl = "/aem/assetpicker?mode=single&assettype=images";
+            var $iframe = $('<iframe>');
+            var $modal = $('<div>').addClass('cfm-asset-picker coral-Modal');
+
+            /* create modal with asset picker */
+            $iframe.attr('src', Granite.HTTP.externalize(pickerUrl)).appendTo($modal);
+
+            $modal.appendTo('body').modal({
+                type: 'default',
+                buttons: [],
+                visible: true
+            });
+
+            $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
         }
     });
 
