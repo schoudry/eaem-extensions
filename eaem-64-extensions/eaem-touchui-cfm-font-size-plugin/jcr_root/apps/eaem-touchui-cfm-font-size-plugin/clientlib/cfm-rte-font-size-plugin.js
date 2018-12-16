@@ -81,7 +81,7 @@
 
         showFontModal: function(){
             var $iframe = $('<iframe>'),
-                $modal = $('<div>').addClass('coral-Modal');
+                $modal = $('<div>').addClass('eaem-cfm-font-size coral-Modal');
 
             $iframe.attr('src', Granite.HTTP.externalize(FONT_SELECTOR_URL)).appendTo($modal);
 
@@ -90,6 +90,10 @@
                 buttons: [],
                 visible: true
             });
+
+            $modal._callback = function(){
+                alert("hi")
+            };
 
             $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
         }

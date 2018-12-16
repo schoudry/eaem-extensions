@@ -1,0 +1,14 @@
+.eaem-cfm-font-size {
+    width: 60%;
+    margin-left: -50%;
+    height: 50%;
+    margin-top: -50%;
+    box-sizing: content-box;
+    z-index: 10100;
+}
+
+.eaem-cfm-font-size > iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #888;
+}
