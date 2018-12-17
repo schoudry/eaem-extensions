@@ -16,7 +16,7 @@
     }
 
     function handlePicker(){
-        fillDefaultValues();
+        $document.on("foundation-contentloaded", fillDefaultValues);
 
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
@@ -24,19 +24,19 @@
     }
 
     function fillDefaultValues(){
-        $document.on("foundation-contentloaded", handler);
+        var queryParams = queryParameters(),
+            form = $("form")[0];
 
-        function handler(){
-            var queryParams = queryParameters(),
-                $form = $("form");
+        if(!_.isEmpty(queryParams.color)){
+            Coral.commons.ready(form.querySelector("[name='./color']"), function (color) {
+                color.value = decodeURIComponent(queryParams.color);
+            })
+        }
 
-            if(!_.isEmpty(queryParams.color)){
-                $form.find("[name='./color']").val(decodeURIComponent(queryParams.color));
-            }
-
-            if(!_.isEmpty(queryParams.size)){
-                $form.find("[name='./size']").val(queryParams.size);
-            }
+        if(!_.isEmpty(queryParams.size)){
+            Coral.commons.ready(form.querySelector("[name='./size']"), function (size) {
+                size.value = queryParams.size;
+            })
         }
     }
 
