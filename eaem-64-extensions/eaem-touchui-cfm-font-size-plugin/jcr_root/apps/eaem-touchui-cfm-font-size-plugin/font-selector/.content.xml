@@ -62,15 +62,15 @@
                                                                 <small
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="Small (3px)"
-                                                                    value="3px"/>
+                                                                    value="15px"/>
                                                                 <medium
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="Medium (6px)"
-                                                                    value="6px"/>
+                                                                    value="30px"/>
                                                                 <large
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="Large (9px)"
-                                                                    value="9px"/>
+                                                                    value="40px"/>
                                                             </items>
                                                         </fontSize>
                                                         <color
@@ -78,15 +78,9 @@
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
                                                             fieldDescription="Select text color"
                                                             fieldLabel="Text Color"
-                                                            name="color"
+                                                            name="./color"
                                                             showProperties="{Boolean}true"
-                                                            value="#FFCC00">
-                                                            <items jcr:primaryType="nt:unstructured">
-                                                                <defaultcolor
-                                                                    jcr:primaryType="nt:unstructured"
-                                                                    value="#FFCC00"/>
-                                                            </items>
-                                                        </color>
+                                                            value="#FFCC00"/>
                                                     </items>
                                                 </column>
                                             </items>
