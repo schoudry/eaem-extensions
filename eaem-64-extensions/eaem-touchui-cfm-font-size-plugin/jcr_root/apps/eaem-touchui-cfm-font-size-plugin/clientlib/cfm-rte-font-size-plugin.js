@@ -4,7 +4,7 @@
         EAEM_TEXT_FONT_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_FONT_FEATURE,
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         FONT_SELECTOR_URL = "/apps/eaem-touchui-cfm-font-size-plugin/font-selector.html",
-        SENDER = "experience-aem", $eaemFontPicker,
+        SENDER = "experience-aem", REQUESTER = "requester", $eaemFontPicker,
         url = document.location.pathname;
 
     if( url.indexOf("/editor.html") == 0 ){
@@ -161,14 +161,25 @@
                     return;
                 }
 
-                this.showFontModal();
+                var selection = CUI.rte.Selection.createProcessingSelection(context),
+                    ek = this.editorKernel,
+                    startNode = selection.startNode;
+
+                if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
+                    startNode = startNode.nextSibling;
+                }
+
+                var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"),
+                    color = $(tag).css("color"), size = $(tag).css("font-size");
+
+                this.showFontModal(this.getPickerIFrameUrl(size, color));
             },
 
-            showFontModal: function(){
+            showFontModal: function(url){
                 var self = this, $iframe = $('<iframe>'),
                     $modal = $('<div>').addClass('eaem-cfm-font-size coral-Modal');
 
-                $iframe.attr('src', Granite.HTTP.externalize(FONT_SELECTOR_URL)).appendTo($modal);
+                $iframe.attr('src', url).appendTo($modal);
 
                 $modal.appendTo('body').modal({
                     type: 'default',
@@ -181,6 +192,24 @@
                 $eaemFontPicker.eaemFontPlugin = self;
 
                 $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
+            },
+
+            getPickerIFrameUrl: function(size, color){
+                var url = Granite.HTTP.externalize(FONT_SELECTOR_URL) + "?" + REQUESTER + "=" + SENDER;
+
+                if(!_.isEmpty(color)){
+                    if(color.indexOf("rgb") == 0){
+                        color = CUI.util.color.RGBAToHex(color);
+                    }
+
+                    url = url + "&color=" + color;
+                }
+
+                if(!_.isEmpty(size)){
+                    url = url + "&size=" + size;
+                }
+
+                return url;
             }
         });
 
