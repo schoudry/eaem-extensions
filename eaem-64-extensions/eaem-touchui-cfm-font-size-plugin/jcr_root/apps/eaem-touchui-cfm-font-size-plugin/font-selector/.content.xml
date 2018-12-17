@@ -61,15 +61,15 @@
                                                                     value=""/>
                                                                 <small
                                                                     jcr:primaryType="nt:unstructured"
-                                                                    text="Small (3px)"
+                                                                    text="Small (15px)"
                                                                     value="15px"/>
                                                                 <medium
                                                                     jcr:primaryType="nt:unstructured"
-                                                                    text="Medium (6px)"
+                                                                    text="Medium (30px)"
                                                                     value="30px"/>
                                                                 <large
                                                                     jcr:primaryType="nt:unstructured"
-                                                                    text="Large (9px)"
+                                                                    text="Large (40px)"
                                                                     value="40px"/>
                                                             </items>
                                                         </fontSize>

@@ -16,9 +16,28 @@
     }
 
     function handlePicker(){
+        fillDefaultValues();
+
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
         $document.submit(sentTextAttributes);
+    }
+
+    function fillDefaultValues(){
+        $document.on("foundation-contentloaded", handler);
+
+        function handler(){
+            var queryParams = queryParameters(),
+                $form = $("form");
+
+            if(!_.isEmpty(queryParams.color)){
+                $form.find("[name='./color']").val(decodeURIComponent(queryParams.color));
+            }
+
+            if(!_.isEmpty(queryParams.size)){
+                $form.find("[name='./size']").val(queryParams.size);
+            }
+        }
     }
 
     function sentTextAttributes(){
@@ -34,6 +53,22 @@
         });
 
         parent.postMessage(JSON.stringify(message), "*");
+    }
+
+    function queryParameters() {
+        var result = {}, param,
+            params = document.location.search.split(/\?|\&/);
+
+        params.forEach( function(it) {
+            if (_.isEmpty(it)) {
+                return;
+            }
+
+            param = it.split("=");
+            result[param[0]] = param[1];
+        });
+
+        return result;
     }
 
     function sendCancelMessage(){
@@ -199,7 +234,7 @@
 
                 if(!_.isEmpty(color)){
                     if(color.indexOf("rgb") == 0){
-                        color = CUI.util.color.RGBAToHex(color);
+                        color = encodeURIComponent(CUI.util.color.RGBAToHex(color));
                     }
 
                     url = url + "&color=" + color;
