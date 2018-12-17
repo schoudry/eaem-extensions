@@ -9,7 +9,6 @@
 
     if( url.indexOf("/editor.html") == 0 ){
         extendStyledTextEditor();
-
         registerPlugin();
     }else if(url.indexOf(FONT_SELECTOR_URL) == 0){
         handlePicker();
@@ -23,21 +22,33 @@
         $document.submit(sentTextAttributes);
     }
 
+    function setWidgetValue(form, selector, value){
+        Coral.commons.ready(form.querySelector(selector), function (field) {
+            field.value = _.isEmpty(value) ? "" : decodeURIComponent(value);
+        });
+    }
+
+    function rgbToHex(color){
+        if(_.isEmpty(color)){
+            return color;
+        }
+
+        if(color.indexOf("rgb") == 0){
+            color = CUI.util.color.RGBAToHex(color);
+        }
+
+        return color;
+    }
+
     function fillDefaultValues(){
         var queryParams = queryParameters(),
             form = $("form")[0];
 
-        if(!_.isEmpty(queryParams.color)){
-            Coral.commons.ready(form.querySelector("[name='./color']"), function (color) {
-                color.value = decodeURIComponent(queryParams.color);
-            })
-        }
+        setWidgetValue(form, "[name='./color']", queryParams.color);
 
-        if(!_.isEmpty(queryParams.size)){
-            Coral.commons.ready(form.querySelector("[name='./size']"), function (size) {
-                size.value = queryParams.size;
-            })
-        }
+        setWidgetValue(form, "[name='./size']", queryParams.size);
+
+        setWidgetValue(form, "[name='./bgColor']", queryParams.bgColor);
     }
 
     function sentTextAttributes(){
@@ -155,7 +166,7 @@
                 };
 
                 defaults.tooltips[EAEM_TEXT_FONT_FEATURE] = {
-                    title: "Set text font size, color..."
+                    title: "Set text font size, color, background color..."
                 };
 
                 CUI.rte.Utils.applyDefaults(pluginConfig, defaults);
@@ -168,8 +179,8 @@
                     return;
                 }
 
-                this.textFontUI = new tbGenerator.createElement(EAEM_TEXT_FONT_FEATURE, this,
-                    false, this.config.tooltips[EAEM_TEXT_FONT_FEATURE]);
+                this.textFontUI = new tbGenerator.createElement(EAEM_TEXT_FONT_FEATURE, this, false,
+                                        this.config.tooltips[EAEM_TEXT_FONT_FEATURE]);
 
                 tbGenerator.addElement(EAEM_TEXT_FONT_FEATURE, 999, this.textFontUI, 999);
 
@@ -197,17 +208,44 @@
                 }
 
                 var selection = CUI.rte.Selection.createProcessingSelection(context),
-                    ek = this.editorKernel,
-                    startNode = selection.startNode;
+                    ek = this.editorKernel, startNode = selection.startNode;
 
                 if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
                     startNode = startNode.nextSibling;
                 }
 
-                var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"),
-                    color = $(tag).css("color"), size = $(tag).css("font-size");
+                var $tag = $(CUI.rte.Common.getTagInPath(context, startNode, "span")),
+                    color, size = $tag.css("font-size");
 
-                this.showFontModal(this.getPickerIFrameUrl(size, color));
+                color = this.getColorAttributes($tag);
+
+                this.showFontModal(this.getPickerIFrameUrl(size, color.color, color.bgColor));
+            },
+
+            getColorAttributes: function($tag){
+                var key, color = { color: "", bgColor : ""};
+
+                if(!$tag.attr("style")){
+                    return color;
+                }
+
+                //donot use .css("color"), it returns default font color, if color is not set
+                var parts = $tag.attr("style").split(";");
+
+                _.each(parts, function(value){
+                    value = value.split(":");
+
+                    key = value[0] ? value[0].trim() : "";
+                    value = value[1] ? value[1].trim() : "";
+
+                    if(key == "color"){
+                        color.color = rgbToHex(value);
+                    }else if(key == "background-color"){
+                        color.bgColor = rgbToHex(value);
+                    }
+                });
+
+                return color;
             },
 
             showFontModal: function(url){
@@ -229,15 +267,15 @@
                 $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
             },
 
-            getPickerIFrameUrl: function(size, color){
+            getPickerIFrameUrl: function(size, color, bgColor){
                 var url = Granite.HTTP.externalize(FONT_SELECTOR_URL) + "?" + REQUESTER + "=" + SENDER;
 
                 if(!_.isEmpty(color)){
-                    if(color.indexOf("rgb") == 0){
-                        color = encodeURIComponent(CUI.util.color.RGBAToHex(color));
-                    }
+                    url = url + "&color=" + encodeURIComponent(color);
+                }
 
-                    url = url + "&color=" + color;
+                if(!_.isEmpty(bgColor)){
+                    url = url + "&bgColor=" + encodeURIComponent(bgColor);
                 }
 
                 if(!_.isEmpty(size)){
@@ -262,15 +300,19 @@
                 return cmd.PO_SELECTION | cmd.PO_BOOKMARK | cmd.PO_NODELIST;
             },
 
-            getTagObject: function(size, color) {
+            getTagObject: function(textData) {
                 var style = "";
 
-                if(!_.isEmpty(color)){
-                    style = "color: " + color + ";";
+                if(!_.isEmpty(textData.color)){
+                    style = "color: " + textData.color + ";";
                 }
 
-                if(!_.isEmpty(size)){
-                    style = style + "font-size: " + size;
+                if(!_.isEmpty(textData.size)){
+                    style = style + "font-size: " + textData.size + ";";
+                }
+
+                if(!_.isEmpty(textData.bgColor)){
+                    style = style + "background-color: " + textData.bgColor;
                 }
 
                 return {
@@ -291,9 +333,9 @@
 
                 var common = CUI.rte.Common,
                     context = execDef.editContext,
-                    tagObj = this.getTagObject(textData.size, textData.color);
+                    tagObj = this.getTagObject(textData);
 
-                if(_.isEmpty(textData)){
+                if(_.isEmpty(textData.size) && _.isEmpty(textData.color) && _.isEmpty(textData.bgColor)){
                     nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, undefined, true);
                     return;
                 }
@@ -302,7 +344,7 @@
 
                 //remove existing color before adding new color
                 if (tags != null) {
-                    nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, undefined, true);
+                    nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, tags.attributes ? tags.attributes : undefined, true);
                 }
 
                 nodeList.surround(execDef.editContext, tagObj.tag, tagObj.attributes);
