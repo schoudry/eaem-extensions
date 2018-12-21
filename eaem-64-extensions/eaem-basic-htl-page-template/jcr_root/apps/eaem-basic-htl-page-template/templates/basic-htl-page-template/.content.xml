@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:description="EAEM Basic HTL Template"
+    jcr:primaryType="cq:Template"
+    jcr:title="EAEM Basic HTL Template"
+    allowedPaths="/content(/.*)?">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="/apps/eaem-basic-htl-page-template/components/basic-htl-page-component"/>
+</jcr:root>

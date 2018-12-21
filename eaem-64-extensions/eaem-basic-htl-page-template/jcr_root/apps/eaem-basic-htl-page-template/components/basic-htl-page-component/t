@@ -1,0 +1,100 @@
+
+
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+
+
+    <meta name="template" content="basic-htl-page-template"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+    <body class="basic-htl-page-component page basicpage">
+
+
+
+
+
+
+            <div>
+	<br>
+    <h2>Experience AEM Sample HTL Component</h2>
+    <br>
+        <div>
+
+
+
+
+
+    <div class="dynamicmedia parbase"><!-- /*
+  Copyright 2016 Adobe Systems Incorporated
+  All Rights Reserved.
+
+  NOTICE:  All information contained herein is, and remains
+  the property of Adobe Systems Incorporated and its suppliers,
+  if any.  The intellectual and technical concepts contained
+  herein are proprietary to Adobe Systems Incorporated and its
+  suppliers and are protected by trade secret or copyright law.
+  Dissemination of this information or reproduction of this material
+  is strictly forbidden unless prior written permission is obtained
+  from Adobe Systems Incorporated.
+*/ -->
+
+
+
+<link rel="stylesheet" href="/libs/dam/components/scene7/dynamicmedia/clientlibs/dynamicmedia.css" type="text/css">
+<script type="text/javascript" src="/libs/dam/components/scene7/common/clientlibs/viewer.js"></script>
+<script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery.js"></script>
+<script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/utils.js"></script>
+<script type="text/javascript" src="/libs/dam/components/scene7/dynamicmedia/clientlibs/dynamicmedia.js"></script>
+<script type="text/javascript" src="/libs/dam/components/scene7/common/clientlibs/i18n.js"></script>
+
+
+
+    <!-- /* Viewer container when there is an asset */ -->
+	<div class="cq-dd-image ">
+        <div id="dynamicmedia" data-current-page="/content/test" data-page-locale="en" data-asset-path="CEM/eaem-crxde-env-indicator-AVS" data-asset-name="eaem-crxde-env-indicator.mp4" data-asset-type="videoavs" data-viewer-type="VideoViewer" data-viewer-path="http://s7d9.scene7.com/s7viewers/" data-imageserver="http://s7d9.scene7.com/is/image/" data-videoserver="http://s7d9.scene7.com/is/content/" data-contenturl="http://s7d9.scene7.com/is/content/" data-config="/CEM/Video-3|VIDEO|false" data-wcmdisabled data-dms7 data-stagesize="400,300" data-linktarget="_self" class="s7dm-dynamic-media">
+        </div>
+    </div>
+    <!-- /* Placeholder when there is no content */ -->
+
+
+
+
+</div>
+
+
+</div>
+    <br>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+</html>
