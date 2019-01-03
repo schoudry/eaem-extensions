@@ -1,0 +1,11 @@
+.eaem-video-text-overlay {
+    position: relative;
+    top: 60%;
+    left: 18%;
+    color: #AAA;
+    font-size: 30px;
+    background-color: #EEE;
+    width: 400px;
+    padding: 5px;
+    text-align: center;
+}
