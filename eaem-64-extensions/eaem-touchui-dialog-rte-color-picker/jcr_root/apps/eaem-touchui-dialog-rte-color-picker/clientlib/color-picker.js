@@ -212,8 +212,11 @@
             //remove existing color before adding new color
             if (tags != null) {
                 nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, undefined, true);
+                // update common ancestor after node removal; otherwise, the ancestor would
+                // still be the removed node
+                nodeList.commonAncestor = nodeList.nodes[0].dom.parentNode;
             }
-
+        
             nodeList.surround(execDef.editContext, tagObj.tag, tagObj.attributes);
         }
     });
