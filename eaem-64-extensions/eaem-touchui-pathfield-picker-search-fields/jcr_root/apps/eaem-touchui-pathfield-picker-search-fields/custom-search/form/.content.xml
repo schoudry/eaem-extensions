@@ -2,17 +2,15 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     sling:resourceType="/apps/eaem-touchui-pathfield-picker-search-fields/custom-search">
-    <publish
+    <tagid
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="dam/gui/coral/components/admin/customsearch/searchpredicates/publishpredicate"
-        fieldLabel="Publish Status"
-        isSuggestable="{Boolean}true"
-        listOrder="6"
-        metaType="publish"
-        name="jcr:content/cq:lastReplicationAction"
-        open="{Boolean}false"
-        optionPaths="/libs/dam/options/predicates/publish"
-        singleSelect="{Boolean}true"
-        text="Publish Status"
-        value="true"/>
+        sling:resourceType="cq/gui/components/coral/common/form/tagfield"
+        fieldLabel="Tags"
+        multiple="{Boolean}true"
+        name="tagid"/>
+    <tagid-prop
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+        name="tagid.property"
+        value="jcr:content/metadata/cq:tags"/>
 </jcr:root>

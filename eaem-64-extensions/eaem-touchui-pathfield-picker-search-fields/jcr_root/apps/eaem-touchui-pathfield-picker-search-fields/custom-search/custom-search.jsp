@@ -3,15 +3,17 @@
 <%@ page import="org.apache.sling.api.resource.Resource" %>
 <%@ page import="java.util.Iterator" %>
 
-<div id="eaem-touchui-pathfield-picker-search-fields">
-    <%
-        for (Iterator<Resource> it = resource.listChildren(); it.hasNext();) {
-    %>
+<%
+    for (Iterator<Resource> it = resource.listChildren(); it.hasNext();) {
+%>
 
-    <sling:include resource="<%= it.next() %>" />
+<div class="coral-Form-fieldwrapper eaem-touchui-pathfield-picker-search-field">
 
-    <%
-        }
-    %>
+<sling:include resource="<%= it.next() %>" />
+
 </div>
+
+<%
+    }
+%>
 
