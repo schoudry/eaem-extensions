@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Sample Dynamic Multi Field"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <column
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <count
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldDescription="Select Count of Multifield Items"
+                        fieldLabel="Size"
+                        name="./count">
+                        <items jcr:primaryType="nt:unstructured">
+                            <def
+                                jcr:primaryType="nt:unstructured"
+                                text="Select Count"
+                                value=""/>
+                            <small
+                                jcr:primaryType="nt:unstructured"
+                                text="One"
+                                value="1"/>
+                            <medium
+                                jcr:primaryType="nt:unstructured"
+                                text="Two"
+                                value="2"/>
+                            <large
+                                jcr:primaryType="nt:unstructured"
+                                text="Three"
+                                value="3"/>
+                        </items>
+                    </count>
+                    <products
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                        composite="{Boolean}true"
+                        fieldLabel="Products">
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            name="./products">
+                            <items jcr:primaryType="nt:unstructured">
+                                <column
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <product
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            fieldDescription="Name of Product"
+                                            fieldLabel="Product Name"
+                                            name="./product"/>
+                                        <path
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                            fieldDescription="Select Path"
+                                            fieldLabel="Path"
+                                            name="./path"
+                                            rootPath="/content"/>
+                                        <startDate
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
+                                            class="field"
+                                            displayedFormat="YYYY-MM-DD HH:mm"
+                                            fieldLabel="Start Date"
+                                            name="./startDate"
+                                            type="datetime"/>
+                                    </items>
+                                </column>
+                            </items>
+                        </field>
+                    </products>
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>
