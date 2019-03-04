@@ -1,4 +1,4 @@
-(function ($, $document, gAuthor) {
+(function ($, $document) {
     var SITES_CONSOLE_URL = "/sites.html";
 
     $(registerDblClickForContentTree);
@@ -38,4 +38,4 @@
         return (window.location.pathname.indexOf(SITES_CONSOLE_URL) >= 0);
     }
 
-}(jQuery, jQuery(document), Granite.author));
+}(jQuery, jQuery(document)));
