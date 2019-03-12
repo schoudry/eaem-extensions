@@ -1,0 +1,8 @@
+<section data-sly-include="/libs/dam/cfm/components/contentfragment/contentfragment.html" data-sly-unwrap></section>
+
+<div data-sly-use.fragment="helper.js">
+    <script>
+        window.eaemData.addContentFragmentPath("${fragment.cfPath @ context='scriptString'}");
+    </script>
+</div>
+

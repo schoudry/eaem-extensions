@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-most-popular-content-fragments"/>
+    <filter root="/etc/eaem-most-popular-content-fragments"/>
+    <filter root="/apps/core/wcm/components/page/v2/page/head.html"/>
+</workspaceFilter>
