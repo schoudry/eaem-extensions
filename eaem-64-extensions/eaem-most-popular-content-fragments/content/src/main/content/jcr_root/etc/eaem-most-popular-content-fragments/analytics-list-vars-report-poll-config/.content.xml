@@ -2,5 +2,7 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
     jcr:mixinTypes="[rep:AccessControllable]"
     jcr:primaryType="cq:PollConfigFolder"
-    managedPollConfig="eaem-list-var-report-30-days"
+    managedPollConfig="eaem-list-var-report-days"
+    use-analytics-framework="/etc/cloudservices/sitecatalyst/analytics-for-cf-insights/analytics-framework"
+    get-analytics-for-last-days="{Long}-90"
     source="eaemReport:listvar1"/>
