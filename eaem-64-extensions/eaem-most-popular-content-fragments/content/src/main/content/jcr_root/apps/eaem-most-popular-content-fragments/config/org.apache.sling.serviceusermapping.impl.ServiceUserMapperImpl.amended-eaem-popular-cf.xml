@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="sling:OsgiConfig"
-    enabled="{Boolean}true"
-    reference="{Boolean}true"
-    id="eaem-list-var-report-days"
-    interval="{Long}86400"
-    source="eaemReport:listvar1"/>
+    user.mapping="[apps.experienceaem.assets.eaem-most-popular-content-fragments-bundle:eaem-update-cf-with-analytics=dam-update-service]"/>
