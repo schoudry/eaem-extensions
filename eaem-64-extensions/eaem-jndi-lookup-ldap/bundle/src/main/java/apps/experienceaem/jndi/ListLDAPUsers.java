@@ -44,21 +44,17 @@ public class ListLDAPUsers extends SlingAllMethodsServlet{
             env.put( Context.SECURITY_PRINCIPAL, rootDn );
             env.put( Context.SECURITY_CREDENTIALS, rootPass );
 
-            try {
-                String dn = request.getParameter("dn");
+            String dn = request.getParameter("dn");
 
-                DirContext ctx = new InitialDirContext(env);
+            DirContext ctx = new InitialDirContext(env);
 
-                Object user = ctx.lookup(dn);
+            Object user = ctx.lookup(dn);
 
-                if(user != null){
-                    jsonObject.put(dn, user);
-                }
-
-                ctx.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(user != null){
+                jsonObject.put(dn, user);
             }
+
+            ctx.close();
 
             jsonObject.write(response.getWriter());
         } catch (Exception e) {
