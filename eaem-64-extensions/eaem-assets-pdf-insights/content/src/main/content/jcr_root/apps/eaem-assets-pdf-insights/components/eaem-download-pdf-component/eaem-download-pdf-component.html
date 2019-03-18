@@ -1,1 +1,14 @@
-sreekanth
+<div style="margin: 10px 0 10px 0">
+    <div data-sly-test="${!properties.eaemPDFPath}" data-sly-unwrap>
+        No PDF selected to View / Download
+    </div>
+    <div data-sly-test="${properties.eaemPDFPath}" data-sly-unwrap>
+        Click on the link to
+        <a class="eaem-pdf-link-click" href="${properties.eaemPDFPath}" download>
+            View / Download "${properties.eaemTitle}"
+        </a>
+        <script>
+            window.eaemData.page.pdfPath = "${properties.eaemPDFPath @ context='scriptString'}";
+        </script>
+    </div>
+</div>
