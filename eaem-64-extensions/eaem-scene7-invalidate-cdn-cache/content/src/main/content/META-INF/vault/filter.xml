@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-scene7-invalidate-cdn-cache"/>
+    <filter root="/conf/global/settings/workflow/models/eaem-dms7-invalidate-cdn-cache"/>
+    <filter root="/var/workflow/models/eaem-dms7-invalidate-cdn-cache"/>
+</workspaceFilter>
