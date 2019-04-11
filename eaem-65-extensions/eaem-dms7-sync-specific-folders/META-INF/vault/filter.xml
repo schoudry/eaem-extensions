@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-dms7-sync-specific-folders"/>
+    <filter root="/conf/global/settings/workflow/models/dam/update_asset"/>
+    <filter root="/var/workflow/models/dam/update_asset"/>
 </workspaceFilter>
