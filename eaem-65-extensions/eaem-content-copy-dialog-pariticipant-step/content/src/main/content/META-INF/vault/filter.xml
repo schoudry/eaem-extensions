@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-content-copy-dialog-pariticipant-step"/>
+    <filter root="/conf/global/settings/workflow/models/experience-aem-content-copy"/>
+    <filter root="/var/workflow/models/experience-aem-content-copy"/>
+
+</workspaceFilter>

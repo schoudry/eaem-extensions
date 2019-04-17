@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/libs/settings/wcm/designs/default"
+        cq:lastModified="{Date}2019-04-17T15:16:09.015-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Experience AEM Content Copy"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <dialog
+                jcr:created="{Date}2019-04-17T14:43:29.852-05:00"
+                jcr:createdBy="admin"
+                jcr:description="Copy Content Dialog"
+                jcr:lastModified="{Date}2019-04-17T15:16:09.012-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Content Copy Dialog Participant"
+                sling:resourceType="cq/workflow/components/model/dialog">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    DIALOG_PATH="/apps/eaem-content-copy-dialog-pariticipant-step/dialogs/content-copy-dialog"
+                    PARTICIPANT="everyone"/>
+            </dialog>
+            <process
+                jcr:created="{Date}2019-04-17T15:15:46.106-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2019-04-17T15:15:59.199-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Copy Content Process"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="apps.experienceaem.assets.ContentCopyTask"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+    </jcr:content>
+</jcr:root>
