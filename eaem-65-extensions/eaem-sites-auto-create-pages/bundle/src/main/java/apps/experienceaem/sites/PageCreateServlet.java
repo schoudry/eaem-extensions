@@ -1,27 +1,34 @@
 package apps.experienceaem.sites;
 
 import com.day.cq.commons.jcr.JcrUtil;
+import com.day.cq.dam.api.AssetManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.text.Text;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.servlets.post.JSONResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
+import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Iterator;
 
 @Component(
@@ -37,6 +44,9 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
     private static final Logger log = LoggerFactory.getLogger(PageCreateServlet.class);
 
     private static final String SOURCE_PATH = "src";
+
+    @Reference
+    protected MimeTypeService mimeTypeService;
 
     private void createPage(SlingHttpServletRequest request, SlingHttpServletResponse response){
         addJSONHeaders(response);
@@ -57,6 +67,7 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
             }
 
             ResourceResolver resolver = request.getResourceResolver();
+
             PageManager pageManager = resolver.adaptTo(PageManager.class);
 
             if(pageManager == null){
@@ -77,6 +88,8 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
 
             destination = destination + "/" + getPageName(pageData);
 
+            addImageInDam(pageData, resolver);
+
             if(resolver.getResource(destination) != null){
                 writeError(response, "page already exists - " + destination);
                 return;
@@ -86,10 +99,17 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
 
             Iterator<String> pageDataItr = pageData.keys();
             String path, data, property;
+
+            Resource child = null;
             Node node = null;
 
             while(pageDataItr.hasNext()){
                 path = pageDataItr.next();
+
+                if(path.equals("image")){
+                    continue;
+                }
+
                 data = pageData.getString(path);
 
                 property = null;
@@ -99,7 +119,13 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
                     path = path.substring(0, path.indexOf("@"));
                 }
 
-                node = dstResource.getChild(path).adaptTo(Node.class);
+                child = dstResource.getChild(path);
+
+                if(child == null){
+                    continue;
+                }
+
+                node = child.adaptTo(Node.class);
 
                 if(property != null){
                     node.setProperty(property, data);
@@ -119,20 +145,38 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
         }
     }
 
-    private String getPageName(JSONObject pageData) throws Exception{
-        Iterator<String> pageDataItr = pageData.keys();
-        String pageName = null, key;
-
-        while(pageDataItr.hasNext()){
-            key = pageDataItr.next();
-
-            if(!key.equals("jcr:content@jcr:title")){
-                continue;
-            }
-
-            pageName = pageData.getString(key);
+    private void addImageInDam(JSONObject pageData, ResourceResolver resolver) throws Exception{
+        if(!pageData.has("image")){
+            return;
         }
 
+        JSONObject imageObject = pageData.getJSONObject("image");
+
+        String assetPath = imageObject.getString("path");
+        String imageBinary = imageObject.getString("binary");
+
+        String fileName = assetPath.substring(assetPath.lastIndexOf("/") + 1);
+        String folderPath = assetPath.substring(0, assetPath.lastIndexOf("/"));
+
+        Resource folder = resolver.getResource(folderPath);
+
+        if(folder == null){
+            log.debug("Folder does not exist, creating - " + folderPath);
+
+            JcrUtil.createPath(folderPath, "sling:Folder", resolver.adaptTo(Session.class));
+        }
+
+        byte[] decoded = Base64.getDecoder().decode(imageBinary.getBytes());
+
+        //JcrUtils.putFile(folder.adaptTo(Node.class), fileName, "application/octet-stream", new ByteArrayInputStream(decoded));
+
+        AssetManager assetManager = resolver.adaptTo(AssetManager.class);
+
+        assetManager.createAsset(assetPath, new ByteArrayInputStream(decoded), mimeTypeService.getMimeType(fileName), false);
+    }
+
+    private String getPageName(JSONObject pageData) throws Exception{
+        String pageName = pageData.getString("jcr:content@jcr:title");
         return JcrUtil.createValidName(pageName);
     }
 
