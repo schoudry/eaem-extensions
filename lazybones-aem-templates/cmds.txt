@@ -44,3 +44,16 @@ lazybones create aem-simple-multimodule-project 0.0.1-SNAPSHOT . -PgroupId=apps.
                     <version>3.2.0</version>
                 </plugin>
 		
+		
+import org.json.JSONException;
+import org.json.JSONObject;
+
+@Component(
+        immediate = true,
+        service = Servlet.class,
+        property = {
+            "sling.servlet.selectors=eaemcreate",
+            "sling.servlet.methods=GET",
+            "sling.servlet.resourceTypes=sling/servlet/default"
+        }
+)
