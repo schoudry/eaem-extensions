@@ -88,12 +88,17 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
 
             destination = destination + "/" + getPageName(pageData);
 
-            addImageInDam(pageData, resolver);
-
             if(resolver.getResource(destination) != null){
-                writeError(response, "page already exists - " + destination);
+                writeError(response, "page already exists, deleting... - " + destination);
+
+                resolver.delete(resolver.getResource(destination));
+
+                resolver.commit();
+
                 return;
             }
+
+            addImageInDam(pageData, resolver);
 
             Resource dstResource = pageManager.copy(srcPage.adaptTo(Resource.class), destination, null, false, true);
 
@@ -153,6 +158,12 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
         JSONObject imageObject = pageData.getJSONObject("image");
 
         String assetPath = imageObject.getString("path");
+
+        if(resolver.getResource(assetPath) != null){
+            resolver.delete(resolver.getResource(assetPath));
+            resolver.commit();
+        }
+
         String imageBinary = imageObject.getString("binary");
 
         String fileName = assetPath.substring(assetPath.lastIndexOf("/") + 1);
@@ -172,7 +183,7 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
 
         AssetManager assetManager = resolver.adaptTo(AssetManager.class);
 
-        assetManager.createAsset(assetPath, new ByteArrayInputStream(decoded), mimeTypeService.getMimeType(fileName), false);
+        assetManager.createAsset(assetPath, new ByteArrayInputStream(decoded), mimeTypeService.getMimeType(fileName), true);
     }
 
     private String getPageName(JSONObject pageData) throws Exception{
