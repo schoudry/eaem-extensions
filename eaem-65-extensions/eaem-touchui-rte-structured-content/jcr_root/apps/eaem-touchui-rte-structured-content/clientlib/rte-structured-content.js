@@ -44,11 +44,11 @@
                 return;
             }
 
-            this.modalUI = tbGenerator.createElement(STRUCTURED_CONTENT_FEATURE, this, false, { title: "RTE Structured Content" });
+            this.modalUI = tbGenerator.createElement(STRUCTURED_CONTENT_FEATURE, this, false, { title: "Add tooltip" });
             tbGenerator.addElement(GROUP, plg.Plugin.SORT_FORMAT, this.modalUI, 10);
 
             var groupFeature = GROUP + "#" + STRUCTURED_CONTENT_FEATURE;
-            tbGenerator.registerIcon(groupFeature, "actions");
+            tbGenerator.registerIcon(groupFeature, "more");
         },
 
         execute: function (id, value, envOptions) {
