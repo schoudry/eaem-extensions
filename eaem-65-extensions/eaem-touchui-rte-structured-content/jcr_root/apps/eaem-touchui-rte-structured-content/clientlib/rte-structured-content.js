@@ -4,7 +4,7 @@
         TCP_DIALOG = "eaemTouchUIStructuredContentModalDialog",
         CONTENT_IN_DIALOG = "content",
         REQUESTER = "requester",
-        PICKER_URL = "/apps/eaem-touchui-rte-structured-content/dialog-modal/cq:dialog.html",
+        PICKER_URL = "/apps/eaem-touchui-rte-structured-content/structured-content.html",
         $eaemStructuredModal, url = document.location.pathname;
 
     if( url.indexOf(PICKER_URL) !== 0 ){
@@ -296,22 +296,6 @@
         if(!_.isEmpty(content)){
             content = decodeURIComponent(content);
         }
-
-        adjustHeader($dialog);
-    }
-
-    function adjustHeader($dialog){
-        var $header = $dialog.css("background-color", "#fff").find(".coral3-Dialog-header");
-
-        $header.find(".cq-dialog-submit").remove();
-
-        $header.find(".cq-dialog-cancel").click(function(event){
-            event.preventDefault();
-
-            $dialog.remove();
-
-            sendCancelMessage();
-        });
     }
 
     function sendCancelMessage(){
