@@ -22,6 +22,20 @@
         $document.submit(sendTextAttributes);
     }
 
+    function getHtmlFromContent(selectedText, content){
+        var tooltipText = "<strong>" + content.title + "</strong><br>" + content.description;
+
+        return "<span class='eaem-tooltip' data-content='" +  JSON.stringify(content) + "'>" + selectedText +
+                    "<span class='eaem-tooltip-text'>" + tooltipText + "</span>" +
+                "</span>";
+    }
+
+    function setWidgetValue(form, selector, value){
+        Coral.commons.ready(form.querySelector(selector), function (field) {
+            field.value = _.isEmpty(value) ? "" : decodeURIComponent(value);
+        });
+    }
+
     function queryParameters() {
         var result = {}, param,
             params = document.location.search.split(/\?|\&/);
@@ -56,6 +70,16 @@
     function fillDefaultValues(){
         var queryParams = queryParameters(),
             form = $("form")[0];
+
+        if(_.isEmpty(queryParams[CONTENT_IN_DIALOG])){
+            return;
+        }
+
+        var content = JSON.parse(decodeURIComponent(queryParams[CONTENT_IN_DIALOG]));
+
+        _.each(content, function(value, key){
+            setWidgetValue(form, "[name='" + key + "']", value);
+        });
     }
 
     function sendCancelMessage(){
@@ -97,7 +121,10 @@
         action = message.action;
 
         if(action === "submit"){
-            $eaemStructuredModal.eaemModalPlugin.editorKernel.execCmd(STRUCTURED_CONTENT_FEATURE, message.data);
+            var ek = $eaemStructuredModal.eaemModalPlugin.editorKernel,
+                tooltipHtml = getHtmlFromContent(window.getSelection().toString(), message.data);
+
+            ek.execCmd('inserthtml', tooltipHtml);
         }
 
         var modal = $eaemStructuredModal.data('modal');
@@ -130,20 +157,6 @@
     }
 
     function addPlugin(){
-        var EAEMStructuredContentModalDialog = new Class({
-            extend: CUI.rte.ui.cui.AbstractDialog,
-
-            toString: "EAEMStructuredContentModalDialog",
-
-            initialize: function(config) {
-                this.exec = config.execute;
-            },
-
-            getDataType: function() {
-                return TCP_DIALOG;
-            }
-        });
-
         var TouchUIStructuredContentModalPlugin = new Class({
             toString: "TouchUIStructuredContentModalPlugin",
 
@@ -186,14 +199,7 @@
                 }
 
                 var tag = CUI.rte.Common.getTagInPath(context, startNode, "span"), plugin = this, dialog,
-                    content = $(tag).data("content"),
-                    dm = ek.getDialogManager(),
-                    $container = CUI.rte.UIUtils.getUIContainer($(context.root)),
-                    propConfig = {
-                        'parameters': {
-                            'command': this.pluginId + '#' + STRUCTURED_CONTENT_FEATURE
-                        }
-                    };
+                    content = $(tag).data("content");
 
                 this.showDialogModal(getModalIFrameUrl(content));
 
@@ -205,8 +211,8 @@
                 function getModalIFrameUrl(content){
                     var url = MODAL_URL + "?" + REQUESTER + "=" + GROUP;
 
-                    if(!_.isEmpty(content)){
-                        url = url + "&" + CONTENT_IN_DIALOG + "=" + content;
+                    if(_.isObject(content)){
+                        url = url + "&" + CONTENT_IN_DIALOG + "=" + JSON.stringify(content);
                     }
 
                     return url;
@@ -243,61 +249,5 @@
         });
 
         CUI.rte.plugins.PluginRegistry.register(GROUP,TouchUIStructuredContentModalPlugin);
-
-        var TouchUIStructuredContentModalCmd = new Class({
-            toString: "TouchUIStructuredContentModalCmd",
-
-            extend: CUI.rte.commands.Command,
-
-            isCommand: function(cmdStr) {
-                return (cmdStr.toLowerCase() == STRUCTURED_CONTENT_FEATURE);
-            },
-
-            getProcessingOptions: function() {
-                var cmd = CUI.rte.commands.Command;
-                return cmd.PO_SELECTION | cmd.PO_BOOKMARK | cmd.PO_NODELIST;
-            },
-
-            _getTagObject: function(content) {
-                return {
-                    "tag": "span",
-                    "attributes": {
-                        "data-content" : content
-                    }
-                };
-            },
-
-            execute: function (execDef) {
-                var content = execDef.value ? execDef.value[CONTENT_IN_DIALOG] : undefined,
-                    selection = execDef.selection,
-                    nodeList = execDef.nodeList;
-
-                if (!selection || !nodeList) {
-                    return;
-                }
-
-                var common = CUI.rte.Common,
-                    context = execDef.editContext,
-                    tagObj = this._getTagObject(content);
-
-                //if no color value passed, assume delete and remove color
-                if(_.isEmpty(content)){
-                    nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, undefined, true);
-                    return;
-                }
-
-                var tags = common.getTagInPath(context, selection.startNode, tagObj.tag);
-
-                //remove existing color before adding new color
-                if (tags != null) {
-                    nodeList.removeNodesByTag(execDef.editContext, tagObj.tag, undefined, true);
-                    nodeList.commonAncestor = nodeList.nodes[0].dom.parentNode;
-                }
-
-                nodeList.surround(execDef.editContext, tagObj.tag, tagObj.attributes);
-            }
-        });
-
-        CUI.rte.commands.CommandRegistry.register(STRUCTURED_CONTENT_FEATURE, TouchUIStructuredContentModalCmd);
     }
 }(jQuery, window.CUI,jQuery(document)));
