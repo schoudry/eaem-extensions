@@ -23,10 +23,10 @@
     }
 
     function getHtmlFromContent(selectedText, content){
-        var tooltipText = "<strong>" + content.title + "</strong><br>" + content.description;
+        var tooltipText = content.title + " : " + content.description;
 
-        return "<span class='eaem-tooltip' data-content='" +  JSON.stringify(content) + "'>" + selectedText +
-                    "<span class='eaem-tooltip-text'>" + tooltipText + "</span>" +
+        return "<span title='" + tooltipText + "' class='eaem-dotted-underline' data-content='" +  JSON.stringify(content) + "'>" +
+                    selectedText +
                 "</span>";
     }
 
