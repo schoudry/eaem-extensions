@@ -125,6 +125,8 @@
                 tooltipHtml = getHtmlFromContent(window.getSelection().toString(), message.data);
 
             ek.execCmd('inserthtml', tooltipHtml);
+
+            ek.focus();
         }
 
         var modal = $eaemStructuredModal.data('modal');
@@ -191,7 +193,6 @@
 
                 var context = envOptions.editContext,
                     selection = CUI.rte.Selection.createProcessingSelection(context),
-                    ek = this.editorKernel,
                     startNode = selection.startNode;
 
                 if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
