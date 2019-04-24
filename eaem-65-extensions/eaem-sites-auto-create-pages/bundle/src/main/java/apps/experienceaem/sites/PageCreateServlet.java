@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import com.adobe.cq.dam.cfm.ContentFragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +38,21 @@ import java.util.Iterator;
             "sling.servlet.resourceTypes=sling/servlet/default"
         }
 )
+/*@Component(
+        immediate = true,
+        service = Servlet.class,
+        property = {
+                "sling.servlet.paths=/bin/eaem/create",
+                "sling.servlet.methods=POST"
+        }
+)*/
 public class PageCreateServlet extends SlingAllMethodsServlet{
     private static final Logger log = LoggerFactory.getLogger(PageCreateServlet.class);
 
     private static final String SOURCE_PATH = "src";
+    //private static final String SOURCE_PATH = "source";
+    private static final String DESTINATION = "destination";
+    private static final String CF_FOLDER = "cffolder";
 
     @Reference
     protected MimeTypeService mimeTypeService;
@@ -146,6 +158,133 @@ public class PageCreateServlet extends SlingAllMethodsServlet{
             response.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
+
+    private void createPageFromCF(SlingHttpServletRequest request, SlingHttpServletResponse response){
+        addJSONHeaders(response);
+
+        try {
+            String srcPath = request.getParameter(SOURCE_PATH);
+
+            if(StringUtils.isEmpty(srcPath)){
+                writeError(response, "src empty - " + getUsage());
+                return;
+            }
+
+            ResourceResolver resolver = request.getResourceResolver();
+
+            PageManager pageManager = resolver.adaptTo(PageManager.class);
+
+            if(pageManager == null){
+                writeError(response, "pageManager not available");
+                return;
+            }
+
+            Page srcPage = pageManager.getPage(srcPath);
+
+            if(srcPage == null){
+                writeError(response, "src page not available - " + getUsage());
+                return;
+            }
+
+            String destination = request.getParameter(DESTINATION);
+            String cfFolderPath = request.getParameter(CF_FOLDER);
+
+            Resource campaignFolder = resolver.getResource(cfFolderPath);
+            Iterator<Resource> campaignFolderItr = campaignFolder.listChildren();
+            Resource brandFolder = null;
+            Resource dstResource = null;
+
+            while(campaignFolderItr.hasNext()){
+                brandFolder = campaignFolderItr.next();
+
+                if(brandFolder.getName().equals("jcr:content")){
+                    continue;
+                }
+
+                destination = request.getParameter(DESTINATION) + "/" + JcrUtil.createValidName(brandFolder.getName());
+
+                dstResource = resolver.getResource(destination);
+
+                if(dstResource == null){
+                    dstResource = pageManager.copy(srcPage.adaptTo(Resource.class), destination, null, false, true);
+                }
+
+                Iterator<Resource> langFolderItr = brandFolder.listChildren();
+
+                while(langFolderItr.hasNext()){
+                    Resource langFolder = langFolderItr.next();
+
+                    if(langFolder.getName().equals("jcr:content")){
+                        continue;
+                    }
+
+                    String langDestPath = destination + "/" + JcrUtil.createValidName(langFolder.getName());
+
+                    dstResource = resolver.getResource(langDestPath);
+
+                    if(dstResource == null){
+                        dstResource = pageManager.copy(srcPage.adaptTo(Resource.class), langDestPath, null, false, true);
+                    }
+
+                    Iterator<Resource> cfItr = langFolder.listChildren();
+
+                    while(cfItr.hasNext()){
+                        Resource cfResource = cfItr.next();
+
+                        if(cfResource.getName().equals("jcr:content")){
+                            continue;
+                        }
+
+                        ContentFragment cf = cfResource.adaptTo(ContentFragment.class);
+
+                        String country = cf.getElement("country").getValue().getValue(String.class);
+
+                        String cfPagePath = langDestPath + "/" + JcrUtil.createValidName(country);
+
+                        dstResource = resolver.getResource(cfPagePath);
+
+                        if(dstResource == null){
+                            dstResource = pageManager.copy(srcPage.adaptTo(Resource.class), cfPagePath, null, false, true);
+                        }
+
+                        String title = cf.getElement("title").getValue().getValue(String.class);
+                        setNodeValue(dstResource, "title", title);
+
+                        String body = cf.getElement("body").getValue().getValue(String.class);
+                        setNodeValue(dstResource, "body", body);
+
+                        String toc = cf.getElement("toc").getValue().getValue(String.class);
+                        setNodeValue(dstResource, "toc", toc);
+
+                        String image = cf.getElement("fileReference").getValue().getValue(String.class);
+                        Resource child = dstResource.getChild("jcr:content/content/image");
+
+                        Node node = child.adaptTo(Node.class);
+                        node.setProperty("fileReference", image);
+                    }
+                }
+            }
+
+            resolver.commit();
+
+            JSONObject returnObj = new JSONObject();
+
+            response.getWriter().print(returnObj);
+        } catch (Exception e) {
+            log.error("Could not create page", e);
+            response.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void setNodeValue(Resource dstResource, String property, String data) throws Exception{
+        Resource child = dstResource.getChild("jcr:content/content/" + property);
+        Node node = child.adaptTo(Node.class);
+
+        if(property != null){
+            node.setProperty("text", data);
+        }
+    }
+
 
     private void addImageInDam(JSONObject pageData, ResourceResolver resolver) throws Exception{
         if(!pageData.has("image")){
