@@ -1,0 +1,27 @@
+<div data-sly-use.dynamicEmail="DynamicEmailUsePojo">
+    <div data-sly-test="${!dynamicEmail.regionContent}" style="padding:10px ; background-color: #3e999f">
+        Select campaign folder with region specific experience fragments...
+    </div>
+    <div data-sly-test="${dynamicEmail.regionContent}">
+        <P>Hi <%= context.profile.lastName %>!</P>
+
+        <div data-sly-list.stateCode="${dynamicEmail.regionContent}">
+            <div>
+                ${dynamicEmail.conditionalExpressionBegin @ context='unsafe'}  if ( context.profile.location.stateCode == '${stateCode}' ) { ${dynamicEmail.conditionalExpressionEnd @ context='unsafe'}
+
+                    <sly data-sly-resource="${@path=dynamicEmail.regionContent[stateCode], selectors='content', wcmmode='disabled'}"></sly>
+
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-sly-test="${!wcmmode.disabled && !personalization.isTouch}"
+     data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}" data-sly-unwrap>
+    <meta data-sly-call="${clientLib.all @ categories='cq.personalization'}" data-sly-unwrap></meta>
+    <script type="text/javascript">
+        CQ.personalization.variables.Variables.applyToEditComponent("${resource.path @ context='scriptString'}");
+    </script>
+</div>
+
