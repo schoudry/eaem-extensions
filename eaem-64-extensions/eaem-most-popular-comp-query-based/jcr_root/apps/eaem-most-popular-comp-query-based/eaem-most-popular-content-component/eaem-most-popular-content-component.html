@@ -1,0 +1,12 @@
+<div data-sly-use.popularContent="MostPopularQueryPojo" style="padding: 20px 10px 20px 10px; background-color: silver">
+    <div data-sly-test="${!popularContent.contentPaths}" >
+        Select the Most Popular Content Dimension <b>Page Views, Industry</b> etc.
+    </div>
+    <div data-sly-test="${popularContent.contentPaths}">
+        <div data-sly-list.contentPath="${popularContent.contentPaths}">
+            <div>
+                ${popularContent.contentPaths[contentPath]} - <a href='${contentPath}.html' target="_blank">${contentPath}</a>
+            </div>
+        </div>
+    </div>
+</div>
