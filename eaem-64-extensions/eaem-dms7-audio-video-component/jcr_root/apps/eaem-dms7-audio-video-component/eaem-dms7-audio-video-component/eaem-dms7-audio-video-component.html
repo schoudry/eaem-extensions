@@ -1,9 +1,9 @@
-<div data-sly-use.dmInfo="audio-video.js">
+<div data-sly-use.mediaInfo="audio-video.js">
 	<h2>This component can play both audio and video</h2>
-	<div data-sly-test="${dmInfo.isAudio}">
+	<div data-sly-test="${mediaInfo.isAudio}">
 		<h2>This is an audio file</h2>
 	</div>
-	<div data-sly-test="${!dmInfo.isAudio}">
+	<div data-sly-test="${!mediaInfo.isAudio}" data-sly-use.mediaInfo="dynamicmedia_sly.js">
 		<div data-sly-include="/libs/dam/components/scene7/dynamicmedia/dynamicmedia.html"></div>
 	</div>
 </div>
