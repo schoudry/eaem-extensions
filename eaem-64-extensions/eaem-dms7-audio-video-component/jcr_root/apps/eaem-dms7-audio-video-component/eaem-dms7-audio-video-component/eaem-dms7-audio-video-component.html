@@ -1,9 +1,32 @@
-<div data-sly-use.mediaInfo="audio-video.js">
+<style>
+	.eaem-dms7-audio-container {
+		position: relative;
+		text-align: center;
+	}
+
+	.eaem-dms7-audio-centered {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+</style>
+
+<div data-sly-use.mediaInfo="audio-video.js" style="padding:10px">
 	<h2>This component can play both audio and video</h2>
 	<div data-sly-test="${mediaInfo.isAudio}">
-		<h2>This is an audio file</h2>
+		<h2>Currently playing audio : ${mediaInfo.assetName}</h2>
+		<div class="eaem-dms7-audio-container">
+			<img class="eaem-dms7-audio-image" src="${mediaInfo.bgImage}">
+			<div class="eaem-dms7-audio-centered">
+				<audio class="eaem-dms7-audio-audio" width="100%" height="100%" preload="auto" controls="controls">
+					<source src="${mediaInfo.s7PublishPath}" type="audio/ogg">
+				</audio>
+			</div>
+		</div>
 	</div>
 	<div data-sly-test="${!mediaInfo.isAudio}" data-sly-use.mediaInfo="dynamicmedia_sly.js">
+		<h2>Currently playing video : </h2>
 		<div data-sly-include="/libs/dam/components/scene7/dynamicmedia/dynamicmedia.html"></div>
 	</div>
 </div>
