@@ -1,0 +1,19 @@
+<div>
+    <b>65 RTE Composite Multifield</b>
+ 
+    <div data-sly-use.company="helper.js" data-sly-unwrap>
+        <div data-sly-test="${!company.products && wcmmode.edit}">
+            Add products using component dialog
+        </div>
+ 
+        <div data-sly-test="${company.products}">
+            <div data-sly-list.product="${company.products}">
+                <div>
+                    <div><strong>${product.name}</strong></div>
+                    <div>${product.path}</div>
+                    <div>${product.text @ context='html'}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

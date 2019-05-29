@@ -5,7 +5,7 @@
         LAYOUT_LIST_VIEW = "list",
         columnAdded = false;
 
-    //$document.on("foundation-contentloaded", addColumn);
+    $document.on("foundation-contentloaded", addColumn);
 
     function isInboxPage() {
         var pathName = window.location.pathname;
