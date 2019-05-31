@@ -26,7 +26,7 @@
         </div>
     </div>
     <div data-sly-test="${!mediaInfo.isAudio}" data-sly-use.mediaInfo="dynamicmedia_sly.js">
-        <h2 data-sly-test="${mediaInfo.assetName}">Currently playing video : ${mediaInfo.assetName}</h2>
+        <h2 data-sly-test="${mediaInfo.asset.name}">Currently playing video : ${mediaInfo.asset.name}</h2>
         <div data-sly-include="/libs/dam/components/scene7/dynamicmedia/dynamicmedia.html"></div>
     </div>
 </div>
