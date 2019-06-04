@@ -28,8 +28,8 @@
                                 <_x0031_559657246268
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="dam/gui/components/admin/schemafield"
-                                    fieldLabel="PDF Job Options File Path"
-                                    name="./jcr:content/metadata/eaemPDFJobOptionsPath"
+                                    fieldLabel="PDF Job Options"
+                                    name="./jcr:content/metadata/eaemPDFJobOptions"
                                     resourceType="granite/ui/components/coral/foundation/form/textfield">
                                     <granite:data
                                         jcr:primaryType="nt:unstructured"
