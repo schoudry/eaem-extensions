@@ -11,6 +11,7 @@ import com.day.cq.wcm.api.PageManager;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import org.apache.commons.exec.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.*;
 import com.day.cq.workflow.WorkflowException;
@@ -41,7 +42,7 @@ public class EAEMCreatePDFFromPage implements WorkflowProcess {
 
     private static String ARG_COMMAND = "COMMAND";
     private static Integer CMD_TIME_OUT = 300000; // 5 minutes
-    private static SimpleDateFormat PDF_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    private static SimpleDateFormat PDF_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     private static String AGENT_PUBLISH = "publish";
 
     @Reference
@@ -52,6 +53,8 @@ public class EAEMCreatePDFFromPage implements WorkflowProcess {
 
     @Override
     public void execute(WorkItem workItem, WorkflowSession wfSession, MetaDataMap args) throws WorkflowException {
+        File tmpDir = null;
+
         try {
             Session session = wfSession.getSession();
             WorkflowData wfData = workItem.getWorkflowData();
@@ -75,24 +78,49 @@ public class EAEMCreatePDFFromPage implements WorkflowProcess {
 
             ResourceResolver resolver = getResourceResolver(session);
 
-            CommandLine commandLine = getCommandLine(pagePath, args, resolver);
+            tmpDir = File.createTempFile("eaem", null);
+            tmpDir.delete();
+            tmpDir.mkdir();
+
+            File tmpFile = new File(tmpDir, resolver.getResource(pagePath).getName()
+                                            + "-" + PDF_DATE_FORMAT.format(new Date()) + ".pdf");
+
+            CommandLine commandLine = getCommandLine(pagePath, args, tmpFile);
 
             executeCommand(commandLine);
 
             session.save();
         } catch (Exception e) {
             log.error("Failed to create PDF of page", e);
+        }finally{
+            if(tmpDir != null){
+                try { FileUtils.deleteDirectory(tmpDir); } catch(Exception ignore){}
+            }
         }
     }
 
-    private CommandLine getCommandLine(String pagePath, MetaDataMap args, ResourceResolver resolver) throws Exception{
-        File tmpDir = File.createTempFile("eaem", (String)null);
-        tmpDir.delete();
-        tmpDir.mkdir();
+    private CommandLine getCommandLine(String pagePath, MetaDataMap args, File tmpFile) throws Exception{
+        String processArgs = args.get("PROCESS_ARGS", String.class);
 
-        File tmpFile = new File(tmpDir, resolver.getResource(pagePath).getName() + "-" + PDF_DATE_FORMAT.format(new Date()));
+        if(StringUtils.isEmpty(processArgs)){
+            throw new RuntimeException("No command available in process args");
+        }
 
-        String command = (String)args.get(ARG_COMMAND);
+        String[] arguments = processArgs.split(",");
+        String command = null;
+
+        for(String argument : arguments){
+            String[] params = argument.split("=");
+
+            if(params[0].trim().equals(ARG_COMMAND)){
+                command = params[1].trim();
+                break;
+            }
+        }
+
+        if(StringUtils.isEmpty(command)){
+            throw new RuntimeException("No command available in process args");
+        }
 
         HashMap<String, String> parameters = new HashMap<String, String>();
         parameters.put("publishPagePath", getPublishPath(pagePath));
@@ -108,7 +136,7 @@ public class EAEMCreatePDFFromPage implements WorkflowProcess {
 
         String hostName = transportURI.substring(0, transportURI.indexOf("/bin/receive"));
 
-        return ( hostName + pagePath);
+        return ( hostName + pagePath + ".html");
     }
 
     private void executeCommand(CommandLine commandLine) throws Exception{

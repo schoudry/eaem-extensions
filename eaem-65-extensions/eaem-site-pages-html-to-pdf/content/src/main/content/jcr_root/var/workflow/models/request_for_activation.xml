@@ -8,7 +8,7 @@
     title="Experience AEM Request for Activation">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/request_for_activation/jcr:content"
-        cq:lastModified="{Long}1559835449250"
+        cq:lastModified="{Long}1559837158778"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         multiResourceSupport="true"
@@ -68,7 +68,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="apps.experienceaem.sites.EAEMCreatePDFFromPage"
-                PROCESS_ARGS="COMMAND=C:/dev/install/wkhtmltopdf/wkhtmltopdf ${publishPagePath} ${timeStampedPDFInAssets}"
+                PROCESS_ARGS="COMMAND=C:/dev/install/wkhtmltopdf/bin/wkhtmltopdf ${publishPagePath} ${timeStampedPDFInAssets}"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node5>
         <node6
