@@ -44,6 +44,9 @@ lazybones create aem-simple-multimodule-project 0.0.1-SNAPSHOT . -PgroupId=apps.
 	<version>3.2.0</version>
 </plugin>
 		
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 		
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,3 +60,24 @@ import org.json.JSONObject;
             "sling.servlet.resourceTypes=sling/servlet/default"
         }
 )
+
+@Component(
+        name = "Experience AEM Overlay Creator",
+        immediate = true,
+        service = Servlet.class,
+        property = {
+                "sling.servlet.selectors=eaemcreate",
+                "sling.servlet.methods=GET",
+                "sling.servlet.paths=/bin/experience-aem/create/overlay"
+        }
+)
+
+@Component(
+        immediate = true,
+        service = {WorkflowProcess.class},
+        property = {
+                "process.label = Experience AEM Create PDF From page"
+        }
+)
+
+
