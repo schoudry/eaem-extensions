@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/dam/gui/coral/content/commons/sidepanels/renditions/items/unifiedrenditionsouter/items/unifiedrenditionsscroll/items/unifiedrenditions"/>
+    <filter root="/apps/eaem-usdz-support"/>
 </workspaceFilter>
