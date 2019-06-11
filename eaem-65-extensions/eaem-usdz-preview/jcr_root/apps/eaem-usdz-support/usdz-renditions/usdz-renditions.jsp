@@ -6,16 +6,15 @@
     Config cfg = new Config(resource);
     AttrBuilder attrs = new AttrBuilder(request, xssAPI);
     attrs.add("id", cfg.get("class", String.class));
+
+    String contentPath = slingRequest.getRequestPathInfo().getSuffix();
+    String originalRend = contentPath + "/jcr:content/renditions/original";
 %>
 
 <nav <%= attrs.build() %>>
     <span class="colorpalette-headings aem-asset-rendition-item aem-asset-rendition-item--header">USDZ (3D)</span>
 
-    <span title="texas-1280x1280.jpeg"
-          data-type="image/jpeg"
-          data-path="/content/dam/experience-aem/smart-crop/texas.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg"
-          href="/assets.html"
-          class="each-rendition">
+    <span href="<%=originalRend%>" data-type="model/usd" class="each-rendition">
     <a>
         <table class="renddetailstrip aem-asset-rendition-item">
             <tbody>
