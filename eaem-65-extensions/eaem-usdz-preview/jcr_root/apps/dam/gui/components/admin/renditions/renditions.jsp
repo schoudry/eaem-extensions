@@ -4,17 +4,17 @@
 <%
     Resource currentResource = UIHelper.getCurrentSuffixResource(slingRequest);
     String browserType = request.getHeader("User-Agent");
-    String originalRend = currentResource.getPath() + "/jcr:content/renditions/original";
 
     if(currentResource.getPath().endsWith(".usdz")){
-        if(!browserType.contains("Safari")){
+        if(browserType.contains("Windows")){
 %>
-            <p style="text-align: center">Preview for USDZ files supported on Safari only</p>
+            <p style="text-align: center">Preview for USDZ files supported on iOS Safari only</p>
 <%
+            return;
         }
 %>
-        <a href="<%= originalRend%>" rel="ar">
-            <h2 style="text-align: center">Click to open in QuickLook</h2>
+        <a href="<%= currentResource.getPath()%>" rel="ar">
+            <img class="image-model" src="/content/dam/we-retail/en/activities/climbing/climber-gear-outdoor.jpg">
         </a>
 
 <%
