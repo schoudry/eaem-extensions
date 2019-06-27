@@ -13,8 +13,10 @@
             return;
         }
 %>
+        <%--<img class="image-model" src="/content/dam/we-retail/en/activities/climbing/climber-gear-outdoor.jpg">--%>
+
         <a href="<%= currentResource.getPath()%>" rel="ar">
-            <img class="image-model" src="/content/dam/experience-aem/white.png">
+            <img class="image-model" src="/content/dam/kohler/white.png">
         </a>
 
 <%
