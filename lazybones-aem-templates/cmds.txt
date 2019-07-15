@@ -91,4 +91,9 @@ import org.json.JSONObject;
         }
 )
 
-
+@AttributeDefinition(
+		name = "Metadata fields",
+		description = "Metadata fields for append e.g. jcr:content/metadata/eaemRequired",
+		cardinality = 5
+)
+String[] metadataFields() default DEFAULT_FOR_APPEND
