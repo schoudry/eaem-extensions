@@ -93,7 +93,8 @@ import org.json.JSONObject;
 
 @AttributeDefinition(
 		name = "Metadata fields",
-		description = "Metadata fields for append e.g. jcr:content/metadata/eaemRequired",
+		description = "Metadata fields for append e.g. eaemRequired, service looks for this property of type STRING and ONLY in jcr:content/metadata",
+		type = AttributeType.STRING,
 		cardinality = 5
 )
-String[] metadataFields() default DEFAULT_FOR_APPEND
+String[] metadataFields() default { DEFAULT_FOR_APPEND };

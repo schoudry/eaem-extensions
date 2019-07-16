@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
@@ -149,10 +148,8 @@ public class EAEMBulkUpdateAppend implements SlingPostProcessor {
         @AttributeDefinition(
                 name = "Metadata fields",
                 description = "Metadata fields for append e.g. eaemRequired, service looks for this property of type STRING and ONLY in jcr:content/metadata",
-                type = AttributeType.STRING,
-                defaultValue = { DEFAULT_FOR_APPEND },
-                cardinality = 5
+                type = AttributeType.STRING
         )
-        String[] metadataFields() default DEFAULT_FOR_APPEND;
+        String[] metadataFields() default { DEFAULT_FOR_APPEND };
     }
 }
