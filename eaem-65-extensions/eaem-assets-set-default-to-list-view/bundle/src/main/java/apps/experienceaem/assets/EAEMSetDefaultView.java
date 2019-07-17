@@ -13,7 +13,7 @@ import java.io.IOException;
 @Component(
         service = Filter.class,
         immediate = true,
-        name = "NickDAM Login page Filter",
+        name = "Experience AEM Login page Filter",
         property = {
                 Constants.SERVICE_RANKING + ":Integer=-99",
                 "sling.filter.scope=COMPONENT",
