@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-review-assets-jira-tasks"/>
+    <filter root="/conf/global/settings/workflow/models/request_for_activation"/>
+    <filter root="/var/workflow/models/request_for_activation"/>
+</workspaceFilter>
