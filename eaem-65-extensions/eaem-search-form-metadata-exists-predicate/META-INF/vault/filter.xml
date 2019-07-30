@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/settings/dam/search/facets/formbuilderconfig"/>
+    <filter root="/apps/eaem-search-form-metadata-exists-predicate"/>
+</workspaceFilter>

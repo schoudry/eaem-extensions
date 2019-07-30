@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <adminui/>
+    <search jcr:primaryType="nt:unstructured">
+        <facets jcr:primaryType="nt:unstructured">
+            <formbuilderconfig jcr:primaryType="nt:unstructured">
+                <predicatetypes jcr:primaryType="nt:unstructured">
+                    <items jcr:primaryType="nt:unstructured">
+                        <metadataexists
+                            jcr:primaryType="nt:unstructured"
+                            fieldLabel="Metadata Property"
+                            fieldPropResourceType="dam/gui/coral/components/admin/customsearch/formbuilder/predicatefields/propertypredicatefield"
+                            fieldResourceType="dam/gui/coral/components/admin/customsearch/searchpredicates/propertypredicate"
+                            fieldTitle="Metadata Exists Predicate"
+                            fieldViewResourceType="granite/ui/components/foundation/form/formbuilder/checkbox"
+                            renderType="checkbox"/>
+                    </items>
+                </predicatetypes>
+            </formbuilderconfig>
+        </facets>
+    </search>
+</jcr:root>
