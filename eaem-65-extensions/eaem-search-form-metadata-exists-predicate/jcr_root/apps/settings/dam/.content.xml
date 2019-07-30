@@ -10,7 +10,7 @@
                         <metadataexists
                             jcr:primaryType="nt:unstructured"
                             fieldLabel="Metadata Property"
-                            fieldPropResourceType="dam/gui/coral/components/admin/customsearch/formbuilder/predicatefields/propertypredicatefield"
+                            fieldPropResourceType="/apps/eaem-search-form-metadata-exists-predicate/metadata-exists-field"
                             fieldResourceType="dam/gui/coral/components/admin/customsearch/searchpredicates/propertypredicate"
                             fieldTitle="Metadata Exists Predicate"
                             fieldViewResourceType="granite/ui/components/foundation/form/formbuilder/checkbox"
