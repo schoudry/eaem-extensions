@@ -11,7 +11,7 @@
                             jcr:primaryType="nt:unstructured"
                             fieldLabel="Metadata Property"
                             fieldPropResourceType="/apps/eaem-search-form-metadata-exists-predicate/metadata-exists-field"
-                            fieldResourceType="dam/gui/coral/components/admin/customsearch/searchpredicates/propertypredicate"
+                            fieldResourceType="/apps/eaem-search-form-metadata-exists-predicate/metadata-exists-predicate"
                             fieldTitle="Experience AEM Metadata Exists Predicate"
                             fieldViewResourceType="granite/ui/components/foundation/form/formbuilder/checkbox"
                             renderType="checkbox"/>
