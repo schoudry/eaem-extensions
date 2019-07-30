@@ -15,7 +15,7 @@
 
 <input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key) %>">
 <input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/jcr:primaryType") %>" value="nt:unstructured">
-<input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/sling:resourceType") %>" value="/apps/eaem-search-form-metadata-exists-predicate/metadata-exists-field">
+<input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/sling:resourceType") %>" value="/apps/eaem-search-form-metadata-exists-predicate/metadata-exists-predicate">
 <input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/fieldLabel") %>" value="<%= fieldLabel %>">
 <input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/metaType") %>" value="<%= metaType %>">
 <input type="hidden" name="<%= xssAPI.encodeForHTMLAttr("./items/" + key + "/listOrder@Delete") %>">
