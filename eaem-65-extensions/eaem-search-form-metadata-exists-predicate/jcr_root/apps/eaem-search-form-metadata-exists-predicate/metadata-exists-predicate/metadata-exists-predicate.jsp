@@ -4,7 +4,6 @@
 
 <%
     Config cfg = new Config(resource);
-    String name = cfg.get("text", i18n.get("Property"));
     String metaPropName = cfg.get("name", "");
 
     long predicateIndex = cfg.get("listOrder", 5000L);
@@ -16,10 +15,12 @@
     boolean foldableOpen = cfg.get("open", true);
     String selected = foldableOpen ? "selected":"";
 %>
+
 <ui:includeClientLib categories="eaem.dam.admin.metadataexists" />
+
 <coral-accordion variant="large">
     <coral-accordion-item "<%=selected%>" data-metaType="checkboxgroup" data-type="metadataexists">
-        <coral-accordion-item-label><%= xssAPI.encodeForHTML(name) %></coral-accordion-item-label>
+        <coral-accordion-item-label><%= xssAPI.encodeForHTML(cfg.get("text", i18n.get("Property"))) %></coral-accordion-item-label>
         <coral-accordion-item-content class="coral-Form coral-Form--vertical" id="<%= xssAPI.encodeForHTMLAttr(resource.getPath()) %>">
             <input type="hidden" name="<%=predicateName%>" value="<%= xssAPI.encodeForHTMLAttr(metaPropName) %>">
             <coral-checkbox class="coral-Form-field eaem-metadata-exists-predicate" name="<%=propertyOperation%>" value="not">
