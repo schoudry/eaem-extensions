@@ -1,6 +1,6 @@
 (function($, $document) {
     var TAGS_FIELD = "./jcr:content/metadata/cq:tags",
-        LETTER_COUNT = 22, INCREASE_BY = 1.5, CV_ITEM_HEIGHT = 3, CV_LABEL_HEIGHT = 2,
+        TABLES_DIV = "eaem-column-view-selections",
         extended = false;
 
     $document.on("foundation-contentloaded", handleTagsPicker);
@@ -29,29 +29,35 @@
         pathField._showPicker = function(){
             origShowPicker.call(this);
 
-            var columnView = $(this._picker.el).find("coral-columnview")[0];
+            var $columnView = $(this._picker.el).find("coral-columnview");
 
-            columnView.on("coral-columnview:navigate", showFullTitle);
+            addSelectedSection($columnView);
         }
     }
 
-    function showFullTitle(event){
-        var $item, $content, increase, $cvItem;
+    function addSelectedSection($columnView){
+        $columnView.css("height", "70%");
 
-        $(event.detail.column).find("coral-columnview-item").each(function(index, item){
-            $item = $(item);
+        var $tagsContainer = $("<div/>").appendTo($columnView.parent());
 
-            $content = $item.find("coral-columnview-item-content");
+        addHeader($tagsContainer);
 
-            increase = (INCREASE_BY * Math.floor($content.html().length / LETTER_COUNT));
+        addNoSelFilesDiv($tagsContainer);
+    }
 
-            if($item.prop("variant") == "drilldown"){
-                increase++;
-            }
+    function addHeader($container) {
+        var html =  "<div style='text-align:center; padding:1px; margin-bottom: 15px; background-color: rgba(0,0,0,0.05)'>" +
+                        "<h3>Selected Tags</h3>" +
+                    "</div>";
 
-            $item.css("height", (CV_ITEM_HEIGHT + increase) + "rem");
+        return $(html).appendTo($container);
+    }
 
-            $content.css("height",(CV_LABEL_HEIGHT + increase) + "rem").css("white-space", "normal");
-        });
+    function addNoSelFilesDiv($container) {
+        var html =  "<div style='text-align:center' id='" + TABLES_DIV + "'>" +
+                        "No tags have been selected. Select a tag by clicking on tag thumnbnail" +
+                    "</div>";
+
+        return $(html).appendTo($container);
     }
 })(jQuery, jQuery(document));
