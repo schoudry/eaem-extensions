@@ -5,7 +5,7 @@
         FOUNDATION_SELECTIONS_ITEM = "foundation-selections-item",
         FOUNDATION_COLLECTION = ".foundation-collection",
         FOUNDATION_COLLECTION_ITEM_VALUE = "foundation-picker-collection-item-value",
-        selectedTags = [], $tagsContainer,
+        $tagsContainer,
         extended = false;
 
     $document.on("foundation-contentloaded", handleTagsPicker);
@@ -44,12 +44,21 @@
         };
 
         pathField._setSelections = function(selections, deferChangeEvent){
+            var $tags = $tagsContainer.find("coral-tag"), selectedTags = [];
+
+            _.each($tags, function(tag){
+                selectedTags.push({
+                    text: $(tag).find("coral-tag-label").html(),
+                    value: tag.value
+                });
+            });
+
             origSetSelections.call(this, selectedTags, deferChangeEvent);
         }
     }
 
     function collectTags(){
-        var $tag, tagValue;
+        var $tag, tagValue, selectedTags = [];
 
         $("." + FOUNDATION_SELECTIONS_ITEM).each(function(index, tag){
             $tag = $(tag);
@@ -71,21 +80,34 @@
 
     function buildSelectedContainer(selectedTags, $container) {
         if(_.isEmpty(selectedTags)){
-            addNoSelFilesDiv($container);
             return;
         }
 
-        var tagListHtml = '<coral-taglist class="coral3-TagList">';
+        var $tagList = $container.find("coral-taglist");
 
-        _.each(selectedTags, function(tag){
-            tagListHtml = tagListHtml + getTagHtml(tag.text, tag.value)
+        if(_.isEmpty($tagList)){
+            $container.find("#" + SELECTED_TAGS_DIV).remove();
+
+            var tagListHtml = '<coral-taglist class="coral3-TagList"></coral-taglist>';
+
+            $tagList = getSelectedTagsContainerDiv(tagListHtml).appendTo($container);
+        }
+
+        _.each(selectedTags, function (tag) {
+            $tagList.append(getTagHtml(tag.text, tag.value));
         });
 
-        tagListHtml = tagListHtml + '</coral-taglist>';
+        handleRemoveSelectedTag($container);
+    }
 
-        $container.find("#" + SELECTED_TAGS_DIV).remove();
+    function handleRemoveSelectedTag($container){
+        $container.find("coral-taglist").on("change", function(){
+            if(!_.isEmpty(this.values)){
+                return;
+            }
 
-        getSelectedTagsContainerDiv(tagListHtml).appendTo($container);
+            addNoSelTagsDiv();
+        })
     }
 
     function getTagHtml(title, value){
@@ -101,7 +123,7 @@
 
         addHeader($tagsContainer);
 
-        addNoSelFilesDiv($tagsContainer);
+        addNoSelTagsDiv($tagsContainer);
     }
 
     function addHeader($container) {
@@ -116,7 +138,7 @@
         return $("<div style='margin: 15px' id='" + SELECTED_TAGS_DIV + "'>" + tagListHtml + "</div>");
     }
 
-    function addNoSelFilesDiv($container) {
+    function addNoSelTagsDiv($container) {
         $container.find("#" + SELECTED_TAGS_DIV).remove();
 
         var html =  "<div style='margin: 15px' id='" + SELECTED_TAGS_DIV + "'>" +
