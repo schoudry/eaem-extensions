@@ -58,7 +58,7 @@
     }
 
     function collectTags(){
-        var $tag, tagValue, selectedTags = [];
+        var $tag, tagValue, selectedTags = {};
 
         $("." + FOUNDATION_SELECTIONS_ITEM).each(function(index, tag){
             $tag = $(tag);
@@ -69,10 +69,7 @@
                 return;
             }
 
-            selectedTags.push({
-                text: $tag.data("foundation-picker-collection-item-text"),
-                value: tagValue
-            });
+            selectedTags[tagValue] = $tag.data("foundation-picker-collection-item-text");
         });
 
         buildSelectedContainer(selectedTags, $tagsContainer);
@@ -85,29 +82,9 @@
 
         var $tagList = $container.find("coral-taglist");
 
-        if(_.isEmpty($tagList)){
-            $container.find("#" + SELECTED_TAGS_DIV).remove();
-
-            var tagListHtml = '<coral-taglist class="coral3-TagList"></coral-taglist>';
-
-            $tagList = getSelectedTagsContainerDiv(tagListHtml).appendTo($container);
-        }
-
-        _.each(selectedTags, function (tag) {
-            $tagList.append(getTagHtml(tag.text, tag.value));
+        _.each(selectedTags, function (text, value) {
+            $tagList.append(getTagHtml(text, value));
         });
-
-        handleRemoveSelectedTag($container);
-    }
-
-    function handleRemoveSelectedTag($container){
-        $container.find("coral-taglist").on("change", function(){
-            if(!_.isEmpty(this.values)){
-                return;
-            }
-
-            addNoSelTagsDiv();
-        })
     }
 
     function getTagHtml(title, value){
@@ -121,30 +98,13 @@
 
         $tagsContainer = $("<div/>").appendTo($columnView.parent());
 
-        addHeader($tagsContainer);
-
-        addNoSelTagsDiv($tagsContainer);
-    }
-
-    function addHeader($container) {
         var html =  "<div style='text-align:center; padding:1px; background-color: rgba(0,0,0,0.05)'>" +
                         "<h3>Selected Tags</h3>" +
+                    "</div>" +
+                    "<div style='margin: 15px' id='" + SELECTED_TAGS_DIV + "'>" +
+                        "<coral-taglist class='coral3-TagList'></coral-taglist>" +
                     "</div>";
 
-        return $(html).appendTo($container);
-    }
-
-    function getSelectedTagsContainerDiv(tagListHtml){
-        return $("<div style='margin: 15px' id='" + SELECTED_TAGS_DIV + "'>" + tagListHtml + "</div>");
-    }
-
-    function addNoSelTagsDiv($container) {
-        $container.find("#" + SELECTED_TAGS_DIV).remove();
-
-        var html =  "<div style='margin: 15px' id='" + SELECTED_TAGS_DIV + "'>" +
-                        "<div style='text-align: center'>No tags have been selected. Select a tag by clicking on tag thumnbnail</div>" +
-                    "</div>";
-
-        return $(html).appendTo($container);
+        $(html).appendTo($tagsContainer);
     }
 })(jQuery, jQuery(document));
