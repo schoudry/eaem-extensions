@@ -29,7 +29,8 @@
     }
 
     function extendPicker(pathField){
-        var origShowPicker = pathField._showPicker;
+        var origShowPicker = pathField._showPicker,
+            origSetSelections = pathField._setSelections;
 
         pathField._showPicker = function(){
             origShowPicker.call(this);
@@ -40,6 +41,10 @@
             addSelectedSection($columnView);
 
             $dialog.on(FOUNDATION_SELECTIONS_CHANGE, FOUNDATION_COLLECTION, collectTags);
+        };
+
+        pathField._setSelections = function(selections, deferChangeEvent){
+            origSetSelections.call(this, selectedTags, deferChangeEvent);
         }
     }
 
