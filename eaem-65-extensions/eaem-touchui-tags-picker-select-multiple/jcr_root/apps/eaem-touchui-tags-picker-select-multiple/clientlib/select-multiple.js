@@ -72,19 +72,29 @@
             selectedTags[tagValue] = $tag.data("foundation-picker-collection-item-text");
         });
 
-        buildSelectedContainer(selectedTags, $tagsContainer);
-    }
+        var $submit = $(this).closest("coral-dialog").find(".granite-pickerdialog-submit");
 
-    function buildSelectedContainer(selectedTags, $container) {
         if(_.isEmpty(selectedTags)){
+            $submit.prop("disabled", _.isEmpty(getSelectedTagsInContainer()));
+            setSelCount();
             return;
         }
 
+        buildSelectedContainer(selectedTags, $tagsContainer);
+
+        $(this).adaptTo("foundation-selections").clear();
+
+        $submit.prop("disabled", false);
+    }
+
+    function buildSelectedContainer(selectedTags, $container) {
         var $tagList = $container.find("coral-taglist");
 
         _.each(selectedTags, function (text, value) {
             $tagList.append(getTagHtml(text, value));
         });
+
+        setSelCount();
     }
 
     function getTagHtml(title, value){
@@ -106,5 +116,26 @@
                     "</div>";
 
         $(html).appendTo($tagsContainer);
+
+        $tagsContainer.find("coral-taglist").on("change", function(){
+            $tagsContainer.closest("coral-dialog").find(".granite-pickerdialog-submit").prop("disabled", _.isEmpty(this.values));
+            setSelCount();
+        })
+    }
+
+    function setSelCount(){
+        _.defer(function(){
+            $(".foundation-admin-selectionstatus").html(getSelectedTagsInContainer().length);
+        });
+    }
+
+    function getSelectedTagsInContainer(){
+        var $tagList = $tagsContainer.find("coral-taglist");
+
+        if(_.isEmpty($tagList)){
+            return [];
+        }
+
+        return $tagList[0].values;
     }
 })(jQuery, jQuery(document));
