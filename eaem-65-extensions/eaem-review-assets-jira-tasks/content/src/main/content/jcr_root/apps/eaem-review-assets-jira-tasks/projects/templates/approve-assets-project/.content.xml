@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:description="A project to approve and publish Assets"
     jcr:primaryType="cq:Template"
-    jcr:title="Experience AEM Approve Assets Project"
+    jcr:title="Experience AEM Approve Pages and Assets Project"
     ranking="{Long}1"
     wizard="/libs/cq/core/content/projects/wizard/steps/defaultproject.html">
     <jcr:content

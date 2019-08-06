@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-07-24T15:30:15.169-05:00"
+        cq:lastModified="{Date}2019-08-06T13:48:16.955-05:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:wcm]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -14,6 +14,19 @@
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
+            <process_1573224282
+                jcr:created="{Date}2019-08-06T13:38:05.050-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2019-08-06T13:39:45.429-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Experience AEM - Create Ticket in JIRA"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="apps.experienceaem.assets.EAEMJiraWFProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_1573224282>
             <participant
                 jcr:description="Approve page content"
                 jcr:lastModified="{Date}2013-10-09T16:02:01.238+03:00"

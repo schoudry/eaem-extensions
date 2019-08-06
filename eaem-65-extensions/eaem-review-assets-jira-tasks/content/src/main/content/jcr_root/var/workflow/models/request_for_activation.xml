@@ -5,10 +5,10 @@
     jcr:uuid="a5f66ca9-550d-4852-8a92-468f418d1823"
     sling:resourceType="cq/workflow/components/model"
     description="This is the default request for activation workflow"
-    title="Request for Activation">
+    title="Experience AEM Request for Activation">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/request_for_activation/jcr:content"
-        cq:lastModified="{Long}1564000199936"
+        cq:lastModified="{Long}1565117302315"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         multiResourceSupport="true"
@@ -22,6 +22,15 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
+            title="Experience AEM - Create Ticket in JIRA"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="apps.experienceaem.assets.EAEMJiraWFProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
             description="Approve page content"
             title="Approve content"
             type="PARTICIPANT">
@@ -29,8 +38,8 @@
                 jcr:primaryType="nt:unstructured"
                 DO_NOTIFY="true"
                 PARTICIPANT="administrators"/>
-        </node1>
-        <node2
+        </node2>
+        <node3
             jcr:primaryType="cq:WorkflowNode"
             description="The Version to be activated/replicated is created"
             title="Create Version"
@@ -39,8 +48,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.wcm.workflow.process.CreateVersionProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node2>
-        <node3
+        </node3>
+        <node4
             jcr:primaryType="cq:WorkflowNode"
             description="Waiting for activation until the scheduled time is reached"
             title="Waiting for activation"
@@ -50,8 +59,8 @@
                 PARTICIPANT="administrators"
                 timeoutHandler="com.day.cq.workflow.timeout.autoadvance.AbsoluteTimeAutoAdvancer"
                 timeoutMillis="0"/>
-        </node3>
-        <node4
+        </node4>
+        <node5
             jcr:primaryType="cq:WorkflowNode"
             description="Activates the page."
             title="Activate Page"
@@ -60,13 +69,13 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node4>
-        <node5
+        </node5>
+        <node6
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node5>
+        </node6>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -100,8 +109,15 @@
         <node4_x0023_node5
             jcr:primaryType="cq:WorkflowTransition"
             from="node4"
+            rule=""
             to="node5">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node4_x0023_node5>
+        <node5_x0023_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node5"
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node5_x0023_node6>
     </transitions>
 </jcr:root>
