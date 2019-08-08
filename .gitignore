@@ -9,6 +9,7 @@
 *.cpvc
 **/author
 **/publish
+**/review
 target
 temp
 dist
