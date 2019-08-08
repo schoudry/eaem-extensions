@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <adminui/>
+    <search jcr:primaryType="nt:unstructured">
+        <facets jcr:primaryType="nt:unstructured">
+            <formbuilderconfig jcr:primaryType="nt:unstructured">
+                <predicatetypes jcr:primaryType="nt:unstructured">
+                    <items jcr:primaryType="nt:unstructured">
+                        <eaemignorecasenodename
+                            jcr:primaryType="nt:unstructured"
+                            fieldLabel="Filename"
+                            fieldPropResourceType="/apps/eaem-search-form-nodename-predicate/nodename-field"
+                            fieldResourceType="/apps/eaem-search-form-nodename-predicate/nodename-predicate"
+                            fieldTitle="Experience AEM Filename Predicate"
+                            fieldViewResourceType="granite/ui/components/foundation/form/textfield"
+                            renderType="text"/>
+                    </items>
+                </predicatetypes>
+            </formbuilderconfig>
+        </facets>
+    </search>
+</jcr:root>
