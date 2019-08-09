@@ -51,7 +51,7 @@
         _.each($items, function(item){
             $label = $(item).find("coral-card-info coral-tag");
 
-            if(_.isEmpty($label) || $label.html().trim() != NEW_BANNER){
+            if(_.isEmpty($label) || $label.find("coral-tag-label").html().trim() != NEW_BANNER){
                 return;
             }
 
@@ -60,13 +60,13 @@
     }
 
     function checkReviewStatus(){
-        var folderPath = $(SITE_ADMIN_CHILD_PAGES).data(FOUNDATION_COLLECTION_ID);
+        var parentPath = $(SITE_ADMIN_CHILD_PAGES).data(FOUNDATION_COLLECTION_ID);
 
-        if(_.isEmpty(folderPath)){
+        if(_.isEmpty(parentPath)){
             return;
         }
 
-        $.ajax(REVIEW_STATUS_URL + folderPath).done(showBanners);
+        $.ajax(REVIEW_STATUS_URL + parentPath).done(showBanners);
     }
 
     function showBanners(pathsObj){
@@ -99,28 +99,36 @@
 
     function handleColumnItemSelection(event){
         var detail = event.originalEvent.detail,
-            $asset = $(detail.selection[0]),
-            assetPath = $asset.data(FOUNDATION_COLLECTION_ITEM_ID);
+            $page = $(detail.selection[0]),
+            pagePath = $page.data(FOUNDATION_COLLECTION_ITEM_ID);
 
-        if(_.isEmpty(assetPath)){
+        if(_.isEmpty(pagePath)){
             return;
         }
+
+        $.ajax(REVIEW_STATUS_URL + pagePath).done(addColumnViewBanner);
     }
 
-    function addColumnViewBanner(assetObj){
+    function addColumnViewBanner(pageObj){
         getUIWidget(CORAL_COLUMNVIEW_PREVIEW).then(handler);
 
         function handler($colPreview){
-            var $assetPreview = $colPreview.find(CORAL_COLUMNVIEW_PREVIEW_ASSET);
+            var $pagePreview = $colPreview.find(CORAL_COLUMNVIEW_PREVIEW_ASSET),
+                pagePath = $colPreview.data("foundation-layout-columnview-columnid"),
+                state = pageObj[pagePath];
 
-            $assetPreview.find(EAEM_BANNER).remove();
+            if(_.isEmpty(state)){
+                return;
+            }
 
-            $assetPreview.prepend(getBannerColumnView(assetObj));
+            $pagePreview.find(EAEM_BANNER).remove();
+
+            $pagePreview.prepend(getBannerColumnView(state));
         }
     }
 
-    function getBannerColumnView(size){
-        var ct = getColorText(size);
+    function getBannerColumnView(state){
+        var ct = getColorText(state);
 
         if(!ct.color){
             return;
@@ -131,8 +139,8 @@
                 "</coral-tag>";
     }
 
-    function getBannerHtml(a3mState){
-        var ct = getColorText(a3mState);
+    function getBannerHtml(state){
+        var ct = getColorText(state);
 
         if(!ct.color){
             return;
@@ -143,18 +151,16 @@
                "</coral-alert>";
     }
 
-    function getColorText(a3mState){
-        var color, state, text;
+    function getColorText(state){
+        var color, text;
 
-        if(!_.isEmpty(a3mState)){
-            state = a3mState.substring(0, a3mState.indexOf(":"));
-            text = a3mState.substring(a3mState.indexOf(":") + 1);
+        if(_.isEmpty(state)){
+            return
         }
 
-        if(state == "ERROR"){
+        if(state == "IN_PROGRESS"){
             color = "#ff7f7f";
-        }else if(state == "INFO"){
-            color = "#FFBF00";
+            text = "Review in progress"
         }
 
         return{
@@ -164,17 +170,16 @@
     }
 
     function addListViewBanner(pathsObj){
-        var $container = $(SITE_ADMIN_CHILD_PAGES), $item, clazz, assetPath, ct, size,
-            folderPath = $container.data(FOUNDATION_COLLECTION_ID);
+        var $container = $(SITE_ADMIN_CHILD_PAGES), $item, ct;
 
-        _.each(pathsObj, function(a3mState, assetPath){
-            $item = $container.find("[data-" + FOUNDATION_COLLECTION_ITEM_ID + "='" + assetPath + "']");
+        _.each(pathsObj, function(state, pagePath){
+            $item = $container.find("[data-" + FOUNDATION_COLLECTION_ITEM_ID + "='" + pagePath + "']");
 
             if(!_.isEmpty($item.find(EAEM_BANNER))){
                 return;
             }
 
-            ct = getColorText(a3mState);
+            ct = getColorText(state);
 
             if(!ct.color){
                 return;
@@ -193,8 +198,8 @@
     function addCardViewBanner(pathsObj){
         var $container = $(SITE_ADMIN_CHILD_PAGES), $item;
 
-        _.each(pathsObj, function(a3mState, assetPath){
-            $item = $container.find("[data-" + FOUNDATION_COLLECTION_ITEM_ID + "='" + assetPath + "']");
+        _.each(pathsObj, function(state, pagePath){
+            $item = $container.find("[data-" + FOUNDATION_COLLECTION_ITEM_ID + "='" + pagePath + "']");
 
             if(_.isEmpty($item)){
                 return;
@@ -204,7 +209,7 @@
                 return;
             }
 
-            $item.find("coral-card-info").append(getBannerHtml(a3mState));
+            $item.find("coral-card-info").append(getBannerHtml(state));
         });
     }
 
@@ -266,10 +271,10 @@
 
         var $convert = $(html).css("margin-left", "20px").insertBefore($eActivator);
 
-        $convert.click(postConvertRequest);
+        $convert.click(postPublishToReviewRequest);
     }
 
-    function postConvertRequest(){
+    function postPublishToReviewRequest(){
         var actionConfig = ($(this)).data(F_COL_ACTION);
 
         var $items = $(".foundation-selections-item"),
