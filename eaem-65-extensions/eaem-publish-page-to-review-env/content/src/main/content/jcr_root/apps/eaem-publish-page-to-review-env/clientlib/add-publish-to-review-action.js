@@ -1,7 +1,7 @@
 (function ($, $document) {
     var BUTTON_URL = "/apps/eaem-publish-page-to-review-env/content/publish-toreview-toolbar-ext.html",
         QUICK_PUBLISH_ACTIVATOR = "cq-siteadmin-admin-actions-quickpublish-activator",
-        REVIEW_STATUS_URL = "/bin/eaem/sites/review/status?folderPath=",
+        REVIEW_STATUS_URL = "/bin/eaem/sites/review/status?parentPath=",
         PUBLISH_TO_REVIEW = "/bin/eaem/sites/review/publish?pagePaths=",
         F_CONTENT_LOADED = "foundation-contentloaded",
         F_MODE_CHANGE = "foundation-mode-change",
