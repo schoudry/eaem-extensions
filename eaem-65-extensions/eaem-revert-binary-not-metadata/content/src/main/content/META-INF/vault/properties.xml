@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Custom Vault Properties</comment>
+<entry key="version">0.0.1-SNAPSHOT</entry>
+<entry key="name">eaem-revert-binary-not-metadata-content</entry>
+<entry key="buildCount">1</entry>
+<entry key="description">EAEM Revert only binary and not metadata Content Package</entry>
+<entry key="dependencies"/>
+<entry key="path">/etc/packages/Experience AEM/eaem-revert-binary-not-metadata-content-0.0.1-SNAPSHOT.zip</entry>
+<entry key="group">Experience AEM</entry>
+<entry key="packageFormatVersion">2</entry>
+</properties>

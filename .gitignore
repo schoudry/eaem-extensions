@@ -9,6 +9,7 @@
 *.camrec
 *.cpvc
 **/author
+**/author-dm
 **/publish
 **/review
 target
