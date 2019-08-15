@@ -3,16 +3,16 @@
         REVERT_FILE_NOT_METADATA_TITLE = "Revert to this Version (File)",
         REVERT_TO_VERSION_SEL = ".cq-common-admin-timeline-event-button";
 
-    $document.on("foundation-contentloaded", addRevertToThisVersionFile);
+    $document.on("click", ".cq-common-admin-timeline-event", addRevertToThisVersionFile);
 
     function addRevertToThisVersionFile(){
-        getUIWidget(REVERT_TO_VERSION_SEL).then(function($timeLineButton){
-            if(!_.isEmpty($("." + EAEM_REVERT_CSS))){
-                return;
-            }
+        var $timeLineButton = $(this).find(REVERT_TO_VERSION_SEL);
 
-            $(getButtonHtml()).insertAfter($timeLineButton).click(revertToVersion);
-        });
+        if(!_.isEmpty($timeLineButton.next("." + EAEM_REVERT_CSS))){
+            return;
+        }
+
+        $(getButtonHtml()).insertAfter($timeLineButton).click(revertToVersion);
     }
 
     function getButtonHtml(){
@@ -30,27 +30,5 @@
         $form.append("<input type='hidden' name='" + EAEM_REVERT_CSS + "' value='true'/>");
 
         $otbRevert.click();
-    }
-
-    function getUIWidget(selector){
-        if(_.isEmpty(selector)){
-            return;
-        }
-
-        var deferred = $.Deferred();
-
-        var INTERVAL = setInterval(function(){
-            var $widget = $(selector);
-
-            if(_.isEmpty($widget)){
-                return;
-            }
-
-            clearInterval(INTERVAL);
-
-            deferred.resolve($widget);
-        }, 250);
-
-        return deferred.promise();
     }
 })(jQuery, jQuery(document));
