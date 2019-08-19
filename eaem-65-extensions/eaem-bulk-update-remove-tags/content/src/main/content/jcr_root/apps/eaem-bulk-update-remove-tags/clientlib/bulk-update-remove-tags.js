@@ -45,7 +45,7 @@
 
             cbName = $acField.attr("name") + REMOVE_EAEM_CB_SUFFIX;
 
-            if(!_.isEmpty(getRemoveCheckBox($acField))){
+            if(!_.isEmpty(getRemoveCheckBox($acField)) || $acField.hasClass("granite-pickerdialog-searchfield")){
                 return;
             }
 
