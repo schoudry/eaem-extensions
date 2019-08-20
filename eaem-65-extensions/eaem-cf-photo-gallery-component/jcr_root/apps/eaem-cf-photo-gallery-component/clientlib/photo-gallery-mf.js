@@ -3,10 +3,47 @@
         MF_RES_TYPE = "granite/ui/components/coral/foundation/form/multifield",
         EAEM_SUB_TYPE_PHOTO_GALLERY = "EAEM_PHOTO_GALLERY",
         EAEM_SUB_TYPE_PHOTO_GALLERY_LABEL = "Photo Gallery",
+        MF_SELECTOR = "coral-multifield",
         EAEM_SUB_TYPE_CB_SUFFIX = "EaemSubType";
 
     if(isModelEditor()){
         extendModelEditor();
+    }else{
+        window.Dam.CFM.Core.registerReadyHandler(extendAutoCompletes);
+    }
+
+    function extendAutoCompletes(){
+        $(MF_SELECTOR).on("coral-collection:add", function(event){
+            Coral.commons.ready(event.detail.item, addImageCard);
+        });
+
+        $(MF_SELECTOR).on("coral-collection:remove", removeImageCard);
+
+        function addImageCard(mfItem){
+            var $imageReference = $(mfItem).find("foundation-autocomplete");
+
+            if(_.isEmpty($imageReference)){
+                return;
+            }
+
+            var $imageCard = $(getCardContent()).appendTo($imageReference.closest("coral-multifield-item-content"));
+        }
+
+        function removeImageCard(event){
+            var $mfItem = $(event.detail.item);
+
+            $mfItem.find("coral-card").remove();
+        }
+    }
+
+    function getCardContent(){
+        return '<coral-card fixedwidth assetwidth="200" assetheight="200">' +
+                    '<coral-card-asset><img src="http://lorempixel.com/200/200/people/7"></coral-card-asset>' +
+                    '<coral-card-content>' +
+                        '<coral-card-title>Girl Eyes</coral-card-title>' +
+                    '</coral-card-content>' +
+                '</coral-card>'
+
     }
 
     function extendModelEditor(){
