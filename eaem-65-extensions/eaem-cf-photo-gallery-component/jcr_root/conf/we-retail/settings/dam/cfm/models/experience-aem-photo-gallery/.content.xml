@@ -4,7 +4,7 @@
     allowedPaths="[/content/entities(/.*)?]"
     ranking="{Long}100">
     <jcr:content
-        cq:lastModified="{Date}2019-08-20T12:19:36.426-05:00"
+        cq:lastModified="{Date}2019-08-21T11:21:01.648-05:00"
         cq:lastModifiedBy="admin"
         cq:scaffolding="/conf/we-retail/settings/dam/cfm/models/experience-aem-photo-gallery/jcr:content/model"
         cq:templateType="/libs/settings/dam/cfm/model-types/fragment"
@@ -22,13 +22,13 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="cq/gui/components/authoring/dialog">
                 <content
-                    jcr:lastModified="{Date}2019-08-20T12:19:36.426-05:00"
+                    jcr:lastModified="{Date}2019-08-21T11:21:01.648-05:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
                     <items
                         jcr:primaryType="nt:unstructured"
-                        maxGeneratedOrder="20">
+                        maxGeneratedOrder="21">
                         <_x0031_566311604066
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -54,7 +54,6 @@
                         <_x0031_566311648725
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                            sling:resourceTypeEaemSubType="EAEM_PHOTO_GALLERY"
                             fieldLabel="Gallery Images"
                             filter="hierarchy"
                             listOrder="8"
@@ -72,6 +71,24 @@
                                 renderReadOnly="false"
                                 rootPath="/content/dam"/>
                         </_x0031_566311648725>
+                        <_x0031_566404443727
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                            fieldLabel="Foot Notes"
+                            listOrder="21"
+                            maxlength="255"
+                            metaType="text-single"
+                            name="eaemFootNotes"
+                            renderReadOnly="false"
+                            showEmptyInReadOnly="true"
+                            valueType="string[]">
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                maxlength="255"
+                                name="eaemFootNotes"
+                                renderReadOnly="false"/>
+                        </_x0031_566404443727>
                     </items>
                 </content>
             </cq:dialog>
