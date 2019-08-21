@@ -2,18 +2,28 @@
     var CF_MODEL_URL = "/mnt/overlay/dam/cfm/models/editor/content/editor.html",
         MF_RES_TYPE = "granite/ui/components/coral/foundation/form/multifield",
         EAEM_SUB_TYPE_PHOTO_GALLERY = "EAEM_PHOTO_GALLERY",
-        EAEM_SUB_TYPE_PHOTO_GALLERY_LABEL = "Photo Gallery",
+        EAEM_SUB_TYPE_PHOTO_GALLERY_LABEL = "Experience AEM Photo Gallery",
         MF_SELECTOR = "coral-multifield",
         EAEM_CARD_CAPTION = "eaem-card-caption",
-        EAEM_SUB_TYPE_CB_SUFFIX = "EaemSubType";
+        EAEM_SUB_TYPE_CB_SUFFIX = "EaemSubType",
+        photoGalleryMultifields = {},
+        CF_MODEL = "";
 
     if(isModelEditor()){
         extendModelEditor();
     }else{
-        window.Dam.CFM.Core.registerReadyHandler(extendAutoCompletes);
+        window.Dam.CFM.Core.registerReadyHandler(extendFragmentEditor);
+    }
+
+    function extendFragmentEditor(){
+        extendAutoCompletes();
+
+        //extendRequestSave();
     }
 
     function extendAutoCompletes(){
+        loadModelUrl();
+
         $(MF_SELECTOR).on("coral-collection:add", function(event){
             Coral.commons.ready(event.detail.item, addImageCard);
         });
@@ -27,12 +37,40 @@
                 return;
             }
 
+            if(!isPhotoGalleryEnabled($imageReference.attr("name"))){
+                return;
+            }
+
             if(!_.isEmpty($imageReference.val())){
                 showImage.call($imageReference[0]);
             }else{
                 $(getImageLabel()).insertBefore($imageReference);
                 $imageReference.on("change", showImage);
             }
+        }
+
+        function isPhotoGalleryEnabled(mfName){
+            if(!_.isEmpty(photoGalleryMultifields[mfName])){
+                return photoGalleryMultifields[mfName];
+            }
+
+            $.ajax({url: CF_MODEL + "/jcr:content/model/cq:dialog/content/items.1.json", async: false}).done(handler);
+
+            function handler(data){
+                var subType;
+
+                _.each(data, function(value){
+                    if(!_.isObject(value)){
+                        return;
+                    }
+
+                    subType = value["sling:resourceType" + EAEM_SUB_TYPE_CB_SUFFIX];
+
+                    photoGalleryMultifields[value["name"]] = (subType === EAEM_SUB_TYPE_PHOTO_GALLERY);
+                })
+            }
+
+            return photoGalleryMultifields[mfName];
         }
 
         function showImage(){
@@ -89,6 +127,52 @@
         return '<label class="coral-Form-fieldlabel"> Image</label>';
     }
 
+    function extendRequestSave(){
+        var CFM = window.Dam.CFM,
+            orignFn = CFM.editor.Page.requestSave;
+
+        CFM.editor.Page.requestSave = requestSave;
+
+        function requestSave(callback, options) {
+            orignFn.call(this, callback, options);
+
+            var mfsData = {}; //getMultifieldData();
+
+            if(_.isEmpty(mfsData)){
+                return;
+            }
+
+            var url = CFM.EditSession.fragment.urlBase + ".cfm.content.json",
+                variation = getVariation(),
+                createNewVersion = (options && !!options.newVersion) || false;
+
+            var data = {
+                ":type": "multiple",
+                ":newVersion": createNewVersion,
+                "_charset_": "utf-8"
+            };
+
+            if(variation !== MASTER){
+                data[":variation"] = variation;
+            }
+
+            var request = {
+                url: url,
+                method: "post",
+                dataType: "json",
+                data: _.merge(data, mfsData),
+                cache: false
+            };
+
+            CFM.RequestManager.schedule({
+                request: request,
+                type: CFM.RequestManager.REQ_BLOCKING,
+                condition: CFM.RequestManager.COND_EDITSESSION,
+                ui: (options && options.ui)
+            })
+        }
+    }
+
     function extendModelEditor(){
         $document.on("click", "#form-fields > li", addSubTypeCheckBox);
 
@@ -138,6 +222,12 @@
             }
 
             $cb[0].checked = true;
+        });
+    }
+
+    function loadModelUrl(){
+        $.ajax({url: window.Dam.CFM.EditSession.fragment.urlBase + "/jcr:content/data.json", async: false}).done(function (data) {
+            CF_MODEL = data["cq:model"];
         });
     }
 
