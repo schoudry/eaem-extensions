@@ -109,80 +109,105 @@
 
         $(MF_SELECTOR).on("coral-collection:remove", removeImageCard);
 
-        function addImageCard(mfItem){
-            var $imageReference = $(mfItem).find("foundation-autocomplete");
+        $(MF_SELECTOR).each(function(index, mField){
+            Coral.commons.ready(mField, loadPhotoGalleryImages);
+        })
+    }
 
-            if(_.isEmpty($imageReference)){
-                return;
-            }
+    function loadPhotoGalleryImages(mField){
+        var $multiField = $(mField);
 
-            if(!isPhotoGalleryEnabled($imageReference.attr("name"))){
-                return;
-            }
-
-            if(!_.isEmpty($imageReference.val())){
-                showImage.call($imageReference[0]);
-            }else{
-                $(getImageLabel()).insertBefore($imageReference);
-                $imageReference.on("change", showImage);
-            }
+        if(!isPhotoGalleryEnabled($multiField.attr("data-granite-coral-multifield-name"))){
+            return;
         }
 
-        function isPhotoGalleryEnabled(mfName){
-            return photoGalleryAutocompletes[mfName];
+        _.each($multiField[0].items.getAll(), function(item) {
+            var $content = $(item.content),
+                $imageReference = $content.find("foundation-autocomplete");
+
+            var mfData = JSON.parse($imageReference.val());
+
+            $imageReference.val(mfData.path);
+
+            showImage.call($imageReference[0]);
+
+            $content.find("input[name='" + EAEM_CAPTION + "']").val(mfData.caption);
+        });
+    }
+
+    function addImageCard(mfItem){
+        var $imageReference = $(mfItem).find("foundation-autocomplete");
+
+        if(_.isEmpty($imageReference)){
+            return;
         }
 
-        function showImage(){
-            var $imageReference = $(this),
-                imageUrl = this.value,
-                $mfContent = $imageReference.closest("coral-multifield-item-content"),
-                $imageCaption = $mfContent.find("." + EAEM_CARD_CAPTION);
-
-            if(_.isEmpty(this.value)){
-                $imageCaption.remove();
-                return;
-            }
-
-            var fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-
-            imageUrl = imageUrl + "/_jcr_content/renditions/cq5dam.thumbnail.319.319.png";
-
-            if(!_.isEmpty($imageCaption)){
-                $imageCaption.find("img", imageUrl);
-                return;
-            }
-
-            $(getCardContent(imageUrl, fileName)).appendTo($mfContent);
-
-            $mfContent.css("margin-bottom", "20px");
+        if(!isPhotoGalleryEnabled($imageReference.attr("name"))){
+            return;
         }
 
-        function removeImageCard(event){
-            var $mfItem = $(event.detail.item);
+        if(!_.isEmpty($imageReference.val())){
+            showImage.call($imageReference[0]);
+        }else{
+            $(getImageLabel()).insertBefore($imageReference);
+            $imageReference.on("change", showImage);
+        }
+    }
 
-            $mfItem.find("." + EAEM_CARD_CAPTION).remove();
+    function isPhotoGalleryEnabled(mfName){
+        return photoGalleryAutocompletes[mfName];
+    }
+
+    function showImage(){
+        var $imageReference = $(this),
+            imageUrl = this.value,
+            $mfContent = $imageReference.closest("coral-multifield-item-content"),
+            $imageCaption = $mfContent.find("." + EAEM_CARD_CAPTION);
+
+        if(_.isEmpty(this.value)){
+            $imageCaption.remove();
+            return;
         }
 
-        function loadModelUrl(){
-            $.ajax({url: window.Dam.CFM.EditSession.fragment.urlBase + "/jcr:content/data.json", async: false}).done(function (data) {
-                CF_MODEL = data["cq:model"];
-            });
+        var fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 
-            $.ajax({url: CF_MODEL + "/jcr:content/model/cq:dialog/content/items.1.json", async: false}).done(handler);
+        imageUrl = imageUrl + "/_jcr_content/renditions/cq5dam.thumbnail.319.319.png";
 
-            function handler(data){
-                var subType;
+        if(!_.isEmpty($imageCaption)){
+            $imageCaption.find("img", imageUrl);
+            return;
+        }
 
-                _.each(data, function(value){
-                    if(!_.isObject(value)){
-                        return;
-                    }
+        $(getCardContent(imageUrl, fileName)).appendTo($mfContent);
 
-                    subType = value["sling:resourceType" + EAEM_SUB_TYPE_CB_SUFFIX];
+        $mfContent.css("margin-bottom", "20px");
+    }
 
-                    photoGalleryAutocompletes[value["name"]] = (subType === EAEM_SUB_TYPE_PHOTO_GALLERY);
-                })
-            }
+    function removeImageCard(event){
+        var $mfItem = $(event.detail.item);
+
+        $mfItem.find("." + EAEM_CARD_CAPTION).remove();
+    }
+
+    function loadModelUrl(){
+        $.ajax({url: window.Dam.CFM.EditSession.fragment.urlBase + "/jcr:content/data.json", async: false}).done(function (data) {
+            CF_MODEL = data["cq:model"];
+        });
+
+        $.ajax({url: CF_MODEL + "/jcr:content/model/cq:dialog/content/items.1.json", async: false}).done(handler);
+
+        function handler(data){
+            var subType;
+
+            _.each(data, function(value){
+                if(!_.isObject(value)){
+                    return;
+                }
+
+                subType = value["sling:resourceType" + EAEM_SUB_TYPE_CB_SUFFIX];
+
+                photoGalleryAutocompletes[value["name"]] = (subType === EAEM_SUB_TYPE_PHOTO_GALLERY);
+            })
         }
     }
 
@@ -222,13 +247,15 @@
                 return;
             }
 
-            mfData[refName] = {};
+            mfData[refName] = [];
 
             _.each($multiField[0].items.getAll(), function(item) {
-                var $content = $(item.content);
+                var $content = $(item.content), data = {};
 
-                mfData[refName]["path"] = $content.find("input[name='" + refName + "']").val();
-                mfData[refName]["caption"] = $content.find("input[name='" + EAEM_CAPTION + "']").val();
+                data["path"] = $content.find("input[name='" + refName + "']").val();
+                data["caption"] = $content.find("input[name='" + EAEM_CAPTION + "']").val();
+
+                mfData[refName].push(JSON.stringify(data));
             });
         });
 
