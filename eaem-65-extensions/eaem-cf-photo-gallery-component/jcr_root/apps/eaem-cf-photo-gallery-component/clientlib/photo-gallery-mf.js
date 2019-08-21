@@ -4,6 +4,7 @@
         EAEM_SUB_TYPE_PHOTO_GALLERY = "EAEM_PHOTO_GALLERY",
         EAEM_SUB_TYPE_PHOTO_GALLERY_LABEL = "Photo Gallery",
         MF_SELECTOR = "coral-multifield",
+        EAEM_CARD_CAPTION = "eaem-card-caption",
         EAEM_SUB_TYPE_CB_SUFFIX = "EaemSubType";
 
     if(isModelEditor()){
@@ -29,6 +30,7 @@
             if(!_.isEmpty($imageReference.val())){
                 showImage.call($imageReference[0]);
             }else{
+                $(getImageLabel()).insertBefore($imageReference);
                 $imageReference.on("change", showImage);
             }
         }
@@ -36,11 +38,11 @@
         function showImage(){
             var $imageReference = $(this),
                 imageUrl = this.value,
-                $mfContent = $imageReference.closest("coral-multifield-item-content");
-
-            $mfContent.find("coral-card").remove();
+                $mfContent = $imageReference.closest("coral-multifield-item-content"),
+                $imageCaption = $mfContent.find("." + EAEM_CARD_CAPTION);
 
             if(_.isEmpty(this.value)){
+                $imageCaption.remove();
                 return;
             }
 
@@ -48,24 +50,43 @@
 
             imageUrl = imageUrl + "/_jcr_content/renditions/cq5dam.thumbnail.319.319.png";
 
+            if(!_.isEmpty($imageCaption)){
+                $imageCaption.find("img", imageUrl);
+                return;
+            }
+
             $(getCardContent(imageUrl, fileName)).appendTo($mfContent);
+
+            $mfContent.css("margin-bottom", "20px");
         }
 
         function removeImageCard(event){
             var $mfItem = $(event.detail.item);
 
-            $mfItem.find("coral-card").remove();
+            $mfItem.find("." + EAEM_CARD_CAPTION).remove();
         }
     }
 
     function getCardContent(imageUrl, fileName){
-        return '<coral-card fixedwidth assetwidth="200" assetheight="200">' +
-                    '<coral-card-asset><img src="' + imageUrl + '"></coral-card-asset>' +
-                    '<coral-card-content>' +
-                        '<coral-card-title>' + fileName + '</coral-card-title>' +
-                    '</coral-card-content>' +
-                '</coral-card>'
+        return  '<div class="' + EAEM_CARD_CAPTION + '">' +
+                    '<div>' +
+                        '<coral-card fixedwidth assetwidth="200" assetheight="200">' +
+                            '<coral-card-asset><img src="' + imageUrl + '"></coral-card-asset>' +
+                            '<coral-card-content>' +
+                                '<coral-card-title>' + fileName + '</coral-card-title>' +
+                            '</coral-card-content>' +
+                        '</coral-card>' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="coral-Form-fieldlabel"> Caption</label>' +
+                        '<input is="coral-textfield" class="coral-Form-field" placeholder="Enter caption" >' +
+                    '</div>' +
+                '</div>'
 
+    }
+
+    function getImageLabel(){
+        return '<label class="coral-Form-fieldlabel"> Image</label>';
     }
 
     function extendModelEditor(){
