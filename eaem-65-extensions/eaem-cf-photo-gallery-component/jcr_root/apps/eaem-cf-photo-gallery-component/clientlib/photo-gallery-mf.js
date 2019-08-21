@@ -26,7 +26,29 @@
                 return;
             }
 
-            var $imageCard = $(getCardContent()).appendTo($imageReference.closest("coral-multifield-item-content"));
+            if(!_.isEmpty($imageReference.val())){
+                showImage.call($imageReference[0]);
+            }else{
+                $imageReference.on("change", showImage);
+            }
+        }
+
+        function showImage(){
+            var $imageReference = $(this),
+                imageUrl = this.value,
+                $mfContent = $imageReference.closest("coral-multifield-item-content");
+
+            $mfContent.find("coral-card").remove();
+
+            if(_.isEmpty(this.value)){
+                return;
+            }
+
+            var fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+
+            imageUrl = imageUrl + "/_jcr_content/renditions/cq5dam.thumbnail.319.319.png";
+
+            $(getCardContent(imageUrl, fileName)).appendTo($mfContent);
         }
 
         function removeImageCard(event){
@@ -36,11 +58,11 @@
         }
     }
 
-    function getCardContent(){
+    function getCardContent(imageUrl, fileName){
         return '<coral-card fixedwidth assetwidth="200" assetheight="200">' +
-                    '<coral-card-asset><img src="http://lorempixel.com/200/200/people/7"></coral-card-asset>' +
+                    '<coral-card-asset><img src="' + imageUrl + '"></coral-card-asset>' +
                     '<coral-card-content>' +
-                        '<coral-card-title>Girl Eyes</coral-card-title>' +
+                        '<coral-card-title>' + fileName + '</coral-card-title>' +
                     '</coral-card-content>' +
                 '</coral-card>'
 
