@@ -26,15 +26,25 @@
         _.each($autoCompletes, function(autoCompete){
             var $autoComplete = $(autoCompete),
                 acName = $autoComplete.attr("name"),
-                nearestMF = $autoComplete.closest("coral-multifield[data-granite-coral-multifield-name='" + acName + "']");
+                $nearestMF = $autoComplete.closest("coral-multifield[data-granite-coral-multifield-name='" + acName + "']");
 
-            if(_.isEmpty(nearestMF)){
+            if(_.isEmpty($nearestMF)){
                 return;
             }
 
-            var pathField = $autoComplete[0];
+            $nearestMF.on("coral-collection:add", function(event){
+                Coral.commons.ready(event.detail.item, function(mfItem){
+                    var $autoComplete = $(mfItem).find("foundation-autocomplete");
 
-            extendPicker(pathField);
+                    if(_.isEmpty($autoComplete)){
+                        return;
+                    }
+
+                    extendPicker($autoComplete[0]);
+                });
+            });
+
+            extendPicker($autoComplete[0]);
         });
     }
 
