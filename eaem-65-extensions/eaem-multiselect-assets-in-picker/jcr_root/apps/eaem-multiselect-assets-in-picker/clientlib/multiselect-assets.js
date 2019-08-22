@@ -1,5 +1,7 @@
 (function($, $document) {
     var MF_SELECTOR = "coral-multifield",
+        CORAL_MF_ITEM = "coral-multifield-item",
+        EAEM_ITEM_VALUE = "data-eaem-item-value",
         SELECTED_TAGS_DIV = "eaem-column-view-selections",
         FOUNDATION_SELECTIONS_CHANGE = "foundation-selections-change",
         FOUNDATION_SELECTIONS_ITEM = "foundation-selections-item",
@@ -64,16 +66,46 @@
         };
 
         pathField._setSelections = function(selections, deferChangeEvent){
-            var $assets = $assetsContainer.find("coral-tag"), selectedAssets = [];
+            var $autoComplete = $(this),
+                acName = $autoComplete.attr("name"),
+                $assets = $assetsContainer.find("coral-tag"),
+                $nearestMF = $autoComplete.closest("coral-multifield[data-granite-coral-multifield-name='" + acName + "']"),
+                mfAddEle = $nearestMF[0].querySelector("[coral-multifield-add]"),
+                existingValues = [];
 
-            _.each($assets, function(tag){
-                selectedAssets.push({
-                    text: $(tag).find("coral-tag-label").html(),
-                    value: tag.value
-                });
+            _.each($nearestMF[0].items.getAll(), function(item) {
+                existingValues.push($(item.content).find("foundation-autocomplete").val());
             });
 
-            origSetSelections.call(this, selectedAssets, deferChangeEvent);
+            _.each($assets, function(asset, index){
+                if(index == 0){
+                    $autoComplete[0].value = asset.value;
+                    return;
+                }
+
+                if(existingValues.includes(asset.value)){
+                    return;
+                }
+
+                mfAddEle.click();
+
+                var $lastItem = $nearestMF.find(CORAL_MF_ITEM).last();
+
+                $lastItem.attr(EAEM_ITEM_VALUE, asset.value);
+
+                Coral.commons.ready($lastItem[0], setMultifieldItem);
+            });
+        };
+
+        function setMultifieldItem(lastItem){
+            var $imageReference = $(lastItem).find("foundation-autocomplete"),
+                assetPath = $(lastItem).attr(EAEM_ITEM_VALUE);
+
+            if(_.isEmpty($imageReference)){
+                return;
+            }
+
+            $imageReference.val(assetPath);
         }
     }
 
