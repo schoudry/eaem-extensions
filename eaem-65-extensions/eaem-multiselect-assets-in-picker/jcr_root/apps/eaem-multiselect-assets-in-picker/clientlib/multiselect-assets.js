@@ -71,19 +71,20 @@
                 $assets = $assetsContainer.find("coral-tag"),
                 $nearestMF = $autoComplete.closest("coral-multifield[data-granite-coral-multifield-name='" + acName + "']"),
                 mfAddEle = $nearestMF[0].querySelector("[coral-multifield-add]"),
-                existingValues = [];
+                existingValues = [], thisNotFilled = true;
 
             _.each($nearestMF[0].items.getAll(), function(item) {
                 existingValues.push($(item.content).find("foundation-autocomplete").val());
             });
 
-            _.each($assets, function(asset, index){
-                if(index == 0){
-                    $autoComplete[0].value = asset.value;
+            _.each($assets, function(asset){
+                if(existingValues.includes(asset.value)){
                     return;
                 }
 
-                if(existingValues.includes(asset.value)){
+                if(thisNotFilled){
+                    $autoComplete[0].value = asset.value;
+                    thisNotFilled = false;
                     return;
                 }
 
