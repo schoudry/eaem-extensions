@@ -8,20 +8,12 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.commons.Externalizer;
-
-
 @Component(immediate = true, service = Runnable.class)
 @Designate(ocd = SampleSchedulerConfiguration.class)
 public class SampleScheduler implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SampleScheduler.class);
 
-    @Reference
-    private Externalizer externalizer;
-
     private String customPathParameter;
-    private String currentExpireDate;
-    private String futureExpireDate;
     private int schedulerId;
 
     @Reference
