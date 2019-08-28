@@ -84,10 +84,6 @@
     }
 
     function fillColumnData(results){
-        if(_.isEmpty(results)){
-            return;
-        }
-
         var $fui = $(window).adaptTo("foundation-ui");
 
         $fui.wait();
