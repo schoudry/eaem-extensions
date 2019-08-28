@@ -5,8 +5,7 @@
         ROW_SELECTOR = "tr.foundation-collection-item",
         GRANITE_OMNI_SEARCH_CONTENT = ".granite-omnisearch-content",
         EAEM_META_COLUMNS_URL = "/apps/eaem-metadata-columns-in-search-results/columns.1.json",
-        metaParams = {},
-        QUERY = "/bin/querybuilder.json?p.hits=selective&p.limit=-1&property=jcr:primaryType&property.value=dam:Asset&path.flat=true";
+        metaParams = {}, results = {};
 
     $document.on(FOUNDATION_CONTENT_LOADED, GRANITE_OMNI_SEARCH_CONTENT, function(event){
         _.defer(function(){
@@ -24,6 +23,8 @@
         }
 
         addColumnHeaders();
+
+        fillColumnData(results);
     }
 
     function addColumnHeaders(){
@@ -57,11 +58,11 @@
 
             var query = "/bin/querybuilder.json?" + $(this).serialize();
 
-            query = query + "&999_property=jcr:primaryType&999_property.value=dam:Asset&p.hits=selective&p.properties=jcr:path";
+            query = query + "&999_property=jcr:primaryType&999_property.value=dam:Asset&p.hits=selective&p.limit=-1&p.properties=jcr:path";
 
             query = query + "+" + Object.keys(metaParams).join("+");
 
-            $.ajax({ url: query, async: false }).done(handleResults());
+            $.ajax({ url: query, async: false }).done(handleResults);
         }
     }
 
@@ -73,18 +74,20 @@
 
         $fui.wait();
 
-        var results = {};
+        results = {};
 
         _.each(data.hits, function(hit){
             results[hit["jcr:path"]] = hit["jcr:content"]["metadata"];
         });
 
-        fillColumnData(results);
-
         $fui.clearWait();
     }
 
     function fillColumnData(results){
+        if(_.isEmpty(results)){
+            return;
+        }
+
         var $fui = $(window).adaptTo("foundation-ui");
 
         $fui.wait();
@@ -102,15 +105,25 @@
                 return;
             }
 
-            var itemPath = $row.data("foundation-collection-item-id");
+            var itemPath = $row.data("foundation-collection-item-id"),
+                metadata, metaProp, $td = $row.find("td:last");
 
-            //$row.find("td:last").before(getListCellHtml(itemPath));
+            _.each(metaParams, function(header, metaPath){
+                metadata = (results[itemPath] || {});
+
+                metaProp = metaPath.substring(metaPath.lastIndexOf("/") + 1);
+
+                $td = $(getListCellHtml(metaPath, metadata[metaProp])).insertAfter($td);
+            });
         }
 
+        $fui.clearWait();
     }
 
-    function getListCellHtml(colValue){
-        return '<td is="coral-table-cell" ' + EAEM_SEARCH_PATH_COLUMN + ' >' + colValue + '</td>';
+    function getListCellHtml(metaPath, metaValue){
+        metaValue = (metaValue || "");
+
+        return '<td is="coral-table-cell" ' + EAEM_METADATA_REL_PATH + '="' + metaPath + '" >' + metaValue + '</td>';
     }
 
     function loadCustomColumnHeaders(){
