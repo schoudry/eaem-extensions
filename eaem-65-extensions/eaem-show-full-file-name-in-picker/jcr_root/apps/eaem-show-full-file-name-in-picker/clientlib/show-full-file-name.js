@@ -45,7 +45,7 @@
 
             $title = $content.find(".foundation-collection-item-title");
 
-            if(!isEllipsisActive($title[0])){
+            if(_.isEmpty($title) || !isEllipsisActive($title[0])){
                 return;
             }
 
