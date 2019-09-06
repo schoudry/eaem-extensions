@@ -1,7 +1,4 @@
 (function ($, $document) {
-    var LETTER_COUNT = 22, INCREASE_BY = 1.5, CV_ITEM_HEIGHT = 3, CV_LABEL_HEIGHT = 2,
-        extended = false;
-
     $document.on("foundation-contentloaded", handleAssetPicker);
 
     function handleAssetPicker(){
@@ -10,8 +7,6 @@
         if(_.isEmpty($autoCompletes)){
             return;
         }
-
-        extended = true;
 
         _.each($autoCompletes, function(autoComplete){
             if(autoComplete.eaemExtended){
@@ -41,7 +36,7 @@
     }
 
     function showFullName(event){
-        var $item, $content, increase, $title, $thumbnail;
+        var $item, $content, $title, $thumbnail;
 
         $(event.detail.column).find("coral-columnview-item").each(function(index, item){
             $item = $(item);
