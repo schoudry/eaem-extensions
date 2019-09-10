@@ -2,6 +2,12 @@
      data-sly-use.placeholderTemplate="core/wcm/components/commons/v1/templates.html"
      data-sly-test.ready="${predicate.ready}">
 
+    <input type="hidden"
+           form="${predicate.formId}"
+           name="${predicate.group}.${predicate.name}.property"
+           value="${predicate.property}"
+           data-asset-share-predicate-id="${predicate.id}"/>
+
     <div class="ui form">
         <div class="ui fluid styled accordion field">
 
@@ -12,13 +18,15 @@
 
             <div class="${predicate.expanded ? 'active' : ''} content field"
                  data-asset-share-id="${predicate.id}__fields">
-                Number of days relative to today's date e.g. 30
+                Number of days in the past relative to today's date e.g. 30
 
                 <div style="margin-top: 10px">
                     <input type="text" style="width: 60%"
-                           maxlength="4" size="4"
-                           name="${predicate.group}.${predicate.name}.lowerBound"
-                           value="" />
+                           value="${predicate.initialLowerBound}"
+                           form="${predicate.formId}"
+                           maxlength="9"
+                           for="${predicate.id}"
+                           name="${predicate.group}.${predicate.name}.lowerBound"/>
                 </div>
             </div>
 

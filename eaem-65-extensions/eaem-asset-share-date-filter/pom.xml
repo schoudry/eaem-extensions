@@ -94,6 +94,12 @@
                 <scope>provided</scope>
                 <classifier>apis</classifier>
             </dependency>
+            <dependency>
+                <groupId>com.adobe.aem.commons</groupId>
+                <artifactId>assetshare.core</artifactId>
+                <version>1.6.2</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

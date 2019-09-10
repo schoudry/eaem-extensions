@@ -61,6 +61,10 @@
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        <dependency>
+            <groupId>com.adobe.aem.commons</groupId>
+            <artifactId>assetshare.core</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
