@@ -5,17 +5,18 @@ import com.adobe.cq.sightly.WCMUsePojo;
 import com.day.cq.search.eval.DateRangePredicateEvaluator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-
 public class EAEMDatePredicate extends WCMUsePojo {
     private static final Logger log = LoggerFactory.getLogger(EAEMDatePredicate.class);
 
     private static final String REQUEST_ATTR_FORM_ID_TRACKER = "asset-share-commons__form-id";
+    private static final String COMPONENT_NAME_IN_PAGE = "date_range";
+    private static final int INITIAL_GROUP_NUM = 99999;
 
     private ValueMap resourceProps;
     private String property;
@@ -23,9 +24,18 @@ public class EAEMDatePredicate extends WCMUsePojo {
 
     @Override
     public void activate() {
-        resourceProps = ResourceUtil.getValueMap(this.getResource());
+        Resource resource = getResource();
+
+        resourceProps = ResourceUtil.getValueMap(resource);
         property = resourceProps.get("property", "");
-        group = new Random().nextInt();
+        group = INITIAL_GROUP_NUM;
+
+        String compName = COMPONENT_NAME_IN_PAGE + "_";
+        String resName = resource.getName();
+
+        if(resName.contains(compName)) {
+            group = Integer.parseInt(resName.substring(resName.lastIndexOf("_") + 1));
+        }
     }
 
     public boolean isReady() {

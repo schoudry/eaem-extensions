@@ -18,7 +18,12 @@
 
             <div class="${predicate.expanded ? 'active' : ''} content field"
                  data-asset-share-id="${predicate.id}__fields">
-                Number of days in the past relative to today's date e.g. 30
+
+                Units of time
+
+                <span style="margin-left: 10px ;font-size: 12px">
+                    e.g. <b>-2m</b> = past 2 minutes | <b>-3h</b> = past 3 hours | <b>-4d</b> = past 4 days | <b>-5M</b> = past 5 months | <b>-6y</b> = past 6 years
+                </span>
 
                 <div style="margin-top: 10px">
                     <input type="text" style="width: 60%"
