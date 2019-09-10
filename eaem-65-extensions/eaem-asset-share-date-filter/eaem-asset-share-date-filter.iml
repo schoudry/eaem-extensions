@@ -13,7 +13,6 @@
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="aem65" exported="" />
-    <orderEntry type="module" module-name="assetshare" exported="" />
     <orderEntry type="module" module-name="core.wcm.components.reactor" exported="" />
     <orderEntry type="library" exported="" name="uber-jar-6.5.0-apis" level="application" />
   </component>
