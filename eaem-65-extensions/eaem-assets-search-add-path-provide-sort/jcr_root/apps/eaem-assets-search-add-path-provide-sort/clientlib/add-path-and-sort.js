@@ -50,20 +50,25 @@
 
     function handleSort(){
         var $form = $(GRANITE_OMNI_SEARCH_CONTENT),
-            $th = $(this),
-            direction = $th.attr("sortabledirection");
+            $th = $(this), sortBy = "nodename",
+            thContent = $th.find("coral-table-headercell-content").html().trim(),
+            direction = "ascending";
 
-        if(direction == "ascending"){
-            $th.attr("sortabledirection", "descending");
-            direction = "desc";
-        }else{
-            $th.attr("sortabledirection", "ascending");
-            direction = "asc";
+        if($th.attr("sortabledirection") == "ascending"){
+            direction = "descending";
         }
 
-        STORAGE.setItem(SORT_DIRECTION_STORAGE_KEY, direction);
+        $th.attr("sortabledirection", direction);
 
-        addSortParameter($form, "nodename", direction);
+        if(thContent == "Modified"){
+            sortBy = "@jcr:content/cq:lastModified";
+        }else if(thContent == "Path"){
+            sortBy = "path";
+        }
+
+        STORAGE.setItem(SORT_DIRECTION_STORAGE_KEY, sortBy + "=" + direction);
+
+        addSortParameter($form, sortBy, (direction == "descending" ? "desc" : "asc"));
 
         $form.submit();
     }
@@ -104,21 +109,37 @@
         }
 
         var $container = $(GRANITE_OMNI_SEARCH_CONTENT),
-            $headRow = $container.find("thead > tr"), direction = "ascending";
+            $headRow = $container.find("thead > tr"),
+            sortBy, direction,
+            $pathCol = $(getTableHeader(EAEM_SEARCH_PATH_COLUMN_HEADER)).appendTo($headRow).click(handleSort);
 
-        $headRow.append(getTableHeader(EAEM_SEARCH_PATH_COLUMN_HEADER));
+        sortBy = STORAGE.getItem(SORT_DIRECTION_STORAGE_KEY);
 
-        if(STORAGE.getItem(SORT_DIRECTION_STORAGE_KEY) == "desc"){
-            direction = "descending";
+        if(_.isEmpty(sortBy)){
+            sortBy = "nodename";
+            direction = "ascending";
+        }else{
+            direction = sortBy.substring(sortBy.lastIndexOf("=") + 1);
+            sortBy = sortBy.substring(0, sortBy.lastIndexOf("="));
         }
 
-        $headRow.find("th:eq(" + getIndex($headRow, "Name") + ")")
-                .attr("sortabledirection", direction)
-                .attr("sortable", "sortable").click(handleSort);
+        var $nameCol = $headRow.find("th:eq(" + getIndex($headRow, "Name") + ")")
+                        .attr("sortabledirection", "default")
+                        .attr("sortable", "sortable").click(handleSort);
+
+        var $modifiedCol = $headRow.find("th:eq(" + getIndex($headRow, "Modified") + ")")
+                        .attr("sortabledirection", "default")
+                        .attr("sortable", "sortable").click(handleSort);
+
+        if(sortBy == "@jcr:content/cq:lastModified"){
+            $modifiedCol.attr("sortabledirection", direction)
+        }else if(sortBy == "path"){
+            $pathCol.attr("sortabledirection", direction)
+        }else{
+            $nameCol.attr("sortabledirection", direction);
+        }
 
         STORAGE.removeItem(SORT_DIRECTION_STORAGE_KEY);
-
-        $headRow.find("th:eq(" + getIndex($headRow, "Modified") + ")").attr("sortable", "sortable").click(handleSort);
     }
 
     function getIndex($headRow, header){
@@ -126,7 +147,9 @@
     }
 
     function getTableHeader(colText) {
-        return '<th is="coral-table-headercell" sortable ' + EAEM_SEARCH_PATH_COLUMN + ' >' + colText + '</th>';
+        return '<th is="coral-table-headercell" sortabledirection="default" sortable ' + EAEM_SEARCH_PATH_COLUMN + ' >'
+                    + colText
+                + '</th>';
     }
 
     function checkIFHeadersAdded(){
