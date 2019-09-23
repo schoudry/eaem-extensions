@@ -16,15 +16,24 @@
     });
 
     $document.ready(function(){
-        addSortParameter($(GRANITE_OMNI_SEARCH_CONTENT), "nodename", "asc");
+        var $form = $(GRANITE_OMNI_SEARCH_CONTENT);
+
+        STORAGE.removeItem(SORT_DIRECTION_STORAGE_KEY);
+
+        addSortParameter($form, "nodename", "asc");
     });
 
-    function addSortParameter($form, parameter, direction){
-        var $sortParam = $form.find("." + EAEM_SORT_PARAMETER);
+    function removeSortParameter(){
+        var $form = $(GRANITE_OMNI_SEARCH_CONTENT),
+            $sortParam = $form.find("." + EAEM_SORT_PARAMETER);
 
         if(!_.isEmpty($sortParam)){
             $sortParam.remove();
         }
+    }
+
+    function addSortParameter($form, parameter, direction){
+        removeSortParameter();
 
         $form.append(getSortHtml(parameter, direction));
     }
@@ -138,8 +147,6 @@
         }else{
             $nameCol.attr("sortabledirection", direction);
         }
-
-        STORAGE.removeItem(SORT_DIRECTION_STORAGE_KEY);
     }
 
     function getIndex($headRow, header){
