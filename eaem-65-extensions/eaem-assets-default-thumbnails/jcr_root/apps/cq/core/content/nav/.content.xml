@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <tools jcr:primaryType="nt:unstructured">
+        <eaem
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Experience AEM"
+            id="experience-aem-tools">
+            <asset-default-thumbnails
+                jcr:description="Experience AEM Assets Default Thumbnails"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Assets Default Thumbnails"
+                href="/mnt/overlay/dam/gui/content/metadataschemaeditor/schemalist.html"
+                icon="asset"
+                id="eaem-assets-default-thumbnails"
+                size="XL"/>
+        </eaem>
+    </tools>
+</jcr:root>
