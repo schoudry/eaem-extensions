@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:mixinTypes="[sling:VanityPath]"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Experience AEM Default Thumbnails"
+        sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <content
+                    granite:rel="cq-sites-editlaunch-form"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    action="/bin/wcmcommand"
+                    foundationForm="{Boolean}true"
+                    maximized="{Boolean}true"
+                    method="post"
+                    novalidate="{Boolean}true"
+                    style="vertical">
+                    <successresponse
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Success"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
+                        open="/bin/wcmcommand?cmd=open&amp;_charset_=utf-8&amp;path={Path}"
+                        redirect="${empty param.redirect ? &quot;/libs/launches/content/launches.html&quot; : param.redirect}"
+                        text="The Launch was saved."/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <wizard
+                            granite:class="cq-sites-editlaunch-wizard"
+                            granite:rel="cq-sites-editlaunch"
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Configure Thumbnails"
+                            sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                            <items jcr:primaryType="nt:unstructured">
+                                <area
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Configure Thumbnails"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    maximized="{Boolean}true"
+                                    name="srcPath"
+                                    required="{Boolean}true">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <columns
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                            margin="{Boolean}true">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <thumbnails
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                            composite="{Boolean}true"
+                                                            fieldLabel="Products">
+                                                            <field
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                                name="./thumbnails">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <extension
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="File Extension (no period) eg. DOCX"
+                                                                        fieldLabel="File Extension"
+                                                                        name="./extension"/>
+                                                                    <image
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                                        fieldDescription="Select Image Path"
+                                                                        fieldLabel="Thumbnail Path"
+                                                                        name="./path"
+                                                                        rootPath="/content/dam"/>
+                                                                </items>
+                                                            </field>
+                                                        </thumbnails>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </columns>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                            href="${empty param.redirect ? &quot;/libs/launches/content/launches.html&quot; : param.redirect}"
+                                            text="Cancel">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            text="Save"
+                                            type="submit"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </area>
+                            </items>
+                        </wizard>
+                    </items>
+                </content>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>
