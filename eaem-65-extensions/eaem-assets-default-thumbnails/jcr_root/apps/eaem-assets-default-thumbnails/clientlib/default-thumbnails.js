@@ -35,8 +35,6 @@
             return;
         }
 
-        var isList = isListView();
-
         $(".foundation-collection-item").each(function(index, item){
             var $item = $(item),
                 isFolder = ($item.data("item-type") == DIRECTORY);
@@ -51,11 +49,8 @@
                 return;
             }
 
-            if(isList){
-                $item.find("td:first > img").attr("src", listThumbs[extension]);
-            }else{
-                $item.find("coral-card-asset > img").attr("src", cardThumbs[extension]);
-            }
+            $item.find("td:first > img").attr("src", listThumbs[extension]);
+            $item.find("coral-card-asset > img").attr("src", cardThumbs[extension]);
         });
     }
 
@@ -140,7 +135,6 @@
             })
         }
     }
-
 
     function isColumnView(){
         return ( getAssetsConsoleLayout() === LAYOUT_COL_VIEW );
