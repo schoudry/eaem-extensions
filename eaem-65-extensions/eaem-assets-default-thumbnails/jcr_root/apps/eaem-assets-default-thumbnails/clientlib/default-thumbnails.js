@@ -23,7 +23,7 @@
         if(isColumnView()){
             addColumnViewThumbnails();
         }else{
-            addCardListViewThumbnails()
+            addCardListViewThumbnails();
         }
     }
 
@@ -49,8 +49,17 @@
                 return;
             }
 
-            $item.find("td:first > img").attr("src", listThumbs[extension]);
-            $item.find("coral-card-asset > img").attr("src", cardThumbs[extension]);
+            var $img = $item.find("td:first > img");
+
+            if(!isRendition($img.attr("src"))){
+                $img.attr("src", listThumbs[extension]);
+            }
+
+            $img = $item.find("coral-card-asset > img");
+
+            if(!isRendition($img.attr("src"))){
+                $img.attr("src", cardThumbs[extension]);
+            }
         });
     }
 
@@ -79,7 +88,11 @@
                 var $item = $(item),
                     extension = getExtension($item.data(FOUNDATION_COLLECTION_ITEM_ID));
 
-                $item.find("coral-columnview-item-thumbnail > img").attr("src", columnThumbs[extension]);
+                var $img = $item.find("coral-columnview-item-thumbnail > img");
+
+                if(!isRendition($img.attr("src"))){
+                    $img.attr("src", columnThumbs[extension]);
+                }
             });
         }
     }
@@ -93,7 +106,11 @@
 
         var extension = getExtension($colPreview.data("foundationLayoutColumnviewColumnid"));
 
-        $colPreview.find("coral-columnview-preview-asset > img").attr("src", columnThumbs[extension]);
+        var $img = $colPreview.find("coral-columnview-preview-asset > img");
+
+        if(!isRendition($img.attr("src"))){
+            $img.attr("src", columnThumbs[extension]);
+        }
     }
 
     function getExtension(path){
@@ -140,14 +157,6 @@
         return ( getAssetsConsoleLayout() === LAYOUT_COL_VIEW );
     }
 
-    function isListView(){
-        return ( getAssetsConsoleLayout() === LAYOUT_LIST_VIEW );
-    }
-
-    function isCardView(){
-        return (getAssetsConsoleLayout() === LAYOUT_CARD_VIEW);
-    }
-
     function getAssetsConsoleLayout(){
         var $childPage = $(CONTAINER),
             foundationLayout = $childPage.data("foundation-layout");
@@ -180,4 +189,9 @@
 
         return deferred.promise();
     }
+
+    function isRendition(imgSrc){
+        return (!_.isEmpty(imgSrc) && imgSrc.includes("/renditions/"));
+    }
+
 }(jQuery, jQuery(document)));
