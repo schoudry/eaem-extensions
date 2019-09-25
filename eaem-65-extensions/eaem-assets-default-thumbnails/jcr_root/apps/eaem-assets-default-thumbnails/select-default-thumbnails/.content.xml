@@ -36,7 +36,7 @@
                         jcr:title="Success"
                         sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
                         open="/assets.html"
-                        redirect="/aem/start.html"
+                        redirect="/apps/eaem-assets-default-thumbnails/select-default-thumbnails.html/conf/global/settings/dam/eaem-thumbnails"
                         text="Thumbnails configuration saved"/>
                     <items jcr:primaryType="nt:unstructured">
                         <type
@@ -66,7 +66,7 @@
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <thumbnails
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                            sling:resourceType="/apps/eaem-assets-default-thumbnails/thumbnail-multifield"
                                                             composite="{Boolean}true"
                                                             fieldLabel="Thumbnails">
                                                             <field
