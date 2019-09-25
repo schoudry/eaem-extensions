@@ -23,10 +23,9 @@
             sling:resourceType="granite/ui/components/coral/foundation/page/body">
             <items jcr:primaryType="nt:unstructured">
                 <content
-                    granite:rel="cq-sites-editlaunch-form"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/form"
-                    action="/bin/wcmcommand"
+                    action="/conf/global/settings/dam/eaem-thumbnails"
                     foundationForm="{Boolean}true"
                     maximized="{Boolean}true"
                     method="post"
@@ -36,13 +35,16 @@
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Success"
                         sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
-                        open="/bin/wcmcommand?cmd=open&amp;_charset_=utf-8&amp;path={Path}"
-                        redirect="${empty param.redirect ? &quot;/libs/launches/content/launches.html&quot; : param.redirect}"
-                        text="The Launch was saved."/>
+                        open="/assets.html"
+                        redirect="/aem/start.html"
+                        text="Thumbnails configuration saved"/>
                     <items jcr:primaryType="nt:unstructured">
+                        <type
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            name="./jcr:primaryType"
+                            value="nt:unstructured"/>
                         <wizard
-                            granite:class="cq-sites-editlaunch-wizard"
-                            granite:rel="cq-sites-editlaunch"
                             jcr:primaryType="nt:unstructured"
                             jcr:title="Configure Thumbnails"
                             sling:resourceType="granite/ui/components/coral/foundation/wizard">
@@ -51,9 +53,7 @@
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="Configure Thumbnails"
                                     sling:resourceType="granite/ui/components/coral/foundation/container"
-                                    maximized="{Boolean}true"
-                                    name="srcPath"
-                                    required="{Boolean}true">
+                                    maximized="{Boolean}true">
                                     <items jcr:primaryType="nt:unstructured">
                                         <columns
                                             jcr:primaryType="nt:unstructured"
@@ -68,7 +68,7 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                                             composite="{Boolean}true"
-                                                            fieldLabel="Products">
+                                                            fieldLabel="Thumbnails">
                                                             <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="granite/ui/components/coral/foundation/container"
@@ -100,7 +100,7 @@
                                             granite:class="foundation-wizard-control"
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
-                                            href="${empty param.redirect ? &quot;/libs/launches/content/launches.html&quot; : param.redirect}"
+                                            href="/aem/start.html"
                                             text="Cancel">
                                             <granite:data
                                                 jcr:primaryType="nt:unstructured"

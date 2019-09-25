@@ -10,7 +10,7 @@
                 jcr:description="Experience AEM Assets Default Thumbnails"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Assets Default Thumbnails"
-                href="/mnt/overlay/dam/gui/content/metadataschemaeditor/schemalist.html"
+                href="/apps/eaem-assets-default-thumbnails/select-default-thumbnails.html"
                 icon="asset"
                 id="eaem-assets-default-thumbnails"
                 size="XL"/>
