@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <eaemTitle
+        jcr:primaryType="nt:unstructured"
+        jcr:title="EAEM Title"
+        columnGroup="Experience AEM"
+        configurable="{Boolean}true"
+        default="{Boolean}true"/>
+    <eaemDesc
+        jcr:primaryType="nt:unstructured"
+        jcr:title="EAEM Description"
+        columnGroup="Experience AEM"
+        configurable="{Boolean}true"
+        default="{Boolean}true"/>
+    <eaemKeywords
+        jcr:primaryType="nt:unstructured"
+        jcr:title="EAEM Keywords"
+        columnGroup="Experience AEM"
+        configurable="{Boolean}true"
+        default="{Boolean}true"/>
+</jcr:root>
