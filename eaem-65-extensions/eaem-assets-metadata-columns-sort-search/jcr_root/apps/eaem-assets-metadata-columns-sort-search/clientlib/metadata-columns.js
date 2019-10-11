@@ -132,25 +132,55 @@
         htmlParser.instance.parse = function(html, avoidMovingExisting){
             var $parsedResponse = $(html);
 
-            if(!_.isEmpty($parsedResponse.find(GRANITE_OMNI_SEARCH_RESULT))){
-                sortHandlersAdded = false;
+            if( ($parsedResponse[0].tagName === "CORAL-MASONRY") || !_.isEmpty($parsedResponse.find("coral-masonry"))){
+                return otbParse.call(htmlParser.instance, html, avoidMovingExisting);
+            }
 
+            if(!_.isEmpty($parsedResponse.find(GRANITE_OMNI_SEARCH_RESULT))){
                 addCustomHeaders($parsedResponse);
 
                 fillColumnData(fetchCustomColumnValues(), $parsedResponse);
             }else if( GRANITE_OMNI_SEARCH_RESULT == ("#" + $parsedResponse.attr("id"))){
-                fillColumnData(fetchCustomColumnValues(), $parsedResponse);
+                if(!checkHeadersAdded($parsedResponse)){
+                    addCustomHeaders($parsedResponse);
 
-                html = $parsedResponse[0].outerHTML;
+                    fillColumnData(fetchCustomColumnValues(), $parsedResponse);
+
+                    html = reconstructHtml(html, $parsedResponse);
+                }else{
+                    fillColumnData(fetchCustomColumnValues(), $parsedResponse);
+
+                    html = $parsedResponse[0].outerHTML;
+                }
             }
 
             return otbParse.call(htmlParser.instance, html, avoidMovingExisting);
         }
     }
 
+    function reconstructHtml(html, $parsedResponse){
+        var reHtml = html.substring(0, html.indexOf("<thead")),
+            parsedHtml = $parsedResponse[0].outerHTML;
+
+        reHtml = reHtml + parsedHtml.substring(parsedHtml.indexOf("<thead"), parsedHtml.indexOf("</tbody>")) + "</tbody>";
+
+        reHtml = reHtml + html.substring(html.indexOf("</tbody>") + "</tbody>".length);
+
+        return reHtml;
+    }
+
+    function checkHeadersAdded($container){
+        return !_.isEmpty($container.find("th[" + EAEM_METADATA_REL_PATH + "]"));
+    }
+
     function addCustomHeaders($parsedResponse){
-        var $container = $parsedResponse.find(GRANITE_OMNI_SEARCH_RESULT),
-            $headRow = $container.find("thead > tr");
+        var $container = $parsedResponse.find(GRANITE_OMNI_SEARCH_RESULT);
+
+        if(_.isEmpty($container)){
+            $container = $parsedResponse;
+        }
+
+        var $headRow = $container.find("thead > tr");
 
         if(_.isEmpty($headRow)){
             return;
