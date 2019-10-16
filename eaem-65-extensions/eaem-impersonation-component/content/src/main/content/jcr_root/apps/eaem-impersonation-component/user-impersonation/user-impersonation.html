@@ -1,0 +1,26 @@
+<div class="ui form"
+     data-sly-use.impModel="apps.experienceaem.sites.EAEMImpersonationModel"
+     data-sly-test="${impModel.showImpersonation}">
+    <div id="eaem-impersonate">
+        <div style="margin: 0 0 15px 0">Impersonate as (enter user id)</div>
+        <input type="text" style="width: 100%" onchange="EAEM_IMPERSONATION.impersonateAsUser(this.value)"/>
+    </div>
+
+    <div id="eaem-impersonate-revert" style="display:none">
+        <div>
+            Impersonating as "<span id="eaem-impersonate-user"></span>"
+        </div>
+        <div style="margin: 10px 0 0 0; cursor: pointer;"
+             onclick="EAEM_IMPERSONATION.revertToSelf()">
+            Revert to Self
+        </div>
+    </div>
+</div>
+
+<div data-sly-test="${!impModel.showImpersonation && wcmmode.edit}">
+    Impersonators group not configured or logged in user not a member of the group
+</div>
+
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-call="${clientlib.all @ categories='eaem.user.impersonation'}"/>
+
