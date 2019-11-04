@@ -22,14 +22,24 @@
             getName: function () {
                 return el.name;
             },
-            setName: function(name) {
+             setName: function(name) {
                 var prefix = name.substr(0, name.lastIndexOf(el.name));
-
+                var oldRootElementName = "";
+                var newRootElementName = "";
+                if(prefix == ""){
+                    oldRootElementName = el.name.substr(0, el.name.lastIndexOf("./icon"));
+                    newRootElementName = name.substr(0, name.lastIndexOf("./icon"));;
+                }
                 el.name = name;
-
                 $("input[type='hidden'][data-cq-fileupload-parameter]", el).each(function(i, el) {
                     if ($(el).data("data-cq-fileupload-parameter") !== "filemovefrom") {
-                        this.setAttribute("name", prefix + this.getAttribute("name"));
+                        if(prefix == ""){
+                            var currentChildName = this.getAttribute("name");
+                            currentChildName = currentChildName.replace(oldRootElementName,newRootElementName);
+                            this.setAttribute("name", currentChildName);
+                        }else{
+                            this.setAttribute("name", prefix + this.getAttribute("name"));
+                        }
                     }
                 });
             }
