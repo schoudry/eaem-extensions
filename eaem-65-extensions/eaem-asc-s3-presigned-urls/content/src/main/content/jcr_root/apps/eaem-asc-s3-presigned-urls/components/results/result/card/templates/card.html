@@ -1,0 +1,80 @@
+<template data-sly-template.card="${@ asset = result, config = config }">
+
+    <sly data-sly-use.assetDetails="${'com.adobe.aem.commons.assetshare.configuration.AssetDetails' @ request = slingRequest, asset = asset }"></sly>
+
+    <article
+            data-asset-share-id="asset"
+            data-asset-share-asset="${asset.path}"
+            id="${asset.path}"
+            class="ui card cmp-card">
+
+        <a class="image cmp-image__wrapper--card" href="${assetDetails.fullUrl}">
+            <img src="${asset.properties['rendition?name=card'] || properties['missingImage'] @ context = 'attribute'}"
+                 class="cmp-image--card"
+                 alt="${asset.properties['title']}"/>
+        </a>
+
+        <div class="content">
+            <h3 class="header">
+                <a href="${assetDetails.fullUrl}">
+                    ${asset.properties['title']}
+                </a>
+            </h3>
+            <div class="meta">
+				<div class="property three">
+					${'SIZE' @ i18n}
+					<span class="value">${asset.properties['fileSize']}</span>
+				</div>
+				<div class="property three">
+					${'TYPE' @ i18n}
+					<span class="value">${asset.properties['type']}</span>
+				</div>
+				<div class="property three">
+					${'RES.' @ i18n}
+					<span class="value">${asset.properties['resolution']}</span>
+				</div>
+            </div>
+        </div>
+
+        <div class="extra content">
+         <div class="ui divider"></div>
+            <ul class="cmp_card__action-buttons">
+                <li data-sly-test="${config.downloadEnabled}">
+                    <div data-sly-unwrap data-sly-test="${!properties.eaemUseS3}">
+                        <button class="ui link button"
+                                data-asset-share-id="download-asset"
+                                data-asset-share-asset="${asset.path}"
+                                data-asset-share-license="${config.licenseEnabled ? asset.properties['license'] : ''}">${'Download' @ i18n}</button>
+                    </div>
+                    <div data-sly-unwrap data-sly-test="${properties.eaemUseS3}">
+                        <a href="${asset.path}.eaems3download.html" target="_blank">S3DOWNLOAD</a>
+                    </div>
+                </li>
+                <li data-sly-test="${config.shareEnabled}">
+                    <button class="ui link button"
+                            data-asset-share-id="share-asset"
+                            data-asset-share-asset="${asset.path}"
+                            data-asset-share-license="${config.licenseEnabled ? asset.properties['license'] : ''}">${'Share' @ i18n}</button>
+                </li>
+                <li data-sly-test="${config.cartEnabled}">
+
+                    <button class="ui link button"
+                            data-asset-share-id="add-to-cart"
+                            data-asset-share-asset="${asset.path}"
+                            data-asset-share-license="${config.licenseEnabled ? asset.properties['license'] : ''}">${'Add to Cart' @ i18n}</button>
+                    
+                    <button class="ui link button hidden"
+                            data-asset-share-id="remove-from-cart"
+                            data-asset-share-asset="${asset.path}"
+                            data-asset-share-license="${config.licenseEnabled ? asset.properties['license'] : ''}">${'Remove From Cart' @ i18n}</button>
+                </li>
+            </ul>
+        </div>
+    </article>
+</template>
+
+<template data-sly-template.noResults="${@ search = search, config = config }">
+    <h1 class="ui center aligned header">
+        ${properties['noResultsText']}
+    </h1>
+</template>
