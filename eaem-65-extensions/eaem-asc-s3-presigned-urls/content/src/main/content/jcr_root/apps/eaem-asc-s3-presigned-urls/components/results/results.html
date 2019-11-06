@@ -1,25 +1,5 @@
 <div data-sly-test="${properties.paths}" data-sly-unwrap>
-    <sly    data-sly-use.modelCache="com.adobe.aem.commons.assetshare.util.ModelCache"
-            data-sly-test.config="${modelCache['com.adobe.aem.commons.assetshare.configuration.Config']}"
-            data-sly-test.search="${modelCache['com.adobe.aem.commons.assetshare.search.Search']}"
-            data-sly-test.pagePredicate="${modelCache['com.adobe.aem.commons.assetshare.components.predicates.PagePredicate']}"></sly>
-
-    <form   role="search"
-            class="ui form"
-            id="${pagePredicate.formId}"
-            action="${currentPage.path @ extension = 'html'}"
-            data-asset-share-action="${currentPage.path @ selectors = 'results', extension = 'html'}"
-            data-asset-share-id="form">
-        <div class="ui one column grid">
-            <div class="column" data-asset-share-id="layout-container">
-                <sly data-sly-test="${search.layout == 'card'}"
-                     data-sly-resource="${'.' @ resourceType = properties['cardResultResourceType']}"/></sly>
-
-                <sly data-sly-test="${search.layout == 'list'}"
-                     data-sly-resource="${'.' @ resourceType = properties['listResultResourceType']}"/></sly>
-            </div>
-        </div>
-    </form>
+    <section data-sly-include="/apps/asset-share-commons/components/search/results/results.html"></section>
 </div>
 
 <div data-sly-test="${!properties.paths}" style="margin: 15px">

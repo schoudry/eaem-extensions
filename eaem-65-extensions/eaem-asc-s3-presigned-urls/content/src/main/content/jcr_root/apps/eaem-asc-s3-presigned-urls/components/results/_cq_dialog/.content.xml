@@ -21,7 +21,7 @@
                                         fieldDescription="Use AWS S3 Presigned URLs for Download"
                                         name="./eaemUseS3"
                                         text="S3 Presigned urls for download"
-                                        value="{Boolean}false"/>
+                                        value="{Boolean}true"/>
                                 </items>
                             </column>
                         </items>
