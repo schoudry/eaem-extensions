@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="sling:OsgiConfig"
+    queue.maxparallel="{Long}1"
+    queue.name="Experience AEM Cart Creation Queue"
+    queue.priority="MIN"
+    queue.retries="{Long}1"
+    queue.retrydelay="{Long}5000"
+    queue.topics="apps/experienceaem/assets/cart"
+    queue.type="ORDERED"/>
