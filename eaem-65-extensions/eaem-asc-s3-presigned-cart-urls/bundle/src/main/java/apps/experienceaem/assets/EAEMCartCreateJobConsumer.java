@@ -57,8 +57,6 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
 
             String presignedUrl = eaems3Service.getS3PresignedUrl(objectKey, cartName, EAEMS3Service.ZIP_MIME_TYPE);
 
-            log.debug("Cart - " + cartName + ", Presigned url - " + presignedUrl );
-
             log.debug("Cart - " + cartName + ", with object key - " + objectKey + ", creation and upload to S3 took " + ((System.currentTimeMillis() - startTime) / 1000) + " secs");
 
         }catch(Exception e){

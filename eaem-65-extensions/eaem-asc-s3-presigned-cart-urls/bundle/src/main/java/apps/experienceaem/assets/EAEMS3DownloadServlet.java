@@ -25,9 +25,7 @@ import java.util.Map;
         service = Servlet.class,
         property = {
                 "sling.servlet.methods=GET",
-                "sling.servlet.resourceTypes=dam:Asset",
-                "sling.servlet.selectors=eaems3download",
-                "sling.servlet.extensions=html"
+                "sling.servlet.paths=/bin/experience-aem/cart"
         }
 )
 public class EAEMS3DownloadServlet extends SlingAllMethodsServlet {
