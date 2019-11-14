@@ -4,6 +4,10 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.transfer.Transfer;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.Upload;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.commons.util.DamUtil;
 import org.apache.commons.io.IOUtils;
@@ -40,8 +44,10 @@ import java.util.zip.ZipOutputStream;
 public class EAEMS3Service {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     public static String ZIP_MIME_TYPE = "application/zip";
+    private final long GB_4 = 4294967296L;
 
-    private static AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
+    private static AmazonS3 s3Client = null;
+    private static TransferManager s3TransferManager = null;
 
     private long cartFileS3Expiration = (1000 * 60 * 60);
     private String s3BucketName = "";
@@ -53,6 +59,11 @@ public class EAEMS3Service {
         cartFileS3Expiration = configuration.cartFileS3Expiration();
         s3BucketName = configuration.s3BucketName();
         directDownloadLimit = configuration.directDownloadLimit();
+
+        logger.info("Creating s3Client and s3TransferManager...");
+
+        s3Client = AmazonS3ClientBuilder.defaultClient();
+        s3TransferManager = TransferManagerBuilder.standard().withS3Client(s3Client).build();
     }
 
     public long getDirectDownloadLimit(){
@@ -88,22 +99,24 @@ public class EAEMS3Service {
         return presignedUrl;
     }
 
-    public String uploadToS3(String cartName, String cartTempFilePath){
-        PutObjectRequest putRequest = new PutObjectRequest(s3BucketName, cartName, new File(cartTempFilePath));
-        String objectKey = null;
+    public String uploadToS3(String cartName, String cartTempFilePath) throws Exception{
+        File cartTempFile = new File(cartTempFilePath);
+        PutObjectRequest putRequest = new PutObjectRequest(s3BucketName, cartName, cartTempFile);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(ZIP_MIME_TYPE);
 
         putRequest.setMetadata(metadata);
 
-        PutObjectResult putResult = s3Client.putObject(putRequest);
+        Upload upload = s3TransferManager.upload(putRequest);
 
-        if(putResult != null){
-            objectKey = putRequest.getKey();
+        upload.waitForCompletion();
+
+        if(!cartTempFile.delete()){
+            logger.warn("Error deleting temp cart from local file system after uploading to S3 - " + cartTempFilePath);
         }
 
-        return objectKey;
+        return cartName;
     }
 
     public String createTempZip(List<Asset> assets, String cartName) throws Exception{
