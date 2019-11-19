@@ -39,7 +39,6 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
     public static final String CART_RECEIVER_EMAIL = "CART_RECEIVER_EMAIL";
     public static final String ASSET_PATHS = "ASSET_PATHS";
     private static String EMAIL_TEMPLATE_PATH = "/apps/eaem-asc-s3-presigned-cart-urls/mail-templates/cart-template.html";
-    private static String SENDER_EMAIL = "experience.aem@gmail.com";
 
     @Reference
     private MessageGatewayService messageGatewayService;
@@ -58,7 +57,7 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
         String assetPaths = (String)job.getProperty(ASSET_PATHS);
         String receiverEmail = (String)job.getProperty(CART_RECEIVER_EMAIL);
 
-        log.debug("Processing cart - " + cartName);
+        log.debug("Start processing cart - " + cartName);
 
         ResourceResolver resolver = null;
 
@@ -92,6 +91,8 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
             emailParams.put("presignedUrl", presignedUrl);
 
             sendMail(resolver, emailParams, receiverEmail);
+
+            log.debug("End processing cart - " + cartName);
         }catch(Exception e){
             log.error("Error creating cart - " + cartName + ", with assets - " + assetPaths, e);
             return JobResult.FAILED;
@@ -100,8 +101,6 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
                 resolver.close();
             }
         }
-
-        log.debug("Processing complete cart - " + cartName);
 
         return JobResult.OK;
     }
@@ -116,7 +115,6 @@ public class EAEMCartCreateJobConsumer implements JobConsumer {
         Email email = mailTemplate.getEmail(StrLookup.mapLookup(emailParams), HtmlEmail.class);
 
         email.setTo(Collections.singleton(new InternetAddress(recipientEmail)));
-        email.setFrom(SENDER_EMAIL);
 
         MessageGateway<Email> messageGateway = messageGatewayService.getGateway(email.getClass());
 
