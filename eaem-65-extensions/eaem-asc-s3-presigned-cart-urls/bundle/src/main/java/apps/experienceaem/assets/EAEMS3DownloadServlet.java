@@ -1,11 +1,13 @@
 package apps.experienceaem.assets;
 
 import com.day.cq.dam.api.Asset;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -29,7 +31,7 @@ import java.util.Map;
 @Component(
         service = Servlet.class,
         property = {
-                "sling.servlet.methods=GET",
+                "sling.servlet.methods=GET,POST",
                 "sling.servlet.paths=/bin/experience-aem/cart"
         }
 )
@@ -44,13 +46,33 @@ public class EAEMS3DownloadServlet extends SlingAllMethodsServlet {
     @Reference
     private JobManager jobManager;
 
+    public final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+
     public final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
                             throws ServletException, IOException {
         String paths = request.getParameter("paths");
 
         if(StringUtils.isEmpty(paths)){
-            return;
+            RequestParameter[] pathParams = request.getRequestParameters("path");
+
+            if(ArrayUtils.isEmpty(pathParams)){
+                response.sendError(403, "Missing path parameters");
+                return;
+            }
+
+            List<String> rPaths = new ArrayList<String>();
+
+            for(RequestParameter param : pathParams){
+                rPaths.add(param.getString());
+            }
+
+            paths = StringUtils.join(rPaths, ",");
         }
+
+        logger.debug("Processing download of paths - " + paths);
 
         ResourceResolver resolver = request.getResourceResolver();
 
