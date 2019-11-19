@@ -107,6 +107,9 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>apps.experienceaem.assets.eaem-asc-s3-presigned-cart-urls-bundle</Bundle-SymbolicName>
+                        <Sling-Model-Packages>
+                            apps.experienceaem.assets
+                        </Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>

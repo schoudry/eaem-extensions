@@ -1,0 +1,91 @@
+<sly data-sly-use.download="com.adobe.aem.commons.assetshare.components.actions.download.Download"
+     data-sly-test.downloadAssets="${properties.excludeOriginalAssets ? false : true}"></sly>
+
+<sly data-sly-use.eaemDownload="apps.experienceaem.assets.EAEMDownload"></sly>
+
+<style data-sly-test="${!wccmode.disabled}">
+    .cmp-modal-download .ui.modal {
+        position: relative !important;
+        display: block !important;;
+        top: 0 !important;;
+    }
+</style>
+
+<form method="post"
+      action="/content/dam.assetdownload.zip/${download.zipFileName}.zip"
+      target="download"
+      data-asset-share-id="download-modal"
+      class="ui modal cmp-modal-download--wrapper cmp-modal">
+
+    <input type="hidden" name="licenseCheck" value="true"/>
+    <input type="hidden" name="flatStructure" value="false"/>
+
+    <input type="hidden" name="downloadAssets"
+           value="${downloadAssets ? 'true' : 'false'}"/>
+
+    <i class="close icon"></i>
+
+    <div data-sly-test.isMaxSize="${download.maxContentSize > 0 && download.maxContentSize < download.downloadContentSize}" 
+        class="ui attached warning message cmp-message">
+        ${properties['maxContentSizeMessage']}
+        <br/>
+        <label>${"Limit" @ i18n}:</label> <span class="detail">${download.maxContentSizeLabel}</span> | 
+        <label>${"Current Size" @ i18n}:</label> <span class="detail">${download.downloadContentSizeLabel}</span>
+    </div>
+    <div class="header">
+        ${properties['modalTitle']}
+    </div>
+    <div class="image scrolling content cmp-content">
+        <div class="ui medium image">
+            <div class="ui header">${properties['assetListTitle']}</div>
+
+            <div class="ui list" data-sly-list.asset="${download.assets}">
+                <div class="item">
+                    <i class="file icon"></i>
+                    <div class="content">
+                        <div class="header">${asset.title}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="description ui form">
+            <div class="ui header">${properties['downloadOptionsTitle']}</div>
+
+            <sly data-sly-list.asset="${download.assets}">
+                <input type="hidden" name="path"  value="${asset.url}"/>
+            </sly>
+
+            <div class="field">
+                <div class="ui checkbox">
+                    <input type="checkbox" tabindex="3" class="hidden" name="downloadRenditions" value="true"
+                           data-sly-attribute.checked="${!downloadAssets}"
+                           data-sly-attribute.required="${!downloadAssets}"
+                           data-sly-attribute.readonly="${!downloadAssets}">
+                    <label>${"Include Renditions" @ i18n}</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="ui checkbox">
+                    <input type="checkbox" tabindex="4" class="hidden" name="downloadSubassets" value="true">
+                    <label>${"Include Sub-assets" @ i18n}</label>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div class="actions cmp-footer__actions">
+        <div class="ui deny button">
+            ${properties['cancelButton']}
+        </div>
+        <button type="submit" class="ui positive primary right labeled icon button ${isMaxSize ? 'disabled': ''}">
+            ${properties['downloadButton']}
+            <i class="download icon"></i>
+        </button>
+    </div>
+    <script>
+        $(function() {
+            $('[data-asset-share-id="download-modal"] .ui.checkbox').checkbox();
+        });
+    </script>
+</form>
