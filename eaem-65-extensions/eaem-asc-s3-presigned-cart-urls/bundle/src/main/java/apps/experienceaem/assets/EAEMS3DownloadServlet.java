@@ -2,17 +2,22 @@ package apps.experienceaem.assets;
 
 import com.day.cq.dam.api.Asset;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.event.jobs.JobManager;
+import org.apache.sling.jcr.base.util.AccessControlUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -64,6 +69,14 @@ public class EAEMS3DownloadServlet extends SlingAllMethodsServlet {
                 return;
             }
 
+            String userId = request.getUserPrincipal().getName();
+            String email = eaems3Service.getUserEmail(resolver, userId);
+
+            if(StringUtils.isEmpty(email)){
+                response.sendError(500, "No email address registered for user - " + userId);
+                return;
+            }
+
             String cartName = eaems3Service.getCartZipFileName(request.getUserPrincipal().getName());
 
             logger.debug("Creating job for cart - " + cartName + ", with assets - " + paths);
@@ -72,6 +85,7 @@ public class EAEMS3DownloadServlet extends SlingAllMethodsServlet {
 
             payload.put(EAEMCartCreateJobConsumer.CART_NAME, cartName);
             payload.put(EAEMCartCreateJobConsumer.ASSET_PATHS, paths);
+            payload.put(EAEMCartCreateJobConsumer.CART_RECEIVER_EMAIL, email);
 
             jobManager.addJob(EAEMCartCreateJobConsumer.JOB_TOPIC, payload);
         }catch(Exception e){

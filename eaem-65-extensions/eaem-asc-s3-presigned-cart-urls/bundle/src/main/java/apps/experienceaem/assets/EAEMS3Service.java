@@ -12,8 +12,12 @@ import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.commons.util.DamUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.jcr.base.util.AccessControlUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
@@ -24,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
+import javax.jcr.Session;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -221,6 +226,15 @@ public class EAEMS3Service {
         expiration.setTime(expTimeMillis);
 
         return expiration;
+    }
+
+    public String getUserEmail(ResourceResolver resolver, String userId) throws Exception{
+        UserManager um = AccessControlUtil.getUserManager(resolver.adaptTo(Session.class));
+
+        Authorizable user = um.getAuthorizable(userId);
+        ValueMap profile = resolver.getResource(user.getPath() + "/profile").adaptTo(ValueMap.class);
+
+        return profile.get("email", "");
     }
 
     @ObjectClassDefinition(

@@ -114,6 +114,12 @@
                 <artifactId>aws-java-sdk-osgi</artifactId>
                 <version>1.11.24</version>
             </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.5.0-b01</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
