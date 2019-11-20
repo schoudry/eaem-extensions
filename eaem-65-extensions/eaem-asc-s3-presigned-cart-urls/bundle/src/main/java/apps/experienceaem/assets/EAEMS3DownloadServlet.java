@@ -110,6 +110,8 @@ public class EAEMS3DownloadServlet extends SlingAllMethodsServlet {
             payload.put(EAEMCartCreateJobConsumer.CART_RECEIVER_EMAIL, email);
 
             jobManager.addJob(EAEMCartCreateJobConsumer.JOB_TOPIC, payload);
+
+            response.sendRedirect(request.getHeader("referer"));
         }catch(Exception e){
             logger.error("Error creating cart zip", e);
             response.sendError(500, "Error creating cart zip - " + e.getMessage());
