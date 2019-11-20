@@ -12,7 +12,7 @@
 </style>
 
 <form method="post"
-      action="/content/dam.assetdownload.zip/${download.zipFileName}.zip"
+      action="/bin/experience-aem/cart"
       target="download"
       data-asset-share-id="download-modal"
       class="ui modal cmp-modal-download--wrapper cmp-modal">
@@ -25,16 +25,23 @@
 
     <i class="close icon"></i>
 
-    <div data-sly-test.isMaxSize="${download.maxContentSize > 0 && download.maxContentSize < download.downloadContentSize}" 
+    <div data-sly-test.isMaxSize="${download.maxContentSize > 0 && download.maxContentSize < download.downloadContentSize}"
         class="ui attached warning message cmp-message">
         ${properties['maxContentSizeMessage']}
         <br/>
         <label>${"Limit" @ i18n}:</label> <span class="detail">${download.maxContentSizeLabel}</span> | 
         <label>${"Current Size" @ i18n}:</label> <span class="detail">${download.downloadContentSizeLabel}</span>
     </div>
+
+    <div data-sly-test.isCartDownload="${eaemDownload.cartSize > eaemDownload.directDownloadLimit}"
+         class="ui attached warning message cmp-message">
+        <span class="detail">Size exceeds limit for direct download, you'll receive an email when the cart is ready for download</span>
+    </div>
+
     <div class="header">
         ${properties['modalTitle']}
     </div>
+
     <div class="image scrolling content cmp-content">
         <div class="ui medium image">
             <div class="ui header">${properties['assetListTitle']}</div>
@@ -79,7 +86,7 @@
             ${properties['cancelButton']}
         </div>
         <button type="submit" class="ui positive primary right labeled icon button ${isMaxSize ? 'disabled': ''}">
-            ${properties['downloadButton']}
+            ${isCartDownload ? 'Email when ready' : properties['downloadButton'] }
             <i class="download icon"></i>
         </button>
     </div>
