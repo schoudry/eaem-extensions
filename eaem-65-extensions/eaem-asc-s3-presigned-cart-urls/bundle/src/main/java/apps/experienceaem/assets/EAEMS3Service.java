@@ -4,16 +4,17 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.services.s3.transfer.Transfer;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.commons.util.DamUtil;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -49,7 +50,6 @@ import java.util.zip.ZipOutputStream;
 public class EAEMS3Service {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     public static String ZIP_MIME_TYPE = "application/zip";
-    private final long GB_4 = 4294967296L;
 
     private static AmazonS3 s3Client = null;
     private static TransferManager s3TransferManager = null;
@@ -178,6 +178,26 @@ public class EAEMS3Service {
             }
 
             assets.add(assetResource.adaptTo(Asset.class));
+        }
+
+        return assets;
+    }
+
+    public List<Asset> getAssets(ResourceResolver resolver, RequestParameter[] requestParameters){
+        List<Asset> assets = new ArrayList<Asset>();
+
+        if(ArrayUtils.isEmpty(requestParameters)){
+            return assets;
+        }
+
+        for (RequestParameter requestParameter : requestParameters) {
+            Resource resource = resolver.getResource(requestParameter.getString());
+
+            if(resource == null){
+                continue;
+            }
+
+            assets.add(resource.adaptTo(Asset.class));
         }
 
         return assets;

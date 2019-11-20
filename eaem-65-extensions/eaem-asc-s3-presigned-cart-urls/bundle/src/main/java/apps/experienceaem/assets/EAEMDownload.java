@@ -42,22 +42,9 @@ public class EAEMDownload {
     protected void init() {
         directDownloadLimit = eaems3Service.getDirectDownloadLimit();
 
-        RequestParameter[] requestParameters = request.getRequestParameters("path");
-        ResourceResolver resolver = request.getResourceResolver();
-        List<Asset> assets = new ArrayList<Asset>();
-
-        for (RequestParameter requestParameter : requestParameters) {
-            Resource resource = resolver.getResource(requestParameter.getString());
-
-            if(resource == null){
-                continue;
-            }
-
-            assets.add(resource.adaptTo(Asset.class));
-        }
-
         try{
-            cartSize = eaems3Service.getSizeOfContents(assets);
+            cartSize = eaems3Service.getSizeOfContents(eaems3Service.getAssets(request.getResourceResolver(),
+                                request.getRequestParameters("path")));
         }catch (Exception e){
             logger.error("Error calculating cart size", e);
         }
