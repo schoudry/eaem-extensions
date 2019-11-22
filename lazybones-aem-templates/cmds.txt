@@ -57,6 +57,7 @@ import org.json.JSONObject;
         property = {
             "sling.servlet.selectors=eaemcreate",
             "sling.servlet.methods=GET",
+            "sling.servlet.methods=POST",
             "sling.servlet.resourceTypes=sling/servlet/default"
         }
 )

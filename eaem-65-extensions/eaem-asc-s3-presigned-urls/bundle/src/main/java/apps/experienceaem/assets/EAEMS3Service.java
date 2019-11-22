@@ -68,6 +68,14 @@ public class EAEMS3Service {
         try{
             String objectKey = getS3AssetIdFromReference(resource);
 
+            if(StringUtils.isEmpty(objectKey)){
+                logger.debug("S3 object key empty, could be in segment store - " + resource.getPath());
+
+                presignedUrl = resource.getPath();
+
+                return presignedUrl;
+            }
+
             logger.debug("Path = " + resource.getPath() + ", S3 object key = " + objectKey);
 
             if(StringUtils.isEmpty(objectKey)){
@@ -89,7 +97,8 @@ public class EAEMS3Service {
 
             logger.debug("Path = " + resource.getPath() + ", S3 presigned url = " + presignedUrl);
         }catch(Exception e){
-            logger.error("Error generating s3 presigned url for " + resource.getPath());
+            logger.error("Error generating s3 presigned url for " + resource.getPath(), e);
+            presignedUrl = resource.getPath();
         }
 
         return presignedUrl;
@@ -131,7 +140,7 @@ public class EAEMS3Service {
 
         s3AssetId = value.getReference();
 
-        if(!s3AssetId.contains(":")){
+        if(StringUtils.isEmpty(s3AssetId) || !s3AssetId.contains(":")){
             return s3AssetId;
         }
 
