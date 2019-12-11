@@ -1,4 +1,6 @@
 (function ($, $document) {
+    var EAEM_SORTED = "eaem-sorted";
+
     $document.on("foundation-contentloaded", handleMovePicker);
 
     function handleMovePicker(){
@@ -51,12 +53,18 @@
             var $cContent = $columnData.find(".coral-ColumnView-column-content"),
                 $items = $cContent.find(".coral-ColumnView-item");
 
+            if(!_.isEmpty($cContent.data(EAEM_SORTED))){
+                return;
+            }
+
             $items.sort(function(a, b) {
                 var aTitle = a.getAttribute("title"),
                     bTitle = b.getAttribute("title");
 
                 return (bTitle.toUpperCase()) < (aTitle.toUpperCase()) ? 1 : -1;
             });
+
+            $cContent.data(EAEM_SORTED, "true");
 
             $items.detach().appendTo($cContent);
         }
