@@ -29,8 +29,8 @@
     }
 
     function extendColumnView(columnView){
-        function alphaSort(event, href, data){
-            if(_.isEmpty(href) || _.isEmpty(data)){
+        function alphaSortHandler(event, href){
+            if(_.isEmpty(href)){
                 return;
             }
 
@@ -40,8 +40,15 @@
                 return;
             }
 
-            var $columnData = $(columnData),
-                $cContent = $columnData.find(".coral-ColumnView-column-content"),
+            var $columnData = $(columnData);
+
+            alphaSort($columnData);
+
+            columnView._data[href] = $columnData[0].outerHTML;
+        }
+
+        function alphaSort($columnData){
+            var $cContent = $columnData.find(".coral-ColumnView-column-content"),
                 $items = $cContent.find(".coral-ColumnView-item");
 
             $items.sort(function(a, b) {
@@ -52,11 +59,11 @@
             });
 
             $items.detach().appendTo($cContent);
-
-            columnView._data[href] = $columnData[0].outerHTML;
         }
 
-        columnView.$element.on('coral-columnview-load', alphaSort);
+        columnView.$element.on('coral-columnview-load', alphaSortHandler);
+
+        alphaSort(columnView.$element);
     }
 
 }(jQuery, jQuery(document)));
