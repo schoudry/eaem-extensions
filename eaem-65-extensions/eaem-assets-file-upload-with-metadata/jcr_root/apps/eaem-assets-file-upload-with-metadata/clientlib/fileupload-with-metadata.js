@@ -1,9 +1,10 @@
 (function($, $document) {
     var METADATA_DIALOG = "/apps/eaem-assets-file-upload-with-metadata/dialog.html",
         METADATA_PREFIX = "eaem",
-        UPLOAD_LIST_DIALOG = ".uploadListDialog",
+        UPLOAD_LIST_DIALOG = ".uploadListDialog.is-open",
         ACTION_CHECK_DATA_VALIDITY = "ACTION_CHECK_DATA_VALIDITY",
         ACTION_POST_METADATA = "ACTION_POST_METADATA",
+        dialogAdded = false;
         url = document.location.pathname;
 
     if( url.indexOf("/assets.html") == 0 ){
@@ -121,13 +122,19 @@
 
         $fileUpload.on('change', addMetadataDialog);
 
-        $fileUpload.on('coral-fileupload:loadend', postMetadata);
+        $fileUpload.on('dam-fileupload:loadend', postMetadata);
 
         function sendDataMessage(message){
             $metadataIFrame[0].contentWindow.postMessage(JSON.stringify(message), "*");
         }
 
         function addMetadataDialog(){
+            if(dialogAdded){
+                return;
+            }
+
+            dialogAdded = true;
+
             _.debounce(addDialog, 500)();
         }
 
@@ -173,6 +180,7 @@
 
             $metadataIFrame.on('load', function(){
                 validateUploadButton.show();
+                dialogAdded = false;
             });
 
             registerReceiveDataListener(isMetadataValid);
