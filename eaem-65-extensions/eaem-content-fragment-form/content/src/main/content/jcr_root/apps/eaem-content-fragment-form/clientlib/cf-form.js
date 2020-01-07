@@ -36,12 +36,29 @@
         });
 
         mediaTab.on('click', function(){
-            alert("hi");
+            openPlayableMediaEditor(PLAYABLE_MEDIA_PAGE);
         });
     }
 
     function getFragmentFormTabContent(){
         return "<div class='sidepanel-tab sidepanel-tab-playable-media'>" +
             "</div>";
+    }
+
+    function openPlayableMediaEditor(url){
+        var CFM = Dam.CFM,
+            href = Granite.HTTP.externalize(url);
+
+        $document.trigger(CFM.constants.EVENT_CONTENT_FRAGMENT_BLOCK, {
+            unloadHandling: true
+        });
+
+        href = href + encodeURI(CFM.state.fragment.path);
+
+        CFM.editor.Page.notifyNavigation(function(isSuccess) {
+            if (isSuccess) {
+                document.location.href = href;
+            }
+        });
     }
 })(jQuery, jQuery(document));
