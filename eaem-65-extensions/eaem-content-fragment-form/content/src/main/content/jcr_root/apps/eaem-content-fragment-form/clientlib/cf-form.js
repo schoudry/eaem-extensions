@@ -1,5 +1,6 @@
 (function($, $document) {
-    var formTabAdded = false;
+    var PLAYABLE_MEDIA_PAGE = "/apps/eaem-content-fragment-form/playable-media.html",
+        formTabAdded = false;
 
     $document.on("foundation-contentloaded", addFragmentFormTab);
 
@@ -19,7 +20,7 @@
 
         var tabList = $panelTabs[0].tabList;
 
-        tabList.items.add({
+        var mediaTab = tabList.items.add({
             title: "Playable Media",
             label: {
                 innerHTML: '<coral-icon icon="pages" size="S"/>'
@@ -33,12 +34,14 @@
                 innerHTML: getFragmentFormTabContent()
             }
         });
+
+        mediaTab.on('click', function(){
+            alert("hi");
+        });
     }
 
     function getFragmentFormTabContent(){
-        return "<div class='sidepanel-tab'>" +
-            "<span class='sidepanel-tab-title'>Page Tree</span>" +
-            "<iframe src='http://www.adobe.com' style='border:none' height='800px'></iframe>" +
+        return "<div class='sidepanel-tab sidepanel-tab-playable-media'>" +
             "</div>";
     }
 })(jQuery, jQuery(document));

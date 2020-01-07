@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="AEM Sites | Content Fragment Editor"
+        sling:resourceType="dam/cfm/admin/components/adminpage"
+        adminType="authoring"
+        consoleId="cq-sites-contentfragments-models-edit"
+        extraClientLibs="[cq.authoring.editor.dam.cfm,dam.cfm.api,dam.cfm.metadata.v2,dam.cfm.shell.v2,dam.cfm.migration.sidepanel.v2]"
+        initClientLibs="[jquery,coralui2]"
+        trackingFeature="aem:sites:contentfragments:models:edit">
+        <content jcr:primaryType="nt:unstructured">
+            <items/>
+        </content>
+        <sidepanels jcr:primaryType="nt:unstructured">
+            <edit
+                granite:class="js-SidePanel-content js-SidePanel-content--edit"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <tabs
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/tabs"
+                        margin="{Boolean}true"
+                        maximized="{Boolean}true"
+                        orientation="vertical"
+                        size="L">
+                        <items jcr:primaryType="nt:unstructured">
+                            <variationManagementTab
+                                granite:class="sidepanel-tab sidepanel-tab-variations js-SidePanel-content--empty"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Variations"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    headerTitle="Variations"/>
+                                <parentConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    icon="edit"/>
+                            </variationManagementTab>
+                            <timelineTab
+                                granite:class="sidepanel-tab sidepanel-tab-timeline"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Annotations"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <parentConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    icon="note"/>
+                            </timelineTab>
+                            <associatedContentTab
+                                granite:class="sidepanel-tab sidepanel-tab-associatedcontent js-SidePanel-content--empty"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Associated Content"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    headerTitle="Associated Content"/>
+                                <parentConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    icon="folder"/>
+                            </associatedContentTab>
+                            <metadataTab
+                                granite:class="sidepanel-tab sidepanel-tab-metadata"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Metadata"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    headerTitle="Metadata"/>
+                                <parentConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    active="{Boolean}true"
+                                    icon="infoCircle"/>
+                            </metadataTab>
+                        </items>
+                    </tabs>
+                </items>
+            </edit>
+        </sidepanels>
+    </jcr:content>
+</jcr:root>
