@@ -101,125 +101,138 @@
                                                     fieldDescription="Duration"
                                                     fieldLabel="Duration"
                                                     name="./duration"/>
-                                                <video
+                                                <accordion
                                                     jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                    composite="{Boolean}true"
-                                                    fieldLabel="Video">
-                                                    <field
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
-                                                        name="./products">
-                                                        <items jcr:primaryType="nt:unstructured">
-                                                            <column
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                                <items jcr:primaryType="nt:unstructured">
-                                                                    <mgidFileURI
+                                                    sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                                    variant="quiet">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <basic
+                                                            jcr:primaryType="nt:unstructured"
+                                                            jcr:title="Video"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <video
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                                    composite="{Boolean}true">
+                                                                    <field
                                                                         jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="MGID File URI"
-                                                                        fieldLabel="MGID File URI"
-                                                                        name="./mgidFileURI"/>
-                                                                    <container
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
-                                                                        fieldLabel="Container"
-                                                                        name="./container"/>
-                                                                    <language
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
-                                                                        fieldLabel="Language"
-                                                                        name="./language"/>
-                                                                    <duration
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Duration"
-                                                                        fieldLabel="Duration"
-                                                                        name="./videoDuration"/>
-                                                                    <captionsInfo
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Captions info (SDSWDSDDDDFGG)"
-                                                                        fieldLabel="Captions info"
-                                                                        name="./captionsInfo"/>
-                                                                    <width
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Width"
-                                                                        fieldLabel="Width"
-                                                                        name="./width"/>
-                                                                    <height
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Height"
-                                                                        fieldLabel="Height"
-                                                                        name="./height"/>
-                                                                    <peakBitRateKbps
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Peak Bitrate (Provided in KB/S)"
-                                                                        fieldLabel="Peak Bitrate"
-                                                                        name="./peakBitRateKbps"/>
-                                                                    <avgBitRateKbps
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Average Bitrate (Provided in KB/S)"
-                                                                        fieldLabel="Average Bitrate"
-                                                                        name="./avgBitRateKbps"/>
-                                                                    <hasBurnedInTitles
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                                        fieldDescription="Has burned-in titles"
-                                                                        fieldLabel="Has burned-in titles"
-                                                                        name="./hasBurnedInTitles"
-                                                                        text="Has burned-in titles"
-                                                                        value="true"/>
-                                                                    <frameRate
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Frame rate"
-                                                                        fieldLabel="Frame rate"
-                                                                        name="./frameRate"/>
-                                                                    <videoCodec
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Video Codec (Uses RFC6381)"
-                                                                        fieldLabel="Video Codec"
-                                                                        name="./videoCodec"/>
-                                                                    <numberAudioChannels
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Audio Channels (eg. 4)"
-                                                                        fieldLabel="Audio Channels"
-                                                                        name="./numberAudioChannels"/>
-                                                                    <isAudioOverDubbed
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                                        fieldDescription="Is Audio Over-Dubbed"
-                                                                        fieldLabel="Is Audio Over-Dubbed"
-                                                                        name="./isAudioOverDubbed"
-                                                                        text="Is Audio Over-Dubbed"
-                                                                        value="true"/>
-                                                                    <audioVideoCodec
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Audio/Video Codec (Uses RFC6381)"
-                                                                        fieldLabel="Audio/Video Codec"
-                                                                        name="./audioVideoCodec"/>
-                                                                    <audioCodec
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Audio Codec"
-                                                                        fieldLabel="Audio Codec"
-                                                                        name="./audioCodec"/>
-                                                                </items>
-                                                            </column>
-                                                        </items>
-                                                    </field>
-                                                </video>
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                                        name="./products">
+                                                                        <items jcr:primaryType="nt:unstructured">
+                                                                            <column
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                                                <items jcr:primaryType="nt:unstructured">
+                                                                                    <mgidFileURI
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="MGID File URI"
+                                                                                        fieldLabel="MGID File URI"
+                                                                                        name="./mgidFileURI"/>
+                                                                                    <container
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
+                                                                                        fieldLabel="Container"
+                                                                                        name="./container"/>
+                                                                                    <language
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
+                                                                                        fieldLabel="Language"
+                                                                                        name="./language"/>
+                                                                                    <duration
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Duration"
+                                                                                        fieldLabel="Duration"
+                                                                                        name="./videoDuration"/>
+                                                                                    <captionsInfo
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Captions info (SDSWDSDDDDFGG)"
+                                                                                        fieldLabel="Captions info"
+                                                                                        name="./captionsInfo"/>
+                                                                                    <width
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Width"
+                                                                                        fieldLabel="Width"
+                                                                                        name="./width"/>
+                                                                                    <height
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Height"
+                                                                                        fieldLabel="Height"
+                                                                                        name="./height"/>
+                                                                                    <peakBitRateKbps
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Peak Bitrate (Provided in KB/S)"
+                                                                                        fieldLabel="Peak Bitrate"
+                                                                                        name="./peakBitRateKbps"/>
+                                                                                    <avgBitRateKbps
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Average Bitrate (Provided in KB/S)"
+                                                                                        fieldLabel="Average Bitrate"
+                                                                                        name="./avgBitRateKbps"/>
+                                                                                    <hasBurnedInTitles
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                                        fieldDescription="Has burned-in titles"
+                                                                                        fieldLabel="Has burned-in titles"
+                                                                                        name="./hasBurnedInTitles"
+                                                                                        text="Has burned-in titles"
+                                                                                        value="true"/>
+                                                                                    <frameRate
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Frame rate"
+                                                                                        fieldLabel="Frame rate"
+                                                                                        name="./frameRate"/>
+                                                                                    <videoCodec
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Video Codec (Uses RFC6381)"
+                                                                                        fieldLabel="Video Codec"
+                                                                                        name="./videoCodec"/>
+                                                                                    <numberAudioChannels
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Audio Channels (eg. 4)"
+                                                                                        fieldLabel="Audio Channels"
+                                                                                        name="./numberAudioChannels"/>
+                                                                                    <isAudioOverDubbed
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                                        fieldDescription="Is Audio Over-Dubbed"
+                                                                                        fieldLabel="Is Audio Over-Dubbed"
+                                                                                        name="./isAudioOverDubbed"
+                                                                                        text="Is Audio Over-Dubbed"
+                                                                                        value="true"/>
+                                                                                    <audioVideoCodec
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Audio/Video Codec (Uses RFC6381)"
+                                                                                        fieldLabel="Audio/Video Codec"
+                                                                                        name="./audioVideoCodec"/>
+                                                                                    <audioCodec
+                                                                                        jcr:primaryType="nt:unstructured"
+                                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                                        fieldDescription="Audio Codec"
+                                                                                        fieldLabel="Audio Codec"
+                                                                                        name="./audioCodec"/>
+                                                                                </items>
+                                                                            </column>
+                                                                        </items>
+                                                                    </field>
+                                                                </video>
+                                                            </items>
+                                                        </basic>
+                                                    </items>
+                                                </accordion>
                                             </items>
                                         </column>
                                     </items>
