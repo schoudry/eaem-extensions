@@ -74,7 +74,7 @@
                     granite:id="eaem-content-fragment-playamable-media"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/form"
-                    action="${granite:encodeURIPath(requestPathInfo.suffix)}.annotation.pdf"
+                    action="${granite:encodeURIPath(requestPathInfo.suffix)}/_jcr_content/metadata/eaemPlayableMedia"
                     foundationForm="{Boolean}true"
                     method="post"
                     style="vertical">

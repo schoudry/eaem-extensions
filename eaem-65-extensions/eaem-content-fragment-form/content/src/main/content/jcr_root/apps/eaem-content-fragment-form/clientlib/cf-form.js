@@ -4,6 +4,17 @@
 
     $document.on("foundation-contentloaded", addFragmentFormTab);
 
+    function addFormActions(){
+        $(".button-apply").on("click", function(e) {
+            $("form").submit();
+            Dam.CFM.editor.Core.cancel();
+        });
+
+        $(".button-cancel").on("click", function(e) {
+            Dam.CFM.editor.Core.cancel();
+        });
+    }
+
     function addFragmentFormTab() {
         if (formTabAdded) {
             return;
@@ -38,6 +49,8 @@
         mediaTab.on('click', function(){
             openPlayableMediaEditor(PLAYABLE_MEDIA_PAGE);
         });
+
+        addFormActions();
     }
 
     function getFragmentFormTabContent(){
