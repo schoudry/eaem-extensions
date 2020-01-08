@@ -66,9 +66,9 @@
             <editors
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="dam/cfm/admin/migration/components/shell/editor">
-                <metadataeditor
+                <editor
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="dam/cfm/admin/components/metadata/editor"/>
+                    sling:resourceType="/apps/eaem-content-fragment-form/editor"/>
                 <form
                     granite:class="align-in-column active"
                     granite:id="eaem-content-fragment-playamable-media"
