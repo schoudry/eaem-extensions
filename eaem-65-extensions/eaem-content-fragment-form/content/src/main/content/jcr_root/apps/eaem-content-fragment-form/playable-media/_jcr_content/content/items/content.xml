@@ -101,6 +101,12 @@
                                                     fieldDescription="Duration"
                                                     fieldLabel="Duration"
                                                     name="./duration"/>
+                                                <heading
+                                                    granite:class="eaem-assets-contentfragment-form-spacer"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/heading"
+                                                    level="{Long}4"
+                                                    text="Asset Bundles"/>
                                                 <accordion
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/accordion"
