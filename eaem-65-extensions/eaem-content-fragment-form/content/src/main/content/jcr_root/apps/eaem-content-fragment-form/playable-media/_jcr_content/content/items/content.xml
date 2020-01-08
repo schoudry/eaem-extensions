@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:mixinTypes="[vlt:FullCoverage]"
     jcr:primaryType="sling:OrderedFolder"
     sling:resourceType="cq/gui/components/authoring/editorpanel"
@@ -413,32 +413,54 @@
                                     </items>
                                 </identifiers>
                                 <cues
+                                    granite:class="eaem-assets-contentfragment-form-tab"
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="Cues"
-                                    sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
                                     <items jcr:primaryType="nt:unstructured">
                                         <column
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container">
                                             <items jcr:primaryType="nt:unstructured">
-                                                <section1
+                                                <cues
                                                     jcr:primaryType="nt:unstructured"
-                                                    jcr:title="Settings"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
-                                                    <items jcr:primaryType="nt:unstructured">
-                                                        <alias
-                                                            cq:showOnCreate="{Boolean}true"
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                            fieldLabel="Alias"
-                                                            name="./sling:alias"
-                                                            renderReadOnly="{Boolean}true">
-                                                            <granite:data
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                    composite="{Boolean}true">
+                                                    <field
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                        name="./cues">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <column
                                                                 jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="sling:alias"/>
-                                                        </alias>
-                                                    </items>
-                                                </section1>
+                                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <inpoint
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        emptyText="00:01:00:00"
+                                                                        fieldDescription="In point"
+                                                                        fieldLabel="In point"
+                                                                        name="./inpoint"/>
+                                                                    <outpoint
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        emptyText="00:01:30:00"
+                                                                        fieldDescription="Out point"
+                                                                        fieldLabel="Out point"
+                                                                        name="./outpoint"/>
+                                                                    <cuetype
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        emptyText="lead"
+                                                                        fieldDescription="Cue type"
+                                                                        fieldLabel="Cue type"
+                                                                        name="./cuetype"/>
+                                                                </items>
+                                                            </column>
+                                                        </items>
+                                                    </field>
+                                                </cues>
                                             </items>
                                         </column>
                                     </items>
