@@ -85,20 +85,22 @@
                             maximized="{Boolean}true"
                             size="L">
                             <items jcr:primaryType="nt:unstructured">
-<<<<<<< .mine
-                                <tab1
-                                    granite:rel="eaem-assets-contentfragment-form-tab"
-=======
                                 <assets
->>>>>>> .theirs
+                                    granite:rel="eaem-assets-contentfragment-form-tab"
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="Assets"
-                                    sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
                                     <items jcr:primaryType="nt:unstructured">
                                         <column
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container">
                                             <items jcr:primaryType="nt:unstructured">
+                                                <duration
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldDescription="Duration"
+                                                    fieldLabel="Duration"
+                                                    name="./duration"/>
                                                 <video
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
@@ -113,58 +115,60 @@
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="granite/ui/components/coral/foundation/container">
                                                                 <items jcr:primaryType="nt:unstructured">
-                                                                    <product
+                                                                    <mgidFileURI
                                                                         jcr:primaryType="nt:unstructured"
                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                        fieldDescription="Name of Product"
-                                                                        fieldLabel="Product Name"
-                                                                        name="./product"/>
-                                                                    <path
+                                                                        fieldDescription="MGID File URI"
+                                                                        fieldLabel="MGID File URI"
+                                                                        name="./mgidFileURI"/>
+                                                                    <container
                                                                         jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                                        fieldDescription="Select Path"
-                                                                        fieldLabel="Path"
-                                                                        name="./path"
-                                                                        rootPath="/content"/>
-                                                                    <startDate
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
+                                                                        fieldLabel="Container"
+                                                                        name="./container"/>
+                                                                    <language
                                                                         jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
-                                                                        class="field"
-                                                                        displayedFormat="YYYY-MM-DD HH:mm"
-                                                                        fieldLabel="Start Date"
-                                                                        name="./startDate"
-                                                                        type="datetime"/>
-                                                                    <show
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Container (mp4 | fmp4 | bitstream | scc | ttml | webvtt)"
+                                                                        fieldLabel="Language"
+                                                                        name="./language"/>
+                                                                    <duration
                                                                         jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                                        name="./show"
-                                                                        text="Show?"
-                                                                        value="yes"/>
-                                                                    <type
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Duration"
+                                                                        fieldLabel="Duration"
+                                                                        name="./videoDuration"/>
+                                                                    <captionsInfo
                                                                         jcr:primaryType="nt:unstructured"
-                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                                        fieldDescription="Select Size"
-                                                                        fieldLabel="Size"
-                                                                        name="./size">
-                                                                        <items jcr:primaryType="nt:unstructured">
-                                                                            <def
-                                                                                jcr:primaryType="nt:unstructured"
-                                                                                text="Select Size"
-                                                                                value=""/>
-                                                                            <small
-                                                                                jcr:primaryType="nt:unstructured"
-                                                                                text="Small"
-                                                                                value="small"/>
-                                                                            <medium
-                                                                                jcr:primaryType="nt:unstructured"
-                                                                                text="Medium"
-                                                                                value="medium"/>
-                                                                            <large
-                                                                                jcr:primaryType="nt:unstructured"
-                                                                                text="Large"
-                                                                                value="large"/>
-                                                                        </items>
-                                                                    </type>
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Captions info (SDSWDSDDDDFGG)"
+                                                                        fieldLabel="Captions info"
+                                                                        name="./captionsInfo"/>
+                                                                    <width
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Width"
+                                                                        fieldLabel="Width"
+                                                                        name="./width"/>
+                                                                    <height
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Height"
+                                                                        fieldLabel="Height"
+                                                                        name="./height"/>
+                                                                    <peakBitRateKbps
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Peak Bitrate (Provided in KB/S)"
+                                                                        fieldLabel="Peak Bitrate"
+                                                                        name="./peakBitRateKbps"/>
+                                                                    <avgBitRateKbps
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Average Bitrate (Provided in KB/S)"
+                                                                        fieldLabel="Average Bitrate"
+                                                                        name="./avgBitRateKbps"/>
                                                                 </items>
                                                             </column>
                                                         </items>
@@ -188,56 +192,6 @@
                                                     jcr:title="Settings"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                                     <items jcr:primaryType="nt:unstructured">
-                                                        <language
-                                                            granite:class="language"
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                            emptyText="Select"
-                                                            fieldLabel="Language"
-                                                            name="./jcr:language"
-                                                            renderReadOnly="{Boolean}true"
-                                                            translateOptions="{Boolean}true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="jcr:language"/>
-                                                            <datasource
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="cq/gui/components/common/datasources/languages"
-                                                                addNone="{Boolean}true"/>
-                                                        </language>
-                                                        <isLanguageRoot
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            fieldDescription="Must be checked if page is the root of a language copy."
-                                                            name="./cq:isLanguageRoot"
-                                                            renderReadOnly="{Boolean}true"
-                                                            text="Language Root"
-                                                            value="true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:isLanguageRoot"/>
-                                                        </isLanguageRoot>
-                                                        <redirect
-                                                            cq:showOnCreate="{Boolean}true"
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-                                                            fieldLabel="Redirect"
-                                                            name="./cq:redirectTarget"
-                                                            rootPath="/content">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:redirectPath"/>
-                                                        </redirect>
-                                                        <designs
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="wcm/designer/gui/components/designfield"
-                                                            fieldLabel="Design"
-                                                            name="./cq:designPath"
-                                                            renderReadOnly="{Boolean}true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:designPath"/>
-                                                        </designs>
                                                         <alias
                                                             cq:showOnCreate="{Boolean}true"
                                                             jcr:primaryType="nt:unstructured"
@@ -269,56 +223,6 @@
                                                     jcr:title="Settings"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                                     <items jcr:primaryType="nt:unstructured">
-                                                        <language
-                                                            granite:class="language"
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                            emptyText="Select"
-                                                            fieldLabel="Language"
-                                                            name="./jcr:language"
-                                                            renderReadOnly="{Boolean}true"
-                                                            translateOptions="{Boolean}true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="jcr:language"/>
-                                                            <datasource
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="cq/gui/components/common/datasources/languages"
-                                                                addNone="{Boolean}true"/>
-                                                        </language>
-                                                        <isLanguageRoot
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            fieldDescription="Must be checked if page is the root of a language copy."
-                                                            name="./cq:isLanguageRoot"
-                                                            renderReadOnly="{Boolean}true"
-                                                            text="Language Root"
-                                                            value="true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:isLanguageRoot"/>
-                                                        </isLanguageRoot>
-                                                        <redirect
-                                                            cq:showOnCreate="{Boolean}true"
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-                                                            fieldLabel="Redirect"
-                                                            name="./cq:redirectTarget"
-                                                            rootPath="/content">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:redirectPath"/>
-                                                        </redirect>
-                                                        <designs
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="wcm/designer/gui/components/designfield"
-                                                            fieldLabel="Design"
-                                                            name="./cq:designPath"
-                                                            renderReadOnly="{Boolean}true">
-                                                            <granite:data
-                                                                jcr:primaryType="nt:unstructured"
-                                                                cq-msm-lockable="cq:designPath"/>
-                                                        </designs>
                                                         <alias
                                                             cq:showOnCreate="{Boolean}true"
                                                             jcr:primaryType="nt:unstructured"
