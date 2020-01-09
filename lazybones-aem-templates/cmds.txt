@@ -99,3 +99,13 @@ import org.json.JSONObject;
 		cardinality = 5
 )
 String[] metadataFields() default { DEFAULT_FOR_APPEND };
+
+get jquery anyonymous handler >
+
+	function getTabClickHandler(){
+        var handlers = $._data(document, "events")["click"];
+
+        return _.reject(handlers, function(handler){
+            return (handler.selector != "#SidePanel coral-tab" );
+        })[0].handler;
+    }
