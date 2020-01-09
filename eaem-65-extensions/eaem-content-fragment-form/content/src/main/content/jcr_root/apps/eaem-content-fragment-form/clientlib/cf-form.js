@@ -1,5 +1,11 @@
 (function($, $document) {
     var PLAYABLE_MEDIA_PAGE = "/apps/eaem-content-fragment-form/playable-media.html",
+        VIDEO_MF_SELECTOR = "coral-multifield[data-granite-coral-multifield-name$='./video']",
+        AUDIO_MF_SELECTOR = "coral-multifield[data-granite-coral-multifield-name$='./audio']",
+        TRANSCRIPTS_MF_SELECTOR = "coral-multifield[data-granite-coral-multifield-name$='./transcripts']",
+        VIDEO_GSP_BROWSER_BUTTON = "video-gsp-browser-button",
+        AUDIO_GSP_BROWSER_BUTTON = "audio-gsp-browser-button",
+        TRANSCRIPT_GSP_BROWSER_BUTTON = "transcripts-gsp-browser-button",
         formTabAdded = false, initialData;
 
     $document.on("foundation-contentloaded", addFragmentFormTab);
@@ -55,6 +61,8 @@
         saveInitialState();
 
         addTabNavigationAlert();
+
+        addBrowseButtons();
     }
 
     function addTabNavigationAlert(){
@@ -113,6 +121,35 @@
                 document.location.href = href;
             }
         });
+    }
+
+    function addBrowseButtons(){
+        addGSPBrowseButton(VIDEO_MF_SELECTOR, VIDEO_GSP_BROWSER_BUTTON);
+
+        addGSPBrowseButton(AUDIO_MF_SELECTOR, AUDIO_GSP_BROWSER_BUTTON);
+
+        addGSPBrowseButton(TRANSCRIPTS_MF_SELECTOR, TRANSCRIPT_GSP_BROWSER_BUTTON);
+    }
+
+    function addGSPBrowseButton(componentSel, buttonCss){
+        var $accrItem = $(componentSel);
+
+        if(!_.isEmpty($accrItem.find("." + buttonCss))){
+            return;
+        }
+
+        var $mfAdd = $accrItem.find("[coral-multifield-add]");
+
+        var browse = new Coral.Button().set({
+            variant: 'secondary',
+            innerText: "Browse"
+        });
+
+        $(browse).addClass(buttonCss).css("margin-left", "10px").click(function(){
+            alert("hi");
+        });
+
+        $mfAdd.after(browse);
     }
 
     function saveInitialState(){
