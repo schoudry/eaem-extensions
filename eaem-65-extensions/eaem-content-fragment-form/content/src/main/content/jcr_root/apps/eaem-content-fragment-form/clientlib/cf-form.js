@@ -148,6 +148,12 @@
         });
     }
 
+    function addPreviewLinks($mfItem){
+        $mfItem.find("[name$='" + MGID_FILE_URI + "']").each(function(i, mgIdItem){
+            addPreviewLink($(mgIdItem).closest(".coral-Form-fieldwrapper"));
+        });
+    }
+
     function addBrowseButtons(){
         addGSPBrowseButton(VIDEO_MF_SELECTOR, VIDEO_GSP_BROWSER_BUTTON);
 
@@ -175,6 +181,8 @@
         });
 
         $mfAdd.after(browse);
+
+        addPreviewLinks($accrItem);
     }
 
     function getPreviewLinkHtml(link){
