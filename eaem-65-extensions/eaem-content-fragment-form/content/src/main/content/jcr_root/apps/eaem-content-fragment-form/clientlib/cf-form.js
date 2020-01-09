@@ -65,7 +65,7 @@
         var mediaTab = tabList.items.add({
             title: "Playable Media",
             label: {
-                innerHTML: '<coral-icon icon="pages" size="S"/>'
+                innerHTML: '<coral-icon icon="film" size="S"/>'
             }
         });
 
@@ -396,5 +396,29 @@
         initialData = $("form").serialize();
     }
 
-    $document.on("foundation-contentloaded", addFragmentFormTab);
+    function getResourcePath() {
+        var path;
+
+        path = CQ.shared.HTTP.getPath();
+
+        return path.substring(path.lastIndexOf((".html/")) + 5);
+    }
+
+    function loadExtensionForVideoType(){
+        $.ajax({
+            url: getResourcePath() + "/jcr:content/data.2.json",
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                if (data["cq:model"].includes("videosegment-content-model") ||
+                    data["cq:model"].includes("excerpt-content-model") ||
+                    data["cq:model"].includes("clip-content-model") ||
+                    data["cq:model"].includes("channel-simulcast-content-model")) {
+                        $document.on("foundation-contentloaded", addFragmentFormTab);
+                }
+            }
+        });
+    }
+
+    loadExtensionForVideoType();
 })(jQuery, jQuery(document));
