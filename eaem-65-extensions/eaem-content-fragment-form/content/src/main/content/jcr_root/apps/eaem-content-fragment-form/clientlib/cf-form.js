@@ -20,6 +20,10 @@
         'h264': 'avc1'
     };
 
+    function getTestData(){
+        return '[{"mgid":"mgid:file:gsp:alias:/mediabus/87880490_LBRWIF63_1280x720_3128.mp4","lastModified":"2019-06-25T13:18:37.000-04:00","name":"87880490_LBRWIF63_1280x720_3128.mp4","container":"mp4","duration":"2612787","width":"1280","height":"720","frameRate":"29.96953061998548","bitRate":"2767","aspectRatio":"16:9","mediaType":"mp4","format":"h264","profile":"high","fileSizeInBytes":"903457651","fileSize":"862","videoCodec":"avc1.6400"},{"mgid":"mgid:file:gsp:alias:/mediabus/87880490_LBRWIF63_1920x1080_5128.mp4","lastModified":"2019-06-25T13:15:57.000-04:00","name":"87880490_LBRWIF63_1920x1080_5128.mp4","container":"mp4","duration":"2612787","width":"1920","height":"1080","frameRate":"29.96953061998548","bitRate":"4892","aspectRatio":"16:9","mediaType":"mp4","format":"h264","profile":"high","fileSizeInBytes":"1597374995","fileSize":"1523","videoCodec":"avc1.6400"},{"mgid":"mgid:file:gsp:alias:/mediabus/87880490_LBRWIF63_384x216_278.mp4","lastModified":"2019-06-25T13:23:04.000-04:00","name":"87880490_LBRWIF63_384x216_278.mp4","container":"mp4","duration":"2612787","width":"384","height":"216","frameRate":"29.96953061998548","bitRate":"284","aspectRatio":"16:9","mediaType":"mp4","format":"h264","profile":"main","fileSizeInBytes":"92747457","fileSize":"88","videoCodec":"avc1.4D40"},{"mgid":"mgid:file:gsp:alias:/mediabus/87880490_LBRWIF63_512x288_498.mp4","lastModified":"2019-06-25T13:22:47.000-04:00","name":"87880490_LBRWIF63_512x288_498.mp4","container":"mp4","duration":"2612787","width":"512","height":"288","frameRate":"29.96953061998548","bitRate":"495","aspectRatio":"16:9","mediaType":"mp4","format":"h264","profile":"main","fileSizeInBytes":"161770022","fileSize":"154","videoCodec":"avc1.4D40"},{"mgid":"mgid:file:gsp:alias:/mediabus/87880490_LBRWIF63_640x360_1028.mp4","lastModified":"2019-06-25T13:22:17.000-04:00","name":"87880490_LBRWIF63_640x360_1028.mp4","container":"mp4","duration":"2612787","width":"640","height":"360","frameRate":"29.96953061998548","bitRate":"865","aspectRatio":"16:9","mediaType":"mp4","format":"h264","profile":"main","fileSizeInBytes":"282552755","fileSize":"269","videoCodec":"avc1.4D40"}]';
+    }
+
     function showMessage(title, message, callback){
         var fui = $(window).adaptTo("foundation-ui"),
             options = [{
@@ -282,7 +286,8 @@
             },
             footer: {
                 innerHTML: '<button is="coral-button" variant="default" coral-close>Cancel</button>' +
-                '<button id="' + ACCEPT_BUTTON + '" is="coral-button" variant="default" disabled>Select</button>'
+                //'<button id="' + ACCEPT_BUTTON + '" is="coral-button" variant="default" disabled>Select</button>'
+                '<button id="' + ACCEPT_BUTTON + '" is="coral-button" variant="default">Select</button>'
             }
         });
 
@@ -294,11 +299,10 @@
             selectButton = dialog.footer.querySelector('#' + ACCEPT_BUTTON),
             selectedFileJSON = null;
 
-        // optional
         app.constant('GSPConfig', {
-            siteKey: 'comedy', // initial used sitekey
+            siteKey: 'comedy',
             addContentAttributes: true,
-            allowSitekeySwitch: true, // optional
+            allowSitekeySwitch: true,
             fileTypes: {
                 transcript: ['xml', 'scc'],
                 video: ['flv','mp4', 'fmp4']
@@ -308,6 +312,8 @@
         dialog.on('coral-overlay:close', function(){
             try{
                 var selectedFiles, item, content, assetMField;
+
+                selectedFileJSON = selectedFileJSON || getTestData();
 
                 if(_.isEmpty(selectedFileJSON)){
                     return;
@@ -338,6 +344,8 @@
         });
 
         dialog.on('click', '#' + ACCEPT_BUTTON, function() {
+            selectedFileJSON = selectedFileJSON || getTestData();
+
             var selectedFiles = JSON.parse(selectedFileJSON),
                 message = "Adding <span id='viacom-import-count'>1</span> of total " + selectedFiles.length;
 
