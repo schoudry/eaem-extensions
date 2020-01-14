@@ -1,18 +1,34 @@
+<%@ page import="javax.jcr.Session" %>
+<%@ page import="org.apache.sling.api.resource.ResourceResolver" %>
+<%@ page import="org.slf4j.Logger" %>
+<%@ page import="org.slf4j.LoggerFactory" %>
 <%@page session="false" contentType="text/html; charset=utf-8" %>
 <%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <cq:defineObjects/>
 
 <%
-    String[] content = request.getParameterValues("item");
+    final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    final String FORM_PLAYABLE_MEDIA = "/jcr:content/metadata/formPlayableMedia";
 
-    if (content == null || content.length == 0) {
-        content = new String[]{slingRequest.getRequestPathInfo().getSuffix() + "/jcr:content/metadata/eaemPlayableMedia"};
+    ResourceResolver viaResolver = slingRequest.getResourceResolver();
+    Session session = viaResolver.adaptTo(Session.class);
+
+    String[] content = new String[]{slingRequest.getRequestPathInfo().getSuffix() + FORM_PLAYABLE_MEDIA};
+
+    try{
+        request.setAttribute("aem.assets.ui.properties.content", content);
+
+        if (content.length == 1) {
+            request.setAttribute("granite.ui.form.contentpath", content[0]);
+        }
+
+        if(session.nodeExists(content[0])){
+            return;
+        }
+    }catch(Exception e){
+        LOG.error("Error creating form playable media content", e);
+
     }
 
-    request.setAttribute("aem.assets.ui.properties.content", content);
-
-    if (content.length == 1) {
-        request.setAttribute("granite.ui.form.contentpath", content[0]);
-    }
 %>
