@@ -65,7 +65,7 @@
         var mediaTab = tabList.items.add({
             title: "Playable Media",
             label: {
-                innerHTML: '<coral-icon icon="film" size="S"/>'
+                innerHTML: '<coral-icon icon="pages" size="S"/>'
             }
         });
 
@@ -98,7 +98,7 @@
         $document.on('click', '#SidePanel coral-tab', function( eve ) {
             var that = this;
 
-            if (initialData === $("form").serialize()) {
+            if (initialData === getFormData()) {
                 tabClickHandler.call(that);
                 return;
             }
@@ -392,8 +392,25 @@
         });
     }
 
+    function getFormData(){
+        var $fields = $("form").find("[name]"),
+            data = [];
+
+        _.each($fields, function(field){
+            var $field = $(field);
+
+            if($field.attr("name").includes("@")){
+                return;
+            }
+
+            data.push([$field.attr("name")] + "=" + $field.val());
+        });
+
+        return data.join(",");
+    }
+
     function saveInitialState(){
-        initialData = $("form").serialize();
+        initialData = getFormData();
     }
 
     function getResourcePath() {
