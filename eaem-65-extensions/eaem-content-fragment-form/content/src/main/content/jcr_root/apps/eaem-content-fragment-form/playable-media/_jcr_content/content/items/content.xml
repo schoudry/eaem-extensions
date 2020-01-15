@@ -435,7 +435,7 @@
                                                     <field
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/container"
-                                                        name="./cues">
+                                                        name="./adCuePointList">
                                                         <items jcr:primaryType="nt:unstructured">
                                                             <column
                                                                 jcr:primaryType="nt:unstructured"

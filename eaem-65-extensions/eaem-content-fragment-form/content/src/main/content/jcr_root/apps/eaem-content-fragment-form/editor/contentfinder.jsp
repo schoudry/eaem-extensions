@@ -40,6 +40,8 @@
 
         addIdentifiers(playableMedia, formPlayableMedia);
 
+        addCuePoints(playableMedia, formPlayableMedia);
+
         session.save();
     }catch(Exception e){
         LOG.error("Error creating form playable media content", e);
@@ -52,6 +54,14 @@
         setValue(playableMedia, formPlayableMedia, "isLive", "isLive");
         setValue(playableMedia, formPlayableMedia, "title", "assetId");
         setValue(playableMedia, formPlayableMedia, "description", "dsid");
+    }
+
+    private static void addCuePoints(Node playableMedia, Node formPlayableMedia) throws Exception{
+        if(!playableMedia.hasNode("adCuePointList")){
+            return;
+        }
+
+        JcrUtil.copy(playableMedia.getNode("adCuePointList"), formPlayableMedia, "adCuePointList");
     }
 
     private static void setValue(Node src, Node dest, String srcProperty, String destProperty) throws Exception{
