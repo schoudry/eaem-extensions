@@ -154,7 +154,7 @@
                                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                                                         fieldDescription="Duration"
                                                                                         fieldLabel="Duration"
-                                                                                        name="./videoDuration"/>
+                                                                                        name="./duration"/>
                                                                                     <captionsInfo
                                                                                         jcr:primaryType="nt:unstructured"
                                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -283,14 +283,14 @@
                                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                                                         fieldDescription="Duration"
                                                                                         fieldLabel="Duration"
-                                                                                        name="./videoDuration"/>
+                                                                                        name="./duration"/>
                                                                                     <audioBitRateKbps
                                                                                         jcr:primaryType="nt:unstructured"
                                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                                                         emptyText="2048"
                                                                                         fieldDescription="Audio Bitrate (eg. 2048)"
                                                                                         fieldLabel="Audio Bitrate"
-                                                                                        name="./audioBitRateKbps"/>
+                                                                                        name="./bitRateKbps"/>
                                                                                     <numberAudioChannels
                                                                                         jcr:primaryType="nt:unstructured"
                                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -362,7 +362,7 @@
                                                                                         emptyText="captions | subtitles | translation | audioDescription"
                                                                                         fieldDescription="Transcript Rendition Role (captions | subtitles | translation | audioDescription)"
                                                                                         fieldLabel="Transcript Rendition Role"
-                                                                                        name="./transcriptRenditionRole"/>
+                                                                                        name="./role"/>
                                                                                 </items>
                                                                             </column>
                                                                         </items>

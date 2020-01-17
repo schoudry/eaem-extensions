@@ -4,14 +4,7 @@
 <%@ page import="org.slf4j.LoggerFactory" %>
 <%@ page import="com.day.cq.commons.jcr.JcrUtil" %>
 <%@ page import="javax.jcr.Node" %>
-<%@ page import="javax.jcr.Value" %>
-<%@ page import="org.apache.sling.api.resource.SyntheticResource" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="javax.jcr.Property" %>
 <%@ page import="org.apache.sling.api.resource.Resource" %>
-<%@ page import="com.adobe.granite.ui.components.ds.ValueMapResource" %>
-<%@ page import="org.apache.sling.api.wrappers.ValueMapDecorator" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="com.google.common.collect.Iterators" %>
 <%@page session="false" contentType="text/html; charset=utf-8" %>
@@ -21,6 +14,7 @@
 
 <%
     final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    
     final String FORM_PLAYABLE_MEDIA = "/jcr:content/metadata/formPlayableMedia";
     final String PLAYABLE_MEDIA = "/jcr:content/metadata/playableMedia";
 
@@ -115,7 +109,7 @@
                     audio = JcrUtil.createPath(formPlayableMedia.getPath() + "/audio", "nt:unstructured", "nt:unstructured", session, false);
                 }
 
-                addAudioRendition(resource.adaptTo(Node.class), audio);
+                addAudioRendition(session, resource.adaptTo(Node.class), audio);
             }
 
             resource = assetRef.getChild("transcriptRendition");
@@ -125,7 +119,7 @@
                     transcripts = JcrUtil.createPath(formPlayableMedia.getPath() + "/transcripts", "nt:unstructured", "nt:unstructured", session, false);
                 }
 
-                addTranscriptRendition(resource.adaptTo(Node.class), transcripts);
+                addTranscriptRendition(session, resource.adaptTo(Node.class), transcripts);
             }
         }
     }
@@ -141,7 +135,8 @@
         setValue(playableVideoParent, videoItem, "mgidFileURI", "mgidFileURI");
         setValue(playableVideoParent, videoItem, "container", "container");
         setValue(playableVideoParent, videoItem, "language", "language");
-        setValue(playableVideoParent, videoItem, "duration", "videoDuration");
+        setValue(playableVideoParent, videoItem, "duration", "duration");
+
         setValue(playableVideoRendition, videoItem, "inBandCaptionInfo", "inBandCaptionInfo");
         setValue(playableVideoRendition, videoItem, "width", "width");
         setValue(playableVideoRendition, videoItem, "height", "height");
@@ -156,12 +151,39 @@
         setValue(playableVideoRendition, videoItem, "audioCodec", "audioCodec");
     }
 
-    private static void addAudioRendition(Node playableVideoRendition, Node formPlayableVideoRendition) throws Exception{
+    private static void addAudioRendition(Session session, Node playableAudioRendition, Node audio) throws Exception{
+        Node playableAudioParent = playableAudioRendition.getParent();
 
+        int nextIndex = Iterators.size(audio.getNodes());
+
+        Node audioItem = JcrUtil.createPath(audio.getPath() + "/item" + nextIndex, "nt:unstructured", "nt:unstructured",
+                session, false);
+
+        setValue(playableAudioParent, audioItem, "mgidFileURI", "mgidFileURI");
+        setValue(playableAudioParent, audioItem, "container", "container");
+        setValue(playableAudioParent, audioItem, "language", "language");
+        setValue(playableAudioParent, audioItem, "duration", "duration");
+
+        setValue(playableAudioRendition, audioItem, "bitRateKbps", "duration");
+        setValue(playableAudioRendition, audioItem, "numberAudioChannels", "numberAudioChannels");
+        setValue(playableAudioRendition, audioItem, "isAudioOverDubbed", "isAudioOverDubbed");
+        setValue(playableAudioRendition, audioItem, "audioCodec", "audioCodec");
     }
 
-    private static void addTranscriptRendition(Node playableVideoRendition, Node formPlayableVideoRendition) throws Exception{
+    private static void addTranscriptRendition(Session session, Node playableTransRendition, Node transcripts) throws Exception{
+        Node playableTransParent = playableTransRendition.getParent();
 
+        int nextIndex = Iterators.size(transcripts.getNodes());
+
+        Node transcriptsItem = JcrUtil.createPath(transcripts.getPath() + "/item" + nextIndex, "nt:unstructured", "nt:unstructured",
+                session, false);
+
+        setValue(playableTransParent, transcriptsItem, "mgidFileURI", "mgidFileURI");
+        setValue(playableTransParent, transcriptsItem, "container", "container");
+        setValue(playableTransParent, transcriptsItem, "language", "language");
+        setValue(playableTransParent, transcriptsItem, "duration", "duration");
+
+        setValue(playableTransRendition, transcriptsItem, "role", "role");
     }
 
     private static void addCuePoints(Node playableMedia, Node formPlayableMedia) throws Exception{
