@@ -41,12 +41,6 @@
         $form.append($("<input type='hidden'/>").attr("name", name).attr("value", value));
     }
 
-    function addDuration($form, prefix){
-        var $field = $form.find("input[name='./durationSeconds']");
-
-        addInputField($form, PLAYABLE_PATH_PREFIX + "/durationSeconds", $field.val());
-    }
-
     function addPlayableMediaProps($form, prefix){
         var $field = $form.find("input[name='./assetId']");
         addInputField($form, prefix + "/title", $field.val());
@@ -57,10 +51,16 @@
         $field = $form.find("input[name='./isLive']");
         addInputField($form, prefix + "/isLive", $field.val());
 
+        $field = $form.find("input[name='./isLive@Delete']");
+        addInputField($form, prefix + "/isLive@Delete", $field.val());
+
         $field = $form.find("input[name='./isChannelSimulcast']");
         addInputField($form, prefix + "/isChannelSimulcast", $field.val());
 
-        var fields = $form.find("input[name='./adCuePointList']");
+        $field = $form.find("input[name='./isChannelSimulcast@Delete']");
+        addInputField($form, prefix + "/isChannelSimulcast@Delete", $field.val());
+
+        var fields = $form.find("input[name^='./adCuePointList']");
 
         _.each(fields, function(field){
             $field = $(field);
@@ -70,22 +70,26 @@
 
     function addAssetBundles(){
         if(_.isEmpty(PLAYABLE_PATH_PREFIX)){
-            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/item0";
+            PLAYABLE_PATH_PREFIX = "../sreekPlayableMedia/assetBundles/item0";
         }
 
         var $form = $("form");
 
-        addPlayableMediaProps($form, "../playableMedia");
+        addPlayableMediaProps($form, "../sreekPlayableMedia");
 
-        addDuration($form, PLAYABLE_PATH_PREFIX);
+        addInputField($form, PLAYABLE_PATH_PREFIX + "/durationSeconds", $form.find("input[name='./durationSeconds']").val());
 
-        var $fields = $form.find("input[name^='./video']input[name$='./mgidFileURI']");
+        _.each([ "mgidFileURI", "container", "language", "duration"], function(key){
+            var $fields = $form.find("input[name^='./video']input[name$='./" + key + "']");
 
-        $fields.each(function(index, field){
-            var name = PLAYABLE_PATH_PREFIX + "/assetRefs/item" + index + "/mgidFileURI",
-                $field = $(field);
+            $fields.each(function(index, field){
+                var item = "item" + index, name, $field = $(field);
 
-            addInputField($form, name, $field.val());
+                item = !_.isEmpty(ASSET_REFS_MAP) ? (ASSET_REFS_MAP[item] || item) : item;
+                name = PLAYABLE_PATH_PREFIX + "/assetRefs/" + item + "/" + key;
+
+                addInputField($form, name, $field.val());
+            });
         });
     }
 
@@ -113,7 +117,7 @@
                 return;
             }
 
-            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/" + assetBundleUnique;
+            PLAYABLE_PATH_PREFIX = "../sreekPlayableMedia/assetBundles/" + assetBundleUnique;
 
             var assetRefs = data["assetBundles"][assetBundleUnique]["assetRefs"];
 
