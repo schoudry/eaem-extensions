@@ -164,7 +164,7 @@
         setValue(playableAudioParent, audioItem, "language", "language");
         setValue(playableAudioParent, audioItem, "duration", "duration");
 
-        setValue(playableAudioRendition, audioItem, "bitRateKbps", "duration");
+        setValue(playableAudioRendition, audioItem, "bitRateKbps", "bitRateKbps");
         setValue(playableAudioRendition, audioItem, "numberAudioChannels", "numberAudioChannels");
         setValue(playableAudioRendition, audioItem, "isAudioOverDubbed", "isAudioOverDubbed");
         setValue(playableAudioRendition, audioItem, "audioCodec", "audioCodec");

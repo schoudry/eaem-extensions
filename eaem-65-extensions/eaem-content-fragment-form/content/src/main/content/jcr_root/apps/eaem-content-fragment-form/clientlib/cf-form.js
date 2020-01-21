@@ -68,14 +68,31 @@
         })
     }
 
+    function addPlayableMediaRendition($form, typeSrc, typeTarget, fields){
+        _.each(fields, function(key){
+            var $fields = $form.find("input[name^='./" + typeSrc + "']input[name$='./" + key + "']");
+
+            $fields.each(function(index, field){
+                var item = "item" + index, name, $field = $(field);
+
+                item = !_.isEmpty(ASSET_REFS_MAP) ? (ASSET_REFS_MAP[item] || item) : item;
+                name = PLAYABLE_PATH_PREFIX + "/assetRefs/" + item + "/" + typeTarget + "/" + key;
+
+                addInputField($form, name, $field.val());
+            });
+        });
+    }
+
     function addAssetBundles(){
         if(_.isEmpty(PLAYABLE_PATH_PREFIX)){
-            PLAYABLE_PATH_PREFIX = "../sreekPlayableMedia/assetBundles/item0";
+            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/item0";
         }
 
         var $form = $("form");
 
-        addPlayableMediaProps($form, "../sreekPlayableMedia");
+        addInputField($form, "../playableMedia@Delete", "true");
+
+        addPlayableMediaProps($form, "../playableMedia");
 
         addInputField($form, PLAYABLE_PATH_PREFIX + "/durationSeconds", $form.find("input[name='./durationSeconds']").val());
 
@@ -91,6 +108,20 @@
                 addInputField($form, name, $field.val());
             });
         });
+
+        var videoFields = [ "inBandCaptionInfo", "width", "height", "peakBitRateKbps",
+                            "avgBitRateKbps", "hasBurnedInTitles", "hasBurnedInTitles@Delete", "frameRate", "videoCodec",
+                            "numberAudioChannels", "audioVideoCodec", "audioCodec", "isAudioOverDubbed", "isAudioOverDubbed@Delete" ];
+
+        addPlayableMediaRendition($form, "video", "videoRendition", videoFields);
+
+        var audioFields = ["bitRateKbps", "numberAudioChannels", "isAudioOverDubbed", "isAudioOverDubbed@Delete", "audioCodec"  ];
+
+        addPlayableMediaRendition($form, "audio", "audioRendition", audioFields);
+
+        var transcriptsFields = [ "role" ];
+
+        addPlayableMediaRendition($form, "transcripts", "transcriptRendition", transcriptsFields);
     }
 
     function loadPlayableMediaPaths(){
@@ -117,7 +148,7 @@
                 return;
             }
 
-            PLAYABLE_PATH_PREFIX = "../sreekPlayableMedia/assetBundles/" + assetBundleUnique;
+            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/" + assetBundleUnique;
 
             var assetRefs = data["assetBundles"][assetBundleUnique]["assetRefs"];
 
