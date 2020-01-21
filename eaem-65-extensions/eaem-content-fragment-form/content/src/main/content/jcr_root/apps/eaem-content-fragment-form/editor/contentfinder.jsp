@@ -14,7 +14,7 @@
 
 <%
     final Logger LOG = LoggerFactory.getLogger(this.getClass());
-    
+
     final String FORM_PLAYABLE_MEDIA = "/jcr:content/metadata/formPlayableMedia";
     final String PLAYABLE_MEDIA = "/jcr:content/metadata/playableMedia";
 

@@ -7,6 +7,8 @@
         AUDIO_GSP_BROWSER_BUTTON = "audio-gsp-browser-button",
         TRANSCRIPT_GSP_BROWSER_BUTTON = "transcripts-gsp-browser-button",
         MGID_FILE_URI = "mgidFileURI",
+        PLAYABLE_PATH_PREFIX = undefined,
+        ASSET_REFS_MAP = undefined,
         formTabAdded = false, initialData;
 
     var PROFILE_MAPPING = {
@@ -35,9 +37,110 @@
         fui.prompt(title, message, "default", options, callback);
     }
 
+    function addInputField($form, name, value){
+        $form.append($("<input type='hidden'/>").attr("name", name).attr("value", value));
+    }
+
+    function addDuration($form, prefix){
+        var $field = $form.find("input[name='./durationSeconds']");
+
+        addInputField($form, PLAYABLE_PATH_PREFIX + "/durationSeconds", $field.val());
+    }
+
+    function addPlayableMediaProps($form, prefix){
+        var $field = $form.find("input[name='./assetId']");
+        addInputField($form, prefix + "/title", $field.val());
+
+        $field = $form.find("input[name='./dsid']");
+        addInputField($form, prefix + "/description", $field.val());
+
+        $field = $form.find("input[name='./isLive']");
+        addInputField($form, prefix + "/isLive", $field.val());
+
+        $field = $form.find("input[name='./isChannelSimulcast']");
+        addInputField($form, prefix + "/isChannelSimulcast", $field.val());
+
+        var fields = $form.find("input[name='./adCuePointList']");
+
+        _.each(fields, function(field){
+            $field = $(field);
+            addInputField($form, prefix + "/" + $field.attr("name") , $field.val());
+        })
+    }
+
+    function addAssetBundles(){
+        if(_.isEmpty(PLAYABLE_PATH_PREFIX)){
+            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/item0";
+        }
+
+        var $form = $("form");
+
+        addPlayableMediaProps($form, "../playableMedia");
+
+        addDuration($form, PLAYABLE_PATH_PREFIX);
+
+        var $fields = $form.find("input[name^='./video']input[name$='./mgidFileURI']");
+
+        $fields.each(function(index, field){
+            var name = PLAYABLE_PATH_PREFIX + "/assetRefs/item" + index + "/mgidFileURI",
+                $field = $(field);
+
+            addInputField($form, name, $field.val());
+        });
+    }
+
+    function loadPlayableMediaPaths(){
+        var action = $("form").attr("action");
+
+        action = action.substring(0, action.lastIndexOf("/")) + "/playableMedia.4.json";
+
+        $.ajax(action).done(function(data){
+            if(_.isEmpty(data) || _.isEmpty(data["assetBundles"])){
+                return;
+            }
+
+            var assetBundleUnique;
+
+            _.each(data["assetBundles"], function(value, key){
+                if(!_.isObject(value)){
+                    return;
+                }
+
+                assetBundleUnique = key;
+            });
+
+            if(_.isEmpty(assetBundleUnique)){
+                return;
+            }
+
+            PLAYABLE_PATH_PREFIX = "../playableMedia/assetBundles/" + assetBundleUnique;
+
+            var assetRefs = data["assetBundles"][assetBundleUnique]["assetRefs"];
+
+            if(_.isEmpty(assetRefs)){
+                return;
+            }
+
+            ASSET_REFS_MAP = {};
+
+            var index = 0;
+
+            _.each(assetRefs, function(value, refKey){
+                if(!_.isObject(value)){
+                    return;
+                }
+
+                ASSET_REFS_MAP["item" + index++] = refKey;
+            });
+        })
+    }
+
     function addFormActions(){
         $(".button-apply").on("click", function(e) {
+            addAssetBundles();
+
             $("form").submit();
+
             Dam.CFM.editor.Core.cancel();
         });
 
@@ -80,6 +183,8 @@
         mediaTab.on('click', function(){
             openPlayableMediaEditor(PLAYABLE_MEDIA_PAGE);
         });
+
+        loadPlayableMediaPaths();
 
         addFormActions();
 
