@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:mixinTypes="[vlt:FullCoverage]"
+    jcr:primaryType="sling:OrderedFolder"
+    sling:resourceType="cq/gui/components/authoring/editorpanel"
+    default="{Boolean}true"
+    id="Content">
+    <header
+        jcr:primaryType="nt:unstructured"
+        class="editor-GlobalBar js-editor-PanelHeader">
+        <items jcr:primaryType="nt:unstructured">
+            <headerbar
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="dam/cfm/admin/migration/components/headerbar"
+                class="header-main">
+                <items jcr:primaryType="nt:unstructured">
+                    <togglesidepanel
+                        granite:class="toggle-sidepanel editor-GlobalBar-item js-editor-SidePanel-toggle"
+                        granite:title="Toggle Side Panel"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/button"
+                        align="left"
+                        disabled="{Boolean}false"
+                        icon="railLeft"
+                        iconSize="S"
+                        variant="minimal"/>
+                    <fragmentElements
+                        granite:class="editor-GlobalBar-item"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="dam/cfm/admin/components/adminpage/title"
+                        align="center"
+                        pattern="${fragmentName}"/>
+                    <save
+                        granite:class="button-apply editor-GlobalBar-item"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/button"
+                        align="right"
+                        hideText="{Boolean}false"
+                        text="Save"
+                        variant="primary">
+                        <granite:rendercondition
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/renderconditions/privilege"
+                            path="${requestPathInfo.suffix}/jcr:content"
+                            privileges="[jcr:addChildNodes,jcr:modifyProperties,jcr:removeChildNodes]"/>
+                    </save>
+                    <cancel
+                        granite:class="button-cancel editor-GlobalBar-item"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/button"
+                        align="right"
+                        hideText="{Boolean}false"
+                        text="Cancel"
+                        variant="secondary"/>
+                </items>
+            </headerbar>
+        </items>
+    </header>
+    <content
+        jcr:primaryType="nt:unstructured"
+        id="ContentScrollView">
+        <items jcr:primaryType="nt:unstructured">
+            <contentwrapper
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/gui/components/authoring/contentwrapper"/>
+            <editors
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="dam/cfm/admin/migration/components/shell/editor">
+                <editor
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="/apps/eaem-content-fragment-form/editor"/>
+                <form
+                    granite:class="align-in-column active"
+                    granite:id="eaem-content-fragment-cf-form"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    action="${granite:encodeURIPath(requestPathInfo.suffix)}/_jcr_content/metadata/eaemFormData"
+                    foundationForm="{Boolean}true"
+                    method="post"
+                    style="vertical">
+                    <items jcr:primaryType="nt:unstructured">
+                        <tabs
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/tabs"
+                            maximized="{Boolean}true"
+                            size="L">
+                            <items jcr:primaryType="nt:unstructured">
+                                <assets
+                                    granite:class="eaem-assets-contentfragment-form-tab"
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Assets"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/container">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <summary
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                    fieldDescription="Summary"
+                                                    fieldLabel="Summary"
+                                                    name="./summary"/>
+                                                <heading
+                                                    granite:class="eaem-assets-contentfragment-form-spacer"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/heading"
+                                                    level="{Long}4"
+                                                    text="Assets"/>
+                                                <assets
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                    composite="{Boolean}true">
+                                                    <field
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                        name="./assets">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <column
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <title
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="Title"
+                                                                        fieldLabel="Title"
+                                                                        name="./title"/>
+                                                                    <path
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                                        fieldDescription="Path"
+                                                                        fieldLabel="Path"
+                                                                        name="./path"
+                                                                        rootPath="/content/dam"/>
+                                                                </items>
+                                                            </column>
+                                                        </items>
+                                                    </field>
+                                                </assets>
+                                            </items>
+                                        </column>
+                                    </items>
+                                </assets>
+                                <other
+                                    granite:class="eaem-assets-contentfragment-form-tab"
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Other"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/container">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <misc
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                                    emptyText="Misc Info"
+                                                    fieldDescription="Misc Info"
+                                                    fieldLabel="Misc Info"
+                                                    name="./misc"/>
+                                            </items>
+                                        </column>
+                                    </items>
+                                </other>
+                            </items>
+                        </tabs>
+                    </items>
+                </form>
+                <contentpath
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="dam/gui/coral/components/commons/ui/shell/contentpath"
+                    path="${requestPathInfo.suffix}"/>
+            </editors>
+        </items>
+    </content>
+</jcr:root>

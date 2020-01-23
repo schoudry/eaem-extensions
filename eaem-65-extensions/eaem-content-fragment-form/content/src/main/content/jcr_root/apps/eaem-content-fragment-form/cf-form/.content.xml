@@ -3,10 +3,10 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         jcr:primaryType="nt:unstructured"
-        jcr:title="AEM Sites | Content Fragment Editor"
+        jcr:title="AEM Sites | Experience AEM Fragment Editor"
         sling:resourceType="dam/cfm/admin/components/adminpage"
         adminType="authoring"
-        consoleId="cq-sites-contentfragments-models-edit"
+        consoleId="cq-sites-contentfragments-eaem-form-edit"
         extraClientLibs="[cq.authoring.editor.dam.cfm,dam.cfm.api,dam.cfm.metadata.v2,dam.cfm.shell.v2,dam.cfm.migration.sidepanel.v2]"
         initClientLibs="[jquery,coralui2]"
         trackingFeature="aem:sites:contentfragments:models:edit">
