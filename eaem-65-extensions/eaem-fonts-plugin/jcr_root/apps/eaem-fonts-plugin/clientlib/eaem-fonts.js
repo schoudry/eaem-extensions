@@ -151,18 +151,12 @@
 
     function addPluginToDefaultUISettings(){
         var groupFeature = GROUP + "#" + FONT_FEATURE,
-            toolbar = CUI.rte.ui.cui.DEFAULT_UI_SETTINGS.inline.toolbar;
+            toolbar = CUI.rte.ui.cui.DEFAULT_UI_SETTINGS.dialogFullScreen.toolbar;
 
         if(toolbar.includes(groupFeature)){
             return;
         }
 
-        toolbar.splice(3, 0, groupFeature);
-
-        toolbar = CUI.rte.ui.cui.DEFAULT_UI_SETTINGS.fullscreen.toolbar;
-        toolbar.splice(3, 0, groupFeature);
-
-        toolbar = CUI.rte.ui.cui.DEFAULT_UI_SETTINGS.dialogFullScreen.toolbar;
         toolbar.splice(3, 0, groupFeature);
     }
 
