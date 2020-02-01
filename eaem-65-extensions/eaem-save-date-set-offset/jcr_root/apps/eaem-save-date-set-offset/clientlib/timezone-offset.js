@@ -11,7 +11,6 @@
             return;
         }
 
-
         _.each($datePickers, function(datePicker){
             var $datePicker = $(datePicker);
 
@@ -25,13 +24,13 @@
 
             $datePicker.on("change", setOffset);
 
-            setOffset.call(datePicker);
+            setOffset.call(datePicker, {}, $datePicker.attr("value"));
         });
     }
 
-    function setOffset(){
+    function setOffset(event, initValue){
         var datePicker = this, $datePicker = $(this),
-            offset = $datePicker.data(EAEM_OFFSET),
+            offset = $datePicker.data(EAEM_OFFSET), value,
             $timeZone = $datePicker.nextAll(".granite-datepicker-timezone");
 
         if(!datePicker.value){
@@ -39,19 +38,15 @@
             return;
         }
 
-        var value = datePicker.value;
-
-        if(value.endsWith("Z")){
-            value = value.substring(0, value.indexOf("Z"));
+        if(_.isUndefined(initValue)){
+            value = getDateTimePortion(datePicker.value) + offset;
         }else{
-            value = value.substring(0, value.lastIndexOf("-"));
+            value = initValue;
+
+            datePicker.value = getDateTimePortion(value) + moment(new Date()).format("Z");
         }
 
-        value = value + offset;
-
-        var toUTC = new Date(datePicker.value).toISOString(),
-            message = $datePicker.data(EAEM_OFFSET_MESSAGE);
-
+        var message = $datePicker.data(EAEM_OFFSET_MESSAGE);
 
         message = message || "Date shown (and saved) is offset to " + $datePicker.data(EAEM_OFFSET) + " relative to your timezone";
 
@@ -62,4 +57,13 @@
         $timeZone.find("span").html(message);
     }
 
+    function getDateTimePortion(value){
+        if(value.endsWith("Z")){
+            value = value.substring(0, value.indexOf("Z"));
+        }else{
+            value = value.substring(0, value.lastIndexOf("-"));
+        }
+
+        return value;
+    }
 }(jQuery, window.CUI,jQuery(document)));
