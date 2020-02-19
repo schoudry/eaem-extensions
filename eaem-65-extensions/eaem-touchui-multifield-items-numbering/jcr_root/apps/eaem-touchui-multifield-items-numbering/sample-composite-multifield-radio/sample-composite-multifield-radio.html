@@ -1,0 +1,19 @@
+<div>
+    <b>65 Composite Multi Field Radio with Radio Buttons</b>
+ 
+    <div data-sly-use.company="helper.js" data-sly-unwrap>
+        <div data-sly-test="${!company.products && wcmmode.edit}">
+            Add products using component dialog
+        </div>
+ 
+        <div data-sly-test="${company.products}">
+            <div data-sly-list.product="${company.products}">
+                <div>
+                    <div>${product.name}</div>
+                    <div>${product.path}</div>
+                    <div>${product.size}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
