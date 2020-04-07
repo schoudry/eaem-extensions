@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale = 1.0,maximum-scale = 1.0">
+    <title>Experience AEM Asset Selector</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://helpx.adobe.com/experience-manager/6-4/sites/developing/using/reference-materials/coral-ui/coralui3/js/libs/moment.js"></script>
+    <script src="https://helpx.adobe.com/experience-manager/6-4/sites/developing/using/reference-materials/coral-ui/coralui3/js/libs/jquery.js"></script>
+    <script src="https://helpx.adobe.com/experience-manager/6-4/sites/developing/using/reference-materials/coral-ui/coralui3/js/coral.js"></script>
+    <script src="asset-selector.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://helpx.adobe.com/experience-manager/6-4/sites/developing/using/reference-materials/coral-ui/coralui3/css/coral.css">
+    <link rel="stylesheet" type="text/css" href="asset-selector.css">
+</head>
+<body>
+<div>
+    <h1 class="coral-Heading" style="text-align: center">AEM Dynamic Renditions Selector</h1>
+</div>
+<div>
+    <h4 class="coral-Heading">
+        The asset selector lets you search for, filter, and browse assets within Adobe Experience Manager (AEM) Assets.
+        You can also fetch the metadata of assets that you select using the asset selector.
+        To customize the asset selector interface, you can launch it with supported request parameters.
+        These parameters set the context of the asset selector for a particular scenario.
+        <br><br>
+        Enter the AEM URL eg. http://localhost:4502. Select Image profile, click on the button below to open AEM asset picker and select an asset
+        <br><br>
+        <font color="red"> If you see a blank image the asset might not have been published in AEM </font>
+    </h4>
+</div>
+<div>
+    <div style="padding: 0 0 15px 0">
+        <input is="coral-textfield" type="text" value="http://localhost:4502"
+               id="aem-host-url" size="100" style="width: 30rem">
+    </div>
+</div>
+<div>
+    <label>Select Image Profile</label>
+
+    <div class="coral-RadioGroup" id="dyn-image-profiles-grp">
+    </div>
+</div>
+<div>
+    <label>Select a Dynamic Rendition</label>
+    <div class="coral-RadioGroup" id="dyn-renditions-grp">
+    </div>
+</div>
+<div>
+    <button is="coral-button" id="open-asset-picker" style="text-align: center" variant="primary">
+        Open Asset Selector
+    </button>
+</div>
+<div>
+    <h4 class="coral-Heading">Asset Info : </h4>
+
+    <div id="asset-info">No asset selected</div>
+
+    <img id="aem-image" src=""/>
+</div>
+</body>
+</html>
