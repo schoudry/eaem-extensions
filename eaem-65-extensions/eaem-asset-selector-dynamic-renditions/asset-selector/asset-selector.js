@@ -1,6 +1,5 @@
 (function(){
     var ASSET_SELECTOR_ID = "aem-asset-selector",
-        ASSET_SELECTOR_URL_FIELD = "asset-selector-url",
         AUTH_TYPE_ASSET_SELECTOR = "authType=EAEM_ASSET_SELECTOR",
         ASSET_SELECTOR_URL = "/aem/assetpicker",
         IMAGE_PROFILES_URL = "/conf/global/settings/dam/adminui-extension/imageprofile.1.json",
@@ -125,14 +124,6 @@
 
     function adjustHeader($dialog){
         $dialog.find(".coral3-Dialog-header").remove().find(".coral3-Dialog-footer").remove();
-    }
-
-    function removeReceiveDataListener(handler) {
-        if (window.removeEventListener) {
-            window.removeEventListener("message", handler);
-        } else if (window.detachEvent) {
-            window.detachEvent("onmessage", handler);
-        }
     }
 
     function registerReceiveDataListener(handler) {
