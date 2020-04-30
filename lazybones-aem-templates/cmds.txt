@@ -109,3 +109,13 @@ get jquery anyonymous handler >
             return (handler.selector != "#SidePanel coral-tab" );
         })[0].handler;
     }
+
+String resourcePath = slingRequest.getRequestPathInfo().getResourcePath();
+
+private static final Logger logger = LoggerFactory.getLogger(GetWorkflowRunning.class);
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+JSONObject workflows = new JSONObject();
+workflows.put("success", true);
