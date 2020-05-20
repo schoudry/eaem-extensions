@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Text"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    helpPath="https://www.adobe.com/go/aem_cmp_text_v2">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs"
+                maximized="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                    <plugins
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Plugins"
+                        sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <Features/>
+                            <Formatting/>
+                            <Paraformat/>
+                            <Characters/>
+                            <experience-aem-emojis
+                                granite:class="js-cq-IPEPlugin-group"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Experience AEM Emojis"
+                                sling:resourceType="granite/ui/components/coral/foundation/container"
+                                maximized="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <enable
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Enable Plugin (Show in Rich Text Editor)"
+                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                        name="insertEmoji"/>
+                                </items>
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    name="experience-aem-emojis"
+                                    plugin-root-name="rtePlugins"/>
+                            </experience-aem-emojis>
+                        </items>
+                    </plugins>
+                    <styletab/>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-emojis-rte-plugin"/>
+    <filter root="/apps/core/wcm/components/text/v2/text/cq:design_dialog/content/items/tabs/items/plugins/items/experience-aem-emojis"/>
+</workspaceFilter>
