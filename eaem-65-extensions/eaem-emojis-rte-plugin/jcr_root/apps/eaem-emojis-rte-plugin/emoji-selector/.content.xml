@@ -21,32 +21,43 @@
         <body
             jcr:primaryType="nt:unstructured"
             sling:resourceType="granite/ui/components/coral/foundation/page/body">
-            <emoji
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Click on the Emoji select.."
-                sling:resourceType="granite/ui/components/coral/foundation/container">
-                <items jcr:primaryType="nt:unstructured">
-                    <fixedColumns
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
-                        margin="{Boolean}true">
-                        <items jcr:primaryType="nt:unstructured">
-                            <column
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/container">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <emojiPicker
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/apps/eaem-emojis-rte-plugin/emoji-widget"
-                                        fieldDescription="Select Emoji..."
-                                        fieldLabel="Select Emoji..."
-                                        name="./eaemEmoji"/>
-                                </items>
-                            </column>
-                        </items>
-                    </fixedColumns>
-                </items>
-            </emoji>
+            <items jcr:primaryType="nt:unstructured">
+                <form
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    class="foundation-form content-container"
+                    maximized="{Boolean}true"
+                    style="vertical">
+                    <items jcr:primaryType="nt:unstructured">
+                        <emoji
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Click on the Emoji select.."
+                            sling:resourceType="granite/ui/components/coral/foundation/container">
+                            <items jcr:primaryType="nt:unstructured">
+                                <fixedColumns
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                    margin="{Boolean}true">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/container">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <emojiPicker
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="/apps/eaem-emojis-rte-plugin/emoji-widget"
+                                                    fieldDescription="Select Emoji..."
+                                                    fieldLabel="Select Emoji..."
+                                                    name="./eaemEmoji"/>
+                                            </items>
+                                        </column>
+                                    </items>
+                                </fixedColumns>
+                            </items>
+                        </emoji>
+                    </items>
+                </form>
+            </items>
         </body>
     </jcr:content>
 </jcr:root>

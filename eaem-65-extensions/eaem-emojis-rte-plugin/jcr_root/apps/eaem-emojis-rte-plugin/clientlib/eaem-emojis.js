@@ -2,8 +2,7 @@
     var GROUP = "experience-aem-emojis",
         INSERT_EMOJI_FEATURE = "insertEmoji",
         EAEM_INSERT_EMOJI_DIALOG = "eaemTouchUIInsertEmojiDialog",
-        SENDER = "experience-aem", REQUESTER = "requester", $eaemEmojiPicker,
-        CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
+        SENDER = "experience-aem", REQUESTER = "requester",
         FONT_SELECTOR_URL = "/apps/eaem-emojis-rte-plugin/emoji-selector.html",
         url = document.location.pathname;
 
@@ -13,30 +12,16 @@
     }
 
     function handlePicker(){
-        $document.on("click", CANCEL_CSS, sendCancelMessage);
-
-        $document.submit(postSelectedEmoji);
+        $document.on("click", "#eaem-emojis span", addEmojiSelectListener);
     }
 
-    function postSelectedEmoji(){
+    function addEmojiSelectListener(){
         var message = {
             sender: SENDER,
             action: "submit",
-            data: {}
-        }, $form = $("form"), $field;
-
-        _.each($form.find("[name^='./']"), function(field){
-            $field = $(field);
-            message.data[$field.attr("name").substr(2)] = $field.val();
-        });
-
-        getParent().postMessage(JSON.stringify(message), "*");
-    }
-
-    function sendCancelMessage(){
-        var message = {
-            sender: SENDER,
-            action: "cancel"
+            data: {
+                emoji: $(this).html()
+            }
         };
 
         getParent().postMessage(JSON.stringify(message), "*");
@@ -59,7 +44,7 @@
     function addDialogTemplate(){
         var url = Granite.HTTP.externalize(FONT_SELECTOR_URL) + "?" + REQUESTER + "=" + SENDER;
 
-        var html = "<iframe width='700px' height='500px' frameBorder='0' src='" + url + "'></iframe>";
+        var html = "<iframe width='700px' height='300px' frameBorder='0' src='" + url + "'></iframe>";
 
         if(_.isUndefined(CUI.rte.Templates)){
             CUI.rte.Templates = {};
@@ -150,17 +135,14 @@
 
                     dialog.attach(propConfig, $container, this.editorKernel);
 
-                    dialog.$dialog.css("-webkit-transform", "scale(0.9)").css("-webkit-transform-origin", "0 0")
-                        .css("-moz-transform", "scale(0.9)").css("-moz-transform-origin", "0px 0px");
-
                     dialog.$dialog.find("iframe").attr("src", this.getPickerIFrameUrl());
 
                     this.eaemInsertEmojiDialog = dialog;
+
+                    $(window).off('message', receiveMessage).on('message', receiveMessage);
                 }
 
                 dm.show(dialog);
-
-                $(window).off('message', receiveMessage).on('message', receiveMessage);
 
                 function receiveMessage(event) {
                     event = event.originalEvent || {};
@@ -219,8 +201,15 @@
             },
 
             execute: function (execDef) {
-                var common = CUI.rte.Common,
-                    context = execDef.editContext;
+                var emoji = execDef.value.emoji, context = execDef.editContext,
+                    emojiSpan = context.doc.createElement("span");
+
+                emojiSpan.innerHTML = emoji;
+
+                var range = CUI.rte.Common.ua.isIE ? CUI.rte.Selection.saveNativeSelection(context)
+                                        : CUI.rte.Selection.getLeadRange(context);
+
+                range.insertNode(emojiSpan);
             },
 
             queryState: function(selectionDef, cmd) {

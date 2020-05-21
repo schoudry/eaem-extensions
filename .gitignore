@@ -8,6 +8,8 @@
 *.avi
 *.camrec
 *.cpvc
+*.crt
+*.key
 **/author
 **/author-dm
 **/publish

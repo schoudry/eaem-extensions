@@ -1,0 +1,6 @@
+{
+  "client_id": "bef8a5de87af48929ae44f9285762ea5",
+  "client_secret": "fdcc4506-6e0c-45c8-a77c-7c5386de46d4",
+  "jwt_payload": {"exp":1589039706,"iss":"2FBC7B975CFE21C40A495FBB@AdobeOrg","sub":"6BC856795EB57CDD0A495FA7@techacct.adobe.com","https://ims-na1.adobelogin.com/s/ent_cloudmgr_sdk":true,"aud":"https://ims-na1.adobelogin.com/c/bef8a5de87af48929ae44f9285762ea5"},
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt"
+}
