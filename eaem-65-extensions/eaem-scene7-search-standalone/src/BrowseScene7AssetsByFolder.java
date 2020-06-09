@@ -1,7 +1,11 @@
-import com.scene7.ipsapi.*;
+import com.scene7.ipsapi.AuthHeader;
+import com.scene7.ipsapi.GetFolderTreeParam;
+import com.scene7.ipsapi.SearchAssetsParam;
+import com.scene7.ipsapi.StringArray;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,18 +24,17 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowseScene7Assets {
+public class BrowseScene7AssetsByFolder {
     private static String S7_NA_IPS_URL = "https://s7sps1apissl.scene7.com/scene7/api/IpsApiService"; //available in AEM http://localhost:4502/libs/settings/dam/scene7/endpoints.html
-    private static String S7_COMPANY_HANDLE = "c|9686"; //c|230095 available via api or in AEM /conf/global/settings/cloudconfigs/dmscene7/jcr:content
+    private static String S7_COMPANY_HANDLE = "c|230095"; //c|230095, c|9686 available via api or in AEM /conf/global/settings/cloudconfigs/dmscene7/jcr:content
     private static String S7_USER = "";
     private static String S7_PASS = "";
     private static String STAND_ALONE_APP_NAME = "Experiencing AEM";
-    private static String FOLDER_HANDLE = ""; //Leave empty to browse root
-    private static int folderCount = 0;
+    private static int assetCount = 0;
 
     public static void main(String[] args) throws Exception {
         browseFolder(null);
-        System.out.println("TOTAL FOLDERS : " + folderCount);
+        System.out.println("TOTAL ASSETS : " + assetCount);
     }
 
     private static void browseFolder(S7Folder s7Folder) throws Exception {
@@ -86,8 +89,15 @@ public class BrowseScene7Assets {
         }
 
         folders.forEach(folder -> {
-            folderCount++;
-            System.out.println("\t" + folder.getFolderPath());
+            List<S7Asset> assets = folder.getAssets();
+
+            assetCount = assetCount + assets.size();
+
+            System.out.println("\t" + folder.getFolderPath() + " - " + assets.size());
+
+            assets.forEach(asset -> {
+                System.out.println("\t\t" + asset.getAssetPath() + " (" + FileUtils.byteCountToDisplaySize(asset.getAssetSize()) + ")");
+            });
         });
     }
 
@@ -129,7 +139,7 @@ public class BrowseScene7Assets {
         return folders;
     }
 
-    private static S7Folder fillFolderDetail(Node item){
+    private static S7Folder fillFolderDetail(Node item) throws Exception{
         S7Folder s7Folder = new S7Folder();
 
         if(item.getNodeType() == Node.ELEMENT_NODE) {
@@ -138,9 +148,86 @@ public class BrowseScene7Assets {
             s7Folder.setFolderHandle(eElement.getElementsByTagName("folderHandle").item(0).getTextContent());
             s7Folder.setFolderPath(eElement.getElementsByTagName("path").item(0).getTextContent());
             s7Folder.setHasSubFolders(new Boolean(eElement.getElementsByTagName("hasSubfolders").item(0).getTextContent()));
+
+            fillAssetDetails(s7Folder);
         }
 
         return s7Folder;
+    }
+
+    private static void fillAssetDetails(S7Folder s7Folder) throws Exception{
+        AuthHeader authHeader = getS7AuthHeader();
+
+        Marshaller marshaller = getMarshaller(AuthHeader.class);
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(authHeader, sw);
+
+        String authHeaderStr = sw.toString();
+
+        SearchAssetsParam searchAssetsParam = getSearchAssetsParam(s7Folder);
+
+        marshaller = getMarshaller(searchAssetsParam .getClass());
+        sw = new StringWriter();
+        marshaller.marshal(searchAssetsParam , sw);
+
+        String apiMethod = sw.toString();
+
+        byte[] responseBody = getResponse(authHeaderStr, apiMethod);
+
+        parseSearchResponse(responseBody, s7Folder);
+    }
+
+    private static void parseSearchResponse(byte[] responseBody, S7Folder parentFolder) throws Exception{
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        ByteArrayInputStream input =  new ByteArrayInputStream(responseBody);
+
+        Document doc = builder.parse(input);
+
+        XPath xPath =  XPathFactory.newInstance().newXPath();
+
+        String expression = "/searchAssetsReturn/assetArray/items";
+
+        NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+
+        List<S7Asset> assets = new ArrayList<S7Asset>();
+
+        for (int i = 0; i < itemList.getLength(); i++) {
+            Node item = itemList.item(i);
+
+            if(item.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+
+            S7Asset s7asset = new S7Asset();
+
+            Element eElement = (Element) item;
+
+            s7asset.setAssetHandle(getTextContent(eElement, "assetHandle"));
+            s7asset.setAssetPath(getTextContent(eElement, "folder") + getTextContent(eElement, "fileName"));
+
+            NodeList imageInfoList = eElement.getElementsByTagName("imageInfo");
+
+            for (int j = 0; j < imageInfoList.getLength(); j++) {
+                Node imageInfo = imageInfoList.item(j);
+
+                if(imageInfo.getNodeType() != Node.ELEMENT_NODE) {
+                    continue;
+                }
+
+                s7asset.setAssetSize(new Long(getTextContent((Element)imageInfo, "fileSize")));
+            }
+
+            assets.add(s7asset);
+        }
+
+        parentFolder.setAssets(assets);
+    }
+
+    private static String getTextContent(Element eElement, String tagName){
+        return eElement.getElementsByTagName(tagName).item(0).getTextContent();
     }
 
     private static byte[] getResponse(String authHeaderStr, String apiMethod) throws Exception{
@@ -200,6 +287,20 @@ public class BrowseScene7Assets {
         return getFolderTreeParam;
     }
 
+    private static SearchAssetsParam getSearchAssetsParam(S7Folder s7Folder){
+        SearchAssetsParam searchAssetsParam = new SearchAssetsParam();
+        StringArray assetTypes = new StringArray();
+        assetTypes.getItems().add("Image");
+        assetTypes.getItems().add("Video");
+
+        searchAssetsParam.setCompanyHandle(S7_COMPANY_HANDLE);
+        searchAssetsParam.setFolder(s7Folder.getFolderPath());
+        searchAssetsParam.setIncludeSubfolders(false);
+        searchAssetsParam.setAssetTypeArray(assetTypes);
+
+        return searchAssetsParam;
+    }
+
     private static Marshaller getMarshaller(Class apiMethodClass) throws JAXBException {
         Marshaller marshaller = JAXBContext.newInstance(new Class[]{apiMethodClass}).createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.valueOf(true));
@@ -211,6 +312,7 @@ public class BrowseScene7Assets {
         private String folderHandle;
         private String folderPath;
         private boolean hasSubFolders;
+        private List<S7Asset> assets;
 
         public String getFolderHandle() {
             return folderHandle;
@@ -236,8 +338,46 @@ public class BrowseScene7Assets {
             this.hasSubFolders = hasSubFolders;
         }
 
+        public List<S7Asset> getAssets() {
+            return assets;
+        }
+
+        public void setAssets(List<S7Asset> assets) {
+            this.assets = assets;
+        }
+
         public String toString(){
             return "[" + folderHandle + "," + folderPath + "," + hasSubFolders + "]";
+        }
+    }
+
+    private static class S7Asset{
+        private String assetHandle;
+        private String assetPath;
+        private long assetSize;
+
+        public String getAssetHandle() {
+            return assetHandle;
+        }
+
+        public void setAssetHandle(String assetHandle) {
+            this.assetHandle = assetHandle;
+        }
+
+        public String getAssetPath() {
+            return assetPath;
+        }
+
+        public void setAssetPath(String assetPath) {
+            this.assetPath = assetPath;
+        }
+
+        public long getAssetSize() {
+            return assetSize;
+        }
+
+        public void setAssetSize(long assetSize) {
+            this.assetSize = assetSize;
         }
     }
 }
