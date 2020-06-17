@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/css/main.1ab6b12c.chunk.css",
+    "main.js": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/main.941afe9b.chunk.js",
+    "main.js.map": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/main.941afe9b.chunk.js.map",
+    "runtime-main.js": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/runtime-main.0662fdec.js",
+    "runtime-main.js.map": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/runtime-main.0662fdec.js.map",
+    "static/js/2.4dbe4db4.chunk.js": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/2.4dbe4db4.chunk.js",
+    "static/js/2.4dbe4db4.chunk.js.map": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/2.4dbe4db4.chunk.js.map",
+    "index.html": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/index.html",
+    "precache-manifest.720b927e0c1fb37d5ef2302c8a8a7b7b.js": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/precache-manifest.720b927e0c1fb37d5ef2302c8a8a7b7b.js",
+    "service-worker.js": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/service-worker.js",
+    "static/css/main.1ab6b12c.chunk.css.map": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/css/main.1ab6b12c.chunk.css.map",
+    "static/js/2.4dbe4db4.chunk.js.LICENSE.txt": "/etc.clientlibs/eaem/clientlibs/clientlib-react/resources/static/js/2.4dbe4db4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0662fdec.js",
+    "static/js/2.4dbe4db4.chunk.js",
+    "static/css/main.1ab6b12c.chunk.css",
+    "static/js/main.941afe9b.chunk.js"
+  ]
+}
