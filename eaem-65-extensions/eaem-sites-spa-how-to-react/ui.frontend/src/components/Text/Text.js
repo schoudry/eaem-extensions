@@ -17,7 +17,6 @@
 import { MapTo } from '@adobe/cq-react-editable-components';
 import DOMPurify from 'dompurify';
 import React, { Component } from 'react';
-import extractModelId from '../../utils/extract-model-id';
 
 require('./Text.css');
 
@@ -27,39 +26,47 @@ require('./Text.css');
  * @type EditConfig
  */
 const TextEditConfig = {
-  emptyLabel: 'Text',
+    emptyLabel: 'Text - Experience AEM',
 
-  isEmpty: function(props) {
-    return !props || !props.text || props.text.trim().length < 1;
-  }
+    isEmpty: function (props) {
+        return !props || !props.text || props.text.trim().length < 1;
+    }
 };
 
 /**
  * Text React component
  */
 class Text extends Component {
-  get richTextContent() {
-    return (
-      <div
-        id={extractModelId(this.props.cqPath)}
-        data-rte-editelement
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(this.props.text)
-        }}
-      />
-    );
-  }
+    get richTextContent() {
+        return (
+            <div>
+                <h3 style={{padding: '20px 0px 40px 0px', "text-align" : "center", "color" : "green"}}>
+                    THIS TEXT HARDCODED IN REACT COMPONENT
+                </h3>
+                <div
+                    id={extractModelId(this.props.cqPath)}
+                    data-rte-editelement
+                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.props.text)
+              }}
+                />
+            </div>
+        );
+    }
 
-  get textContent() {
-    return <div>{this.props.text}</div>;
-  }
+    get textContent() {
+        return <div>{this.props.text}</div>;
+    }
 
-  render() {
-    return this.props.richText ? this.richTextContent : this.textContent;
-  }
+    render() {
+        return this.props.richText ? this.richTextContent : this.textContent;
+    }
 }
 
 export default MapTo('eaem-sites-spa-how-to-react/components/text')(
-  Text,
-  TextEditConfig
+    Text,
+    TextEditConfig
 );
+
+function extractModelId(path) {
+    return path && path.replace(/\/|:/g, '_');
+}
