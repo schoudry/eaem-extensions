@@ -8,7 +8,16 @@
       <sourceFolder url="file://$MODULE_DIR$/ui.apps/src/main/content/jcr_root" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ui.content/src/main/content/jcr_root" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ui.frontend/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/all/target" />
+      <excludeFolder url="file://$MODULE_DIR$/core/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.apps.structure/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.apps/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.content/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.frontend/node" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.frontend/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.frontend/target" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
