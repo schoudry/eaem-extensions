@@ -1,26 +1,70 @@
-# EAEM Sites SPA using React
+# Sample AEM project template
 
-This a content package project generated using the AEM Simple Multimodule Lazybones template.
+This is a project template for AEM-based applications. It is intended as a best-practice set of examples as well as a potential starting point to develop your own functionality.
 
-## Building
+## Modules
 
-This project uses Maven for building. Common commands:
+The main parts of the template are:
 
-From the root directory, run ``mvn -PautoInstallPackage clean install`` to build the bundle and content package and install to a CQ instance.
+* core: Java bundle containing all core functionality like OSGi services, listeners or schedulers, as well as component-related Java code such as servlets or request filters.
+* ui.apps: contains the /apps (and /etc) parts of the project, ie JS&CSS clientlibs, components, templates, runmode specific configs as well as Hobbes-tests
+* ui.content: contains sample content using the components from the ui.apps
+* ui.tests: Java bundle containing JUnit tests that are executed server-side. This bundle is not to be deployed onto production.
+* ui.launcher: contains glue code that deploys the ui.tests bundle (and dependent bundles) to the server and triggers the remote JUnit execution
+* ui.frontend: an optional dedicated front-end build mechanism (Angular, React or general Webpack project)
 
-From the bundle directory, run ``mvn -PautoInstallBundle clean install`` to build *just* the bundle and install to a CQ instance.
+## How to build
 
-## Using with VLT
+To build all the modules run in the project root directory the following command with Maven 3:
 
-To use vlt with this project, first build and install the package to your local CQ instance as described above. Then cd to `content/src/main/content/jcr_root` and run
+    mvn clean install
 
-    vlt --credentials admin:admin checkout -f ../META-INF/vault/filter.xml --force http://localhost:4502/crx
+If you have a running AEM instance you can build and package the whole project and deploy into AEM with
 
-Once the working copy is created, you can use the normal ``vlt up`` and ``vlt ci`` commands.
+    mvn clean install -PautoInstallPackage
 
-## Specifying CRX Host/Port
+Or to deploy it to a publish instance, run
 
-The CRX host and port can be specified on the command line with:
-mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
+    mvn clean install -PautoInstallPackagePublish
 
+Or alternatively
 
+    mvn clean install -PautoInstallPackage -Daem.port=4503
+
+Or to deploy only the bundle to the author, run
+
+    mvn clean install -PautoInstallBundle
+
+## Testing
+
+There are three levels of testing contained in the project:
+
+* unit test in core: this show-cases classic unit testing of the code contained in the bundle. To test, execute:
+
+    mvn clean test
+
+* server-side integration tests: this allows to run unit-like tests in the AEM-environment, ie on the AEM server. To test, execute:
+
+    mvn clean verify -PintegrationTests
+
+* client-side Hobbes.js tests: JavaScript-based browser-side tests that verify browser-side behavior. To test:
+
+    in the browser, open the page in 'Developer mode', open the left panel and switch to the 'Tests' tab and find the generated 'MyName Tests' and run them.
+
+## ClientLibs
+
+The frontend module is made available using an [AEM ClientLib](https://helpx.adobe.com/experience-manager/6-5/sites/developing/using/clientlibs.html). When executing the NPM build script, the app is built and the [`aem-clientlib-generator`](https://github.com/wcm-io-frontend/aem-clientlib-generator) package takes the resulting build output and transforms it into such a ClientLib.
+
+A ClientLib will consist of the following files and directories:
+
+- `css/`: CSS files which can be requested in the HTML
+- `css.txt` (tells AEM the order and names of files in `css/` so they can be merged)
+- `js/`: JavaScript files which can be requested in the HTML
+- `js.txt` (tells AEM the order and names of files in `js/` so they can be merged
+- `resources/`: Source maps, non-entrypoint code chunks (resulting from code splitting), static assets (e.g. icons), etc.
+
+## Maven settings
+
+The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
+
+    http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html

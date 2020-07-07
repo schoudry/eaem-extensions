@@ -12,8 +12,12 @@
 *.key
 **/author
 **/author-dm
+**/author-spa
 **/publish
 **/review
 target
 temp
 dist
+**/node_modules
+**/node
+**/build
