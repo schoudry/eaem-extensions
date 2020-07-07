@@ -79,4 +79,6 @@
             </container>
         </root>
     </jcr:content>
+    <home/>
+    <eaem-65-extensions/>
 </jcr:root>

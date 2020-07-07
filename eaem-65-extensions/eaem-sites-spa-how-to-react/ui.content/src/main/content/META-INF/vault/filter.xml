@@ -2,6 +2,4 @@
 <workspaceFilter version="1.0">
     <filter root="/conf/eaem-sites-spa-how-to-react" mode="merge"/>
     <filter root="/content/eaem-sites-spa-how-to-react" mode="merge"/>
-    <filter root="/content/dam/eaem-sites-spa-how-to-react" mode="merge"/>
-    <filter root="/content/experience-fragments/eaem-sites-spa-how-to-react" mode="merge"/>
 </workspaceFilter>

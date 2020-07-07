@@ -4,8 +4,10 @@
     <jcr:content
         cq:created="{Date}2018-10-22T17:08:28.689+05:30"
         cq:createdBy="admin"
-        jcr:primaryType="cq:PageContent"
+        cq:lastModified="{Date}2020-07-07T15:16:06.326-05:00"
+        cq:lastModifiedBy="admin"
         cq:templateType="/libs/settings/wcm/template-types/html5page"
+        jcr:primaryType="cq:PageContent"
         jcr:title="Experience AEM SPA React Page Template"
         status="enabled"/>
 </jcr:root>
