@@ -2,11 +2,11 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2020-07-07T15:15:05.564-05:00"
+        cq:lastModified="{Date}2020-07-08T16:07:10.812-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/conf/eaem-sites-spa-how-to-react/settings/wcm/templates/spa-page-template"
         jcr:primaryType="cq:PageContent"
-        jcr:title="EAEM 65 Extensions"
+        jcr:title="EAEM 65"
         sling:resourceType="eaem-sites-spa-how-to-react/components/page">
         <root
             jcr:primaryType="nt:unstructured"

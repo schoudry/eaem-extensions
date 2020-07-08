@@ -79,6 +79,11 @@
             </container>
         </root>
     </jcr:content>
-    <home/>
-    <eaem-65-extensions/>
+    <eaem-home/>
+    <eaem-65/>
+    <eaem-64/>
+    <eaem-63/>
+    <eaem-62/>
+    <eaem-6/>
+    <eaem-5x/>
 </jcr:root>
