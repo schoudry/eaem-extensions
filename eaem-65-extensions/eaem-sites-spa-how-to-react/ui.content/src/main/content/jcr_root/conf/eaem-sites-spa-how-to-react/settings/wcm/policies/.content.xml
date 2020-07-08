@@ -5,54 +5,6 @@
     <rep:policy/>
     <eaem-sites-spa-how-to-react jcr:primaryType="nt:unstructured">
         <components jcr:primaryType="nt:unstructured">
-            <image jcr:primaryType="nt:unstructured">
-                <policy_651483963895698
-                    jcr:description="- Enable lazy loading for faster page loading.&#xd;&#xa;- Define allowed image widths for automatic loading of the image in the most optimal resolution, given the size at which each image is displayed on the page, and the visitor's pixel density.&#xd;&#xa;- Disallow direct asset upload, to force authors to first upload the images to Assets."
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Content Image"
-                    sling:resourceType="wcm/core/components/policy/policy"
-                    allowedRenditionWidths="[320,480,600,800,1024,1200,1600]"
-                    allowUpload="false"
-                    altValueFromDAM="true"
-                    disableLazyLoading="false"
-                    displayPopupTitle="true"
-                    isDecorative="false"
-                    jpegQuality="{Long}85"
-                    titleValueFromDAM="true"
-                    uuidDisabled="true">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                    <plugins jcr:primaryType="nt:unstructured">
-                        <crop
-                            jcr:primaryType="nt:unstructured"
-                            features="*">
-                            <aspectRatios jcr:primaryType="nt:unstructured">
-                                <item0
-                                    jcr:primaryType="nt:unstructured"
-                                    name="Wide Landscape"
-                                    ratio="0.6180"/>
-                                <item1
-                                    jcr:primaryType="nt:unstructured"
-                                    name="Landscape"
-                                    ratio="0.8284"/>
-                                <item2
-                                    jcr:primaryType="nt:unstructured"
-                                    name="Square"
-                                    ratio="1"/>
-                                <item3
-                                    jcr:primaryType="nt:unstructured"
-                                    name="Portrait"
-                                    ratio="1.6180"/>
-                            </aspectRatios>
-                        </crop>
-                        <rotate
-                            jcr:primaryType="nt:unstructured"
-                            features="right"/>
-                        <flip
-                            jcr:primaryType="nt:unstructured"
-                            features="-"/>
-                    </plugins>
-                </policy_651483963895698>
-            </image>
             <text jcr:primaryType="nt:unstructured">
                 <policy_641562756958017
                     jcr:primaryType="nt:unstructured"
@@ -164,106 +116,6 @@
                     <jcr:content jcr:primaryType="nt:unstructured"/>
                 </policy_641528232375303>
             </title>
-            <container jcr:primaryType="nt:unstructured">
-                <policy_1574694950110
-                    jcr:description="Allows the template components and defines the component mapping (this configures what components should be automatically created when authors drop assets from the content finder to the page editor)."
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Page Root"
-                    sling:resourceType="wcm/core/components/policy/policy"
-                    components="[group:Experience AEM SPA React - Content,/apps/eaem-sites-spa-how-to-react/components/form/container,group:Experience AEM SPA React - Structure]">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                    <cq:authoring jcr:primaryType="nt:unstructured">
-                        <assetToComponentMapping jcr:primaryType="nt:unstructured">
-                            <mapping_1575024218483
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="image/*"
-                                droptarget="image"
-                                resourceType="eaem-sites-spa-how-to-react/components/image"/>
-                            <mapping_1575030843388
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="content"
-                                assetMimetype="text/html"
-                                droptarget="experiencefragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/experiencefragment"/>
-                            <mapping_1575030853128
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="[text/html,application/vnd.adobe.contentfragment]"
-                                droptarget="contentfragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/contentfragment"/>
-                        </assetToComponentMapping>
-                    </cq:authoring>
-                </policy_1574694950110>
-                <policy_1574695586800
-                    jcr:description="Allows the page components and defines the component mapping (this configures what components should be automatically created when authors drop assets from the content finder to the page editor)."
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Page Content"
-                    sling:resourceType="wcm/core/components/policy/policy"
-                    components="[group:Experience AEM SPA React - Content,/apps/eaem-sites-spa-how-to-react/components/form/container]">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                    <cq:authoring jcr:primaryType="nt:unstructured">
-                        <assetToComponentMapping jcr:primaryType="nt:unstructured">
-                            <mapping_1575030255082
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="image/*"
-                                droptarget="image"
-                                resourceType="eaem-sites-spa-how-to-react/components/image"/>
-                            <mapping_1575030260142
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="content"
-                                assetMimetype="text/html"
-                                droptarget="experiencefragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/experiencefragment"/>
-                            <mapping_1575030269139
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="[text/html,application/vnd.adobe.contentfragment]"
-                                droptarget="contentfragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/contentfragment"/>
-                        </assetToComponentMapping>
-                    </cq:authoring>
-                </policy_1574695586800>
-                <policy_649128221558427
-                    cq:styleDefaultElement="main"
-                    jcr:description="Sets a &lt;main> element on the page content area."
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="Page Main"
-                    sling:resourceType="wcm/core/components/policy/policy">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                </policy_649128221558427>
-                <policy_1575040440977
-                    jcr:description="Allows the template components and defines the component mapping (this configures what components should be automatically created when authors drop assets from the content finder to the page editor)."
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="XF Root"
-                    sling:resourceType="wcm/core/components/policy/policy"
-                    components="[group:Experience AEM SPA React - Content,/apps/eaem-sites-spa-how-to-react/components/form/container]">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                    <cq:authoring jcr:primaryType="nt:unstructured">
-                        <assetToComponentMapping jcr:primaryType="nt:unstructured">
-                            <mapping_1575024218483
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="image/*"
-                                droptarget="image"
-                                resourceType="eaem-sites-spa-how-to-react/components/image"/>
-                            <mapping_1575030843388
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="content"
-                                assetMimetype="text/html"
-                                droptarget="experiencefragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/experiencefragment"/>
-                            <mapping_1575030853128
-                                jcr:primaryType="nt:unstructured"
-                                assetGroup="media"
-                                assetMimetype="[text/html,application/vnd.adobe.contentfragment]"
-                                droptarget="contentfragment"
-                                resourceType="eaem-sites-spa-how-to-react/components/contentfragment"/>
-                        </assetToComponentMapping>
-                    </cq:authoring>
-                </policy_1575040440977>
-            </container>
             <page jcr:primaryType="nt:unstructured">
                 <policy
                     jcr:description="Includes the required client libraries."
@@ -337,20 +189,6 @@
                                     droptarget="video"
                                     resourceType="foundation/components/video"
                                     type="Images"/>
-                                <fragment
-                                    jcr:primaryType="nt:unstructured"
-                                    assetGroup="media"
-                                    assetMimetype="text/html"
-                                    droptarget="fragment"
-                                    resourceType="dam/cfm/components/contentfragment"
-                                    type="Content Fragment"/>
-                                <experiencefragment
-                                    jcr:primaryType="nt:unstructured"
-                                    assetGroup="content"
-                                    assetMimetype="text/html"
-                                    droptarget="experiencefragment"
-                                    resourceType="cq/experience-fragments/editor/components/experiencefragment"
-                                    type="experiencefragment"/>
                             </assetToComponentMapping>
                         </cq:authoring>
                         <jcr:content
