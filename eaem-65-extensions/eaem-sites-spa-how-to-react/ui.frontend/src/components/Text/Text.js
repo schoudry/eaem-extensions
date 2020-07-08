@@ -40,14 +40,10 @@ class Text extends Component {
     get richTextContent() {
         return (
             <div>
-                <h3 style={{padding: '20px 0px 40px 0px', "text-align" : "center", "color" : "green"}}>
-                    THIS TEXT HARDCODED IN REACT COMPONENT
-                </h3>
                 <div
                     id={extractModelId(this.props.cqPath)}
                     data-rte-editelement
-                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.props.text)
-              }}
+                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.props.text) }}
                 />
             </div>
         );
