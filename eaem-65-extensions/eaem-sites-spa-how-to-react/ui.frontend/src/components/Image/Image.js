@@ -7,7 +7,7 @@ const ImageEditConfig = {
     emptyLabel: 'Image - Experience AEM',
 
     isEmpty: function (props) {
-        return !props || !props.imageURL || props.imageURL.trim().length < 1;
+        return (!props || !props.imageURL || (props.imageURL.trim().length < 1));
     }
 };
 
