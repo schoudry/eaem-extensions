@@ -1,6 +1,7 @@
 import { MapTo } from '@adobe/cq-react-editable-components';
 import DOMPurify from 'dompurify';
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 
 const ImageEditConfig = {
     emptyLabel: 'Image - Experience AEM',
@@ -20,7 +21,9 @@ class Image extends Component {
 
         return (
             <div>
-                <img src={this.props.imageURL} style={imgStyles}/>
+                <Link to={this.props.imageLink}>
+                    <img src={this.props.imageURL} style={imgStyles}/>
+                </Link>
             </div>
         );
     }
