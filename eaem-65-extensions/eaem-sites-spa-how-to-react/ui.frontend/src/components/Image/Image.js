@@ -12,9 +12,15 @@ const ImageEditConfig = {
 
 class Image extends Component {
     get imageHTML() {
+        const imgStyles = {
+            "display": 'block',
+            "margin-left": 'auto',
+            "margin-right": 'auto'
+        };
+
         return (
             <div>
-                <img src={this.props.imageURL}/>
+                <img src={this.props.imageURL} style={imgStyles}/>
             </div>
         );
     }
