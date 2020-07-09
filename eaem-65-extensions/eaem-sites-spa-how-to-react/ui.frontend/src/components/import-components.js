@@ -18,3 +18,4 @@ import './Page/Page';
 import './Text/Text';
 import './Title/Title';
 import './Nav/Nav';
+import './Image/Image';
