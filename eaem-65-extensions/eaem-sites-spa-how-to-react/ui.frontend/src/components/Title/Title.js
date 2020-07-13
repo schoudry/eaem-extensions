@@ -13,8 +13,8 @@ const TitleEditConfig = {
 class Title extends Component {
     render() {
         return (this.props.type ?
-            <this.props.type style={{padding: '35px', "text-align" : "center"}}>{this.props.text}</this.props.type> :
-            <h1 style={{padding: '35px', "text-align" : "center"}}>{this.props.text}</h1>);
+            <this.props.type style={{"text-align" : "center"}}>{this.props.text}</this.props.type> :
+            <h1 style={{"text-align" : "center"}}>{this.props.text}</h1>);
     }
 }
 
