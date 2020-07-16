@@ -1,0 +1,46 @@
+{
+  "project": {
+    "id": "4566206088344546376",
+    "name": "EAEMHighResRendition",
+    "title": "sreek photoshop nui worker",
+    "org": {
+      "id": "126827",
+      "name": "AEMwithNui1",
+      "ims_org_id": "B18159AC5BD05D330A495C52@AdobeOrg"
+    },
+    "workspace": {
+      "id": "4566206088344546714",
+      "name": "sreekAssetComputePS",
+      "title": "sreekAssetComputePS",
+      "action_url": "https://126827-eaemhighresrendition-sreekassetcomputeps.adobeioruntime.net",
+      "app_url": "https://126827-eaemhighresrendition-sreekassetcomputeps.adobestatic.net",
+      "details": {
+        "credentials": [
+          {
+            "id": "100668",
+            "name": "Project_1594764680802J",
+            "integration_type": "service"
+          }
+        ],
+        "services": [
+          {
+            "code": "AdobeIOManagementAPISDK",
+            "name": "I/O Management API"
+          },
+          {
+            "code": "AssetComputeSDK",
+            "name": "Asset Compute"
+          },
+          {
+            "code": "CloudIntegrationSDK",
+            "name": "I/O Events"
+          },
+          {
+            "code": "PhotoshopCCESDK",
+            "name": "Photoshop API - Creative Cloud Automation Services"
+          }
+        ]
+      }
+    }
+  }
+}

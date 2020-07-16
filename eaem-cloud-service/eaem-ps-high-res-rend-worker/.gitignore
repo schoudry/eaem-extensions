@@ -1,0 +1,35 @@
+
+# package directories
+node_modules
+jspm_packages
+
+# build
+dist
+.manifest-dist.yml
+
+# Config
+config.json
+.env
+
+# Adobe I/O console config
+console.json
+
+# Test output
+junit.xml
+
+# IDE & Temp
+.cache
+.idea
+.nyc_output
+.vscode
+coverage
+.aws.tmp.creds.json
+.wskdebug.props.tmp
+
+# OSX
+.DS_Store
+
+# yeoman
+.yo-repository
+
+

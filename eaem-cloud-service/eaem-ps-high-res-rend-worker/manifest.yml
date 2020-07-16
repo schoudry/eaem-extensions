@@ -1,0 +1,12 @@
+packages:
+  __APP_PACKAGE__:
+    license: Apache-2.0
+    actions:
+      eaem-ps-high-res-rend-worker:
+        function: actions\eaem-ps-high-res-rend-worker\index.js
+        web: 'yes'
+        runtime: 'nodejs:10'
+        limits:
+          concurrency: 10
+        annotations:
+          require-adobe-auth: true
