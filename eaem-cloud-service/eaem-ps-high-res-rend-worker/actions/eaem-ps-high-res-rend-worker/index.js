@@ -92,13 +92,14 @@ class EAEMPhotoshopService {
     }
 }
 
-exports.main = worker(async (source, rendition, params, other) => {
+exports.main = worker(async (source, rendition, params) => {
     const stats = await fs.stat(source.path);
 
     if (stats.size === 0) {
         throw new SourceCorruptError('EAEM: Source file is empty');
     }
 
+    console.log("EAEM Process env...", process.env);
     console.log("EAEM Rendition Instructions for the app...", rendition.instructions);
 
     const SERVICE = new EAEMPhotoshopService(params.auth);
