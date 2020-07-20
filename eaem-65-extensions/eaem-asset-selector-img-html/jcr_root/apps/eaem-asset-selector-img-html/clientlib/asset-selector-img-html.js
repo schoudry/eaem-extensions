@@ -1,4 +1,6 @@
 (function($, $document){
+    var PUBLISH_URL = "/apps/eaem-asset-selector-img-html/publish-url/content.html";
+
     $document.ready(addImgHtmlButton);
 
     function addImgHtmlButton(){
@@ -18,17 +20,28 @@
             return;
         }
 
-        var html = "<textarea rows='3' cols= '70' " +
-                        "style='background-color:#EEE; outline: 0; border-width: 0;padding: 20px'>&ltdiv&gt";
+        var $selection = $($selections[0]),
+            imgPath = $selection.data("granite-collection-item-id");
 
-        _.each($selections, function(item){
-            var $item = $(item),
-                imgPath = $item.data("granite-collection-item-id");
-
-            html = html + "\n\t" + getImageHtml(imgPath);
+        $.ajax( { url: imgPath + ".2.json", async: false}).done(function(data){
+            if(!data || !data["jcr:content"] || !data["jcr:content"]["cq:lastReplicated"]){
+                showAlert("Please publish the image in AEM for using it in Campaign...", "Publish");
+                imgPath = undefined;
+            }
         });
 
-        html = html + "\n" + "&lt/div&gt</textarea>";
+        if(!imgPath){
+            return;
+        }
+
+        var html = "<textarea rows='3' cols= '80' " +
+            "style='background-color:#EEE; outline: 0; border-width: 0;padding: 20px; font-family: Courier'>&ltdiv&gt";
+
+        $.ajax( { url: PUBLISH_URL + imgPath, async: false}).done(function(url){
+            imgPath = url.trim();
+        });
+
+        html = html + "\n\t" + getImageHtml(imgPath) + "\n" + "&lt/div&gt</textarea>";
 
         showCopyCode(html);
     }
@@ -44,6 +57,10 @@
     function showCopyCode(code, callback){
         var fui = $(window).adaptTo("foundation-ui"),
             options = [{
+                id: "cancel",
+                text: "Cancel",
+                primary: true
+            },{
                 id: "COPY",
                 text: "Copy",
                 primary: true
@@ -51,7 +68,11 @@
 
         fui.prompt("Code", code, "default", options, copyHandler);
 
-        function copyHandler(){
+        function copyHandler(button){
+            if(button === 'cancel'){
+                return;
+            }
+
             var $dialog = $("coral-dialog.is-open"),
                 $codeText = $dialog.find("textarea");
 
