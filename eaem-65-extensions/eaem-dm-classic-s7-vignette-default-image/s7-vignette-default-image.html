@@ -1,0 +1,165 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale = 1.0,maximum-scale = 1.0">
+    <title>Experience AEM (S7) Vignette Default Image</title>
+    <script src="tp/jquery.js"></script>
+    <script src="tp/coral.js"></script>
+    <link rel="stylesheet" type="text/css" href="tp/coral.css">
+    <style>
+        body{
+            margin: 25px
+        }
+
+        img{
+            margin: 30px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1 class="coral-Heading" style="text-align: center; margin: 30px 0 30px 0">AEM DM Classic (S7) Vignette Default Image</h1>
+</div>
+<div>
+    <h4 class="coral-Heading">
+        In Dynamic Media Classic (S7), if the image is not found, you can serve a default image by adding parameter
+        <span style="color:green">&defaultImage</span> in URL
+        <br><br>
+        eg. http://sample.scene7.com/is/image/S7trainRender/this_shot_does_not_exist?defaultImage=ninewest_shoe
+        <br><br><br>
+        However while serving a S7 Vignette (composed of objects) if the object name is not found, there is no default
+        image and the error <span style="color:red">Object not found</span> is thrown. The workaround here is to serve a
+        default image when a specified object is not available...
+        <br><br>
+        In the following URL change <span style="color:green">obj=shoe</span> to <span style="color:red">obj=this_object_does_not_exist</span>
+        and click <span style="color:green">Run Code</span>
+    </h4>
+</div>
+<div>
+    <div style="padding: 20px 0 20px 0">
+        <input is="coral-textfield" type="text"
+               value="http://sample.scene7.com/ir/render/S7trainRender/ninewest_shoe?wid=300&obj=shoe/quarter&color=200,40,60&obj=shoe/large%20leather%20piece&color=20,60,20"
+               id="eaem-s7-vignette-url" size="200" style="width: 60rem">
+    </div>
+</div>
+
+<div>
+    <button is="coral-button" id="eaem-s7-run-code" style="text-align: center" variant="primary">
+        Run Code
+    </button>
+    <br><br><br><br>
+</div>
+
+<div style="font-family: 'Courier New'; font-size: 13px">
+    Objects in Vignette : <span id="eaem-s7-vignette-objects"></span>
+    <br><br>
+    Object Params in Image URL : <span id="eaem-s7-url-objects"></span>
+    <br><br>
+    Invalid Objects in Image URL : <span id="eaem-s7-url-invalid-objects" style="color: red"></span>
+</div>
+
+<div style="margin-top: 100px">
+    <div style="float:left; text-align: center; width: 50%">
+        <h4 class="coral-Heading">Image : </h4>
+
+        <img id="eaem-s7-default-image"/>
+    </div>
+    <div style="float:right;  width: 50%; text-align: center">
+        <h4 class="coral-Heading">Fallback (shows default image) : </h4>
+
+        <img id="eaem-s7-ext-image"/>
+    </div>
+</div>
+</body>
+<script>
+    (function () {
+        $(document).ready(function(){
+            $("#eaem-s7-run-code").click(showImages);
+
+            showImages();
+        });
+
+        function showImages() {
+            var imageUrl = $("#eaem-s7-vignette-url").val();
+
+            showImage(imageUrl);
+
+            checkContentsAndShowImage(imageUrl);
+        }
+
+        function showImage(imageUrl) {
+            $("#eaem-s7-default-image").attr("src", imageUrl);
+        }
+
+        function checkContentsAndShowImage(imageUrl) {
+            var contentsUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?req=contents",
+                    objectsInVignette = [];
+
+            $.ajax({type: "GET", url: contentsUrl, dataType: "xml", async: false}).done(function (xml) {
+                objectsInVignette = checkVignetteObjects(xml);
+            });
+
+            var objectParamsInUrl = getImageURLObjParameters(imageUrl),
+                invalidObjects = [];
+
+            for(var x = 0; x < objectParamsInUrl.length; x++){
+                if(!objectsInVignette.includes(objectParamsInUrl[x])){
+                    imageUrl = imageUrl.substring(0, imageUrl.indexOf("?"));
+                    invalidObjects.push(objectParamsInUrl[x]);
+                }
+            }
+
+            $("#eaem-s7-vignette-objects").html(objectsInVignette.join(" | "));
+
+            $("#eaem-s7-url-objects").html(objectParamsInUrl.join(" | "));
+
+            $("#eaem-s7-url-invalid-objects").html(invalidObjects.join(" | "));
+
+            $("#eaem-s7-ext-image").attr("src", imageUrl);
+        }
+
+        function checkVignetteObjects(xml) {
+            var path = "/vignette/contents/group",
+                    nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null),
+                    group = nodes.iterateNext(), objects = [];
+
+            while (group) {
+                var object = group.getAttribute("id");
+
+                objects.push(object);
+
+                var children = group.getElementsByTagName("object");
+
+                for (var x = 0; x < children.length; x++) {
+                    objects.push(object + "/" + children[x].id);
+                }
+
+                group = nodes.iterateNext();
+            }
+
+            return objects;
+        }
+
+        function getImageURLObjParameters(imageUrl) {
+            var paramsStr = imageUrl.substring(imageUrl.indexOf("?") + 1),
+                objParams = [], index, objName;
+
+            while(true){
+                index = paramsStr.indexOf("obj=");
+
+                if(index == -1){
+                    break;
+                }
+
+                paramsStr = decodeURIComponent(paramsStr.substring( index + "obj=".length));
+
+                objName = paramsStr.substring(0, paramsStr.indexOf("&"));
+
+                objParams.push(objName);
+            }
+
+            return objParams;
+        }
+    }())
+</script>
+</html>
