@@ -25,18 +25,41 @@
 
         dynRendsCol._loadItems = function(count, item){ };
 
-        var $dynRendsCol = $(dynRendsCol).insertBefore($colPreview);
+        var $dynRendsCol = $(dynRendsCol).insertBefore($colPreview),
+            $dynRendsColContent = $dynRendsCol.find("coral-columnview-column-content");
 
-        $.ajax( { url: GET_SMART_CROPS_URL + assetPath, async: false } ).done(function(data){
-            _.each(data, function(dynImgPath, dynName){
-                $dynRendsCol.find("coral-columnview-column-content").append(getDynamicRenditionsHtml(dynImgPath, dynName));
-            })
+        addOriginalImage();
+
+        _.defer(function(){
+            $.ajax( { url: GET_SMART_CROPS_URL + assetPath, async: false } ).done(addDynRenditions);
         });
 
+        function addDynRenditions(data){
+            var $dynRendColItem;
+
+            _.each(data, function(dynImgPath, dynName){
+                $dynRendColItem = $(getDynamicRenditionsHtml(thumbPath, dynImgPath, dynName)).appendTo($dynRendsColContent);
+
+                $dynRendColItem.click(showDynRendImage);
+            });
+
+            $dynRendsColContent.find("coral-columnview-item:first").click();
+        }
+
+        function addOriginalImage(){
+            var origImgSrc = $colPreview.find("img").attr("src");
+
+            $(getDynamicRenditionsHtml(thumbPath, origImgSrc, "Original")).appendTo($dynRendsColContent).click(showDynRendImage);
+        }
+
+        function showDynRendImage(){
+            $colPreview.find("img").attr("src", $(this).attr("data-granite-collection-item-id"));
+        }
     }
 
-    function getDynamicRenditionsHtml(thumbPath, name) {
-        return  '<coral-columnview-item>' +
+
+    function getDynamicRenditionsHtml(thumbPath, dynImgPath, name) {
+        return  '<coral-columnview-item data-granite-collection-item-id="' + dynImgPath + '">' +
                     '<coral-columnview-item-thumbnail>' +
                         '<img src="' + thumbPath + '" style="vertical-align: middle; width: auto; height: auto; max-width: 3rem; max-height: 3rem;">' +
                     '</coral-columnview-item-thumbnail>' +
