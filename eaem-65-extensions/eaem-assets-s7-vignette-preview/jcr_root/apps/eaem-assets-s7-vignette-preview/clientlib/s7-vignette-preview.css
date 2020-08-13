@@ -19,3 +19,13 @@
     text-align: center;
     background: white;
 }
+
+.eaem-assets-preview-tool-apply{
+    margin-top: 20px;
+    margin-left: 88%;
+}
+
+#eaem-assets-preview-colorization-img {
+    padding-top: 50%;
+    transform: translateY(-40%);
+}

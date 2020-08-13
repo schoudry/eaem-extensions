@@ -85,6 +85,12 @@
                                                             fieldDescription="Swatch Id"
                                                             fieldLabel="Swatch Id"
                                                             name="./swatchId"/>
+                                                        <apply
+                                                            granite:class="eaem-assets-preview-tool-apply"
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                            text="Apply"
+                                                            variant="primary"/>
                                                     </items>
                                                 </parameters>
                                                 <colorization
