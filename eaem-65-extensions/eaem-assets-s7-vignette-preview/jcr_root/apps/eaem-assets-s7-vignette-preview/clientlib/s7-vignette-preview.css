@@ -1,4 +1,20 @@
 .eaem-assets-preview-tool-form{
-    margin: 40px;
+    margin: 10px 40px 0px 40px;
 }
 
+.eaem-assets-preview-tool-col1{
+    width: 30%;
+    margin-top: 10px;
+    overflow-y: auto;
+}
+
+.eaem-assets-preview-tool-col2{
+    height: 100%;
+    padding: 1rem;
+    overflow: hidden;
+    width: 65%;
+    margin-top: 30px;
+    margin-left: 50px;
+    text-align: center;
+    background: white;
+}

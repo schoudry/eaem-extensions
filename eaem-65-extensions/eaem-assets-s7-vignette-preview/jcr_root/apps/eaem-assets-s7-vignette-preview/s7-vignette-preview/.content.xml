@@ -45,6 +45,7 @@
                             sling:resourceType="granite/ui/components/coral/foundation/wizard">
                             <items jcr:primaryType="nt:unstructured">
                                 <container
+                                    granite:class="eaem-assets-preview-tool-form"
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="S7 Vignette Preview"
                                     sling:resourceType="granite/ui/components/coral/foundation/container">
@@ -68,6 +69,7 @@
                                             maximized="{Boolean}true">
                                             <items jcr:primaryType="nt:unstructured">
                                                 <parameters
+                                                    granite:class="eaem-assets-preview-tool-col1"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                     <items jcr:primaryType="nt:unstructured">
@@ -86,6 +88,7 @@
                                                     </items>
                                                 </parameters>
                                                 <colorization
+                                                    granite:class="eaem-assets-preview-tool-col2"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                     <items jcr:primaryType="nt:unstructured">
