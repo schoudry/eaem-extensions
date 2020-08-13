@@ -1,5 +1,6 @@
 .eaem-assets-preview-tool-form{
     margin: 10px 40px 0px 40px;
+    height: 87%;
 }
 
 .eaem-assets-preview-tool-col1{
@@ -9,7 +10,7 @@
 }
 
 .eaem-assets-preview-tool-col2{
-    height: 100%;
+    height: 95%;
     padding: 1rem;
     overflow: hidden;
     width: 65%;
