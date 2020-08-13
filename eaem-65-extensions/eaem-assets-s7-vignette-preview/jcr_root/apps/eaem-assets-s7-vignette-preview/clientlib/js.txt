@@ -1,0 +1,1 @@
+s7-vignette-preview.js

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <tools jcr:primaryType="nt:unstructured">
+        <eaem
+            jcr:primaryType="nt:unstructured"
+            jcr:title="RH"
+            id="experience-aem-tools">
+            <s7-vignette-preview
+                jcr:description="Experience AEM Assets Dynamic Media Classic (Scene7) Vignette Preview"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Scene7 Vignette Preview"
+                href="/apps/eaem-assets-s7-vignette-preview/s7-vignette-preview.html"
+                icon="devicePreview"
+                id="eaem-assets-s7-vignette-preview"
+                size="XL"/>
+        </eaem>
+    </tools>
+</jcr:root>
