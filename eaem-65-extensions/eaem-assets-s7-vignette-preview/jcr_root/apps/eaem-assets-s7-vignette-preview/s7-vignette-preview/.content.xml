@@ -41,13 +41,13 @@
                     <items jcr:primaryType="nt:unstructured">
                         <wizard
                             jcr:primaryType="nt:unstructured"
-                            jcr:title="S7 Vignette Preview"
+                            jcr:title="Dynamic Media Vignette Preview"
                             sling:resourceType="granite/ui/components/coral/foundation/wizard">
                             <items jcr:primaryType="nt:unstructured">
                                 <container
                                     granite:class="eaem-assets-preview-tool-form"
                                     jcr:primaryType="nt:unstructured"
-                                    jcr:title="S7 Vignette Preview"
+                                    jcr:title="Dynamic Media Vignette Preview"
                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                     <items jcr:primaryType="nt:unstructured">
                                         <actionbar
@@ -59,7 +59,8 @@
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                     fieldDescription="Enter vignette url"
                                                     fieldLabel="URL"
-                                                    name="./url"/>
+                                                    name="./url"
+                                                    value="https://media.restorationhardware.com/is/image/rhis?src=ir(rhir/prod14020084_E410382572_F_Frank_OD18?obj=fabric&amp;src=rhir/BWMSPerfTextLin_Mist_E311851653_repeat&amp;res=190&amp;illum=0&amp;obj=Finish&amp;color=b48e66&amp;illum=0)&amp;wid=461&amp;wid=650"/>
                                             </items>
                                         </actionbar>
                                         <fixedColumns

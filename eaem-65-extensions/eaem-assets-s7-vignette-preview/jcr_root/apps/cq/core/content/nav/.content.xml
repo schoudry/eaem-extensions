@@ -9,7 +9,7 @@
             <s7-vignette-preview
                 jcr:description="Experience AEM Assets Dynamic Media Classic (Scene7) Vignette Preview"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Scene7 Vignette Preview"
+                jcr:title="Dynamic Media Vignette Preview"
                 href="/apps/eaem-assets-s7-vignette-preview/s7-vignette-preview.html"
                 icon="devicePreview"
                 id="eaem-assets-s7-vignette-preview"
