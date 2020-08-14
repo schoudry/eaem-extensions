@@ -15,8 +15,17 @@
     response.setContentType("application/json");
 
     for (Iterator<Resource> items = cmp.getItemDataSource().iterator(); items.hasNext();) {
+        JSONObject dynRendition = new JSONObject();
+
         dynVM = ((ValueMapResource)items.next()).getValueMap();
-        dynRenditions.put(String.valueOf(dynVM.get("breakpoint-name")), dynVM.get("copyurl"));
+
+        String name = String.valueOf(dynVM.get("breakpoint-name"));
+
+        dynRendition.put("name", name);
+        dynRendition.put("image", dynVM.get("copyurl"));
+        dynRendition.put("url", dynVM.get("copyurl"));
+
+        dynRenditions.put(name, dynRendition);
     }
 
     dynRenditions.write(response.getWriter());

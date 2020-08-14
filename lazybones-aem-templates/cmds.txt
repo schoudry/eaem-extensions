@@ -109,6 +109,10 @@ get jquery anyonymous handler >
             return (handler.selector != "#SidePanel coral-tab" );
         })[0].handler;
     }
+	
+	 $document.off('click', '#SidePanel coral-tab');
+	 
+	 $document.on('click', '#SidePanel coral-tab', function( eve ) { });
 
 String resourcePath = slingRequest.getRequestPathInfo().getResourcePath();
 
