@@ -7,7 +7,7 @@
                 <moveasset jcr:primaryType="nt:unstructured">
                     <granite:rendercondition
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="dam/gui/coral/components/commons/renderconditions/mainasset"/>
+                        sling:resourceType="/apps/eaem-move-references-rendercondition"/>
                 </moveasset>
             </selection>
         </actions>
