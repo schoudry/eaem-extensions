@@ -3,6 +3,10 @@ package apps.experienceaem.assets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.request.RequestParameter;
+import org.apache.sling.api.request.RequestParameterMap;
+import org.apache.sling.api.wrappers.SlingHttpServletRequestWrapper;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.framework.Constants;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -28,6 +32,7 @@ public class EAEMChangeFileNameFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(EAEMChangeFileNameFilter.class);
 
     private static final String STRING_MATCH = " ";
+    public static String FILE_NAME = "fileName";
 
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -49,7 +54,8 @@ public class EAEMChangeFileNameFilter implements Filter {
         Iterator parts = (Iterator)request.getAttribute("request-parts-iterator");
 
         if( (parts == null) || !parts.hasNext()){
-            chain.doFilter(request, response);
+            SlingHttpServletRequestWrapper wrapper = new NameChangeServletRequestWrapper(slingRequest);
+            chain.doFilter(wrapper, response);
             return;
         }
 
@@ -65,6 +71,20 @@ public class EAEMChangeFileNameFilter implements Filter {
         request.setAttribute("request-parts-iterator", otherParts.iterator());
 
         chain.doFilter(request, response);
+    }
+
+    private class NameChangeServletRequestWrapper extends SlingHttpServletRequestWrapper {
+        private NameChangeRequestParameterMap origParamMap = null;
+
+        public NameChangeServletRequestWrapper(final SlingHttpServletRequest request) {
+            super(request);
+            origParamMap = new NameChangeRequestParameterMap(request.getRequestParameterMap());
+        }
+
+        @Override
+        public RequestParameterMap getRequestParameterMap() {
+            return origParamMap;
+        }
     }
 
     private boolean isCreateAssetRequest(SlingHttpServletRequest slingRequest){
@@ -173,6 +193,125 @@ public class EAEMChangeFileNameFilter implements Filter {
                 }
                 return c;
             }
+        }
+    }
+
+    // for non streaming requests (uploaded using asset link)
+    private class NameChangeRequestParameterMap implements RequestParameterMap {
+        private RequestParameterMap origParamMap = null;
+
+        public NameChangeRequestParameterMap(RequestParameterMap origParamMap){
+            this.origParamMap = origParamMap;
+        }
+
+        public RequestParameter[] getValues(String s) {
+            return origParamMap.getValues(s);
+        }
+
+        public RequestParameter getValue(String name) {
+            if(!FILE_NAME.equals(name)){
+                return origParamMap.getValue(name);
+            }
+
+            RequestParameter fileNameParam = origParamMap.getValue(FILE_NAME);
+
+            if((fileNameParam == null) || StringUtils.isEmpty(fileNameParam.getString())
+                    || !fileNameParam.getString().contains(STRING_MATCH)){
+                log.debug("Return (non streaming request) unprocessed file name");
+                return fileNameParam;
+            }
+
+            final String fileName = fileNameParam.getString().trim().replaceAll(STRING_MATCH, "-");
+
+            log.debug("Uploaded file name changed to : " + fileName);
+
+            fileNameParam = new RequestParameter() {
+                public String getName() {
+                    return FILE_NAME;
+                }
+
+                public boolean isFormField() {
+                    return true;
+                }
+
+                public String getContentType() {
+                    return null;
+                }
+
+                public long getSize() {
+                    return fileName.length();
+                }
+
+                public byte[] get() {
+                    return fileName.getBytes();
+                }
+
+                public InputStream getInputStream() throws IOException {
+                    return new ByteArrayInputStream(fileName.getBytes());
+                }
+
+                public String getFileName() {
+                    return null;
+                }
+
+                public String getString() {
+                    return fileName;
+                }
+
+                public String getString(String s) throws UnsupportedEncodingException {
+                    return fileName;
+                }
+            };
+
+            return fileNameParam;
+        }
+
+        public int size() {
+            return origParamMap.size();
+        }
+
+        public boolean isEmpty() {
+            return origParamMap.isEmpty();
+        }
+
+        public boolean containsKey(Object key) {
+            return origParamMap.containsKey(key);
+        }
+
+        public boolean containsValue(Object value) {
+            return origParamMap.containsValue(value);
+        }
+
+        public RequestParameter[] get(Object key) {
+            return origParamMap.get(key);
+        }
+
+        public RequestParameter[] put(String key, RequestParameter[] value) {
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        public RequestParameter[] remove(Object key) {
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        public void putAll(Map<? extends String, ? extends RequestParameter[]> m) {
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        public void clear() {
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        public Set<String> keySet() {
+            return origParamMap.keySet();
+        }
+
+        public Collection<RequestParameter[]> values() {
+            return origParamMap.values();
+        }
+
+        public Set<Entry<String, RequestParameter[]>> entrySet() {
+            return origParamMap.entrySet();
         }
     }
 }
