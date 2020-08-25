@@ -154,12 +154,12 @@
                         mergeList="{Boolean}true"/>
                     <default
                         jcr:description="Policy of the default root parsys"
-                        jcr:lastModified="{Date}2020-07-07T15:16:06.305-05:00"
+                        jcr:lastModified="{Date}2020-08-25T10:21:02.044-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Default Layout Container"
                         sling:resourceType="wcm/core/components/policy/policy"
-                        components="[/libs/dam/cfm/components/contentfragment,/libs/foundation/components/download,/libs/cq/experience-fragments/editor/components/experiencefragment,/libs/wcm/foundation/components/image,/libs/wcm/foundation/components/responsivegrid,/libs/wcm/foundation/components/list,/libs/foundation/components/reference,/libs/foundation/components/table,/libs/wcm/foundation/components/textimage,/libs/wcm/foundation/components/text,/libs/wcm/foundation/components/title,/libs/foundation/components/video,group:Experience AEM SPA DM Video React - Content,group:Experience AEM SPA React - Structure]">
+                        components="[/libs/dam/cfm/components/contentfragment,/libs/foundation/components/download,/libs/cq/experience-fragments/editor/components/experiencefragment,/libs/wcm/foundation/components/image,/libs/wcm/foundation/components/responsivegrid,/libs/wcm/foundation/components/list,/libs/foundation/components/reference,/libs/foundation/components/table,/libs/wcm/foundation/components/textimage,/libs/wcm/foundation/components/text,/libs/wcm/foundation/components/title,/libs/foundation/components/video,group:Experience AEM SPA DM Video React - Content]">
                         <cq:authoring jcr:primaryType="nt:unstructured">
                             <assetToComponentMapping jcr:primaryType="nt:unstructured">
                                 <image
