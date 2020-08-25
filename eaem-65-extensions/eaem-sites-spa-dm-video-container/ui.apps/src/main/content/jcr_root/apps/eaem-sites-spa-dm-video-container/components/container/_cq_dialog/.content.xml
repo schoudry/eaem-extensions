@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="EAEM SPA DM Video Container">
+    <content jcr:primaryType="nt:unstructured">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs jcr:primaryType="nt:unstructured">
+                <items jcr:primaryType="nt:unstructured">
+                    <eaem-dm
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="EAEM DM"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <columns
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                margin="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <column
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <path
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                fieldDescription="Select Dynamic Media Video"
+                                                fieldLabel="Dynamic Media Video"
+                                                name="./eaemDMVideo"
+                                                rootPath="/content/dam"/>
+                                            <encode
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                    fieldLabel="Encode"
+                                                    name="./eaemDMEncode">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <none
+                                                            jcr:primaryType="nt:unstructured"
+                                                            text="Default"
+                                                            value=""/>
+                                                </items>
+                                            </encode>
+                                        </items>
+                                    </column>
+                                </items>
+                            </columns>
+                        </items>
+                    </eaem-dm>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>

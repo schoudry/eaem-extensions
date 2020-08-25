@@ -19,5 +19,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="aem65" exported="" />
+    <orderEntry type="library" exported="" name="uber-jar-6.5.0-apis" level="application" />
   </component>
 </module>
