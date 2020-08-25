@@ -3,6 +3,6 @@
     cq:isContainer="true"
     cq:styleElements="[div,section,article,main,aside,header,footer]"
     jcr:primaryType="cq:Component"
-    jcr:title="Container"
+    jcr:title="EAEM SPA VM Video Container"
     sling:resourceSuperType="core/wcm/components/container/v1/container"
     componentGroup="Experience AEM SPA DM Video React - Content"/>
