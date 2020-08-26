@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2020-08-26T13:14:26.744-05:00"
+        cq:lastModified="{Date}2020-08-26T13:19:26.219-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/conf/eaem-sites-spa-dm-video-container/settings/wcm/templates/spa-page-template"
         jcr:primaryType="cq:PageContent"
@@ -21,10 +21,13 @@
                 <container
                     jcr:created="{Date}2020-08-26T10:53:48.882-05:00"
                     jcr:createdBy="admin"
-                    jcr:lastModified="{Date}2020-08-26T10:53:48.882-05:00"
+                    jcr:lastModified="{Date}2020-08-26T13:19:26.218-05:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="eaem-sites-spa-dm-video-container/components/container">
+                    sling:resourceType="eaem-sites-spa-dm-video-container/components/container"
+                    eaemDMEncode="Ayutthaya_360_VR-AVS"
+                    eaemDMVideo="/content/dam/experience-aem/Ayutthaya_360_VR.mp4"
+                    layout="simple">
                     <text
                         jcr:created="{Date}2020-08-26T13:14:18.241-05:00"
                         jcr:createdBy="admin"
