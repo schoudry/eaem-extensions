@@ -59,17 +59,27 @@ class EAEMContainer extends Container  {
     render() {
         return (
             <div {...this.containerProps}>
-                <Helmet>
-                    <script src={ this.props.dmVideoViewerPath }></script>
-                </Helmet>
+                {   this.props.dmVideoPath &&
+                    <Helmet>
+                        <script src={ this.props.dmVideoViewerPath }></script>
+                    </Helmet>
+                }
 
-                <div {...this.videoDivProps}>
-                    <div {...this.overlayDivProps}>
+                {   this.props.dmVideoPath  &&
+                    <div {...this.videoDivProps}>
+                        <div {...this.overlayDivProps}>
+                            { this.childComponents }
+                            { this.placeholderComponent }
+                        </div>
+                    </div>
+                }
+
+                {   !this.props.dmVideoPath &&
+                    <div>
                         { this.childComponents }
                         { this.placeholderComponent }
                     </div>
-                </div>
-
+                }
             </div>
         );
     }
