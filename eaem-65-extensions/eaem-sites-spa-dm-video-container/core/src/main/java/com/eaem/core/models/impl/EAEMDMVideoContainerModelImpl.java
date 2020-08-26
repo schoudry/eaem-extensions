@@ -46,6 +46,8 @@ public class EAEMDMVideoContainerModelImpl extends ResponsiveGrid implements EAE
 
     @PostConstruct
     protected void initModel() {
+        super.initModel();
+
         if( (this.resource == null) || StringUtils.isEmpty(eaemDMVideo)) {
             return;
         }

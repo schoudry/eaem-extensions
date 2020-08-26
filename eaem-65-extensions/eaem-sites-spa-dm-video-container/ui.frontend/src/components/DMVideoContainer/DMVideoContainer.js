@@ -31,7 +31,7 @@ class EAEMContainer extends Container  {
                 "position": "absolute",
                 "zIndex": "1"
                 } ,
-                ...this.overlayDivStyle
+                ...this.props.overlayDivStyle
             }
         };
     }
