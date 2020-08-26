@@ -4,11 +4,19 @@ import {MapTo, withComponentMappingContext, Container, ResponsiveGrid, Component
 class EAEMContainer extends Container  {
     get containerProps() {
         let containerProps = super.containerProps;
+
+        containerProps.style = {
+            "width": '340px',
+            "height": '220px',
+            "backgroundColor": "#0000ff"
+        };
+
         return containerProps;
     }
 
     render() {
-        console.log("placeholderComponent", this.placeholderComponent);
+        console.log("eaem sreek", this.containerProps);
+
         return (
             <div {...this.containerProps}>
                 <div>
@@ -20,4 +28,4 @@ class EAEMContainer extends Container  {
     }
 }
 
-MapTo('eaem-sites-spa-dm-video-container/components/container')(EAEMContainer);
+export default MapTo('eaem-sites-spa-dm-video-container/components/container')(EAEMContainer);

@@ -14,6 +14,6 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+import './DMVideoContainer/DMVideoContainer';
 import './Page/Page';
 import './Text/Text';
-import './EAEMContainer/EAEMContainer';
