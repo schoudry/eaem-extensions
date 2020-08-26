@@ -26,12 +26,12 @@ class EAEMContainer extends Container  {
 
     get overlayDivProps() {
         return {
-            "style" :{
+            "style" : {
+                ...{
                 "position": "absolute",
-                "zIndex": "1",
-                "top" : "50%",
-                "left" : "50%",
-                "backgroundColor" : "white"
+                "zIndex": "1"
+                } ,
+                ...this.overlayDivStyle
             }
         };
     }
@@ -49,9 +49,9 @@ class EAEMContainer extends Container  {
         new window.s7viewers.VideoViewer({
             "containerId": "eaem-dm-video-viewer",
             "params": {
-                "asset": "disneyparksacspoc/sample-rendition-promo-1280x720",
-                "serverurl": "http://s7d1.scene7.com/is/image/",
-                "videoserverurl": "http://s7d1.scene7.com/is/content/"
+                "asset": this.props.dmVideoEncode,
+                "serverurl": this.props.dmServerUrl,
+                "videoserverurl": this.props.dmVideoServerUrl
             }
         }).init();
     }
@@ -60,7 +60,7 @@ class EAEMContainer extends Container  {
         return (
             <div {...this.containerProps}>
                 <Helmet>
-                    <script src="https://s7d1.scene7.com/s7viewers/html5/js/VideoViewer.js"></script>
+                    <script src={ this.props.dmVideoViewerPath }></script>
                 </Helmet>
 
                 <div {...this.videoDivProps}>
