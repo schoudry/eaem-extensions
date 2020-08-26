@@ -18,26 +18,6 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="wcm/foundation/components/responsivegrid">
-                <container
-                    jcr:created="{Date}2020-08-26T10:53:48.882-05:00"
-                    jcr:createdBy="admin"
-                    jcr:lastModified="{Date}2020-08-26T13:19:26.218-05:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="eaem-sites-spa-dm-video-container/components/container"
-                    eaemDMEncode="Ayutthaya_360_VR-AVS"
-                    eaemDMVideo="/content/dam/experience-aem/Ayutthaya_360_VR.mp4"
-                    layout="simple">
-                    <text
-                        jcr:created="{Date}2020-08-26T13:14:18.241-05:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2020-08-26T13:14:26.742-05:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="eaem-sites-spa-dm-video-container/components/text"
-                        text="&lt;p>&amp;nbsp;&lt;/p>&#xd;&#xa;&lt;p>sreekanth&lt;/p>&#xd;&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xd;&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xd;&#xa;"
-                        textIsRich="true"/>
-                </container>
             </responsivegrid>
         </root>
     </jcr:content>
