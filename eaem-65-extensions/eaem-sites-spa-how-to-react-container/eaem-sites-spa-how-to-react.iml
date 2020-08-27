@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ui.apps/src/main/content/jcr_root" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ui.content/src/main/content/jcr_root" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ui.frontend/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/all/target" />
+      <excludeFolder url="file://$MODULE_DIR$/core/target" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.apps/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.content/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.frontend/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="aem65" exported="" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="CQ" level="application" />
+    <orderEntry type="library" exported="" name="uber-jar-6.5.0-apis" level="application" />
+  </component>
+</module>
