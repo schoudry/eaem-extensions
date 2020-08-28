@@ -1,6 +1,7 @@
 (function ($, $document) {
     var BUTTON_URL = "/apps/eaem-assets-send-mail/content/send-mail-but.html",
         SHARE_ACTIVATOR = "cq-damadmin-admin-actions-adhocassetshare-activator",
+        SEND_MAIL_SERVLET = "/bin/experience-aem/send-mail",
         SEND_MAIL_URL = "/apps/eaem-assets-send-mail/send-mail-dialog.html",
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         SENDER = "experience-aem", REQUESTER = "requester", $mailModal,
@@ -17,11 +18,16 @@
 
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
-        $document.submit(postEmailContent);
+        $document.submit(sendMailSentMessage);
     }
 
-    function postEmailContent(){
+    function sendMailSentMessage(){
+        var message = {
+            sender: SENDER,
+            action: "send"
+        };
 
+        getParent().postMessage(JSON.stringify(message), "*");
     }
 
     function sendCancelMessage(){
@@ -63,6 +69,24 @@
         var modal = $mailModal.data('modal');
         modal.hide();
         modal.$element.remove();
+
+        if(message.action == "send"){
+            showAlert("Email sent...", $mailModal.mailSentMessage);
+        }
+    }
+
+    function showAlert(message, title, callback){
+        var fui = $(window).adaptTo("foundation-ui"),
+            options = [{
+                id: "ok",
+                text: "OK",
+                primary: true
+            }];
+
+        message = message || "Unknown Error";
+        title = title || "Error";
+
+        fui.prompt(title, message, "default", options, callback);
     }
 
     function fillDefaultValues(){
@@ -126,10 +150,10 @@
 
         var body = "Please review the following assets... \n\n" + assetPaths.join("\n");
 
-        showMailModal(getModalIFrameUrl("Review Assets...", body));
+        showMailModal(getModalIFrameUrl("Experience AEM: Review Assets...", body), actionConfig.data.text);
     }
 
-    function showMailModal(url){
+    function showMailModal(url, mailSentMessage){
         var $iframe = $('<iframe>'),
             $modal = $('<div>').addClass('eaem-send-mail-apply-modal coral-Modal');
 
@@ -142,6 +166,8 @@
         });
 
         $mailModal = $modal;
+
+        $mailModal.mailSentMessage = mailSentMessage;
     }
 
     function getModalIFrameUrl(subject, body){
