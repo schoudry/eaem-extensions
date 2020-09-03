@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:deviceGroups="[mobile/groups/responsive]"
+        cq:lastModified="{Date}2020-07-08T16:01:49.613-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/conf/eaem-sites-spa-how-to-react/settings/wcm/templates/spa-page-template"
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="eaem-sites-spa-how-to-react/components/page">
+        <root
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/responsivegrid">
+            <responsivegrid_754868154
+                jcr:created="{Date}2020-07-08T15:44:03.737-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2020-07-08T15:44:03.737-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid">
+                <cq:responsive jcr:primaryType="nt:unstructured"/>
+                <navigation
+                    jcr:created="{Date}2020-07-08T15:57:13.323-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2020-07-08T16:01:34.637-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="eaem-sites-spa-how-to-react/components/navigation"
+                    collectAllPages="true"
+                    navigationRoot="/content/eaem-sites-spa-how-to-react/us/en"
+                    structureStart="1"/>
+            </responsivegrid_754868154>
+            <responsivegrid
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid"
+                editable="{Boolean}true">
+                <cq:responsive jcr:primaryType="nt:unstructured"/>
+            </responsivegrid>
+            <responsivegrid_869573672
+                jcr:created="{Date}2020-07-08T15:44:19.710-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2020-07-08T15:44:19.710-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid">
+                <cq:responsive jcr:primaryType="nt:unstructured"/>
+                <navigation
+                    jcr:created="{Date}2020-07-08T15:57:18.801-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2020-07-08T16:01:49.611-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="eaem-sites-spa-how-to-react/components/navigation"
+                    collectAllPages="true"
+                    navigationRoot="/content/eaem-sites-spa-how-to-react/us/en"
+                    structureStart="1"/>
+            </responsivegrid_869573672>
+        </root>
+        <cq:responsive jcr:primaryType="nt:unstructured">
+            <breakpoints jcr:primaryType="nt:unstructured">
+                <phone
+                    jcr:primaryType="nt:unstructured"
+                    title="Smaller Screen"
+                    width="{Long}650"/>
+                <tablet
+                    jcr:primaryType="nt:unstructured"
+                    title="Tablet"
+                    width="{Long}1200"/>
+            </breakpoints>
+        </cq:responsive>
+    </jcr:content>
+</jcr:root>
