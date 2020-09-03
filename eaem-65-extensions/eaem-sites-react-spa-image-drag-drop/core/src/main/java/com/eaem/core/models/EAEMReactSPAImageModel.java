@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 @Model(
         adaptables = {SlingHttpServletRequest.class},
         adapters = {Image.class, ComponentExporter.class},
-        resourceType = {"eaem-sites-spa-how-to-react/components/image"}
+        resourceType = {"eaem-sites-spa-how-to-react/components/not_use_image"}
 )
 @Exporter(
         name = "jackson",

@@ -6,7 +6,7 @@
             jcr:primaryType="cq:DropTargetConfig"
             accept="[image/gif,image/jpeg,image/png,image/tiff,image/svg\\+xml]"
             groups="[media]"
-            propertyName="./imageURL">
+            propertyName="./fileReference">
             <parameters
                 jcr:primaryType="nt:unstructured"
                 imageCrop=""

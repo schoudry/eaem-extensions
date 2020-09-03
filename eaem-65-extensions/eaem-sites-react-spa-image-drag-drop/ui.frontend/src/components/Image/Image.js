@@ -7,7 +7,7 @@ const ImageEditConfig = {
     emptyLabel: 'Image - Experience AEM',
 
     isEmpty: function (props) {
-        return (!props || !props.imageURL || (props.imageURL.trim().length < 1));
+        return (!props || !props.fileReference || (props.fileReference.trim().length < 1));
     }
 };
 
@@ -22,7 +22,7 @@ class Image extends Component {
         return (
             <div>
                 <Link to={this.props.imageLink}>
-                    <img src={this.props.imageURL} style={imgStyles}/>
+                    <img src={this.props.fileReference} style={imgStyles}/>
                 </Link>
             </div>
         );
