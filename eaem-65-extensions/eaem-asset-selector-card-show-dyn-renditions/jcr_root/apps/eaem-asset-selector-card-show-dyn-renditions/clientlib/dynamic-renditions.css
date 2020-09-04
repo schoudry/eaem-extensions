@@ -1,0 +1,18 @@
+.eaem-card-assets-block{
+    width:85%;
+    display:inline-block
+}
+
+.eaem-card-dyn-rends-block{
+    width: 12%;
+    display:inline-block;
+    height:100%;
+    vertical-align: top;
+    padding: 15px 10px 0 15px;
+}
+
+.eaem-card-dyn-rends-block coral-masonry-item{
+    cursor: pointer;
+    padding: 15px;
+    background-color: #d5d5d5;
+}
