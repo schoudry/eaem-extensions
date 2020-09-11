@@ -20,12 +20,13 @@
     background: white;
 }
 
-.eaem-assets-preview-tool-apply{
+.eaem-assets-preview-tool-bottom-bar{
     margin-top: 20px;
-    margin-left: 88%;
+    text-align: right;
 }
 
 #eaem-assets-preview-colorization-img {
     padding-top: 50%;
     transform: translateY(-40%);
 }
+
