@@ -47,6 +47,14 @@
                                                 fieldLabel="Image Link"
                                                 name="./imageLink"
                                                 rootPath="/content/eaem-sites-spa-how-to-react/us/en"/>
+                                            <openInNewWindow
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                    checked="{Boolean}true"
+                                                    name="./openInNewWindow"
+                                                    text="Open in New Window"
+                                                    uncheckedValue="{Boolean}false"
+                                                    value="{Boolean}true"/>
                                         </items>
                                     </column>
                                 </items>
