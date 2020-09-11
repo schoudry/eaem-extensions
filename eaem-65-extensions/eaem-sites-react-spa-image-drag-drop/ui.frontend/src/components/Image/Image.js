@@ -12,6 +12,19 @@ const ImageEditConfig = {
 };
 
 class Image extends Component {
+    componentDidMount() {
+        //todo check for wcmmode
+        window.parent.addEventListener("eaem-spa-component-refresh-event", (event => {
+            if( !event.detail || (event.detail.type !== this.props.cqType)){
+                return;
+            }
+
+            Object.assign(this.props, event.detail.data);
+
+            this.forceUpdate();
+        }).bind(this));
+    }
+
     get imageHTML() {
         const imgStyles = {
             "display": 'block',
