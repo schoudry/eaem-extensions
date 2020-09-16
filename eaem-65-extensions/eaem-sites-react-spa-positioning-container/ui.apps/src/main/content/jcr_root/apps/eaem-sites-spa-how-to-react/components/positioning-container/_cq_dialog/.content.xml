@@ -122,12 +122,13 @@
                                                     <inset
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Inset"
+                                                        checked="true"
                                                         value="INSET"/>
                                                 </items>
                                             </backgroundWidth>
                                             <overlayOpacity
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="/apps/eaem-sites-react-spa-positioning-container/sites/extensions/slider"
+                                                sling:resourceType="/apps/eaem-sites-spa-how-to-react/sites/extensions/slider"
                                                 fieldDescription="Slider ( Min: 0, Max: 100)"
                                                 fieldLabel="Overlay Opacity"
                                                 max="100"
@@ -148,6 +149,7 @@
                                                         value="NONE"/>
                                                     <image
                                                         jcr:primaryType="nt:unstructured"
+                                                        checked="true"
                                                         text="Image"
                                                         value="IMAGE"/>
                                                     <video
@@ -204,6 +206,7 @@
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Medium"
+                                                        checked="true"
                                                         value="MEDIUM"/>
                                                     <large
                                                         jcr:primaryType="nt:unstructured"
@@ -225,6 +228,7 @@
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Medium"
+                                                        checked="true"
                                                         value="MEDIUM"/>
                                                     <large
                                                         jcr:primaryType="nt:unstructured"
@@ -234,7 +238,7 @@
                                             </contentWidth>
                                             <contentAlignment
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="/apps/eaem-sites-react-spa-positioning-container/sites/extensions/alignment"
+                                                sling:resourceType="/apps/eaem-sites-spa-how-to-react/sites/extensions/alignment"
                                                 fieldDescription="Content Alignment"
                                                 fieldLabel="Content Alignment"
                                                 name="./contentAlignment"/>
