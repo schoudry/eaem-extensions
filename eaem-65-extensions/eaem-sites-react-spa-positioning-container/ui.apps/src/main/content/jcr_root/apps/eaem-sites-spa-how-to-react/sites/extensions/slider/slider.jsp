@@ -6,12 +6,17 @@
                   com.adobe.granite.ui.components.Config,
                   com.adobe.granite.ui.components.Field,
                   com.adobe.granite.ui.components.Tag" %>
+<%@ page import="org.apache.sling.api.SlingHttpServletRequest" %>
 <%
     Config cfg = cmp.getConfig();
 
+    SlingHttpServletRequest thisRequest = slingRequest;
+
+    Resource dialog = thisRequest.getResourceResolver().getResource(thisRequest.getRequestPathInfo().getSuffix());
     ValueMap vm = slingRequest.getResource().getValueMap();
 
     String name = cfg.get("name", String.class);
+    String sliderValue = dialog.getValueMap().get(name, "50");
 
     Tag tag = cmp.consumeTag();
 
@@ -19,7 +24,7 @@
     cmp.populateCommonAttrs(attrs);
 
     attrs.add("name", name);
-    attrs.add("value", vm.get("value", String.class));
+    attrs.add("value", sliderValue);
     attrs.add("min", cfg.get("min", Double.class));
     attrs.add("max", cfg.get("max", Double.class));
     attrs.add("step", cfg.get("step", String.class));
@@ -37,5 +42,5 @@
     </coral-tooltip>
 </div>
 <div class="eaem-dialog-slider">
-    <span>50%</span>
+    <span><%=sliderValue%>%</span>
 </div>
