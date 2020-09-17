@@ -36,6 +36,6 @@
         <coral-tooltip-content><%=fieldDesc%></coral-tooltip-content>
     </coral-tooltip>
 </div>
-<div style="text-align: right; width: 100%; margin: 0 0 15px 0">
-    <span style="width: 50px; margin-right: 10px">50%</span>
+<div class="eaem-dialog-slider">
+    <span>50%</span>
 </div>
