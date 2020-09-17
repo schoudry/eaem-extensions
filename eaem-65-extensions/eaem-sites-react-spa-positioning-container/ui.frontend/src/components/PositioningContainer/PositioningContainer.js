@@ -23,6 +23,10 @@ class EAEMPositioningContainer extends Container  {
             bgStyles["background-repeat"] = 'no-repeat';
         }
 
+        if( bgProps.overlayOpacity ){
+            bgStyles["opacity"] = bgProps.overlayOpacity;
+        }
+
         containerProps.style = bgStyles;
 
         return containerProps;
