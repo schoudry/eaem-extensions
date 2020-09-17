@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     jcr:title="EAEM SPA Positioning Container">
     <content jcr:primaryType="nt:unstructured">
@@ -8,91 +8,7 @@
                 <items jcr:primaryType="nt:unstructured">
                     <properties
                         jcr:primaryType="nt:unstructured"
-                        sling:hideResource="{Boolean}true">
-                        <items jcr:primaryType="nt:unstructured">
-                            <columns
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
-                                margin="{Boolean}true">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <column
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/container">
-                                        <items jcr:primaryType="nt:unstructured">
-                                            <layout
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                fieldLabel="Layout"
-                                                name="./layout">
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <simple
-                                                        jcr:primaryType="nt:unstructured"
-                                                        text="Simple"
-                                                        value="simple"/>
-                                                    <responsive
-                                                        jcr:primaryType="nt:unstructured"
-                                                        text="Responsive Grid"
-                                                        value="responsiveGrid"/>
-                                                </items>
-                                            </layout>
-                                            <id
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldDescription="HTML ID attribute to apply to the component."
-                                                fieldLabel="ID"
-                                                name="./id"/>
-                                            <backgroundColor
-                                                granite:hide="${!cqDesign.backgroundColorEnabled || cqDesign.backgroundColorSwatchesOnly}"
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
-                                                fieldLabel="Background Color"
-                                                name="./backgroundColor"
-                                                showDefaultColors="{Boolean}false"
-                                                showProperties="{Boolean}true"
-                                                showSwatches="{Boolean}true">
-                                                <datasource
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="core/wcm/components/commons/datasources/allowedcolorswatches/v1"/>
-                                            </backgroundColor>
-                                            <backgroundColorSwatchesOnly
-                                                granite:hide="${!cqDesign.backgroundColorEnabled || !cqDesign.backgroundColorSwatchesOnly}"
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
-                                                fieldLabel="Background Color"
-                                                name="./backgroundColor"
-                                                showDefaultColors="{Boolean}false"
-                                                showProperties="{Boolean}false"
-                                                showSwatches="{Boolean}true"
-                                                variant="swatch">
-                                                <datasource
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="core/wcm/components/commons/datasources/allowedcolorswatches/v1"/>
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cmp-container-v1-dialog-edit-hook="backgroundColorSwatchesOnly"/>
-                                            </backgroundColorSwatchesOnly>
-                                            <backgroundImageAsset
-                                                granite:hide="${!cqDesign.backgroundImageEnabled}"
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                                allowUpload="{Boolean}false"
-                                                autoStart="{Boolean}false"
-                                                class="cq-droptarget"
-                                                fieldLabel="Background Image"
-                                                fileNameParameter="./fileName"
-                                                fileReferenceParameter="./backgroundImageReference"
-                                                mimeTypes="[image/gif,image/jpeg,image/png,image/tiff]"
-                                                multiple="{Boolean}false"
-                                                name="./file"
-                                                title="Upload Image Asset"
-                                                uploadUrl="${suffix.path}"
-                                                useHTML5="{Boolean}true"/>
-                                        </items>
-                                    </column>
-                                </items>
-                            </columns>
-                        </items>
-                    </properties>
+                        sling:hideResource="{Boolean}true"/>
                     <background
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Background"
@@ -121,6 +37,7 @@
                                                         value="FULL_BLEED"/>
                                                     <inset
                                                         jcr:primaryType="nt:unstructured"
+                                                        checked="true"
                                                         text="Inset"
                                                         checked="true"
                                                         value="INSET"/>
@@ -164,7 +81,7 @@
                                                 autoStart="{Boolean}false"
                                                 class="cq-droptarget"
                                                 fileNameParameter="./backgroundName"
-                                                fileReferenceParameter="./backgroundNameReference"
+                                                fileReferenceParameter="./backgroundImage"
                                                 mimeTypes="[image/gif,image/jpeg,image/png,image/tiff,image/svg+xml]"
                                                 multiple="{Boolean}false"
                                                 name="./file"
@@ -205,6 +122,7 @@
                                                         value="Small"/>
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
+                                                        checked="true"
                                                         text="Medium"
                                                         checked="true"
                                                         value="MEDIUM"/>
@@ -227,6 +145,7 @@
                                                         value="Small"/>
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
+                                                        checked="true"
                                                         text="Medium"
                                                         checked="true"
                                                         value="MEDIUM"/>
@@ -266,7 +185,7 @@
                                             <color
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
-                                                fieldDescription="Section Background Color..."
+                                                fieldDescription="Section Backgroundcolor..."
                                                 fieldLabel="Section Background"
                                                 name="./sectionBGColor"/>
                                         </items>

@@ -12,6 +12,7 @@ import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Model(
@@ -34,5 +35,29 @@ public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements
 
     public ValueMap getPositioningContainerProps() {
         return resource.getValueMap();
+    }
+
+    public Map<String, String> getBackgroundProps(){
+        Map<String, String> backgroundDivProps = new LinkedHashMap<String, String>();
+        ValueMap vm = resource.getValueMap();
+
+        backgroundDivProps.put("backgroundWidth", vm.get("backgroundWidth", "INSET"));
+        backgroundDivProps.put("overlayOpacity", vm.get("overlayOpacity", "100"));
+        backgroundDivProps.put("backgroundType", vm.get("backgroundType", "NONE"));
+        backgroundDivProps.put("backgroundImage", vm.get("backgroundImage", "NONE"));
+
+        return backgroundDivProps;
+    }
+
+    public Map<String, String> getSectionProps(){
+        Map<String, String> sectionProps = new LinkedHashMap<String, String>();
+        ValueMap vm = resource.getValueMap();
+
+        sectionProps.put("backgroundWidth", vm.get("backgroundWidth", "INSET"));
+        sectionProps.put("overlayOpacity", vm.get("overlayOpacity", "100"));
+        sectionProps.put("backgroundType", vm.get("backgroundType", "NONE"));
+        sectionProps.put("backgroundImage", vm.get("backgroundImage", "NONE"));
+
+        return sectionProps;
     }
 }

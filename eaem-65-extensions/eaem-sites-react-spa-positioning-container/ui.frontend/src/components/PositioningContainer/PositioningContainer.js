@@ -6,8 +6,6 @@ class EAEMPositioningContainer extends Container  {
     get containerProps() {
         let containerProps = super.containerProps;
 
-        console.log("sreek", this.props);
-
         this.props.positioningContainerProps = this.props.positioningContainerProps || {};
 
         containerProps.style = {
@@ -49,15 +47,15 @@ class EAEMPositioningContainer extends Container  {
                         { this.placeholderComponent }
                     </div>
                 </div>
-                }
+                    }
 
                 {   (!this.props.positioningContainerProps.backgroundType
-                        || (this.props.positioningContainerProps.backgroundType == "NONE"  ))&&
+                    || (this.props.positioningContainerProps.backgroundType == "NONE"  ))&&
                 <div>
                     { this.childComponents }
                     { this.placeholderComponent }
                 </div>
-                }
+                    }
             </div>
         );
     }
