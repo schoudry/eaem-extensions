@@ -266,9 +266,9 @@
                                             <color
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
-                                                fieldDescription="Section text color..."
-                                                fieldLabel="Section text color"
-                                                name="./sectionTextColor"/>
+                                                fieldDescription="Section Background Color..."
+                                                fieldLabel="Section Background"
+                                                name="./sectionBGColor"/>
                                         </items>
                                     </column>
                                 </items>

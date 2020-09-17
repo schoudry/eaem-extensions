@@ -15,6 +15,11 @@
     margin-top: 10px;
 }
 
+.eaem-dialog-content-align div{
+    text-align: left;
+    margin: 10px 0 10px 27px;
+}
+
 .eaem-dialog-content-align coral-icon{
     padding: 10px;
     margin: 10px;
@@ -22,6 +27,6 @@
     background-color: #f5f5f5;
 }
 
-.eaem-dialog-content-selected{
+coral-icon.eaem-dialog-content-selected{
     background-color: #d5d5d5;
 }
