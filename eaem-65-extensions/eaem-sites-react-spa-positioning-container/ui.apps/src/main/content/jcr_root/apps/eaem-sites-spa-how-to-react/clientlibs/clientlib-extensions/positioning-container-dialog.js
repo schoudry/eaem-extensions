@@ -47,7 +47,7 @@
             $contentAlignDisplay.html(alignments);
 
             _.each(alignments.split(","), function(alignment){
-                var $icon = $contentAlignContainer.find("[data-content-align='" + alignment + "']");
+                var $icon = $contentAlignContainer.find("[data-content-align='" + alignment.trim() + "']");
 
                 $icon.addClass(DIALOG_FIELD_SELECTED);
             })
