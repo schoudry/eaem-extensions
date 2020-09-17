@@ -3,6 +3,8 @@ package com.eaem.core.models;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
 import com.day.cq.wcm.foundation.model.responsivegrid.ResponsiveGrid;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -24,7 +26,8 @@ import java.util.Map;
         name = "jackson",
         extensions = {"json"}
 )
-public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements ContainerExporter{
+@JsonSerialize(as = EAEMPositioningContainerModel.class)
+public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements EAEMPositioningContainerModel{
     @ScriptVariable
     private Resource resource;
 
@@ -33,30 +36,28 @@ public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements
         super.initModel();
     }
 
-    public ValueMap getPositioningContainerProps() {
-        return resource.getValueMap();
-    }
+    public Map<String, Object> getBackgroundProps(){
+        Map<String, Object> backgroundDivProps = new LinkedHashMap<String, Object>();
 
-    public Map<String, String> getBackgroundProps(){
-        Map<String, String> backgroundDivProps = new LinkedHashMap<String, String>();
         ValueMap vm = resource.getValueMap();
+        String overlayOpacity = vm.get("overlayOpacity", "100");
 
+        backgroundDivProps.put("backgroundHeight", vm.get("backgroundHeight", "500px"));
         backgroundDivProps.put("backgroundWidth", vm.get("backgroundWidth", "INSET"));
-        backgroundDivProps.put("overlayOpacity", vm.get("overlayOpacity", "100"));
+        backgroundDivProps.put("overlayOpacity", Float.parseFloat(overlayOpacity));
         backgroundDivProps.put("backgroundType", vm.get("backgroundType", "NONE"));
-        backgroundDivProps.put("backgroundImage", vm.get("backgroundImage", "NONE"));
+        backgroundDivProps.put("backgroundImage", vm.get("backgroundImage", ""));
 
         return backgroundDivProps;
     }
 
-    public Map<String, String> getSectionProps(){
-        Map<String, String> sectionProps = new LinkedHashMap<String, String>();
+    public Map<String, Object> getSectionProps(){
+        Map<String, Object> sectionProps = new LinkedHashMap<String, Object>();
         ValueMap vm = resource.getValueMap();
 
-        sectionProps.put("backgroundWidth", vm.get("backgroundWidth", "INSET"));
-        sectionProps.put("overlayOpacity", vm.get("overlayOpacity", "100"));
-        sectionProps.put("backgroundType", vm.get("backgroundType", "NONE"));
-        sectionProps.put("backgroundImage", vm.get("backgroundImage", "NONE"));
+        sectionProps.put("sectionHeight", vm.get("sectionHeight", ""));
+        sectionProps.put("contentWidth", vm.get("contentWidth", ""));
+        sectionProps.put("contentAlignment", vm.get("contentAlignment", "Center"));
 
         return sectionProps;
     }

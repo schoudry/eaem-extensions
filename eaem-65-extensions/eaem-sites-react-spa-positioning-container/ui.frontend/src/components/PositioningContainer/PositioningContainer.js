@@ -6,33 +6,33 @@ class EAEMPositioningContainer extends Container  {
     get containerProps() {
         let containerProps = super.containerProps;
 
-        this.props.positioningContainerProps = this.props.positioningContainerProps || {};
+        this.props.backgroundProps = this.props.backgroundProps || {};
+        this.props.sectionProps = this.props.sectionProps || {};
 
-        containerProps.style = {
-            "width": '100%',
-            "height": '500px'
+        let bgProps = this.props.backgroundProps;
+
+        let bgStyles = {
+            "zIndex": "0",
+            "position": "relative",
+            "width": "100%",
+            "height": bgProps.backgroundHeight
         };
+
+        if( (bgProps.backgroundType == "IMAGE") && bgProps.backgroundImage){
+            bgStyles["background-image"] = 'url("' + bgProps.backgroundImage + '")';
+            bgStyles["background-repeat"] = 'no-repeat';
+        }
+
+        containerProps.style = bgStyles;
 
         return containerProps;
     }
 
-    get backgroundDivProps() {
-        return {
-            "style": {
-                "zIndex": "0",
-                "position": "relative"
-            }
-        };
-    }
-
-    get overlayDivProps() {
+    get sectionDivProps() {
         return {
             "style" : {
-                ...{
-                    "position": "absolute",
-                    "zIndex": "1"
-                } ,
-                ...this.props.overlayDivStyle
+                "position": "absolute",
+                "zIndex": "1"
             }
         };
     }
@@ -40,22 +40,10 @@ class EAEMPositioningContainer extends Container  {
     render() {
         return (
             <div {...this.containerProps}>
-                {   ( this.props.positioningContainerProps.backgroundType == "IMAGE" ) &&
-                <div {...this.backgroundDivProps}>
-                    <div {...this.overlayDivProps}>
-                        { this.childComponents }
-                        { this.placeholderComponent }
-                    </div>
-                </div>
-                    }
-
-                {   (!this.props.positioningContainerProps.backgroundType
-                    || (this.props.positioningContainerProps.backgroundType == "NONE"  ))&&
-                <div>
+                <div {...this.sectionDivProps}>
                     { this.childComponents }
                     { this.placeholderComponent }
                 </div>
-                    }
             </div>
         );
     }
