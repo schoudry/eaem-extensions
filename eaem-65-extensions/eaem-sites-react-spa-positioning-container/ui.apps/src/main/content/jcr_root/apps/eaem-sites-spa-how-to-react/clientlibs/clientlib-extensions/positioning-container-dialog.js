@@ -27,6 +27,6 @@
     }
 
     function addContentAlignmentListner(){
-        
+
     }
 }(jQuery, jQuery(document)));

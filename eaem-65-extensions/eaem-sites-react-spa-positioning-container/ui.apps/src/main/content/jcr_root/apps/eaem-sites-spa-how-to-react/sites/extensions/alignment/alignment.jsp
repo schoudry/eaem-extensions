@@ -29,15 +29,22 @@
     <label class="coral-Form-fieldlabel"><%=fieldLabel%></label>
     <div class="eaem-dialog-content-align">
         <coral-icon icon="chevronDoubleLeft" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Extreme Left</coral-tooltip>
         <coral-icon icon="chevronLeft" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Left</coral-tooltip>
         <coral-icon icon="chevronRight" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Right</coral-tooltip>
         <coral-icon icon="chevronDoubleRight" size="M"></coral-icon>
-        <coral-icon icon="chevronUp" size="M"></coral-icon>
-        <coral-icon icon="chevronDown" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Extreme Right</coral-tooltip>
         <coral-icon icon="chevronUpDown" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Center</coral-tooltip>
+        <coral-icon icon="chevronUp" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Top</coral-tooltip>
+        <coral-icon icon="chevronDown" size="M"></coral-icon>
+        <coral-tooltip target="_prev" variant="info" placement="top">Bottom</coral-tooltip>
     </div>
     <coral-icon class="coral-Form-fieldinfo" icon="infoCircle" size="S"></coral-icon>
-    <coral-tooltip target="_prev" placement="left" class="coral3-Tooltip" variant="info" role="tooltip" style="display: none;">
+    <coral-tooltip target="_prev" placement="left" variant="info" role="tooltip" style="display: none;">
         <coral-tooltip-content><%=fieldDesc%></coral-tooltip-content>
     </coral-tooltip>
 </div>
