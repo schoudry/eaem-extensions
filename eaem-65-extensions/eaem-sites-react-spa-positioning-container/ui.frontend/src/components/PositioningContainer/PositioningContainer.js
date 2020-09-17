@@ -54,8 +54,6 @@ class EAEMPositioningContainer extends Container  {
             sectionStyles["transform"] = "translate(-50%, -50%)";
         }
 
-        console.log("Sreek", sectionStyles);
-
         return {
             "style" : sectionStyles
         };
