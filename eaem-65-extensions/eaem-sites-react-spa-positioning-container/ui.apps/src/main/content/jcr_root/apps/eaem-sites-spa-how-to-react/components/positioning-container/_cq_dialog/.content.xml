@@ -141,21 +141,21 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
                                                 fieldDescription="Content Width"
                                                 fieldLabel="Content Width"
-                                                name="./contentWidthHeight">
+                                                name="./contentWidth">
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <small
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Small"
-                                                        value="200px"/>
+                                                        value="30%"/>
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Medium"
                                                         checked="true"
-                                                        value="300px"/>
+                                                        value="50%"/>
                                                     <large
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Large"
-                                                        value="400px"/>
+                                                        value="70%"/>
                                                 </items>
                                             </contentWidth>
                                             <contentAlignment

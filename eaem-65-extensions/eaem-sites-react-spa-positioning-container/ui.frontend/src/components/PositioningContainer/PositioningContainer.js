@@ -29,11 +29,31 @@ class EAEMPositioningContainer extends Container  {
     }
 
     get sectionDivProps() {
+        let sectionProps = this.props.sectionProps,
+            sectionStyles = {};
+
+        sectionStyles["position"] = "absolute";
+        sectionStyles["zIndex"] = "1";
+
+        if(sectionProps.sectionBGColor){
+            sectionStyles["background-color"] = sectionProps.sectionBGColor;
+        }
+
+        if(sectionProps.contentWidth){
+            sectionStyles["width"] = sectionProps.contentWidth;
+            sectionStyles["text-align"] = "center";
+        }
+
+        if(sectionProps.contentAlignment == "Center"){
+            sectionStyles["top"] = "50%";
+            sectionStyles["left"] = "50%";
+            sectionStyles["transform"] = "translate(-50%, -50%)";
+        }
+
+        console.log("Sreek", sectionStyles);
+
         return {
-            "style" : {
-                "position": "absolute",
-                "zIndex": "1"
-            }
+            "style" : sectionStyles
         };
     }
 

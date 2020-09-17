@@ -57,6 +57,7 @@ public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements
 
         sectionProps.put("sectionHeight", vm.get("sectionHeight", ""));
         sectionProps.put("contentWidth", vm.get("contentWidth", ""));
+        sectionProps.put("sectionBGColor", vm.get("sectionBGColor", ""));
         sectionProps.put("contentAlignment", vm.get("contentAlignment", "Center"));
 
         return sectionProps;
