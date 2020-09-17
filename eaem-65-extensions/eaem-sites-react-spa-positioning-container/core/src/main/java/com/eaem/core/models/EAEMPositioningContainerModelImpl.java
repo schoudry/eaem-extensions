@@ -47,6 +47,7 @@ public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements
         backgroundDivProps.put("overlayOpacity", Float.parseFloat(overlayOpacity) / 100);
         backgroundDivProps.put("backgroundType", vm.get("backgroundType", "NONE"));
         backgroundDivProps.put("backgroundImage", vm.get("backgroundImage", ""));
+        backgroundDivProps.put("backgroundColor", vm.get("backgroundColor", ""));
 
         return backgroundDivProps;
     }
