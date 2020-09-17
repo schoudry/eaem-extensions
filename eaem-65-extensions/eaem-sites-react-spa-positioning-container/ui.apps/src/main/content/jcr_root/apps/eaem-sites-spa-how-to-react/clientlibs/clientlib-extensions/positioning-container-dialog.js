@@ -1,4 +1,5 @@
 (function($, $document){
+    var DIALOG_SLIDER = ".eaem-dialog-slider";
 
     $document.on("dialog-ready", initPositioningContainerDialog);
 
@@ -7,12 +8,19 @@
     }
 
     function addSliderListener(){
-        var $sliders = $(".eaem-dialog-slider");
+        var $sliders = $(DIALOG_SLIDER);
 
         $sliders.each(function(){
-            var $slider = $(this);
+            var $sliderValue = $(this),
+                $slider = $sliderValue.prev(".coral-Form-fieldwrapper").find("coral-slider");
 
-            $slider.find("span").html()
-        })
+            if(_.isEmpty($slider)){
+                return;
+            }
+
+            $slider.on("change", function(){
+                $sliderValue.html($(this).val() + "%");
+            });
+        });
     }
 }(jQuery, jQuery(document)));
