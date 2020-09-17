@@ -5,6 +5,8 @@
 
     function initPositioningContainerDialog(){
         addSliderListener();
+
+        addContentAlignmentListner();
     }
 
     function addSliderListener(){
@@ -22,5 +24,9 @@
                 $sliderValue.html($(this).val() + "%");
             });
         });
+    }
+
+    function addContentAlignmentListner(){
+        
     }
 }(jQuery, jQuery(document)));
