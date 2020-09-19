@@ -124,6 +124,7 @@
                                                     <default
                                                             jcr:primaryType="nt:unstructured"
                                                             text="Default"
+                                                            checked="true"
                                                             value=""/>
                                                     <small
                                                         jcr:primaryType="nt:unstructured"
@@ -132,7 +133,6 @@
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Medium"
-                                                        checked="true"
                                                         value="100px"/>
                                                     <large
                                                         jcr:primaryType="nt:unstructured"
@@ -154,10 +154,10 @@
                                                     <medium
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Medium"
-                                                        checked="true"
                                                         value="50%"/>
                                                     <large
                                                         jcr:primaryType="nt:unstructured"
+                                                        checked="true"
                                                         text="Large"
                                                         value="70%"/>
                                                 </items>
