@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2020-07-09T12:59:12.002-05:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/conf/eaem-sites-spa-how-to-react/settings/wcm/templates/spa-page-template"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="EAEM HOME"
+        sling:resourceType="eaem-sites-spa-how-to-react/components/page">
+        <root
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/responsivegrid">
+            <responsivegrid
+                jcr:created="{Date}2018-10-22T16:48:57.968+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-10-22T16:49:29.168+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid">
+                <title
+                    jcr:created="{Date}2020-07-08T17:41:05.345-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2020-07-09T12:29:49.952-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="EAEM SPA HOME"
+                    sling:resourceType="eaem-sites-spa-how-to-react/components/title"
+                    type="h1"/>
+                <image
+                    jcr:created="{Date}2020-07-09T12:04:24.050-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2020-07-09T12:28:10.919-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="eaem-sites-spa-how-to-react/components/image"
+                    imageLink="/content/eaem-sites-spa-how-to-react/us/en/eaem-62"
+                    imageURL="/content/dam/experience-aem/aem.png"/>
+                <text
+                    jcr:created="{Date}2020-07-09T12:15:13.115-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2020-07-09T12:59:11.999-05:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="eaem-sites-spa-how-to-react/components/text"
+                    text="&lt;p style=&quot;text-align: center;&quot;>&lt;b>&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;b>&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;b>Experiencign Adobe Experience Manager&lt;/b>&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;&lt;p>A blog on AEM (Adobe Experience Manager, formerly CQ) primarily focusing on Sites and Assets, providing code samples and reusable extensions for your AEM implementation&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;&lt;p>Solutions on the blog are NOT Adobe recommended. &amp;quot;Experiencing Adobe Experience Manager&amp;quot; or &amp;quot;Experience AEM&amp;quot; or &amp;quot;EAEM&amp;quot; blog content is licensed under a Creative Commons Attribution 4.0 International License.&lt;/p>&#xa;"
+                    textIsRich="true"/>
+            </responsivegrid>
+        </root>
+    </jcr:content>
+</jcr:root>
