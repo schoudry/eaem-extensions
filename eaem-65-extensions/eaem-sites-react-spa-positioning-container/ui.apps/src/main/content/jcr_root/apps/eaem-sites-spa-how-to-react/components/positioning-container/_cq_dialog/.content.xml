@@ -121,6 +121,10 @@
                                                 fieldLabel="Section Height"
                                                 name="./sectionHeight">
                                                 <items jcr:primaryType="nt:unstructured">
+                                                    <default
+                                                            jcr:primaryType="nt:unstructured"
+                                                            text="Default"
+                                                            value=""/>
                                                     <small
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Small"

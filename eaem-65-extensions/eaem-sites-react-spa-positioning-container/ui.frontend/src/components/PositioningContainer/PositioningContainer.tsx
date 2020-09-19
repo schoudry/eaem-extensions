@@ -1,15 +1,18 @@
-import React from 'react';
-import {MapTo, Container} from '@adobe/cq-react-editable-components';
+import React from "react";
+import CSS from 'csstype';
+import { MapTo, Container } from "@adobe/cq-react-editable-components";
 
-class EAEMPositioningContainer extends Container  {
-    readonly TOP = "10%";
-    readonly BOTTOM = "80%";
-    readonly LEFT = "20%";
-    readonly EXTREME_LEFT = "5%";
-    readonly RIGHT = "20%";
-    readonly EXTREME_RIGHT = "5%";
+class EAEMPositioningContainer extends Container {
+    OVERLAY_POSITION = {
+        TOP: "10%",
+        BOTTOM: "80%",
+        LEFT: "20%",
+        EXTREME_LEFT: "5%",
+        RIGHT: "20%",
+        EXTREME_RIGHT: "5%"
+    };
 
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
 
         //@ts-ignore
@@ -28,29 +31,26 @@ class EAEMPositioningContainer extends Container  {
         let containerProps = super.containerProps;
 
         //@ts-ignore
-        let eaemProps = this.props;
+        let rhProps = this.props;
 
-        eaemProps.backgroundProps = eaemProps.backgroundProps || {};
-        eaemProps.sectionProps = eaemProps.sectionProps || {};
+        rhProps.backgroundProps = rhProps.backgroundProps || {};
+        rhProps.sectionProps = rhProps.sectionProps || {};
 
-        let bgProps = eaemProps.backgroundProps;
+        let bgProps = rhProps.backgroundProps;
 
-        let bgStyles = {
-            "zIndex": "0",
-            "position": "relative",
-            "width": "100%",
-            "height": bgProps.backgroundHeight
+        const bgStyles: CSS.Properties = {
+            zIndex: 0,
+            position: "relative"
         };
 
-        if( (bgProps.backgroundType == "IMAGE") && bgProps.backgroundImage){
-            bgStyles["background-image"] = 'url("' + bgProps.backgroundImage + '")';
-            bgStyles["background-repeat"] = 'no-repeat';
-        }else if(bgProps.backgroundColor){
-            bgStyles["background-color"] = bgProps.backgroundColor;
-        }
+        bgStyles.width = "100%";
+        bgStyles.height = bgProps.backgroundHeight;
+        bgStyles.backgroundColor = bgProps.backgroundColor;
+        bgStyles.opacity = bgProps.overlayOpacity;
 
-        if( bgProps.overlayOpacity ){
-            bgStyles["opacity"] = bgProps.overlayOpacity;
+        if (bgProps.backgroundType == "IMAGE" && bgProps.backgroundImage) {
+            bgStyles.backgroundImage = 'url("' + bgProps.backgroundImage + '")';
+            //bgStyles.backgroundRepeat = "no-repeat";
         }
 
         containerProps.style = bgStyles;
@@ -58,74 +58,68 @@ class EAEMPositioningContainer extends Container  {
         return containerProps;
     }
 
-    get sectionDivProps() {
+    get sectionStyles() {
         //@ts-ignore
-        let eaemProps = this.props;
+        let rhProps = this.props;
 
-        let sectionProps = eaemProps.sectionProps,
-            sectionStyles = {};
+        let sectionProps = rhProps.sectionProps;
 
-        sectionStyles["position"] = "absolute";
-        sectionStyles["zIndex"] = "1";
+        const sectionStyles: CSS.Properties = {
+            zIndex: 1,
+            position: "absolute"
+        };
 
-        if(!this.childComponents || (this.childComponents.length == 0)){
-            return {
-                "style" : sectionStyles
-            };
-        }
+        sectionStyles.backgroundColor = sectionProps.sectionBGColor || undefined;
+        sectionStyles.height = sectionProps.sectionHeight || undefined;
 
-        if(sectionProps.sectionBGColor){
-            sectionStyles["background-color"] = sectionProps.sectionBGColor;
-        }
-
-        if(sectionProps.contentWidth){
-            sectionStyles["width"] = sectionProps.contentWidth;
-            sectionStyles["text-align"] = "center";
+        if (sectionProps.contentWidth) {
+            sectionStyles.width = sectionProps.contentWidth;
+            sectionStyles.textAlign = "center";
         }
 
         let contentAlignment = sectionProps.contentAlignment || "";
 
-        if(contentAlignment == "Center"){
-            sectionStyles["top"] = "50%";
-            sectionStyles["left"] = "50%";
-            sectionStyles["transform"] = "translate(-50%, -50%)";
-        }else{
+        if (contentAlignment == "Center") {
+            sectionStyles.top = "50%";
+            sectionStyles.left = "50%";
+            sectionStyles.transform = "translate(-50%, -50%)";
+        } else {
             contentAlignment = contentAlignment.split(",");
 
-            contentAlignment.map((alignment, index) => {
+            contentAlignment.map((alignment: string) => {
                 alignment = alignment.trim();
 
-                if(alignment == "Top"){
-                    sectionStyles["top"] = this.TOP;
-                }else if(alignment == "Bottom"){
-                    sectionStyles["top"] = this.BOTTOM;
-                }else if(alignment == "Extreme Left"){
-                    sectionStyles["left"] = this.EXTREME_LEFT;
-                }else if(alignment == "Left"){
-                    sectionStyles["left"] = this.LEFT;
-                }else if(alignment == "Extreme Right"){
-                    sectionStyles["right"] = this.EXTREME_RIGHT;
-                }else if(alignment == "Right"){
-                    sectionStyles["right"] = this.RIGHT;
+                if (alignment == "Top") {
+                    sectionStyles["top"] = this.OVERLAY_POSITION.TOP;
+                } else if (alignment == "Bottom") {
+                    sectionStyles["top"] = this.OVERLAY_POSITION.BOTTOM;
+                } else if (alignment == "Extreme Left") {
+                    sectionStyles["left"] = this.OVERLAY_POSITION.EXTREME_LEFT;
+                } else if (alignment == "Left") {
+                    sectionStyles["left"] = this.OVERLAY_POSITION.LEFT;
+                } else if (alignment == "Extreme Right") {
+                    sectionStyles["right"] = this.OVERLAY_POSITION.EXTREME_RIGHT;
+                } else if (alignment == "Right") {
+                    sectionStyles["right"] = this.OVERLAY_POSITION.RIGHT;
                 }
-            })
+            });
         }
 
-        return {
-            "style" : sectionStyles
-        };
+        return sectionStyles;
     }
 
     render() {
         return (
             <div {...this.containerProps}>
-                <div {...this.sectionDivProps}>
-                    { this.childComponents }
-                    { this.placeholderComponent }
+                <div style={this.sectionStyles}>
+                    {this.childComponents}
+                    {this.placeholderComponent}
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default MapTo('eaem-sites-spa-how-to-react/components/positioning-container')(EAEMPositioningContainer);
+export default MapTo("eaem-sites-spa-how-to-react/components/positioning-container")(
+    EAEMPositioningContainer
+);
