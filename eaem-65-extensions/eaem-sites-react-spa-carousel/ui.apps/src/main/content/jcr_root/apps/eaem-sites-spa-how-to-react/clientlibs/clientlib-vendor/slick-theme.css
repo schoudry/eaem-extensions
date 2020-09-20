@@ -2,7 +2,7 @@
 /* Slider */
 .slick-loading .slick-list
 {
-    background: #fff url('resources/ajax-loader.gif') center center no-repeat;
+    background: #fff url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/ajax-loader.gif') center center no-repeat;
 }
 
 /* Icons */
@@ -12,8 +12,8 @@
     font-weight: normal;
     font-style: normal;
 
-    src: url('resources/fonts/slick.eot');
-    src: url('resources/fonts/slick.eot?#iefix') format('embedded-opentype'), url('resources/fonts/slick.woff') format('woff'), url('resources/fonts/slick.ttf') format('truetype'), url('resources/fonts/slick.svg#slick') format('svg');
+    src: url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/fonts/slick.eot');
+    src: url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/fonts/slick.eot?#iefix') format('embedded-opentype'), url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/fonts/slick.woff') format('woff'), url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/fonts/slick.ttf') format('truetype'), url('/etc.clientlibs/eaem-sites-spa-how-to-react/clientlibs/clientlib-vendor/resources/fonts/slick.svg#slick') format('svg');
 }
 /* Arrows */
 .slick-prev,
@@ -40,7 +40,7 @@
     border: none;
     outline: none;
     background: transparent;
-}
+    }
 .slick-prev:hover,
 .slick-prev:focus,
 .slick-next:hover,
@@ -80,6 +80,7 @@
 .slick-prev
 {
     left: -25px;
+    margin-left: 35px;
 }
 [dir='rtl'] .slick-prev
 {
@@ -98,6 +99,7 @@
 .slick-next
 {
     right: -25px;
+    margin-right: 35px;
 }
 [dir='rtl'] .slick-next
 {
