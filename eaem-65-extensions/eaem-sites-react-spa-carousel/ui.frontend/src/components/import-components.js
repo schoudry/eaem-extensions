@@ -17,3 +17,4 @@
 import './Page/Page';
 import './Text/Text';
 import './PositioningContainer/PositioningContainer';
+import './CompositeContainerCarousel/CompositeContainerCarousel';
