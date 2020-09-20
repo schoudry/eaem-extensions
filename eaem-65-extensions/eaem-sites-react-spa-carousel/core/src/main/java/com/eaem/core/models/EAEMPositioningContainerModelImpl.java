@@ -57,7 +57,7 @@ public class EAEMPositioningContainerModelImpl extends ResponsiveGrid implements
         ValueMap vm = resource.getValueMap();
 
         sectionProps.put("sectionHeight", vm.get("sectionHeight", ""));
-        sectionProps.put("contentWidth", vm.get("contentWidth", "300px"));
+        sectionProps.put("contentWidth", vm.get("contentWidth", "500px"));
         sectionProps.put("sectionBGColor", vm.get("sectionBGColor", ""));
         sectionProps.put("contentAlignment", vm.get("contentAlignment", "Center"));
 

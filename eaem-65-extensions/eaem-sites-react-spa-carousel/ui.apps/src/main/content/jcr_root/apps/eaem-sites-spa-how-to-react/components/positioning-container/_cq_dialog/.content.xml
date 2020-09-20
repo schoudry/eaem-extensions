@@ -42,21 +42,12 @@
                                                         value="INSET"/>
                                                 </items>
                                             </backgroundWidth>
-<<<<<<< .mine
                                             <backgroundHeight
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                     fieldDescription="Height of background eg. 500px"
                                                     fieldLabel="Background Height"
                                                     name="./backgroundHeight"/>
-=======
-                                            <backgroundHeight
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldDescription="Height of background eg. 500px"
-                                                fieldLabel="Background Height"
-                                                name="./backgroundHeight"/>
->>>>>>> .theirs
                                             <overlayOpacity
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="/apps/eaem-sites-spa-how-to-react/sites/extensions/slider"
@@ -130,19 +121,11 @@
                                                 fieldLabel="Section Height"
                                                 name="./sectionHeight">
                                                 <items jcr:primaryType="nt:unstructured">
-<<<<<<< .mine
                                                     <default
                                                             jcr:primaryType="nt:unstructured"
                                                             text="Default"
                                                             checked="true"
                                                             value=""/>
-=======
-                                                    <default
-                                                        jcr:primaryType="nt:unstructured"
-                                                        checked="true"
-                                                        text="Default"
-                                                        value=""/>
->>>>>>> .theirs
                                                     <small
                                                         jcr:primaryType="nt:unstructured"
                                                         text="Small"
@@ -212,21 +195,12 @@
                                                 fieldDescription="Section Background Color..."
                                                 fieldLabel="Section Background"
                                                 name="./sectionBGColor"/>
-<<<<<<< .mine
                                             <bgColor
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
                                                     fieldDescription="Background Color..."
                                                     fieldLabel="Background"
                                                     name="./backgroundColor"/>
-=======
-                                            <bgColor
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/colorfield"
-                                                fieldDescription="Background Color..."
-                                                fieldLabel="Background"
-                                                name="./backgroundColor"/>
->>>>>>> .theirs
                                         </items>
                                     </column>
                                 </items>
