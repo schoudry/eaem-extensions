@@ -4,6 +4,9 @@ import { MapTo, Container } from "@adobe/cq-react-editable-components";
 class CompositeContainerCarousel extends Container {
     constructor(props: any) {
         super(props);
+
+        //@ts-ignore
+        this.props = props;
     }
 
     get childComponents() {
@@ -17,16 +20,55 @@ class CompositeContainerCarousel extends Container {
     get containerProps() {
         let containerProps = super.containerProps;
 
-        containerProps.ref =  "eaemSlickSlider";
+        containerProps.ref = "eaemSlickSlider";
 
         return containerProps;
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         //@ts-ignore
-        $($(this.refs.eaemSlickSlider)).slick();
-      }
-    
+        let eaemProps = this.props;
+
+        if (!eaemProps.isInEditor) {
+            return;
+        }
+
+        fetch(eaemProps.cqPath + ".json").then(res => res.json())
+            .then((rData) => {
+                if (rData.collpaseSlidesInEdit == "true") {
+                    window.location.reload();
+                }
+            });
+    }
+
+    attachSlick() {
+        //@ts-ignore
+        let eaemProps = this.props;
+
+        if (!eaemProps.isInEditor) {
+            //@ts-ignore
+            $(this.refs.eaemSlickSlider).slick();
+        } else {
+            fetch(eaemProps.cqPath + ".json").then(res => res.json())
+                .then((rData) => {
+                    if (rData.collpaseSlidesInEdit == "true") {
+                        //@ts-ignore
+                        $(this.refs.eaemSlickSlider).slick();
+                    }
+                });
+        }
+    }
+
+    getCollpaseSlidesInEdit() {
+        //@ts-ignore
+        let eaemProps = this.props;
+
+    }
+
+    componentDidMount() {
+        this.attachSlick();
+    }
+
     render() {
         return (
             <div {...this.containerProps}>
