@@ -1,16 +1,9 @@
 import React from "react";
-import CSS from 'csstype';
 import { MapTo, Container } from "@adobe/cq-react-editable-components";
-import { Console } from "console";
 
-class EAEMPositioningContainer extends Container {
+class CompositeContainerCarousel extends Container {
     constructor(props: any) {
         super(props);
-
-        //@ts-ignore
-        this.props = props;
-
-        console.log("sreeklanth");
     }
 
     get childComponents() {
@@ -24,12 +17,16 @@ class EAEMPositioningContainer extends Container {
     get containerProps() {
         let containerProps = super.containerProps;
 
-        //@ts-ignore
-        let rhProps = this.props;
+        containerProps.ref =  "eaemSlickSlider";
 
         return containerProps;
     }
 
+    componentDidMount() {
+        //@ts-ignore
+        $($(this.refs.eaemSlickSlider)).slick();
+      }
+    
     render() {
         return (
             <div {...this.containerProps}>
@@ -41,5 +38,5 @@ class EAEMPositioningContainer extends Container {
 }
 
 export default MapTo("eaem-sites-spa-how-to-react/components/composite-container-carousel")(
-    EAEMPositioningContainer
+    CompositeContainerCarousel
 );
