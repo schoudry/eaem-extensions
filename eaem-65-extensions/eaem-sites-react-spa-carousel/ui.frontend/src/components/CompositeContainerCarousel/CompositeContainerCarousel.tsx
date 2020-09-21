@@ -59,12 +59,6 @@ class CompositeContainerCarousel extends Container {
         }
     }
 
-    getCollpaseSlidesInEdit() {
-        //@ts-ignore
-        let eaemProps = this.props;
-
-    }
-
     componentDidMount() {
         this.attachSlick();
     }
