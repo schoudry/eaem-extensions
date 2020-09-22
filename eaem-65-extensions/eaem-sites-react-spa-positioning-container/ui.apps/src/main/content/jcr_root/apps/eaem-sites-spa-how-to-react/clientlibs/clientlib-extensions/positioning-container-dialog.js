@@ -44,6 +44,10 @@
         function addInitialPositions(){
             var alignments = $contentAlign.val();
 
+            if(!alignments){
+                return;
+            }
+
             $contentAlignDisplay.html(alignments);
 
             _.each(alignments.split(","), function(alignment){
