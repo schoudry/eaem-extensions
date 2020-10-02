@@ -1,0 +1,13 @@
+{
+  "name": "eaem-lazy-load",
+  "version": "1.0.0",
+  "description": "Creates webpack exports for lazy load",
+  "bin": {
+    "rh-scripts": "run.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/webpack": "^4.41.21"
+  }
+}
