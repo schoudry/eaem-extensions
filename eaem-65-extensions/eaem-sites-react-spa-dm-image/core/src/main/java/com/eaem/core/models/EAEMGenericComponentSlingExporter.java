@@ -19,8 +19,7 @@ import java.util.Map;
         adapters = {ComponentExporter.class},
         resourceType = {
                 "eaem-sites-spa-how-to-react/components/image",
-                "eaem-sites-spa-how-to-react/components/component-1",
-                "eaem-sites-spa-how-to-react/components/component-2"
+                "eaem-sites-spa-how-to-react/components/dm-image-smart-crop"
         }
 )
 @Exporter(

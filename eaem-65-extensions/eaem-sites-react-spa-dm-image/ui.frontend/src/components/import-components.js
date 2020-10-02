@@ -19,3 +19,4 @@ import './Text/Text';
 import './Title/Title';
 import './Nav/Nav';
 import './Image/Image';
+import './DMSmartCropImage/DMSmartCropImage';
