@@ -1,7 +1,6 @@
 import { MapTo } from '@adobe/cq-react-editable-components';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
 import CSS from 'csstype';
 
 function isObjectEmpty(obj) {
@@ -35,8 +34,22 @@ class Image extends React.Component<ImageComponentProps, ImageComponentState> {
         }
     }
 
-    imageUrl(){
-        const imageProps = this.props as ImageComponentProps;
+    componentDidMount() {
+        window.addEventListener('resize', this.updateImage.bind(this));
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateImage);
+    }
+
+    updateImage(){
+        this.setState({
+            imageSrc: this.imageUrl()
+        })
+    }
+
+    imageUrl() {
+        const imageProps = this.props;
         let src = imageProps.fileReference;
 
         if (!isObjectEmpty(imageProps.smartCrops)) {
@@ -47,7 +60,6 @@ class Image extends React.Component<ImageComponentProps, ImageComponentState> {
 
                 if (bp < window.innerWidth) {
                     src = imageProps.smartCrops[bp];
-
                     break;
                 }
             }
@@ -65,11 +77,9 @@ class Image extends React.Component<ImageComponentProps, ImageComponentState> {
         const imageProps = this.props as any;
 
         return (
-            <div>
-                <Link to={imageProps.imageLink}>
-                    <img src={this.state.imageSrc} style={imgStyles} />
-                </Link>
-            </div>
+            <Link to={imageProps.imageLink}>
+                <img src={this.state.imageSrc} style={imgStyles} />
+            </Link>
         );
     }
 
