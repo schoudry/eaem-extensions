@@ -63,7 +63,7 @@
         var $fileRef = $(DM_FILE_REF),
             fileRef = $fileRef.val();
 
-        if (!fileRef) {
+        if ( !fileRef || ($cropSelect[0].items.length > 1)) {
             return;
         }
 
