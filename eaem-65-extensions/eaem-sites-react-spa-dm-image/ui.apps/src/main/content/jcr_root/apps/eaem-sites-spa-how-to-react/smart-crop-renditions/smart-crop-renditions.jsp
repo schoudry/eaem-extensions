@@ -25,7 +25,6 @@
 
         dynRendition.put("type", "IMAGE");
         dynRendition.put("name", name);
-        dynRendition.put("image", dynVM.get("copyurl"));
         dynRendition.put("url", dynVM.get("copyurl"));
 
         dynRenditions.put(name, dynRendition);
