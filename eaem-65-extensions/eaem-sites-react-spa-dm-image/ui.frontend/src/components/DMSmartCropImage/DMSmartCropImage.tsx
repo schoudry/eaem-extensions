@@ -9,30 +9,6 @@ function isObjectEmpty(obj){
     return (Object.keys(obj).length == 0);
 }
 
-function useWindowSize() {
-    const [windowSize, setWindowSize] = useState({
-        width: 0,
-        height: 0,
-    });
-
-    useEffect(() => {
-        function handleResize() {
-            setWindowSize({
-                width : window.innerWidth,
-                height: window.innerHeight,
-            });
-        }
-
-        window.addEventListener("resize", handleResize);
-
-        handleResize();
-
-        return () => window.removeEventListener("resize", handleResize);
-    });
-
-    return windowSize;
-}
-
 const ImageEditConfig = {
     emptyLabel: 'Dynamic Media Smart Crop Image - Experience AEM',
 
@@ -49,17 +25,17 @@ class Image extends Component {
         };
 
         const imageProps = this.props as any;
-        const size : any = useWindowSize();
         let imageSrc = imageProps.fileReference;
 
         if(!isObjectEmpty(imageProps.smartCrops)){
             const breakPoints = Object.keys(imageProps.smartCrops).sort((a : any,b : any) => b-a);
 
-            console.log(breakPoints);
+            for(const i in breakPoints){
+                let bp = parseInt(breakPoints[i]);
 
-            for(const bp in breakPoints){
-                if(bp < size.width){
+                if(bp < window.innerWidth){
                     imageSrc = imageProps.smartCrops[bp];
+
                     break;
                 }
             }
@@ -68,7 +44,7 @@ class Image extends Component {
         return (
             <div>
                 <Link to={imageProps.imageLink}>
-                    <img src={imageProps.fileReference} style={imgStyles} />
+                    <img src={imageSrc} style={imgStyles} />
                 </Link>
             </div>
         );
