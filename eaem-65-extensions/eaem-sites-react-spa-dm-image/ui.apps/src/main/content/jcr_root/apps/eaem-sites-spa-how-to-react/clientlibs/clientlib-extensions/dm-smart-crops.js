@@ -55,8 +55,15 @@
         });
 
         $(DM_FILE_REF).closest("coral-fileupload").on("change", function(){
-            //$cropsMF[0].items.clear();
             dynRenditions = {};
+
+            $cropsMF.find("coral-select").each(function (index, cropSelect) {
+                var $cropSelect = $(cropSelect);
+
+                $cropSelect[0].items.clear();
+
+                loadCropsInSelect($cropSelect);
+            });
         })
     }
 

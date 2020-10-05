@@ -112,12 +112,6 @@
                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/select"
                                                                         fieldLabel="Crop url"
                                                                         name="./url">
-                                                                    <items jcr:primaryType="nt:unstructured">
-                                                                        <none
-                                                                                jcr:primaryType="nt:unstructured"
-                                                                                text="None"
-                                                                                value="NONE"/>
-                                                                    </items>
                                                                 </crop>
                                                             </items>
                                                         </option>
