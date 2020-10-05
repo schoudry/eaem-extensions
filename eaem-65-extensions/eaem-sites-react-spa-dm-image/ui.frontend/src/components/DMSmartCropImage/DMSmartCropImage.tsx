@@ -38,6 +38,17 @@ class Image extends React.Component<ImageComponentProps, ImageComponentState> {
         window.addEventListener('resize', this.updateImage.bind(this));
     }
 
+    componentDidUpdate(){
+        console.log("in update");
+
+        const currentSrc = this.state.imageSrc;
+        const newSrc = this.imageUrl();
+
+        if(currentSrc != newSrc){
+            this.updateImage();
+        }
+    }
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateImage);
     }
