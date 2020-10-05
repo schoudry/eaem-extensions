@@ -8,6 +8,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.Optional;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
@@ -35,12 +36,15 @@ public class ImageComponentSlingExporter implements ComponentExporter {
     private Resource resource;
 
     @ValueMapValue
+    @Optional
     private String imageLink;
 
     @ValueMapValue
+    @Optional
     private String fileReference;
 
     @ValueMapValue
+    @Optional
     private boolean openInNewWindow;
 
     private Map<String, String> smartCrops;

@@ -43,7 +43,7 @@
             loadCropsInSelect($cropSelect, selUrl);
         });
 
-        $(CROPS_MF).on("change", function () {
+        $cropsMF.on("change", function () {
             var multifield = this;
 
             _.defer(function () {
@@ -53,6 +53,11 @@
                 loadCropsInSelect($cropSelect);
             });
         });
+
+        $(DM_FILE_REF).closest("coral-fileupload").on("change", function(){
+            //$cropsMF[0].items.clear();
+            dynRenditions = {};
+        })
     }
 
     function getCoralSelectItem(text, value, selected) {

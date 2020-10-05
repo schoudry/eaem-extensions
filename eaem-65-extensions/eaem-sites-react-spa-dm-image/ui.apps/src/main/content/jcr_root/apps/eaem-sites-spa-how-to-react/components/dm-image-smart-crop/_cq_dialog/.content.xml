@@ -76,6 +76,12 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/container">
                                         <items jcr:primaryType="nt:unstructured">
+                                            <label
+                                                    granite:class="eaem-dialog-label-text"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    text="Make sure the image was published to use following dynamic media settings..."
+                                                    sling:resourceType="granite/ui/components/coral/foundation/text">
+                                            </label>
                                             <crops
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
@@ -97,7 +103,7 @@
                                                                 <breakpoint
                                                                     jcr:primaryType="nt:unstructured"
                                                                     sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
-                                                                    fieldLabel="Breakpoint"
+                                                                    fieldLabel="Max Width"
                                                                     max="3000"
                                                                     min="100"
                                                                     name="./breakpoint"/>

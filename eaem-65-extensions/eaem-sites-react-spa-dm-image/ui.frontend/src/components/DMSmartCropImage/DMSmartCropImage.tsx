@@ -70,14 +70,13 @@ class Image extends React.Component<ImageComponentProps, ImageComponentState> {
 
     get imageHTML() {
         const imgStyles: CSS.Properties = {
+            display : 'block',
             marginLeft: 'auto',
             marginRight: 'auto'
         };
 
-        const imageProps = this.props as any;
-
         return (
-            <Link to={imageProps.imageLink}>
+            <Link to={this.props.imageLink}>
                 <img src={this.state.imageSrc} style={imgStyles} />
             </Link>
         );
