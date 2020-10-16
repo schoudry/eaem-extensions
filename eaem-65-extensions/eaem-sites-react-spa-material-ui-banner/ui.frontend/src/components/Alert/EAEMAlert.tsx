@@ -61,7 +61,7 @@ type AlertProps = {
 };
 
 const AlertEditConfig = {
-  emptyLabel: "Alert (Eyebrow) - Shows banner at the top of page",
+  emptyLabel: "Alert - Shows banner at the top of page",
 
   isEmpty: function (props: any) {
     return !props || !props.text || props.text.trim().length < 1;
@@ -87,10 +87,9 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: "15px",
       paddingBottom: "15px",
       flex: "1 1",
-      fontFamily: '"CaslonRH-Thin", minion-pro, Times, serif',
+      fontFamily: 'Times, serif',
       fontSize: 16,
-      textAlign: "center",
-      "& a": { color: "white", textDecoration: "none" }
+      textAlign: "center"
     }
   })
 );
