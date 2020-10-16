@@ -18,6 +18,7 @@
     "@types/node": "^14.0.13",
     "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
+    "classnames": "^2.2.6",
     "custom-event-polyfill": "^1.0.7",
     "dompurify": "^2.0.7",
     "history": "^4.10.1",
