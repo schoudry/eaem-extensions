@@ -15,8 +15,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 import './Page/Page';
-import './Text/Text';
+import './AEMText/AEMText';
 import './Title/Title';
 import './Nav/Nav';
 import './Image/Image';
-import './Alert/EAEMAlert';
