@@ -45,8 +45,8 @@ const eaemTheme = createMuiTheme({
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      fontFamily: 'AdobeCaslonPro, Times, serif !important',
       '& h1': {
-        fontFamily: 'AdobeCaslonPro, Times, serif !important',
         [theme.breakpoints.down("xl")]: {
           fontSize: '34px',
         },
@@ -56,11 +56,35 @@ const useStyles = makeStyles((theme: Theme) =>
         [theme.breakpoints.down("md")]: {
           fontSize: '26px',
         }
+      },
+      '& h2': {
+        [theme.breakpoints.down("xl")]: {
+          fontSize: '28px',
+        },
+        [theme.breakpoints.down("lg")]: {
+          fontSize: '25px',
+        },
+        [theme.breakpoints.down("md")]: {
+          fontSize: '22px',
+        }
+      },
+      '& h3': {
+        [theme.breakpoints.down("xl")]: {
+          fontSize: '22px',
+        },
+        [theme.breakpoints.down("lg")]: {
+          fontSize: '20px',
+        },
+        [theme.breakpoints.down("md")]: {
+          fontSize: '18px',
+        }
+      },
+      '& p': {
+        fontSize: '13px',
       }
     }
   })
 );
-
 
 const AEMText: FC<TextProps> = props => {
   const classes = useStyles(eaemTheme);
@@ -78,4 +102,5 @@ const AEMText: FC<TextProps> = props => {
     />
   );
 };
+
 export default MapTo("eaem-sites-spa-how-to-react/components/text")(AEMText, AEMTextEditConfig);

@@ -14,14 +14,8 @@ body {
   background-color: #ffffff;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-p,
 .nav-container,
 .rw-box {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #000000;
 }
