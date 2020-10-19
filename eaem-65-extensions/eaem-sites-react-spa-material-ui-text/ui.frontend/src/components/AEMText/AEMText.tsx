@@ -22,7 +22,7 @@ function extractModelId(path: string) {
   return path && path.replace(/\/|:/g, "_");
 }
 
-enum BREAKPOINTS{
+enum BREAKPOINTS {
   XS = 0,
   SM = 768,
   MD = 992,
@@ -88,8 +88,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AEMText: FC<TextProps> = props => {
   const classes = useStyles(eaemTheme);
-
-  console.log(classes);
 
   return (
     <div
