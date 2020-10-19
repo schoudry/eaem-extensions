@@ -81,6 +81,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& p': {
         fontSize: '13px',
+      },
+      "& a:hover": {
+        textDecoration: "none"
       }
     }
   })
