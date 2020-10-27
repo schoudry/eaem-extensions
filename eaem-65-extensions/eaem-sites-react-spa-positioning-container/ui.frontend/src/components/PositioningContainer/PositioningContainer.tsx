@@ -1,6 +1,28 @@
 import React, { FC, useState, useEffect, Component, ComponentType } from "react";
 import CSS from 'csstype';
 import { MapTo, Container } from "@adobe/cq-react-editable-components";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme, createMuiTheme } from '@material-ui/core/styles';
+
+enum BREAKPOINT {
+    XS = 0,
+    SM = 768,
+    MD = 992,
+    LG = 1200,
+    XL = 1600
+}
+
+const eaemTheme = createMuiTheme({
+    breakpoints: {
+        values: {
+            xs: BREAKPOINT.XS,
+            sm: BREAKPOINT.SM,
+            md: BREAKPOINT.MD,
+            lg: BREAKPOINT.LG,
+            xl: BREAKPOINT.XL
+        }
+    }
+});
 
 interface EAEMContainerPropTypes {
     containerProps: any,
@@ -96,7 +118,6 @@ function getContainerPropsStyle(eaemProps) {
     };
 
     bgStyles.width = "100%";
-    bgStyles.height = bgProps.backgroundHeight;
     bgStyles.backgroundColor = bgProps.backgroundColor;
     bgStyles.opacity = bgProps.overlayOpacity;
 
@@ -104,15 +125,19 @@ function getContainerPropsStyle(eaemProps) {
         bgStyles.backgroundImage = 'url("' + bgProps.backgroundImage + '")';
     }
 
+    bgStyles.height = bgProps.backgroundHeight;
+
     return bgStyles;
 }
 
 const EAEMPositioningContainer: FC<EAEMContainerPropTypes> = ({ containerProps, childComponents, placeholderComponent, ...props }) => {
-    containerProps.style = getContainerPropsStyle({ ...props });
+    const containerStyles = getContainerPropsStyle({ ...props });
+
+    containerProps.style = containerStyles;
 
     return (
         <div {...containerProps}>
-            <div style={getSectionPropsStyle({...props})}>
+            <div style={getSectionPropsStyle({ ...props })}>
                 {childComponents}
                 {placeholderComponent}
             </div>
