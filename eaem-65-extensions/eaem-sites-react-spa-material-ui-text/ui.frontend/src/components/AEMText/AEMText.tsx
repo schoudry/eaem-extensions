@@ -42,40 +42,42 @@ const eaemTheme = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles(() => {
+  console.log(eaemTheme.breakpoints.up("md"));
+
+  return createStyles({
     root: {
       fontFamily: 'AdobeCaslonPro, Times, serif !important',
       '& h1': {
-        [theme.breakpoints.down("xl")]: {
+        [eaemTheme.breakpoints.down("xl")]: {
           fontSize: '34px',
         },
-        [theme.breakpoints.down("lg")]: {
+        [eaemTheme.breakpoints.down("lg")]: {
           fontSize: '30px',
         },
-        [theme.breakpoints.down("md")]: {
+        [eaemTheme.breakpoints.down("md")]: {
           fontSize: '26px',
         }
       },
       '& h2': {
-        [theme.breakpoints.down("xl")]: {
+        [eaemTheme.breakpoints.down("xl")]: {
           fontSize: '28px',
         },
-        [theme.breakpoints.down("lg")]: {
+        [eaemTheme.breakpoints.down("lg")]: {
           fontSize: '25px',
         },
-        [theme.breakpoints.down("md")]: {
+        [eaemTheme.breakpoints.down("md")]: {
           fontSize: '22px',
         }
       },
       '& h3': {
-        [theme.breakpoints.down("xl")]: {
+        [eaemTheme.breakpoints.down("xl")]: {
           fontSize: '22px',
         },
-        [theme.breakpoints.down("lg")]: {
+        [eaemTheme.breakpoints.down("lg")]: {
           fontSize: '20px',
         },
-        [theme.breakpoints.down("md")]: {
+        [eaemTheme.breakpoints.down("md")]: {
           fontSize: '18px',
         }
       },
@@ -87,10 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     }
   })
-);
+});
 
 const AEMText: FC<TextProps> = props => {
-  const classes = useStyles(eaemTheme);
+  const classes = useStyles();
 
   return (
     <div
