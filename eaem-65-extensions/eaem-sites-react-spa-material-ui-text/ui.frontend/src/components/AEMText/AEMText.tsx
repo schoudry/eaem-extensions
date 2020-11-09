@@ -4,6 +4,7 @@ import {
   makeStyles, Theme, createStyles
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
+import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 
 type TextProps = {
   cqPath: string;
@@ -31,20 +32,30 @@ enum BREAKPOINTS {
 }
 
 const eaemTheme = createMuiTheme({
-  breakpoints: {
+  breakpoints: createBreakpoints({
     values: {
       xs: BREAKPOINTS.XS,
       sm: BREAKPOINTS.SM,
       md: BREAKPOINTS.MD,
       lg: BREAKPOINTS.LG,
       xl: BREAKPOINTS.XL
+    },
+    get down() {
+      return (key : number | string) => {
+        let values = this.values as any;
+        return `@media (max-width: ${values[key]- 0.05}px)`;
+      }
+    },
+    get between() {
+      return (a : number | string, b : number | string) => {
+        let values = this.values as any;
+        return `@media (min-width:${values[a]}px) and (max-width:${values[b] - 0.05}px)`;
+      }
     }
-  }
+  })
 });
 
 const useStyles = makeStyles(() => {
-  console.log(eaemTheme.breakpoints.up("md"));
-
   return createStyles({
     root: {
       fontFamily: 'AdobeCaslonPro, Times, serif !important',
