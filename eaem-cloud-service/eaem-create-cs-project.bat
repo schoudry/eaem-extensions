@@ -1,0 +1,2 @@
+REM C:/Progra~1/Java/jdk-11.0.6/bin/java 
+mvn -B archetype:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=24 -D aemVersion=cloud -D appTitle="Experience AEM Validate Assets on Upload" -D appId="eaem-cs-validate-assets" -D groupId="apps.experienceaem.assets" -D frontendModule=none  -D includeExamples=n -D includeDispatcherConfig=n
