@@ -1,1 +1,0 @@
-supported-file-types.js
