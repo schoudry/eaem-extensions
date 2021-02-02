@@ -177,12 +177,6 @@
         </dependency>
         <dependency>
             <groupId>apps.experienceaem.assets</groupId>
-            <artifactId>eaem-cs-upload-unique-assets.ui.content</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>apps.experienceaem.assets</groupId>
             <artifactId>eaem-cs-upload-unique-assets.ui.config</artifactId>
             <version>${project.version}</version>
             <type>zip</type>

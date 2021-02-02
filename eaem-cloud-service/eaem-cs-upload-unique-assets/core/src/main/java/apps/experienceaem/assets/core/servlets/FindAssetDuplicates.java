@@ -31,7 +31,7 @@ import java.util.Map;
         service = Servlet.class,
         property = {
                 "sling.servlet.methods=GET",
-                "sling.servlet.paths=/bin/dp-vision-dam/duplicates"
+                "sling.servlet.paths=/bin/experience-aem/duplicates"
         }
 )
 public class FindAssetDuplicates extends SlingAllMethodsServlet {

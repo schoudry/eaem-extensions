@@ -3,7 +3,36 @@
 
     var _ = window._;
 
-    var _origConfirmUpload = window.DamFileUpload.prototype._confirmUpload;
+    var _origConfirmUpload = window.DamFileUpload.prototype._confirmUpload,
+        _origOnInputChange = window.Dam.ChunkFileUpload.prototype._onInputChange;
+
+    window.Dam.ChunkFileUpload.prototype._onInputChange = function(event){
+        var files = event.target.files;
+
+        if(!files && event.dataTransfer && event.dataTransfer.files){
+            files = event.dataTransfer.files;
+        }
+
+        if(_.isEmpty(files)){
+            _origOnInputChange.call(this, event);
+            return;
+        }
+
+        var validFiles = [];
+
+        _.each(files, function(file) {
+            validFiles.push(file.name);
+        });
+
+        var existInDAMFiles = checkFilesExist(validFiles);
+
+        if(!_.isEmpty(existInDAMFiles)){
+            showAlert("Following files exist : <BR> <BR> " + existInDAMFiles.join("<BR>") + "</b>");
+            return;
+        }
+
+        _origOnInputChange.call(this, event);
+    };
 
     window.DamFileUpload.prototype._confirmUpload = function (event) {
         var existInDAMFiles = checkFilesExist(this.fileUpload.uploadQueue.map(hit => hit.path));
@@ -24,14 +53,16 @@
 
     function checkFilesExist(fileNames){
         var existingFiles = [],
-            url = "/bin/querybuilder.json?path=/content/dam&group.p.or=true&";
+            url = "/bin/experience-aem/duplicates?";
 
         _.each(fileNames, function(fileName, index){
-            url = url + "group." + index + "_nodename=" + fileName + "&";
+            url = url + "fileName=" + fileName + "&";
         });
 
-        $.ajax( { url : url, async : false }).done(function(data){
-            existingFiles = data["hits"].map(hit => hit.path);
+        $.ajax( { url : url, async : false, contentType:"application/json" }).done(function(data){
+            existingFiles = data;
+        }).fail(function() {
+            showAlert("Error occured while checking for duplicates", "Error");
         });
 
         return existingFiles;
