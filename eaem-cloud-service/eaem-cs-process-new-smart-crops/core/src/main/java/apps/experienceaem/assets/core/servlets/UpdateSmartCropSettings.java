@@ -41,7 +41,7 @@ public class UpdateSmartCropSettings extends SlingAllMethodsServlet {
 
     private static String SMART_CROPS_RES = "/apps/eaem-cs-process-new-smart-crops/extensions/smart-crop-renditions/renditions.html";
     private static String CROP_DATA = "cropdata";
-    private static final String UPDATE_SMART_CROPS_WF_PATH = "/var/workflow/models/disney-dynamic-media-update-smart-crops";
+    private static final String UPDATE_SMART_CROPS_WF_PATH = "/var/workflow/models/experience-aem-update-smart-crops";
 
     @Reference
     private DMCService dmcService;

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/conf/eaem-cs-process-new-smart-crops" mode="merge"/>
-    <filter root="/content/eaem-cs-process-new-smart-crops" mode="merge"/>
-    <filter root="/content/dam/eaem-cs-process-new-smart-crops" mode="merge"/>
-    <filter root="/content/experience-fragments/eaem-cs-process-new-smart-crops" mode="merge"/>
+    <filter root="/conf/global/settings/workflow/models/experience-aem-update-smart-crops"/>
+    <filter root="/var/workflow/models/experience-aem-update-smart-crops"/>
 </workspaceFilter>

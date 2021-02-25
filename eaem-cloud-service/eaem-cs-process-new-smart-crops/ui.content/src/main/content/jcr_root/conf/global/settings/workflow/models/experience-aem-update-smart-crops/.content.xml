@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/libs/settings/wcm/designs/default"
+        cq:lastModified="{Date}2021-02-25T11:31:43.368-06:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Experience AEM Update Smart Crops"
+        sling:resourceType="cq/workflow/components/pages/model"
+        lastSynced="{Date}2021-02-25T11:31:51.162-06:00">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <reprocess
+                jcr:created="{Date}2021-02-25T11:30:34.296-06:00"
+                jcr:createdBy="admin"
+                jcr:description="Reprocess the assets uploaded to configured remote Scene7 service for Dynamic Media delivery."
+                jcr:lastModified="{Date}2021-02-25T11:30:41.911-06:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Scene7:Reprocess Assets"
+                sling:resourceType="dam/components/scene7/reprocess">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    advanceOnTimeout="true"
+                    EXTERNAL_PROCESS="com.day.cq.dam.scene7.impl.process.Scene7ReprocessAssets"
+                    period="30"
+                    PROCESS_AUTO_ADVANCE="true"
+                    reprocess-batch-size="50"
+                    timeout="3600"/>
+            </reprocess>
+            <process
+                jcr:created="{Date}2021-02-25T11:30:49.559-06:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2021-02-25T11:31:43.358-06:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Update Smart Crops"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="apps.experienceaem.assets.core.services.UpdateSmartCropsProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+    </jcr:content>
+</jcr:root>
