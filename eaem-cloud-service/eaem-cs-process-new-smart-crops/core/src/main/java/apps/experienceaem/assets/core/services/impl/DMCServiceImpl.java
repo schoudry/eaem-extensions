@@ -96,7 +96,7 @@ public class DMCServiceImpl implements DMCService {
         try {
             return resourceResolverFactory.getServiceResourceResolver(subServiceUser);
         } catch (LoginException ex) {
-            log.error("Could not login as SubService user {}, exiting SearchService service.", "disney-user-admin", ex);
+            log.error("Could not login as SubService user {}, exiting SearchService service.", "eaem-user-admin", ex);
             return null;
         }
     }

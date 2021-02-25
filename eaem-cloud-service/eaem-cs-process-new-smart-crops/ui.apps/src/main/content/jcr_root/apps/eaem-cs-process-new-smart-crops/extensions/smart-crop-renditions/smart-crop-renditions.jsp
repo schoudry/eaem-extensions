@@ -3,7 +3,9 @@
 <%@page session="false"
         import="java.util.Iterator,
                   org.apache.sling.commons.json.JSONObject,
+                  com.adobe.granite.ui.components.Config,
                   com.adobe.granite.ui.components.Tag"%>
+<%@ page import="com.adobe.granite.ui.components.ds.ValueMapResource" %>
 <%@ page import="com.adobe.granite.ui.components.ds.DataSource" %>
 <%@ page import="org.apache.sling.commons.json.JSONArray" %>
 <%@ page import="apps.experienceaem.assets.core.services.DMCService" %>
