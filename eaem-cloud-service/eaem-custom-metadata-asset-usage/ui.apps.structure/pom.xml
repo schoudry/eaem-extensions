@@ -32,8 +32,8 @@
                     <filters>
 
                         <!-- /apps root -->
-                        <filter><root>/apps</root></filter>
                         <filter><root>/apps/eaem-custom-metadata-asset-usage</root></filter>
+                        <filter><root>/apps/eaem-custom-metadata-asset-usage/components/asset-external-references</root></filter>
 
                         <!-- Common overlay roots -->
                         <filter><root>/apps/sling</root></filter>
