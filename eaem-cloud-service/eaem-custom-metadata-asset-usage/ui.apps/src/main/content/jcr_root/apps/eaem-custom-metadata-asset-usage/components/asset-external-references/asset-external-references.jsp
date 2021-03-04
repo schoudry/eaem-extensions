@@ -26,24 +26,27 @@
 
 %>
     <div>
-    <label class="coral-Form-fieldlabel"><%= outVar(xssAPI, i18n, fieldLabel) %></label>
+        <label class="coral-Form-fieldlabel">
+            <h3><%= outVar(xssAPI, i18n, fieldLabel) %></h3>
+        </label>
+        <div style="margin-bottom: 10px">
+
 <%
     if( (usagesItr == null) || !usagesItr.hasNext()){
 %>
-        <div>
             <div>None</div>
-        </div>
 <%
-}else{
-    while(usagesItr.hasNext()){
-        Resource usageRes = usagesItr.next();
-        ValueMap usageResVM = usageRes.getValueMap();
+    }else{
+        while(usagesItr.hasNext()){
+            Resource usageRes = usagesItr.next();
+            ValueMap usageResVM = usageRes.getValueMap();
 %>
-        <div style="margin-top: 15px">
-            <div><%= usageResVM.get(EAEM_PUBLISH_PAGE) %></div>
-        </div>
+            <div>
+                <%= usageResVM.get(EAEM_PUBLISH_PAGE) %>
+            </div>
 <%
         }
     }
 %>
+        </div>
     </div>
