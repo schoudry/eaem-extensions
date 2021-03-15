@@ -104,6 +104,13 @@
     <dependencies>
         <dependency>
             <groupId>apps.experienceaem.assets</groupId>
+            <artifactId>eaem-assets-open-pdf.core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>apps.experienceaem.assets</groupId>
             <artifactId>eaem-assets-open-pdf.ui.apps.structure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>

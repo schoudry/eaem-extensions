@@ -63,6 +63,11 @@
                             <type>zip</type>
                             <target>/apps/eaem-assets-open-pdf-packages/application/install.author</target>
                         </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.assets</groupId>
+                            <artifactId>eaem-assets-open-pdf.core</artifactId>
+                            <target>/apps/eaem-assets-open-pdf-packages/application/install.author</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>

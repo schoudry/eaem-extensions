@@ -5,6 +5,7 @@
         initialized = false,
         ASSETS_PAGE = "/assets.html", $openPDFBut,
         BESIDE_ACTIVATOR = "cq-damadmin-admin-actions-create-activator",
+        PROXY_PDF_URL = "/bin/eaem/proxy?path=",
         OPEN_PDF_BUT_URL = "/apps/eaem-assets-open-pdf/clientlibs/open-pdf-new-tab/open-pdf-but.html";
 
     if (!isAssetsPage()) {
@@ -71,7 +72,7 @@
         var $selections = $(".foundation-selections-item"),
             assetPath = $selections.data("foundationCollectionItemId");
 
-        window.open(assetPath, '_blank');
+        window.open(PROXY_PDF_URL + assetPath, '_blank');
     }
 
     function isAssetsPage() {
