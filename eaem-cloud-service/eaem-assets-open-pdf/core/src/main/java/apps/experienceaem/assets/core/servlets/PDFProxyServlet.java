@@ -2,7 +2,7 @@ package apps.experienceaem.assets.core.servlets;
 
 import com.day.cq.dam.api.Asset;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -47,7 +47,7 @@ public class PDFProxyServlet extends SlingAllMethodsServlet {
     private void streamPDF(final SlingHttpServletResponse response, final Resource pdfRes) throws Exception {
         String fileName = pdfRes.getPath().substring(pdfRes.getPath().lastIndexOf("/") + 1);
 
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/pdf");
         response.setHeader("Content-disposition", "inline; filename=" + fileName);
 
         Asset asset = pdfRes.adaptTo(Asset.class);

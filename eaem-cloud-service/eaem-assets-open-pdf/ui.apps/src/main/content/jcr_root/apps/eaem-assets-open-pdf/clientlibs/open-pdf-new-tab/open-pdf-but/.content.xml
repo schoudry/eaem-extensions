@@ -5,6 +5,6 @@
     activeSelectionCount="single"
     icon="filePDF"
     target=".cq-damadmin-admin-childpages"
-    text="Open PDF"
+    text="Open PDF in Tab"
     title="Open PDF in new tab"
     variant="actionBar"/>
