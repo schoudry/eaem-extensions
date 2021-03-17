@@ -1,32 +1,33 @@
 (function($, $document) {
-    var EAEM_REVERT_CSS = "eaem-revert-toversion-file-only",
-        REVERT_FILE_NOT_METADATA_TITLE = "Revert and retain latest metadata",
-        REVERT_FILE_AND_METADATA_TITLE = "Revert and overwrite metadata",
-        TIME_LINE_EVENT_CSS = ".cq-common-admin-timeline-event",
-        EAEM_VERSION_NAME = "eaem-version-name",
-        EAEM_VERSION_PATH = "eaem-version-path",
-        ASSET_DETAILS_PAGE_URL = "/assetdetails.html",
-        REVERT_TO_VERSION_SEL = ".cq-common-admin-timeline-event-button",
-        versionFileName;
+    var TIME_LINE_EVENT_CSS = ".cq-common-admin-timeline-event",
+        EAEM_VERSION_CSS = "eaem-version",
+        REVERT_TO_VERSION_SEL = ".cq-common-admin-timeline-event-button";
 
     $document.on("click", TIME_LINE_EVENT_CSS, addDownloadVersion);
 
     function addDownloadVersion(){
-        var $timeLineButton = $(this).find(REVERT_TO_VERSION_SEL);
+        var $timeLineButton = $(this).find(REVERT_TO_VERSION_SEL),
+            $timelineForm = $timeLineButton.closest("form");
 
-        $(getDownloadButtonHtml()).appendTo($timeLineButton.closest("form")).click(downloadVersion);
+        if(!_.isEmpty($timelineForm.find("." + EAEM_VERSION_CSS))){
+            return;
+        }
+
+        $(getDownloadButtonHtml()).appendTo($timelineForm).click(downloadVersion);
     }
 
     function downloadVersion(){
-        var $section = $(this).closest("section"),
-            versionPath = $section.data("preview");
+        var $dataPreview = $(this).closest("[data-preview]"),
+            versionPath = $dataPreview.data("preview");
+
         versionPath = versionPath.substring(0, versionPath.indexOf("/jcr:frozenNode"));
 
-        window.open("/bin/downloadVersion?resource=" + versionPath, '_blank');
+        window.open("/bin/eaem/downloadVersion?resource=" + versionPath, '_blank');
     }
 
     function getDownloadButtonHtml(){
-        return '<button is="coral-button" class="coral3-Button coral3-Button--secondary" type="button" size="M" variant="secondary">' +
+        return '<button is="coral-button" class="coral3-Button coral3-Button--secondary ' + EAEM_VERSION_CSS +
+                    '" type="button" size="M" variant="secondary" style="width:100%; margin-top: 0.2rem;">' +
                     '<coral-button-label>Download Version</coral-button-label>' +
                 '</button>'
     }

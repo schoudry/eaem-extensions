@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-sites-content-tree-delete-insert" mode="merge"/>
+    <filter root="/content/eaem-sites-content-tree-delete-insert" mode="merge"/>
+    <filter root="/content/dam/eaem-sites-content-tree-delete-insert" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-sites-content-tree-delete-insert" mode="merge"/>
+</workspaceFilter>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-sites-content-tree-delete-insert/clientlibs"/>
+    <filter root="/apps/eaem-sites-content-tree-delete-insert/components"/>
+    <filter root="/apps/eaem-sites-content-tree-delete-insert/i18n"/>
+</workspaceFilter>
