@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-cs-rte-plugin-color-picker/clientlibs"/>
+    <filter root="/apps/eaem-cs-rte-plugin-color-picker/components"/>
+    <filter root="/apps/eaem-cs-rte-plugin-color-picker/i18n"/>
+</workspaceFilter>

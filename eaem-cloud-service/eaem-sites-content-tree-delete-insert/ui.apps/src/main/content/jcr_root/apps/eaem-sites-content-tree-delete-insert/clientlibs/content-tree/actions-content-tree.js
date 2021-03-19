@@ -20,9 +20,9 @@
 
     function getElementTitle(editable, componentTitle){
         var titleHtml = _orignTitleFn.call(this, editable, componentTitle),
-            buttonDeleteHtml = '<coral-icon icon="delete" size="M" class="rh-contenttree-delete" data-content-align="Top"></coral-icon>',
-            buttonInsertHtml = '<coral-icon icon="add" size="M" class="rh-contenttree-insert" data-content-align="Top"></coral-icon>',
-            padding = '<span style="margin-left: 20px"></span>';
+            buttonDeleteHtml = '&lt;coral-icon icon="delete" size="M" class="eaem-contenttree-delete" data-content-align="Top"&gt;&lt;/coral-icon&gt;',
+            buttonInsertHtml = '&lt;coral-icon icon="add" size="M" class="eaem-contenttree-insert" data-content-align="Top"&gt;&lt;/coral-icon&gt;',
+            padding = '&lt;span style="margin-left: 20px"&gt;&lt;/span&gt;';
 
         if (titleHtml) {
             if (editable.name == "responsivegrid") {
@@ -42,24 +42,14 @@
 
         _orignBindFn.call(this);
 
-        $(".rh-contenttree-insert").click(function(event){
+        $(".eaem-contenttree-insert").click(function(event){
             var treeItem = event.currentTarget.closest("coral-tree-item"),
                 editable = editables.find(treeItem.value)[0];
 
             ns.edit.ToolbarActions.INSERT.execute(editable);
-
-            /*if(!editable){
-                editable = editables.find(treeItem.value + "/")[0];
-            }
-
-            if (editable) {
-                if (!editable.path.endsWith("/")) {
-                    editable.path = editable.path + "/";
-                }
-            }*/
         });
 
-        $(".rh-contenttree-delete").click(function (event) {
+        $(".eaem-contenttree-delete").click(function (event) {
             var treeItem = event.currentTarget.closest("coral-tree-item"),
                 editable = editables.find(treeItem.value)[0];
 
