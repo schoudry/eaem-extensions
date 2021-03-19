@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <content jcr:primaryType="nt:unstructured">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs jcr:primaryType="nt:unstructured">
+                <items jcr:primaryType="nt:unstructured">
+                    <plugins jcr:primaryType="nt:unstructured">
+                        <items jcr:primaryType="nt:unstructured">
+                            <eaem-aem-fonts
+                                granite:class="js-cq-IPEPlugin-group"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Experience AEM Fonts &amp; Colors"
+                                sling:resourceType="granite/ui/components/coral/foundation/container"
+                                maximized="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <enable
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Enable Plugin (Show in Rich Text Editor)"
+                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                        name="applyFont"/>
+                                    <textcolor
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Enable Text Color"
+                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                        name="textColor"/>
+                                    <textbgcolor
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Enable Text Background Color"
+                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                        name="textBackgroundColor"/>
+                                </items>
+                                <granite:data
+                                    jcr:primaryType="nt:unstructured"
+                                    name="eaem-aem-fonts"
+                                    plugin-root-name="rtePlugins"/>
+                            </eaem-aem-fonts>
+                        </items>
+                    </plugins>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
