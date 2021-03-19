@@ -1,29 +1,29 @@
-.eaembody--background-gray{
+.eaem--background-gray{
     background-color: #f1f1f1;
 }
 
-.eaembody--background-white{
+.eaem--background-white{
     background-color: #ffffff;
 }
 
-.eaembody--background-black{
+.eaem--background-black{
     background-color: #000000;
 }
 
 @media (min-width: 992px){
-    .eaemcontent--desktop-hide {
+    .eaem--content-desktop-hide {
         display: none !important;
     }
 }
 
 @media (min-width:768px) and (max-width:991.95px){
-    .eaemcontent--tablet-hide {
+    .eaem--content-tablet-hide {
         display: none !important;
     }
 }
 
 @media (max-width: 767.95px){
-    .eaemcontent--phone-hide {
+    .eaem--content-mobile-hide {
         display: none !important;
     }
 }

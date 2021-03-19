@@ -7,9 +7,9 @@
         SENDER = "eaem-aem", REQUESTER = "requester", $eaemFontPicker,
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         FONT_SELECTOR_URL = "/apps/eaem-cs-rte-plugin-color-picker/clientlibs/fonts-plugin/font-selector.html",
-        MOBILE_HIDE_CONTENT_CLASS = "eaemtext--content-mobile-hide",
-        DESKTOP_HIDE_CONTENT_CLASS = "eaemtext--content-desktop-hide",
-        TABLET_HIDE_CONTENT_CLASS = "eaemtext--content-tablet-hide",
+        MOBILE_HIDE_CONTENT_CLASS = "eaem--content-mobile-hide",
+        DESKTOP_HIDE_CONTENT_CLASS = "eaem--content-desktop-hide",
+        TABLET_HIDE_CONTENT_CLASS = "eaem--content-tablet-hide",
         url = document.location.pathname;
 
     if( url.indexOf(FONT_SELECTOR_URL) == 0 ){

@@ -51,8 +51,8 @@
                                                         <contents
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                            fieldDescription="Appply specific style..."
-                                                            fieldLabel="Style"
+                                                            fieldDescription="Appply specific background style..."
+                                                            fieldLabel="Background Style"
                                                             name="./style">
                                                             <items jcr:primaryType="nt:unstructured">
                                                                 <none
@@ -62,15 +62,15 @@
                                                                 <gray
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="Gray"
-                                                                    value="eaembody--background-gray"/>
+                                                                    value="eaem--background-gray"/>
                                                                 <white
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="White"
-                                                                    value="eaembody--background-white"/>
+                                                                    value="eaem--background-white"/>
                                                                 <black
                                                                     jcr:primaryType="nt:unstructured"
                                                                     text="Black"
-                                                                    value="eaembody--background-black"/>
+                                                                    value="eaem--background-black"/>
                                                             </items>
                                                         </contents>
                                                         <hideOnDesktop
