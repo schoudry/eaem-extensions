@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/eaem-cs-bulk-update-post-processor"/>
+    <filter root="/apps/eaem-cs-create-asset/osgiconfig"/>
 </workspaceFilter>
