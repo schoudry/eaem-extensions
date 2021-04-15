@@ -104,13 +104,6 @@
     <dependencies>
         <dependency>
             <groupId>apps.experienceaem.assets</groupId>
-            <artifactId>eaem-cs-sort-image-profiles.core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>apps.experienceaem.assets</groupId>
             <artifactId>eaem-cs-sort-image-profiles.ui.apps.structure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
