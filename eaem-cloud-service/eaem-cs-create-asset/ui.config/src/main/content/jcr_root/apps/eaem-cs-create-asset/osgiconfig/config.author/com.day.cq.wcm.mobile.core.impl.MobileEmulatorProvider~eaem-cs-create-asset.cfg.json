@@ -1,6 +1,0 @@
-{
-  "mobile.resourceTypes": [
-    "eaem-cs-create-asset/components/page"
-  ],
-  "README": "Indicate which page resource types should display the mobile emulators."
-}
