@@ -81,8 +81,6 @@ public class EAEMCreateAssetServlet extends SlingAllMethodsServlet {
 
             String initiateUploadResponse = makeInitiateUploadRequest(request, response);
 
-            response.getWriter().print("initiateUpload Response : " + initiateUploadResponse);
-
             log.debug("initiateUpload Response : " + initiateUploadResponse);
 
             JSONObject uploadResponse = new JSONObject(initiateUploadResponse);
@@ -90,8 +88,6 @@ public class EAEMCreateAssetServlet extends SlingAllMethodsServlet {
             JSONObject fileJSON = (JSONObject) filesJSON.get(0);
 
             String binaryPOSTUrl = fileJSON.getJSONArray("uploadURIs").getString(0);
-
-            response.getWriter().write("binaryPOSTUrl = " + binaryPOSTUrl);
 
             HttpPut put = new HttpPut(binaryPOSTUrl);
             HttpEntity entity = new StringEntity(fileContent);
@@ -101,20 +97,16 @@ public class EAEMCreateAssetServlet extends SlingAllMethodsServlet {
             HttpResponse putResponse = httpClient.execute(put);
             int statusCode = putResponse.getStatusLine().getStatusCode();
 
-            response.getWriter().print("Making Request....");
-
             if( (statusCode < 200) || (statusCode > 210)){
                 response.sendError(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error uploading file - " + putResponse.getStatusLine().getReasonPhrase());
                 return;
             }
 
-            response.getWriter().print("putContent Response : " + putResponse);
-
             String completedResponse = makeCompleteUploadRequest(uploadResponse, request, response);
 
-            response.getWriter().print("completeUpload Response : " + completedResponse);
-
             log.debug("completeUpload Response : " + completedResponse);
+
+            response.getWriter().print(fileName);
         } catch (Exception e) {
             log.error("Error creating file : {}", fileName);
             response.sendError(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error creating file - " + e.getMessage());
