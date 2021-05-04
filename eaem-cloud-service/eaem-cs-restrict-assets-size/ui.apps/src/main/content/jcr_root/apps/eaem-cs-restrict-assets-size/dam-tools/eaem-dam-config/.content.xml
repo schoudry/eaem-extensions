@@ -36,7 +36,7 @@
                         jcr:title="Success"
                         sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
                         open="/assets.html"
-                        redirect="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
+                        redirect="/apps/eaem-cs-restrict-assets-size/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
                         text="Configuration saved"/>
                     <items jcr:primaryType="nt:unstructured">
                         <type
@@ -66,13 +66,13 @@
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <jpeg-size
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/textfield"
+                                                            sling:resourceType="/apps/eaem-cs-restrict-assets-size/dam-tools/textfield"
                                                             fieldDescription="Enter the max size allowed for JPEG upload, in bytes..."
                                                             fieldLabel="JPEG upload max size allowed"
                                                             name="./jpegSize"/>
                                                         <mp4-size
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/textfield"
+                                                            sling:resourceType="/apps/eaem-cs-restrict-assets-size/dam-tools/textfield"
                                                             fieldDescription="Enter the max size allowed for MP4 upload, in bytes..."
                                                             fieldLabel="MP4 upload max size allowed"
                                                             name="./mp4Size"/>

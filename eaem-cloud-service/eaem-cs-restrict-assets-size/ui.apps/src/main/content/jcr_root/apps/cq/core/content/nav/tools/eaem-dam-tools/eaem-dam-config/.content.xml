@@ -3,7 +3,7 @@
           jcr:description="EAEM Custom Configuration"
           jcr:primaryType="nt:unstructured"
           jcr:title="EAEM Configuration"
-          href="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
+          href="/apps/eaem-cs-restrict-assets-size/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
           icon="asset"
           id="eaem-dam-config"
           size="XL"/>
