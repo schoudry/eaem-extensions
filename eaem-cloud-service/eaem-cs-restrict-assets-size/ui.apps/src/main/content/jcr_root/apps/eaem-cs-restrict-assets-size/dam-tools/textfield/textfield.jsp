@@ -18,7 +18,11 @@
     }
 
     if(value == null){
-        value = cfg.get("defaultValue", String.class);;
+        value = cfg.get("defaultValue", String.class);
+    }
+
+    if(value == null){
+        value = "";
     }
 
     Tag tag = cmp.consumeTag();

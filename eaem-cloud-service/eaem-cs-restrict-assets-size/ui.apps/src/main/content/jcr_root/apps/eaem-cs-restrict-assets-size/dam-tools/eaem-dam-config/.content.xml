@@ -64,12 +64,18 @@
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                     <items jcr:primaryType="nt:unstructured">
-                                                        <jpeg-size
+                                                        <png-size
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="/apps/eaem-cs-restrict-assets-size/dam-tools/textfield"
+                                                                fieldDescription="Enter the max size allowed for PNG upload, in bytes..."
+                                                                fieldLabel="PNG upload max size allowed"
+                                                                name="./pngSize"/>
+                                                        <jpg-size
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="/apps/eaem-cs-restrict-assets-size/dam-tools/textfield"
-                                                            fieldDescription="Enter the max size allowed for JPEG upload, in bytes..."
-                                                            fieldLabel="JPEG upload max size allowed"
-                                                            name="./jpegSize"/>
+                                                            fieldDescription="Enter the max size allowed for JPG upload, in bytes..."
+                                                            fieldLabel="JPG upload max size allowed"
+                                                            name="./jpgSize"/>
                                                         <mp4-size
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="/apps/eaem-cs-restrict-assets-size/dam-tools/textfield"

@@ -2,9 +2,11 @@
     "use strict";
 
     var _ = window._,
-        S7_FOLDER_LENGTH_MAX = 240,
-        CONTENT_DAM_PATH = "/content/dam",
-        ERROR_MSG = "Unsupported file extensions : ";
+        CONFIG_PATH = "/conf/global/settings/dam/eaem-dam-config.json",
+        allowedSizes = {},
+        ENDS_WITH_SIZE = "Size";
+
+    loadAllowedSizes();
 
     var _origConfirmUpload = window.DamFileUpload.prototype._confirmUpload,
         _origOnInputChange = window.Dam.ChunkFileUpload.prototype._onInputChange;
@@ -21,99 +23,95 @@
             return;
         }
 
-        if(!isS7RelativeFolderPathWithinLimit()){
-            showAlert("File Path exceeds maximum allowed length");
-            return;
-        }
-
-        var invalidFileNames = [], validFileNames = [],
-            FILE_EXTS_SUPPORTED = getSuppportedFileExtensions();
+        var errorMessage = "";
 
         _.each(files, function(file){
-            var fileName = file.name;
+            var fileErrorMessage = checkWithinSize(file);
 
-            if(!fileName.includes(".")){
-                invalidFileNames.push(fileName);
+            if(!fileErrorMessage){
                 return;
             }
 
-            var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-
-            if(!FILE_EXTS_SUPPORTED.includes(ext.toUpperCase())){
-                invalidFileNames.push(fileName);
-            }else{
-                validFileNames.push(fileName);
-            }
+            errorMessage = errorMessage + fileErrorMessage + "<BR>";
         });
 
-        if(_.isEmpty(invalidFileNames)){
-            var existInDAMFiles = checkFilesExist(validFileNames);
-
-            if(!_.isEmpty(existInDAMFiles)){
-                showAlert("Following files exist : <BR> <BR> " + existInDAMFiles.join("<BR>") + "</b>");
-                return;
-            }
-
-            _origOnInputChange.call(this, event);
+        if(errorMessage){
+            showAlert(errorMessage);
         }else{
-            showAlert(ERROR_MSG + "<b>" + invalidFileNames.join(",") + "</b>");
+            _origOnInputChange.call(this, event);
         }
     };
 
     window.DamFileUpload.prototype._confirmUpload = function (event) {
-        var invalidFileNames = [], validFileNames = [],
-            FILE_EXTS_SUPPORTED = getSuppportedFileExtensions();
-
-        if(!isS7RelativeFolderPathWithinLimit()){
-            showAlert("File Path exceeds maximum allowed length");
-            return;
-        }
+        var errorMessage = "";
 
         this.fileUpload.uploadQueue.forEach(function(item) {
-            var fileName = item.name;
+            var fileErrorMessage = checkWithinSize(item);
 
-            if(!fileName.includes(".")){
-                invalidFileNames.push(fileName);
+            if(!fileErrorMessage){
                 return;
             }
 
-            var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-
-            if(!FILE_EXTS_SUPPORTED.includes(ext.toUpperCase())){
-                invalidFileNames.push(fileName);
-            }else{
-                validFileNames.push(fileName);
-            }
+            errorMessage = errorMessage + fileErrorMessage + "<BR>";
         });
 
-        if(_.isEmpty(invalidFileNames)){
-            var existInDAMFiles = checkFilesExist(validFileNames);
-
-            if(!_.isEmpty(existInDAMFiles)){
-                showAlert("Following files exist : <BR> <BR> " + existInDAMFiles.join("<BR>") + "</b>");
-                return;
-            }
-
-            _origConfirmUpload.call(this, event);
-
-            var uploadDialog = this.uploadDialog;
-
-            _.defer(function(){
-                $(uploadDialog).find("input").attr("disabled", "disabled");
-            },0)
+        if(errorMessage){
+            showAlert(errorMessage);
         }else{
-            showAlert(ERROR_MSG + "<b>" + invalidFileNames.join(",") + "</b>");
+            _origConfirmUpload.call(this, event);
         }
     };
 
-    function isS7RelativeFolderPathWithinLimit(){
-        var folderPath = window.location.pathname;
+    function checkWithinSize(file){
+        var fileName = file.name, errorMessage = "";
 
-        if(folderPath.includes("/content/dam")){
-            folderPath = folderPath.substring(folderPath.indexOf(CONTENT_DAM_PATH) + CONTENT_DAM_PATH.length);
+        if(!fileName.includes(".")){
+            return;
         }
 
-        return (folderPath.length <= S7_FOLDER_LENGTH_MAX);
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        _.each(allowedSizes, function(allowedSize, fileType){
+            if(fileType !== ext){
+                return;
+            }
+
+            if(file.size > allowedSize){
+                errorMessage = "<b>" + fileName + "</b> size <b>" + formatBytes(file.size, 2)
+                    + "</b> is more than allowed <b>" + formatBytes(allowedSize, 2) + "</b>";
+            }
+        });
+
+        return errorMessage;
+    }
+
+    function loadAllowedSizes(){
+        $.ajax(CONFIG_PATH).done(function(data){
+            if(_.isEmpty(data)){
+                return;
+            }
+
+            _.each(data, function(value, key){
+                if(!key.endsWith(ENDS_WITH_SIZE)){
+                    return;
+                }
+
+                allowedSizes[key.substring(0, key.lastIndexOf(ENDS_WITH_SIZE))] = parseInt(value);
+            })
+        })
+    }
+
+    function formatBytes(bytes, decimals) {
+        if (bytes === 0){
+            return '0 Bytes';
+        }
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
     function showAlert(message, title, callback){
@@ -128,31 +126,5 @@
         title = title || "Error";
 
         fui.prompt(title, message, "warning", options, callback);
-    }
-
-    function checkFilesExist(fileNames){
-        var existingFiles = [],
-            url = "/bin/dp-vision-dam/duplicates?";
-
-        _.each(fileNames, function(fileName, index){
-            url = url + "fileName=" + fileName + "&";
-        });
-
-        $.ajax( { url : url, async : false, contentType:"application/json" }).done(function(data){
-            existingFiles = data;
-        }).fail(function() {
-            showAlert("Error occured while checking for duplicates", "Error");
-        });
-
-        return existingFiles;
-    }
-
-    function getSuppportedFileExtensions(){
-        return [
-            "JPG", "JPEG", "XLSX", "DOCX", "GIF", "PNG", "TIF", "TIFF", "BMP", "PDF", "PSD", "PSB", "EPS", "AI",
-            "PS", "AFM", "OTF", "PFB", "PFM", "TTC", "TTF", "ICC", "ICM", "VNC",
-            "VNT","VNW","FLA","FLV","SWF","SVG","SVGX","INDD","INDT","DOC","PPT", "WEBM", "WAV", "MP3", "JSON",
-            "RTF","XLS","FXG","XML","XSL","XSLT","TXT","AVI","GXF","LXF","MOV","MP4","MXF","VOB","TAR","AEP"
-        ];
     }
 }(jQuery, jQuery(document)));
