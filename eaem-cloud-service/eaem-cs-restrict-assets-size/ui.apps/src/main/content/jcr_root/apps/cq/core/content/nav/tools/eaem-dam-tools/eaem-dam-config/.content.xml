@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:description="EAEM Custom Configuration"
+          jcr:primaryType="nt:unstructured"
+          jcr:title="EAEM Configuration"
+          href="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
+          icon="asset"
+          id="eaem-dam-config"
+          size="XL"/>

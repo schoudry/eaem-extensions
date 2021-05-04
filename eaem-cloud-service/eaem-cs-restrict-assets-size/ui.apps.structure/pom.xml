@@ -33,6 +33,7 @@
 
                         <!-- /apps root -->
                         <filter><root>/apps</root></filter>
+                        <filter><root>/apps/cq/core/content/nav/tools</root></filter>
                         <filter><root>/apps/eaem-cs-restrict-assets-size</root></filter>
 
                         <!-- Common overlay roots -->
