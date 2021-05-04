@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/eaem-cs-restrict-assets-size/clientlibs"/>
-    <filter root="/apps/eaem-cs-restrict-assets-size/components"/>
-    <filter root="/apps/eaem-cs-restrict-assets-size/i18n"/>
+    <filter root="/apps/eaem-cs-restrict-assets-size/dam-tools"/>
+    <filter root="/apps/cq/core/content/nav/tools/eaem-dam-tools"/>
 </workspaceFilter>

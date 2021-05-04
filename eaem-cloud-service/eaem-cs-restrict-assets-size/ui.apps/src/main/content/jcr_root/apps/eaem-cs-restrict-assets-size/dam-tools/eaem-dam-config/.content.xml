@@ -71,11 +71,11 @@
                                                             fieldLabel="JPEG upload max size allowed"
                                                             name="./jpegSize"/>
                                                         <mp4-size
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/textfield"
-                                                                fieldDescription="Enter the max size allowed for MP4 upload, in bytes..."
-                                                                fieldLabel="MP4 upload max size allowed"
-                                                                name="./mp4Size"/>
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="/apps/eaem-cs-restrict-assets-size/extensions/dam-tools/textfield"
+                                                            fieldDescription="Enter the max size allowed for MP4 upload, in bytes..."
+                                                            fieldLabel="MP4 upload max size allowed"
+                                                            name="./mp4Size"/>
                                                     </items>
                                                 </column>
                                             </items>
