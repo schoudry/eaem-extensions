@@ -61,24 +61,7 @@
                             <groupId>apps.experienceaem.assets</groupId>
                             <artifactId>eaem-cs-restrict-assets-size.ui.apps</artifactId>
                             <type>zip</type>
-                            <target>/apps/eaem-cs-restrict-assets-size-packages/application/install</target>
-                        </embedded>
-                        <embedded>
-                            <groupId>apps.experienceaem.assets</groupId>
-                            <artifactId>eaem-cs-restrict-assets-size.core</artifactId>
-                            <target>/apps/eaem-cs-restrict-assets-size-packages/application/install</target>
-                        </embedded>
-                        <embedded>
-                            <groupId>apps.experienceaem.assets</groupId>
-                            <artifactId>eaem-cs-restrict-assets-size.ui.content</artifactId>
-                            <type>zip</type>
-                            <target>/apps/eaem-cs-restrict-assets-size-packages/content/install</target>
-                        </embedded>
-                        <embedded>
-                            <groupId>apps.experienceaem.assets</groupId>
-                            <artifactId>eaem-cs-restrict-assets-size.ui.config</artifactId>
-                            <type>zip</type>
-                            <target>/apps/eaem-cs-restrict-assets-size-packages/application/install</target>
+                            <target>/apps/eaem-cs-restrict-assets-size-packages/application/install.author</target>
                         </embedded>
                     </embeddeds>
                 </configuration>

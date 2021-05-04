@@ -26,7 +26,6 @@
 
     <modules>
         <module>all</module>
-        <module>core</module>
         <module>ui.apps</module>
         <module>ui.apps.structure</module>
     </modules>
