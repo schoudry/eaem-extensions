@@ -66,7 +66,7 @@
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <process-assets-group
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/userpicker"
+                                                            sling:resourceType="/apps/eaem-cs-smart-crop-rc/dam-tools/userpicker"
                                                             fieldDescription="Select the group with process assets access"
                                                             fieldLabel="Group name"
                                                             groupsOnly="{Boolean}true"
