@@ -36,7 +36,7 @@
                         jcr:title="Success"
                         sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
                         open="/assets.html"
-                        redirect="/apps/eaem-cs-restrict-assets-size/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
+                        redirect="/apps/eaem-cs-smart-crop-rc/dam-tools/eaem-dam-config.html/conf/global/settings/dam/eaem-dam-config"
                         text="Configuration saved"/>
                     <items jcr:primaryType="nt:unstructured">
                         <type
@@ -65,15 +65,14 @@
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <process-assets-group
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/userpicker"
-                                                                fieldLabel="Group name"
-                                                                fieldDescription="Select the group with process assets access"
-                                                                multiple="{Boolean}false"
-                                                                hideServiceUsers="{Boolean}true"
-                                                                groupsOnly="{Boolean}true"
-                                                                name="./processAssetsGroup">
-                                                        </process-assets-group>
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/userpicker"
+                                                            fieldDescription="Select the group with process assets access"
+                                                            fieldLabel="Group name"
+                                                            groupsOnly="{Boolean}true"
+                                                            hideServiceUsers="{Boolean}true"
+                                                            multiple="{Boolean}false"
+                                                            name="./processAssetsGroup"/>
                                                     </items>
                                                 </column>
                                             </items>
