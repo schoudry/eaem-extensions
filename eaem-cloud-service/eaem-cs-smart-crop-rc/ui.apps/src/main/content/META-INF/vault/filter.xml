@@ -2,4 +2,8 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-cs-smart-crop-rc"/>
     <filter root="/apps/cq/core/content/nav/tools/eaem-dam-tools"/>
+    <filter root="/apps/dam/gui/content/assets"/>
+    <filter root="/apps/dam/gui/content/assetdetails"/>
+    <filter root="/apps/granite/omnisearch/content"/>
+    <filter root="/apps/dam/gui/content/collections"/>
 </workspaceFilter>

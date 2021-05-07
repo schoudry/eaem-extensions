@@ -1,0 +1,21 @@
+/* Global styles */
+
+html,
+body {
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.nav-container,
+.rw-box {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #000000;
+}

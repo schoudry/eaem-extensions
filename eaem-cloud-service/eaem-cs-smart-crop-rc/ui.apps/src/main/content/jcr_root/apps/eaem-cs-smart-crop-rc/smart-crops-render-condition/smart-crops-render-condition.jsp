@@ -24,9 +24,9 @@
             UserManager userManager = resourceResolver.adaptTo(UserManager.class);
 
             Authorizable user = userManager.getAuthorizable(slingRequest.getUserPrincipal().getName());
-            Group smartCropGroup = (Group)userManager.getAuthorizable(assetProcessGroup);
+            Group group = (Group)userManager.getAuthorizable(assetProcessGroup);
 
-            allowed = ((smartCropGroup != null) && smartCropGroup.isMember(user));
+            allowed = ((group != null) && group.isMember(user));
         }
     }catch(Exception e){
         allowed = false;

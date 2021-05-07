@@ -1,0 +1,49 @@
+{
+  "name": "eaem-cs-spa-style-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && clientlib",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "sync": "aemsync -d -w ../ui.apps/src/main/content"
+  },
+  "dependencies": {
+    "@adobe/cq-react-editable-components": "^1.2.0",
+    "@adobe/cq-spa-component-mapping": "^1.0.3",
+    "@adobe/cq-spa-page-model-manager": "^1.1.0",
+    "@material-ui/core": "^4.11.0",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
+    "@types/react": "^16.9.38",
+    "@types/react-dom": "^16.9.8",
+    "classnames": "^2.2.6",
+    "custom-event-polyfill": "^1.0.7",
+    "dompurify": "^2.0.7",
+    "history": "^4.10.1",
+    "react": "^16.12.0",
+    "react-app-polyfill": "^1.0.5",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "aem-clientlib-generator": "^1.5.0",
+    "aemsync": "^4.0.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "react-scripts": "~3.3.0",
+    "sinon": "^7.5.0"
+  },
+  "proxy": "http://localhost:4502",
+  "browserslist": [
+    "defaults"
+  ],
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}

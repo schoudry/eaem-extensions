@@ -35,6 +35,8 @@
                         <filter><root>/apps</root></filter>
                         <filter><root>/apps/eaem-cs-smart-crop-rc</root></filter>
                         <filter><root>/apps/cq/core/content/nav/tools</root></filter>
+                        <filter><root>/apps/dam/gui/content</root></filter>
+                        <filter><root>/apps/granite/omnisearch</root></filter>
 
                         <!-- Common overlay roots -->
                         <filter><root>/apps/sling</root></filter>
