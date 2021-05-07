@@ -18,9 +18,7 @@ import java.util.Map;
         adaptables = {SlingHttpServletRequest.class},
         adapters = {ComponentExporter.class},
         resourceType = {
-                "eaem-cs-spa-style-system/components/image",
-                "eaem-cs-spa-style-system/components/component-1",
-                "eaem-cs-spa-style-system/components/component-2"
+                "eaem-cs-spa-style-system/components/image"
         }
 )
 @Exporter(
