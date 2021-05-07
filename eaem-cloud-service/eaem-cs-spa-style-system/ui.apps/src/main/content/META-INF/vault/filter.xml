@@ -2,5 +2,4 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-cs-spa-style-system/clientlibs"/>
     <filter root="/apps/eaem-cs-spa-style-system/components"/>
-    <filter root="/apps/eaem-cs-spa-style-system/i18n"/>
 </workspaceFilter>
