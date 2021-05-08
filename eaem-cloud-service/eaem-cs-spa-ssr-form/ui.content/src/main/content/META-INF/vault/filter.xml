@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-cs-spa-ssr-form" mode="merge"/>
+    <filter root="/content/eaem-cs-spa-ssr-form" mode="merge"/>
+    <filter root="/content/dam/eaem-cs-spa-ssr-form" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-cs-spa-ssr-form" mode="merge"/>
+</workspaceFilter>
