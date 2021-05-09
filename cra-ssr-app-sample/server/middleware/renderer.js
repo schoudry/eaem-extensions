@@ -1,32 +1,31 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
-// import our main App component
-import App from '../../src/App';
+import Hello from '../../src/Hello';
 
 const path = require("path");
 const fs = require("fs");
 
 export default (req, res, next) => {
 
-    // point to the html file created by CRA's build tool
-    const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
+    const indexHtmlFilePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
 
-    fs.readFile(filePath, 'utf8', (err, htmlData) => {
+    fs.readFile(indexHtmlFilePath, 'utf8', (err, htmlData) => {
         if (err) {
             console.error('err', err);
             return res.status(404).end()
         }
 
-        // render the app as a string
-        const html = ReactDOMServer.renderToString(<App />);
+        const { name = 'Default Sreekanth' } = req.query;
 
-        // inject the rendered app into our html and send it
-        return res.send(
-            htmlData.replace(
-                '<div id="root"></div>',
-                `<div id="root">${html}</div>`
-            )
-        );
+        //pass "name" here for server side rendering, similarly the name is passed in src/index.js for client side rendering
+        const component = ReactDOMServer.renderToString(<Hello name={name} />);
+
+        //make this data available to client side rendering in src/index.js
+        htmlData = htmlData.replace("EAEM_INITIAL_DATA_OBJECT", JSON.stringify({ name : name}));
+
+        htmlData = htmlData.replace('<div id="root"></div>',`<div id="root">${component}</div>`)
+
+        return res.send(htmlData);
     });
 }
