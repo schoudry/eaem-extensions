@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/css/main.ba6b3b4f.chunk.css",
+    "main.js": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/main.44c703bb.chunk.js",
+    "main.js.map": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/main.44c703bb.chunk.js.map",
+    "runtime-main.js": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/runtime-main.53daa9e3.js",
+    "runtime-main.js.map": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/runtime-main.53daa9e3.js.map",
+    "static/js/2.496fdd1c.chunk.js": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/2.496fdd1c.chunk.js",
+    "static/js/2.496fdd1c.chunk.js.map": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/2.496fdd1c.chunk.js.map",
+    "index.html": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/index.html",
+    "precache-manifest.09f7f40f8849b4191e43c6f4ad67bbe1.js": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/precache-manifest.09f7f40f8849b4191e43c6f4ad67bbe1.js",
+    "service-worker.js": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/service-worker.js",
+    "static/css/main.ba6b3b4f.chunk.css.map": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/css/main.ba6b3b4f.chunk.css.map",
+    "static/js/2.496fdd1c.chunk.js.LICENSE.txt": "/etc.clientlibs/eaem-cs-spa-ssr-form/clientlibs/clientlib-react/resources/static/js/2.496fdd1c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.53daa9e3.js",
+    "static/js/2.496fdd1c.chunk.js",
+    "static/css/main.ba6b3b4f.chunk.css",
+    "static/js/main.44c703bb.chunk.js"
+  ]
+}
