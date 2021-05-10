@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {MapTo} from '@adobe/cq-react-editable-components';
+import {MapTo} from '@adobe/aem-react-editable-components';
 import {Link} from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import {BrowserRouter} from 'react-router-dom';

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {MapTo} from '@adobe/cq-react-editable-components';
+import {MapTo} from '@adobe/aem-react-editable-components';
 
 const StepsEditConfig = {
     emptyLabel: 'Steps - Experience AEM',
@@ -10,7 +10,7 @@ const StepsEditConfig = {
 };
 
 
-class StepsEditConfig extends Component {
+class Steps extends Component {
     render() {
         return (this.props.type ?
             <this.props.type style={{"text-align" : "center"}}>{this.props.text}</this.props.type> :
@@ -18,4 +18,4 @@ class StepsEditConfig extends Component {
     }
 }
 
-export default MapTo('eaem-cs-spa-read-post-data/components/steps')(StepsEditConfig, StepsEditConfig);
+export default MapTo('eaem-cs-spa-read-post-data/components/steps')(Steps, StepsEditConfig);
