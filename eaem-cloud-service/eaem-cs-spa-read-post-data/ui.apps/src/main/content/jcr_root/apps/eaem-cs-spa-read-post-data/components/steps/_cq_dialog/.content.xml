@@ -38,8 +38,8 @@
                                     <company
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        text="Show Company"
                                         name="./showCompany"
+                                        text="Show Company"
                                         value="true"/>
                                 </items>
                             </column>

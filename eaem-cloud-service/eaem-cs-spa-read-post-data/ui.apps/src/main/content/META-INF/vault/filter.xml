@@ -2,4 +2,5 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-cs-spa-read-post-data/clientlibs"/>
     <filter root="/apps/eaem-cs-spa-read-post-data/components"/>
+    <filter root="/apps/eaem-cs-spa-read-post-data/templates"/>
 </workspaceFilter>
