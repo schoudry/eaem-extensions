@@ -20,27 +20,25 @@
                                     <name
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="{Boolean}true"
                                         name="./showName"
                                         text="Show Name"
                                         value="true"/>
                                     <email
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="{Boolean}true"
                                         name="./showEmail"
                                         text="Show Email"
                                         value="true"/>
                                     <ssn
                                         jcr:primaryType="nt:unstructured"
-                                        checked="{Boolean}true"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                         name="./showSSN"
                                         text="Show SSN"
                                         value="true"/>
                                     <company
                                         jcr:primaryType="nt:unstructured"
-                                        checked="{Boolean}true"
-                                        fieldLabel="Company"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        text="Show Company"
                                         name="./showCompany"
                                         value="true"/>
                                 </items>
