@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <content jcr:primaryType="nt:unstructured">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs jcr:primaryType="nt:unstructured">
+                <items jcr:primaryType="nt:unstructured">
+                    <eaem
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Experience AEM"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Enable the fields for this step"
+                                sling:resourceType="granite/ui/components/coral/foundation/form"
+                                style="vertical">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <name
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        checked="{Boolean}true"
+                                        name="./showName"
+                                        text="Show Name"
+                                        value="true"/>
+                                    <email
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        checked="{Boolean}true"
+                                        name="./showEmail"
+                                        text="Show Email"
+                                        value="true"/>
+                                    <ssn
+                                        jcr:primaryType="nt:unstructured"
+                                        checked="{Boolean}true"
+                                        name="./showSSN"
+                                        text="Show SSN"
+                                        value="true"/>
+                                    <company
+                                        jcr:primaryType="nt:unstructured"
+                                        checked="{Boolean}true"
+                                        fieldLabel="Company"
+                                        name="./showCompany"
+                                        value="true"/>
+                                </items>
+                            </column>
+                        </items>
+                    </eaem>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
