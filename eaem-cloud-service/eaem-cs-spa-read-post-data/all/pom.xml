@@ -185,6 +185,18 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>apps.experienceaem.sites.spa</groupId>
+            <artifactId>eaem-cs-spa-read-post-data.ui.content</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>apps.experienceaem.sites.spa</groupId>
+            <artifactId>eaem-cs-spa-read-post-data.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
         <!-- SPA Project Core (includes hierarchy page) -->
         <dependency>
             <groupId>com.adobe.aem</groupId>

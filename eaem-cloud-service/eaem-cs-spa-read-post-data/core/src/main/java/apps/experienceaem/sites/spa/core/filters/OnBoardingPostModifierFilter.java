@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component(
         service = Filter.class,
         immediate = true,
-        name = "Experience AEM folder nesting check",
+        name = "Experience AEM convert SPA home requests from POST to GET ",
         property = {
                 Constants.SERVICE_RANKING + ":Integer=-99",
                 "sling.filter.scope=COMPONENT",
@@ -32,6 +32,7 @@ public class OnBoardingPostModifierFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
+        SlingHttpServletResponse slingResponse = (SlingHttpServletResponse) response;
 
         try {
             if(!slingRequest.getMethod().equals("POST")){
@@ -39,11 +40,13 @@ public class OnBoardingPostModifierFilter implements Filter {
                 return;
             }
 
+            slingResponse.setHeader("Dispatcher", "no-cache");
+
             RequestDispatcher dp = request.getRequestDispatcher(slingRequest.getRequestPathInfo().getResourcePath() + ".html");
 
             dp.include(new GetSlingServletRequestWrapper(slingRequest), response);
         } catch (Exception e) {
-            log.error("Error converting POST to get of SPA home : " + slingRequest.getRequestURI());
+            log.error("Error converting POST to GET of SPA home : " + slingRequest.getRequestURI());
         }
     }
 
