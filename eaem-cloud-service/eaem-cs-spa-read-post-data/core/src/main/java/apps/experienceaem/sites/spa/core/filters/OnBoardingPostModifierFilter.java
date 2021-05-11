@@ -1,4 +1,4 @@
-package experienceaem.sites.spa.core.filters;
+package apps.experienceaem.sites.spa.core.filters;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;

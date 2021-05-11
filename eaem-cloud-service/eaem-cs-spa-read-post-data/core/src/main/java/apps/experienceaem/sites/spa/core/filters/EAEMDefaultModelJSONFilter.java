@@ -1,4 +1,4 @@
-package experienceaem.sites.spa.core.filters;
+package apps.experienceaem.sites.spa.core.filters;
 
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;

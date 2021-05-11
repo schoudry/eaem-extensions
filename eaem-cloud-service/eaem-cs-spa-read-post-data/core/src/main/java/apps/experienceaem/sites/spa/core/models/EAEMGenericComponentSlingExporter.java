@@ -1,4 +1,4 @@
-package experienceaem.sites.spa.core.models;
+package apps.experienceaem.sites.spa.core.models;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
