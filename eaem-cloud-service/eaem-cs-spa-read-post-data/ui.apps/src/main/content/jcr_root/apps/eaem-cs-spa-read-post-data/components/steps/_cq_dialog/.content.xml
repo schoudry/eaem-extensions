@@ -14,8 +14,7 @@
                             <column
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Enable the fields for this step"
-                                sling:resourceType="granite/ui/components/coral/foundation/form"
-                                style="vertical">
+                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                 <items jcr:primaryType="nt:unstructured">
                                     <name
                                         jcr:primaryType="nt:unstructured"
@@ -41,6 +40,20 @@
                                         name="./showCompany"
                                         text="Show Company"
                                         value="true"/>
+                                    <previousLink
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            fieldDescription="Select the Previous step"
+                                            fieldLabel="Previous step"
+                                            name="./previousLink"
+                                            rootPath="/content/eaem-cs-spa-read-post-data/us/en"/>
+                                    <nextLink
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                            fieldDescription="Select the Next step"
+                                            fieldLabel="Next step"
+                                            name="./nextLink"
+                                            rootPath="/content/eaem-cs-spa-read-post-data/us/en"/>
                                 </items>
                             </column>
                         </items>

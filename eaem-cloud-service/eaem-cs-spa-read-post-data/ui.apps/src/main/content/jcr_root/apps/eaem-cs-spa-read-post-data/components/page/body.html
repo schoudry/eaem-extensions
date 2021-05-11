@@ -1,2 +1,6 @@
 <noscript>You need to enable JavaScript to run this app.</noscript>
+<script data-sly-use.model="apps.experienceaem.sites.spa.core.models.PostParamsModel" data-sly-test="${model.eaemInitialData}">
+    window.eaemInitialData = ${model.eaemInitialData @ context='unsafe'};
+</script>
 <div id="spa-root"></div>
+
