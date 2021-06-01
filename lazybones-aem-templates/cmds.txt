@@ -100,6 +100,26 @@ import org.json.JSONObject;
 )
 String[] metadataFields() default { DEFAULT_FOR_APPEND };
 
+------------------------------
+
+Internal AEM request with out http request and response available
+
+    @Reference
+    private SlingRequestProcessor slingRequestProcessor;
+
+    @Reference
+    private RequestResponseFactory requestResponseFactory;
+	
+	String requestURI = "/content/experience-fragments/barclays-ad-server/us/en/site/ad-1/master.model.json";
+	
+	requestResponseFactory.createRequest(requestUri);
+	
+	BufferedServletResponse response = this.requestResponseFactory.createResponse();
+	
+	slingRequestProcessor.processRequest(request, response, this.resourceResolver);
+
+---------------------------------
+
 get jquery anyonymous handler >
 
 	function getTabClickHandler(){
@@ -113,6 +133,8 @@ get jquery anyonymous handler >
 	 $document.off('click', '#SidePanel coral-tab');
 	 
 	 $document.on('click', '#SidePanel coral-tab', function( eve ) { });
+	 
+------------------------------	 
 
 String resourcePath = slingRequest.getRequestPathInfo().getResourcePath();
 
@@ -123,3 +145,4 @@ import org.json.JSONObject;
 
 JSONObject workflows = new JSONObject();
 workflows.put("success", true);
+
