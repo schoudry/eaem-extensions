@@ -146,3 +146,11 @@ import org.json.JSONObject;
 JSONObject workflows = new JSONObject();
 workflows.put("success", true);
 
+---------------------------------------
+
+docker start error: failed to deploy distro docker-desktop the user has not been granted the requested logon type at this computer
+
+services.msc, restarting the service named "Hyper-V Virtual Machine Management" and after, I restarted Docker.
+
+------------------------------------------
+
