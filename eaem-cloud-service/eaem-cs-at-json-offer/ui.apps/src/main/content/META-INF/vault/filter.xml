@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-cs-at-json-offer/clientlibs"/>
+    <filter root="/apps/eaem-cs-at-json-offer/components"/>
+    <filter root="/apps/eaem-cs-at-json-offer/i18n"/>
+</workspaceFilter>
