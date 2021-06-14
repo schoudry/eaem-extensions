@@ -1,0 +1,61 @@
+<!--https://experienceleague.adobe.com/docs/target/using/implement-target/client-side/at-js-implementation/deploy-at-js/implementing-target-without-a-tag-manager.html?lang=en#task_E85D2F64FEB84201A594F2288FABF053-->
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Experience AEM XF Target Offer</title>
+
+    <!--Preconnect and DNS-Prefetch to improve page load time-->
+    <link rel="preconnect" href="//ags959.tt.omtrdc.net?lang=en">
+    <link rel="dns-prefetch" href="//ags959.tt.omtrdc.net?lang=en">
+    <!--/Preconnect and DNS-Prefetch-->
+
+    <!--Data Layer to enable rich data collection and targeting-->
+    <script>
+        var digitalData = {
+            "page": {
+                "pageInfo": {
+                    "pageName": "Home"
+                }
+            }
+        };
+    </script>
+    <!--/Data Layer-->
+
+    <!--jQuery or other helper libraries should be implemented before at.js if you would like to use their methods in Target-->
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <!--/jQuery-->
+
+    <!--Target's JavaScript SDK, at.js-->
+    <script src="./js/at.js"></script>
+    <!--/at.js-->
+</head>
+
+<body>
+    <div style="text-align: center; margin-top: 20px">
+        This pages loads AEM Experience Fragment Offers (authored as JSON and rendered as HTML)
+    </div>
+
+    <div id="container-1" style="text-align: center; margin-top: 30px">
+        Default content before HTML; Loading the XF offer in 3 seconds...
+    </div>
+
+    <script>
+
+        function loadOffer() {
+            adobe.target.getOffer({
+                mbox: 'experience-aem-xf-offer',
+                success: function (offer) {
+                    $('#container1').html(offer[0].content);
+                }, error: function () {
+                    $('#container1').html("Error loading offer");
+                }
+            })
+        }
+
+        //loadOffer();
+    </script>
+</body>
+
+</html>
