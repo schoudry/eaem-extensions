@@ -11,18 +11,6 @@
     <link rel="dns-prefetch" href="//ags959.tt.omtrdc.net?lang=en">
     <!--/Preconnect and DNS-Prefetch-->
 
-    <!--Data Layer to enable rich data collection and targeting-->
-    <script>
-        var digitalData = {
-            "page": {
-                "pageInfo": {
-                    "pageName": "Home"
-                }
-            }
-        };
-    </script>
-    <!--/Data Layer-->
-
     <!--jQuery or other helper libraries should be implemented before at.js if you would like to use their methods in Target-->
     <script src="./js/jquery-3.6.0.min.js"></script>
     <!--/jQuery-->
@@ -37,24 +25,47 @@
         This pages loads AEM Experience Fragment Offers (authored as JSON and rendered as HTML)
     </div>
 
-    <div id="container-1" style="text-align: center; margin-top: 30px">
-        Default content before HTML; Loading the XF offer in 3 seconds...
+    <div id="aem-offer" style="text-align: center; margin-top: 30px">
+        Default content before HTML; Loading the XF offer...
     </div>
 
     <script>
 
         function loadOffer() {
-            adobe.target.getOffer({
-                mbox: 'experience-aem-xf-offer',
-                success: function (offer) {
-                    $('#container1').html(offer[0].content);
-                }, error: function () {
-                    $('#container1').html("Error loading offer");
-                }
-            })
+            var $aemOffer = $("#aem-offer");
+
+            $.ajax("http://localhost:4503/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/test/master.html").done(function(html){
+                $aemOffer.html(html);
+            }).fail(function () {
+                $aemOffer.html("Error loading offer");
+            });
+
+
+            /*
+                        adobe.target.getOffer({
+                            mbox: 'eaem-test-1',
+                            success: function (offer) {
+                                var offerJSON = JSON.parse(offer[0].content);
+
+                                if(!offerJSON.xfHtmlPath){
+                                    $aemOffer.html("Error loading offer");
+                                    return;
+                                }
+
+                                $.ajax("https://publish-p10961-e90064.adobeaemcloud.com" + offerJSON.xfHtmlPath).done(function(html){
+                                    $aemOffer.html(html);
+                                });
+
+                            }, error: function () {
+                                $aemOffer.html("Error loading offer");
+                            }
+                        })
+            */
         }
 
-        //loadOffer();
+        loadOffer();
+
+        //setTimeout(loadOffer, 3000);
     </script>
 </body>
 

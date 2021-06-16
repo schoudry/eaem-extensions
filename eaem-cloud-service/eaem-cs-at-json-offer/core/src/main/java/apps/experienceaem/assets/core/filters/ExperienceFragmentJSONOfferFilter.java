@@ -1,6 +1,8 @@
 package apps.experienceaem.assets.core.filters;
 
+import com.day.cq.commons.Externalizer;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.json.JSONObject;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
@@ -42,7 +44,10 @@ public class ExperienceFragmentJSONOfferFilter implements Filter {
 
             masterXFPath = masterXFPath + ".html";
 
-            model.put("xfHtmlPath", masterXFPath);
+            ResourceResolver resolver = slingRequest.getResourceResolver();
+            Externalizer externalizer = resolver.adaptTo(Externalizer.class);
+
+            model.put("xfHtmlPath", externalizer.publishLink(resolver, masterXFPath));
 
             response.getWriter().print(model);
         } catch (Exception e) {

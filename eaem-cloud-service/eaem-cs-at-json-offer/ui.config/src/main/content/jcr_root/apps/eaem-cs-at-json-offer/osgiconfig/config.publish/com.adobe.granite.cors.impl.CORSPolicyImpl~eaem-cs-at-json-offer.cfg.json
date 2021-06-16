@@ -1,0 +1,30 @@
+{
+  "supportscredentials": false,
+  "exposedheaders": [
+    "*"
+  ],
+  "supportedmethods": [
+    "GET",
+    "HEAD",
+    "POST"
+  ],
+  "alloworigin": [
+    ""
+  ],
+  "maxage:Integer": 1800,
+  "alloworiginregexp": [
+    ".*"
+  ],
+  "allowedpaths": [
+    ".*"
+  ],
+  "supportedheaders": [
+    "Origin",
+    "Accept",
+    "X-Requested-With",
+    "Content-Type",
+    "Access-Control-Request-Method",
+    "Access-Control-Request-Headers",
+    "Authorization"
+  ]
+}
