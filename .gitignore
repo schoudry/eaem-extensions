@@ -21,3 +21,4 @@ dist
 **/node_modules
 **/node
 **/build
+eaem-cloud-service/dispatcher

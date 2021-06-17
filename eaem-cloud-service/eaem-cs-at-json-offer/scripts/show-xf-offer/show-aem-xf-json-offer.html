@@ -21,52 +21,91 @@
 </head>
 
 <body>
-    <div style="text-align: center; margin-top: 20px">
-        This pages loads AEM Experience Fragment Offers (authored as JSON and rendered as HTML)
-    </div>
+<div style="text-align: center; margin-top: 20px">
+    This pages loads AEM Experience Fragment Offers (authored as JSON and rendered as HTML)
+</div>
 
-    <div id="aem-offer" style="text-align: center; margin-top: 30px">
-        Default content before HTML; Loading the XF offer...
-    </div>
+<div id="aem-offer" style="text-align: center; margin-top: 30px">
+    Default content before HTML; Loading the XF offer...
+</div>
 
-    <script>
+<script>
+    function loadXF() {
+        var $aemOffer = $("#aem-offer");
 
-        function loadOffer() {
-            var $aemOffer = $("#aem-offer");
+        /*$.ajax("https://publish-p10961-e90064.adobeaemcloud.com/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/eaem-cs-one/master.html").done(function (html) {
+            $aemOffer.html(html);
+        }).fail(function () {
+            $aemOffer.html("Error loading Publish CS offer");
+        });*/
 
-            $.ajax("http://localhost:4503/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/test/master.html").done(function(html){
-                $aemOffer.html(html);
-            }).fail(function () {
-                $aemOffer.html("Error loading offer");
-            });
+         /*$.ajax({
+            url: "https://author-p10961-e90064.adobeaemcloud.com/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/eaem-cs-one/master.html",
+            headers: {
+                "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsIng1dSI6Imltc19uYTEta2V5LTEuY2VyIn0.eyJpZCI6IjE2MjM5NTYxNTM5MjBfY2JiNWZiZmMtZjY5Yi00ZGJjLTk4YTctMmE1ZDRjZGNjMGQ2X3VlMSIsInR5cGUiOiJhY2Nlc3NfdG9rZW4iLCJjbGllbnRfaWQiOiJkZXYtY29uc29sZS1wcm9kIiwidXNlcl9pZCI6IjA3OEMzRTkwNTI0QzlBNUUwQTQ5MEQ0NUBBZG9iZUlEIiwic3RhdGUiOiJ3SGd4RXdkNFpESXV3YlUyeENGelU4cG8iLCJhcyI6Imltcy1uYTEiLCJhYV9pZCI6IjA3OEMzRTkwNTI0QzlBNUUwQTQ5MEQ0NUBBZG9iZUlEIiwiZmciOiJWUTZTNkRHTVhMRzdOWFVLRE1aQkRYUUE0ND09PT09PSIsInNpZCI6IjE2MjMwODA0ODE1MTBfNGRlOTJjOTYtN2MyMi00NWZlLTgzNjMtMjhkNzk0ODM3MzhjX3VlMSIsInJ0aWQiOiIxNjIzOTU2MTUzOTIwXzU1MjhjNTdhLTliYzAtNDQwNy1iZmE0LWMyYjQwNDc1MDBjYl91ZTEiLCJtb2kiOiI0MzFlOTI0MyIsInJ0ZWEiOiIxNjI1MTY1NzUzOTIwIiwib2MiOiJyZW5nYSpuYTFyKjE3YTFiNTQ2M2IzKkg0Q0pDSFZCVFM3UjU5M1AzTTJQOU1UMjJSIiwiZXhwaXJlc19pbiI6Ijg2NDAwMDAwIiwiY3JlYXRlZF9hdCI6IjE2MjM5NTYxNTM5MjAiLCJzY29wZSI6IkFkb2JlSUQsb3BlbmlkLHJlYWRfb3JnYW5pemF0aW9ucyxhZGRpdGlvbmFsX2luZm8ucHJvamVjdGVkUHJvZHVjdENvbnRleHQifQ.klqPeCIhkO_FuhL14gNc5qGfySrv14S_hKAZjAKCPrkkV5unvmk4dKoWpJHEodfkYq3pWHEgO_92H6MdHB6AnOHigtngZAwLpSV3fMFsSsCw0mcVmolhDM-2KHo5PfCtqNO-Ky5NGQzCusPsW25crrpATB8UbOudQst9gFl9UYrGBEoLNIEtdvXtEXeRCsL8nnqgMkgOJ35sFQlqGKUiiFzuSR3vAXWSAkqEVuDuYXGKBOubxCUL0eT6lFPeD_oC9o3mzcMFvd-ko8hHbHTMEBpOHrbDNvKLWZXbWarU2i17Mo-vNlrUM0v9Rs_hYG8ziWYSAjS37cstAvRhtVhR9g"
+            }
+        }).done(function (html) {
+            $aemOffer.html(html);
+        }).fail(function () {
+            $aemOffer.html("Error loading Author CS offer");
+        });*/
+
+         /*$.ajax({
+            url: "http://localhost:4502/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/test/master.html?wcmmode=disabled",
+            headers: {
+                "Authorization": "Basic " + btoa("admin:admin")
+            }
+        }).done(function (html) {
+            $aemOffer.html(html);
+        }).fail(function () {
+            $aemOffer.html("Error loading Local Author offer");
+        });*/
+
+        /*$.ajax({
+            url: "http://localhost:4503/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/test/master.html"
+        }).done(function (html) {
+            $aemOffer.html($(html).find(".cmp-container")[0].outerHTML);
+        }).fail(function () {
+            $aemOffer.html("Error loading Local Publish offer");
+        });*/
 
 
-            /*
-                        adobe.target.getOffer({
-                            mbox: 'eaem-test-1',
-                            success: function (offer) {
-                                var offerJSON = JSON.parse(offer[0].content);
+        $.ajax({
+            url: "http://localhost:8080/content/experience-fragments/eaem-cs-at-json-offer/us/en/site/test/master.html"
+        }).done(function (html) {
+            $aemOffer.html($(html).find(".cmp-container")[0].outerHTML);
+        }).fail(function () {
+            $aemOffer.html("Error loading Local Publish offer");
+        });
+    }
 
-                                if(!offerJSON.xfHtmlPath){
-                                    $aemOffer.html("Error loading offer");
-                                    return;
-                                }
+    loadXF();
 
-                                $.ajax("https://publish-p10961-e90064.adobeaemcloud.com" + offerJSON.xfHtmlPath).done(function(html){
-                                    $aemOffer.html(html);
-                                });
+    /*function loadOffer() {
+     var $aemOffer = $("#aem-offer");
 
-                            }, error: function () {
-                                $aemOffer.html("Error loading offer");
-                            }
-                        })
-            */
-        }
+     adobe.target.getOffer({
+     mbox: 'eaem-test-1',
+     success: function (offer) {
+     var offerJSON = JSON.parse(offer[0].content);
 
-        loadOffer();
+     if(!offerJSON.xfHtmlPath){
+     $aemOffer.html("Error loading offer");
+     return;
+     }
 
-        //setTimeout(loadOffer, 3000);
-    </script>
+     $.ajax(offerJSON.xfHtmlPath).done(function(html){
+     $aemOffer.html(html);
+     });
+
+     }, error: function () {
+     $aemOffer.html("Target Error loading offer");
+     }
+     })
+     }
+
+     setTimeout(loadOffer, 3000);*/
+</script>
 </body>
 
 </html>
