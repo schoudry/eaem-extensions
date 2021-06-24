@@ -3,13 +3,13 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/libs/settings/wcm/designs/default"
-        cq:lastModified="{Date}2021-06-24T07:06:03.883-05:00"
+        cq:lastModified="{Date}2021-06-24T07:51:21.645-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:primaryType="cq:PageContent"
         jcr:title="Experience AEM - Asset Create - Post Process"
         sling:resourceType="cq/workflow/components/pages/model"
-        lastSynced="{Date}2021-06-24T07:06:14.190-05:00">
+        lastSynced="{Date}2021-06-24T07:51:23.410-05:00">
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
@@ -29,6 +29,19 @@
                     PROCESS="com.day.cq.dam.similaritysearch.internal.workflow.process.AutoTagAssetProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </autotagassetprocess_>
+            <process
+                jcr:created="{Date}2021-06-24T07:51:00.864-05:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2021-06-24T07:51:21.635-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Experience AEM - Convert Rend to Asset"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="apps.experienceaem.assets.core.workfows.ConvertRenditionToAssetProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
             <damupdateassetworkfl
                 jcr:description="This process will send the DamEvent.Type.DAM_UPDATE_ASSET_WORKFLOW_COMPLETED event and mark the asset as Processed."
                 jcr:primaryType="nt:unstructured"

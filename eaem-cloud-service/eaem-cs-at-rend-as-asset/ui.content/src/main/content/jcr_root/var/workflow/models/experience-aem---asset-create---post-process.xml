@@ -8,10 +8,10 @@
     title="Experience AEM - Asset Create - Post Process">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/experience-aem---asset-create---post-process/jcr:content"
-        cq:lastModified="{Long}1624536374256"
+        cq:lastModified="{Long}1624539083422"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
-        lastSynced="{Date}2021-06-24T07:06:14.190-05:00"/>
+        lastSynced="{Date}2021-06-24T07:51:23.410-05:00"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
@@ -33,6 +33,15 @@
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"
+            title="Experience AEM - Convert Rend to Asset"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="apps.experienceaem.assets.core.workfows.ConvertRenditionToAssetProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
             description="This process will send the DamEvent.Type.DAM_UPDATE_ASSET_WORKFLOW_COMPLETED event and mark the asset as Processed."
             title="Workflow Completed"
             type="PROCESS">
@@ -40,13 +49,13 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.impl.process.DamUpdateAssetWorkflowCompletedProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node2>
-        <node3
+        </node3>
+        <node4
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node3>
+        </node4>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -66,8 +75,15 @@
         <node2_x0023_node3
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
+            rule=""
             to="node3">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_x0023_node3>
+        <node3_x0023_node4
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node3"
+            to="node4">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3_x0023_node4>
     </transitions>
 </jcr:root>
