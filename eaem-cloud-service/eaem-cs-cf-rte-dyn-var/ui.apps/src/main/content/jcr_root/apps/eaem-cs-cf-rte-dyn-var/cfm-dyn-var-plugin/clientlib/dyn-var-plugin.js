@@ -1,10 +1,10 @@
 (function ($, $document) {
-    var EAEM_PLUGIN_ID = "eaemfont",
-        EAEM_TEXT_FONT_FEATURE = "eaemTextFont",
-        EAEM_TEXT_FONT_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_FONT_FEATURE,
+    var EAEM_PLUGIN_ID = "eaem-dyn-var",
+        EAEM_TEXT_DYN_VAR_FEATURE = "eaemDynVar",
+        EAEM_DYN_VAR_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_DYN_VAR_FEATURE,
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         DYN_VAR_SELECTOR_URL = "/apps/eaem-cs-cf-rte-dyn-var/cfm-dyn-var-plugin/dyn-var-selector.html",
-        SENDER = "experience-aem", REQUESTER = "requester", $eaemFontPicker,
+        SENDER = "experience-aem", REQUESTER = "requester", $eaemDynVarPicker,
         url = document.location.pathname;
 
     if( url.indexOf("/editor.html") == 0 ){
@@ -78,10 +78,10 @@
         action = message.action;
 
         if(action === "submit"){
-            $eaemFontPicker.eaemFontPlugin.editorKernel.execCmd(EAEM_TEXT_FONT_FEATURE, message.data);
+            $eaemDynVarPicker.eaemFontPlugin.editorKernel.execCmd(EAEM_TEXT_DYN_VAR_FEATURE, message.data);
         }
 
-        var modal = $eaemFontPicker.data('modal');
+        var modal = $eaemDynVarPicker.data('modal');
         modal.hide();
         modal.$element.remove();
     }
@@ -90,32 +90,32 @@
         var origFn = Dam.CFM.StyledTextEditor.prototype._start;
 
         Dam.CFM.StyledTextEditor.prototype._start = function(){
-            addTextFontPluginSettings(this);
+            addDynVarPluginSettings(this);
             origFn.call(this);
         }
     }
 
-    function addTextFontPluginSettings(editor){
+    function addDynVarPluginSettings(editor){
         var config = editor.$editable.data("config");
 
         config.rtePlugins[EAEM_PLUGIN_ID] = {
             features: "*"
         };
 
-        config.uiSettings.cui.multieditorFullscreen.toolbar.push(EAEM_TEXT_FONT_ICON);
-        config.uiSettings.cui.inline.toolbar.push(EAEM_TEXT_FONT_ICON);
+        config.uiSettings.cui.multieditorFullscreen.toolbar.push(EAEM_DYN_VAR_ICON);
+        config.uiSettings.cui.inline.toolbar.push(EAEM_DYN_VAR_ICON);
     }
 
     function registerPlugin(){
-        var EAEM_CFM_TEXT_FONT_PLUGIN = new Class({
-            toString: "eaemCFMTextFontPlugin",
+        var EAEM_CFM_DYN_VAR_PLUGIN = new Class({
+            toString: "eaemCFMDynVarPlugin",
 
             extend: CUI.rte.plugins.Plugin,
 
             textFontUI:  null,
 
             getFeatures: function () {
-                return [ EAEM_TEXT_FONT_FEATURE ];
+                return [ EAEM_TEXT_DYN_VAR_FEATURE ];
             },
 
             notifyPluginConfig: function (pluginConfig) {
@@ -123,7 +123,7 @@
                     tooltips: {}
                 };
 
-                defaults.tooltips[EAEM_TEXT_FONT_FEATURE] = {
+                defaults.tooltips[EAEM_TEXT_DYN_VAR_FEATURE] = {
                     title: "Select Dynamic Variable..."
                 };
 
@@ -133,17 +133,17 @@
             },
 
             initializeUI: function (tbGenerator) {
-                if (!this.isFeatureEnabled(EAEM_TEXT_FONT_FEATURE)) {
+                if (!this.isFeatureEnabled(EAEM_TEXT_DYN_VAR_FEATURE)) {
                     return;
                 }
 
-                this.textFontUI = new tbGenerator.createElement(EAEM_TEXT_FONT_FEATURE, this, false,
-                                        this.config.tooltips[EAEM_TEXT_FONT_FEATURE]);
+                this.textFontUI = new tbGenerator.createElement(EAEM_TEXT_DYN_VAR_FEATURE, this, false,
+                                        this.config.tooltips[EAEM_TEXT_DYN_VAR_FEATURE]);
 
-                tbGenerator.addElement(EAEM_TEXT_FONT_FEATURE, 999, this.textFontUI, 999);
+                tbGenerator.addElement(EAEM_TEXT_DYN_VAR_FEATURE, 999, this.textFontUI, 999);
 
                 if (tbGenerator.registerIcon) {
-                    tbGenerator.registerIcon(EAEM_TEXT_FONT_ICON, "brackets");
+                    tbGenerator.registerIcon(EAEM_DYN_VAR_ICON, "brackets");
                 }
 
                 $(window).off('message', closePicker).on('message', closePicker);
@@ -155,37 +155,11 @@
             },
 
             execute: function (pluginCommand, value, envOptions) {
-                if (pluginCommand != EAEM_TEXT_FONT_FEATURE) {
+                if (pluginCommand != EAEM_TEXT_DYN_VAR_FEATURE) {
                     return;
                 }
 
                 this.showFontModal(this.getPickerIFrameUrl());
-            },
-
-            getColorAttributes: function($tag){
-                var key, color = { color: "", bgColor : ""};
-
-                if(!$tag.attr("style")){
-                    return color;
-                }
-
-                //donot use .css("color"), it returns default font color, if color is not set
-                var parts = $tag.attr("style").split(";");
-
-                _.each(parts, function(value){
-                    value = value.split(":");
-
-                    key = value[0] ? value[0].trim() : "";
-                    value = value[1] ? value[1].trim() : "";
-
-                    if(key == "color"){
-                        color.color = rgbToHex(value);
-                    }else if(key == "background-color"){
-                        color.bgColor = rgbToHex(value);
-                    }
-                });
-
-                return color;
             },
 
             showFontModal: function(url){
@@ -200,9 +174,9 @@
                     visible: true
                 });
 
-                $eaemFontPicker = $modal;
+                $eaemDynVarPicker = $modal;
 
-                $eaemFontPicker.eaemFontPlugin = self;
+                $eaemDynVarPicker.eaemFontPlugin = self;
 
                 $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
             },
@@ -212,13 +186,13 @@
             }
         });
 
-        var EAEM_CFM_TEXT_FONT_CMD = new Class({
-            toString: "eaemCFMTextFontCmd",
+        var EAEM_CFM_DYN_VAR_CMD = new Class({
+            toString: "eaemDynVarCmd",
 
             extend: CUI.rte.commands.Command,
 
             isCommand: function (cmdStr) {
-                return (cmdStr.toLowerCase() == EAEM_TEXT_FONT_FEATURE);
+                return (cmdStr.toLowerCase() == EAEM_TEXT_DYN_VAR_FEATURE);
             },
 
             getProcessingOptions: function () {
@@ -237,8 +211,8 @@
             }
         });
 
-        CUI.rte.plugins.PluginRegistry.register(EAEM_PLUGIN_ID, EAEM_CFM_TEXT_FONT_PLUGIN);
+        CUI.rte.plugins.PluginRegistry.register(EAEM_PLUGIN_ID, EAEM_CFM_DYN_VAR_PLUGIN);
 
-        CUI.rte.commands.CommandRegistry.register(EAEM_TEXT_FONT_FEATURE, EAEM_CFM_TEXT_FONT_CMD);
+        CUI.rte.commands.CommandRegistry.register(EAEM_TEXT_DYN_VAR_FEATURE, EAEM_CFM_DYN_VAR_CMD);
     }
 }(jQuery, jQuery(document)));

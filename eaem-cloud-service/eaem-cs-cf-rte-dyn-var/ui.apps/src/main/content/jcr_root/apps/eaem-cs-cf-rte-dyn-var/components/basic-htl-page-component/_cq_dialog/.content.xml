@@ -89,6 +89,7 @@
                                                             fieldLabel="\{{introPurchaseAprRate}}"/>
                                                 </items>
                                             </introAprs>
+                                        </items>
                                     </accordion>
                                 </items>
                             </column>

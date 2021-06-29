@@ -99,6 +99,7 @@
                                                             name="./cashAprRates"
                                                             text="\{{cashAprRates}}"
                                                             value="\{{cashAprRates}}"/>
+                                                    </items>
                                                 </gotoAprs>
                                                 <introAprs
                                                     jcr:primaryType="nt:unstructured"
@@ -119,6 +120,7 @@
                                                             value="\{{introPurchaseAprRate}}"/>
                                                     </items>
                                                 </introAprs>
+                                            </items>
                                         </accordion>
                                     </items>
                                     <parentConfig jcr:primaryType="nt:unstructured">
