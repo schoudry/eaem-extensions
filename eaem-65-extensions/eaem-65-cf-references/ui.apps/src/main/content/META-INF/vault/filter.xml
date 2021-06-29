@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-65-cf-references/clientlibs"/>
+    <filter root="/apps/eaem-65-cf-references/components"/>
+    <filter root="/apps/eaem-65-cf-references/templates"/>
+</workspaceFilter>

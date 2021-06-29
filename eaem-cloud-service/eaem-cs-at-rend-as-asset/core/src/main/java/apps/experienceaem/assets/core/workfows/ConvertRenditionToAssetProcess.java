@@ -123,6 +123,8 @@ public class ConvertRenditionToAssetProcess implements WorkflowProcess {
     }
 
     private void processNewAsset(ResourceResolver resolver, String assetPath){
+        log.info("Starting Reprocess of Asset : " + assetPath);
+
         Map<String, Object> requestParams = new HashMap<String, Object>();
         requestParams.put("operation", PROCESS_ASSET_OPERATION);
         requestParams.put("profile-select", PROCESS_ASSET_PROFILE);
