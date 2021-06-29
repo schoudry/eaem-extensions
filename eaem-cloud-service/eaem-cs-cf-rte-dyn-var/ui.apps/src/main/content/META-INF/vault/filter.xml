@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-cs-cf-rte-dyn-var/cfm-dyn-var-plugin"/>
+    <filter root="/apps/eaem-cs-cf-rte-dyn-var/components"/>
+    <filter root="/apps/eaem-cs-cf-rte-dyn-var/templates"/>
+</workspaceFilter>

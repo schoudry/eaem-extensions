@@ -29,7 +29,12 @@
             var $secondColumn = $("[data-metatype=tags]").closest(".aem-assets-metadata-form-column");
 
             if($secondColumn.length === 0){
-                return;
+
+                $secondColumn = $("[name='./jcr:content/metadata/cq:tags']").closest(".aem-assets-metadata-form-column");
+
+                if($secondColumn.length === 0){
+                    return;
+                }
             }
 
             addReferencesHtml($secondColumn, html);
