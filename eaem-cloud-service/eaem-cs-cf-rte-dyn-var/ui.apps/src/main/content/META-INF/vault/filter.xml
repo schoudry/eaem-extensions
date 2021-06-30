@@ -3,4 +3,5 @@
     <filter root="/apps/eaem-cs-cf-rte-dyn-var/cfm-dyn-var-plugin"/>
     <filter root="/apps/eaem-cs-cf-rte-dyn-var/components"/>
     <filter root="/apps/eaem-cs-cf-rte-dyn-var/templates"/>
+    <filter root="/apps/settings/wcm/designs/experience-aem"/>
 </workspaceFilter>

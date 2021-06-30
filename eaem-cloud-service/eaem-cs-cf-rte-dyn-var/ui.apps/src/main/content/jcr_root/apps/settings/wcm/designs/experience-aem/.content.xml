@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2017-07-20T15:17:11.670+01:00"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Experience AEM Design"
+        sling:resourceType="wcm/core/components/designer">
+        <basic-htl-page-component jcr:primaryType="nt:unstructured">
+            <content
+                jcr:lastModified="{Date}2021-06-30T16:00:11.535-05:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/parsys"
+                components="[/apps/eaem-cs-cf-rte-dyn-var/components/dyn-vars-cf,/libs/wcm/foundation/components/text]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </content>
+        </basic-htl-page-component>
+    </jcr:content>
+</jcr:root>
