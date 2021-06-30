@@ -2,6 +2,6 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     cq:styleElements="[div,section,article,main,aside,header,footer]"
     jcr:primaryType="cq:Component"
-    jcr:title="Terms Conditions Content Fragment"
+    jcr:title="Dynamic Variables Content Fragment"
     sling:resourceSuperType="core/wcm/components/contentfragment/v1/contentfragment"
-    componentGroup="Barlcays Ad Server Integration - Content"/>
+    componentGroup="Experience AEM - Content"/>
