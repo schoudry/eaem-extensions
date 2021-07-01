@@ -7,7 +7,8 @@
         SENDER = "experience-aem", REQUESTER = "requester", $eaemDynVarPicker,
         url = document.location.pathname;
 
-    if( url.indexOf("/editor.html") == 0 ){
+    if( (url.indexOf("/editor.html") == 0)
+            || ( url.indexOf("/mnt/overlay/dam/cfm/admin/content/v2/fragment-editor.html") == 0) ){
         extendStyledTextEditor();
         registerPlugin();
     }else if(url.indexOf(DYN_VAR_SELECTOR_URL) == 0){
