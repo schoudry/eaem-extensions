@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+    margin="{Boolean}true">
+    <items jcr:primaryType="nt:unstructured">
+        <column1
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/container">
+            <items jcr:primaryType="nt:unstructured">
+                <field1
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Title and Description"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                    <items jcr:primaryType="nt:unstructured">
+                        <name
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                            fieldLabel="Title"
+                            name="jobTitle"
+                            required="{Boolean}true"/>
+                        <description
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                            fieldLabel="Description"
+                            name="jobDescription"
+                            rows="4"/>
+                    </items>
+                </field1>
+                <field2
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Folder Path"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                    <items jcr:primaryType="nt:unstructured">
+                        <pathbrowser
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                            emptyText="/content/dam"
+                            fieldLabel="Select Folder Path"
+                            filter="folder"
+                            name="path"
+                            predicate="folder"
+                            rootPath="/content/dam"/>
+                    </items>
+                </field2>
+            </items>
+        </column1>
+    </items>
+</jcr:root>

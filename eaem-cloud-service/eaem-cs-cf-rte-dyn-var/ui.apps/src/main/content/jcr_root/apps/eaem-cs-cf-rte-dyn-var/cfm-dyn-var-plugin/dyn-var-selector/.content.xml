@@ -68,58 +68,8 @@
                                                             name="./cashAdvanceMinFee"
                                                             text="\{{cashAdvanceMinFee}}"
                                                             value="\{{cashAdvanceMinFee}}"/>
-                                                        <foreignTransactionFee
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./foreignTransactionFee"
-                                                            text="\{{foreignTransactionFee}}"
-                                                            value="\{{foreignTransactionFee}}"/>
                                                     </items>
                                                 </fees>
-                                                <gotoAprs
-                                                    jcr:primaryType="nt:unstructured"
-                                                    jcr:title="APRs"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                    <items jcr:primaryType="nt:unstructured">
-                                                        <balanceTransferAprRates
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./balanceTransferAprRates"
-                                                            text="\{{balanceTransferAprRates}}"
-                                                            value="\{{balanceTransferAprRates}}"/>
-                                                        <purchaseAprRates
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./purchaseAprRates"
-                                                            text="\{{purchaseAprRates}}"
-                                                            value="\{{purchaseAprRates}}"/>
-                                                        <cashAprRates
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./cashAprRates"
-                                                            text="\{{cashAprRates}}"
-                                                            value="\{{cashAprRates}}"/>
-                                                    </items>
-                                                </gotoAprs>
-                                                <introAprs
-                                                    jcr:primaryType="nt:unstructured"
-                                                    jcr:title="Introductory APRs"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                    <items jcr:primaryType="nt:unstructured">
-                                                        <introBalanceTransferAprRate
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./introBalanceTransferAprRate"
-                                                            text="\{{introBalanceTransferAprRate}}"
-                                                            value="\{{introBalanceTransferAprRate}}"/>
-                                                        <introPurchaseAprRate
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./introPurchaseAprRate"
-                                                            text="\{{introPurchaseAprRate}}"
-                                                            value="\{{introPurchaseAprRate}}"/>
-                                                    </items>
-                                                </introAprs>
                                             </items>
                                         </accordion>
                                     </items>

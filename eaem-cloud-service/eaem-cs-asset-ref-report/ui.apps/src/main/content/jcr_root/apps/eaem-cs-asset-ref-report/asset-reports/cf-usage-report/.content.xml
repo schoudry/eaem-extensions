@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="nt:unstructured"
+          description="Experience AEM Custom Reports Content Fragments Usage in Site Pages"
+          icon="data"
+          type="cf-usage-report"
+          title="Experience AEM Content Fragments Report"
+          wizard="/apps/eaem-cs-asset-ref-report/asset-reports/cf-usage-report-wizard.html"/>

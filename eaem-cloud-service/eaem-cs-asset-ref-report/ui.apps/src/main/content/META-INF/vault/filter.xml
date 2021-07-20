@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-cs-asset-ref-report/clientlibs"/>
+    <filter root="/apps/eaem-cs-asset-ref-report/components"/>
+    <filter root="/apps/eaem-cs-asset-ref-report/templates"/>
+    <filter root="/apps/eaem-cs-asset-ref-report/asset-reports"/>
+</workspaceFilter>
