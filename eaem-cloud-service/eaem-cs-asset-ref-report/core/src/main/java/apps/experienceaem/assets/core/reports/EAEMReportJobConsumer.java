@@ -5,9 +5,9 @@ import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
-import com.day.cq.wcm.commons.ReferenceSearch;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.event.jobs.Job;
@@ -46,13 +46,19 @@ public class EAEMReportJobConsumer implements JobConsumer {
         File tempFile = null;
 
         try {
-            resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+            resourceResolver = getServiceResourceResolver(resolverFactory);
             Session session = resourceResolver.adaptTo(Session.class);
 
-            String folderPath = job.getProperty("path", String.class);
+            String cfRootPath = job.getProperty("cfRootPath", String.class);
 
-            if(StringUtils.isEmpty(folderPath)){
-                folderPath = "/content/dam";
+            if(StringUtils.isEmpty(cfRootPath)){
+                cfRootPath = "/content/dam";
+            }
+
+            String pageRootPath = job.getProperty("pageRootPath", String.class);
+
+            if(StringUtils.isEmpty(pageRootPath)){
+                pageRootPath = "/content";
             }
 
             String csvCreationPath = job.getProperty("jobNodePath", String.class);
@@ -70,8 +76,8 @@ public class EAEMReportJobConsumer implements JobConsumer {
             FileOutputStream e = new FileOutputStream(tempFile.getPath());
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(e, "UTF-8"));
 
-            List csvHeaders = writeColumnsHeaderToCSV(writer, columns, folderPath);
-            writeContentToCSV(writer, resourceResolver, folderPath);
+            List csvHeaders = writeColumnsHeaderToCSV(writer, columns);
+            writeContentToCSV(writer, resourceResolver, cfRootPath,pageRootPath);
 
             writer.close();
 
@@ -100,7 +106,19 @@ public class EAEMReportJobConsumer implements JobConsumer {
         return JobResult.OK;
     }
 
-    public List<String> writeColumnsHeaderToCSV(PrintWriter writer, List<String> columns, String folderPath) throws IOException {
+    public ResourceResolver getServiceResourceResolver(ResourceResolverFactory resourceResolverFactory) {
+        Map<String, Object> subServiceUser = new HashMap<>();
+        subServiceUser.put(ResourceResolverFactory.SUBSERVICE, "eaem-user-report-admin");
+        try {
+            return resourceResolverFactory.getServiceResourceResolver(subServiceUser);
+        } catch (LoginException ex) {
+            logger.error("Could not login as SubService user {}", "eaem-user-report-admin", ex);
+            return null;
+        }
+    }
+
+
+    public List<String> writeColumnsHeaderToCSV(PrintWriter writer, List<String> columns) throws IOException {
         List<String> csvColumns = new ArrayList<String>();
 
         columns.stream().forEach((c) -> {
@@ -124,13 +142,24 @@ public class EAEMReportJobConsumer implements JobConsumer {
         return map;
     }
 
+    private static Map<String, String> getFindReferencesPredicateMap(String folderPath, String cfPath) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("path", folderPath);
+        map.put("fulltext", cfPath);
+        map.put("orderby", "@jcr:score");
+        map.put("p.limit", "-1");
+
+        return map;
+    }
+
     private void setLastModified(Node resNode) throws RepositoryException {
         Calendar lastModified = Calendar.getInstance();
         lastModified.setTimeInMillis(lastModified.getTimeInMillis());
         resNode.setProperty("jcr:lastModified", lastModified);
     }
 
-    public void writeContentToCSV(PrintWriter writer, ResourceResolver resolver, String folderPath) throws Exception {
+    public void writeContentToCSV(PrintWriter writer, ResourceResolver resolver, String folderPath, String pageRootPath) throws Exception {
         Query query = builder.createQuery(PredicateGroup.create(getFindCFsQueryPredicateMap(folderPath)), resolver.adaptTo(Session.class));
 
         SearchResult result = query.getResult();
@@ -139,16 +168,12 @@ public class EAEMReportJobConsumer implements JobConsumer {
         for (Hit hit : result.getHits()) {
             cfPath = hit.getPath();
 
-            ReferenceSearch referenceSearch = new ReferenceSearch();
-            referenceSearch.setExact(true);
-            referenceSearch.setHollow(true);
-            referenceSearch.setMaxReferencesPerPage(-1);
+            Query cfQuery = builder.createQuery(PredicateGroup.create(getFindReferencesPredicateMap(pageRootPath, cfPath)), resolver.adaptTo(Session.class));
+            SearchResult cfResults = cfQuery.getResult();
 
-            Collection<ReferenceSearch.Info> resultSet = referenceSearch.search(resolver, cfPath).values();
-
-            for (ReferenceSearch.Info info: resultSet) {
+            for (Hit cfHit : cfResults.getHits()) {
                 writer.append("\"").append(hit.getTitle()).append("\"").append(",").append("\"")
-                        .append(hit.getPath()).append("\"").append(",").append("\"").append(info.getPagePath()).append("\",");
+                        .append(hit.getPath()).append("\"").append(",").append("\"").append(cfHit.getPath()).append("\",");
                 writer.append("\r\n");
             }
         }

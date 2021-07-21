@@ -44,7 +44,8 @@ public class EAEMReportGeneration extends SlingAllMethodsServlet {
             String jobNodeName = UUID.randomUUID().toString();
 
             HashMap<String, Object> jobProps = new HashMap<String, Object>();
-            jobProps.put("path", request.getParameter("path"));
+            jobProps.put("cfRootPath", request.getParameter("cfRootPath"));
+            jobProps.put("pageRootPath", request.getParameter("pageRootPath"));
             jobProps.put("jobNodePath", "/var/dam/reports/" + jobNodeName);
 
             List<String> columns = new ArrayList<String>();
@@ -90,7 +91,8 @@ public class EAEMReportGeneration extends SlingAllMethodsServlet {
 
         jobNode = baseNode.addNode(jobNodeName.replaceAll("/", "-"), "nt:unstructured");
         jobNode.setProperty("reportType", request.getParameter("dam-asset-report-type"));
-        jobNode.setProperty("path", request.getParameter("path"));
+        jobNode.setProperty("cfRootPath", request.getParameter("cfRootPath"));
+        jobNode.setProperty("pageRootPath", request.getParameter("pageRootPath"));
         jobNode.setProperty("jobTitle", request.getParameter("jobTitle"));
         jobNode.setProperty("jobDescription", request.getParameter("jobDescription"));
         jobNode.setProperty("reportColumns", columns.toArray(new String[0]));

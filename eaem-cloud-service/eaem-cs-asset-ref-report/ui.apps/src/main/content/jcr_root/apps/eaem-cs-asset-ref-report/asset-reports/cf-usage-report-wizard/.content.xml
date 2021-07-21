@@ -29,20 +29,35 @@
                 </field1>
                 <field2
                     jcr:primaryType="nt:unstructured"
-                    jcr:title="Folder Path"
+                    jcr:title="Content Fragments Root Path"
                     sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                     <items jcr:primaryType="nt:unstructured">
                         <pathbrowser
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                             emptyText="/content/dam"
-                            fieldLabel="Select Folder Path"
+                            fieldLabel="Folder Path"
                             filter="folder"
-                            name="path"
+                            name="cfRootPath"
                             predicate="folder"
                             rootPath="/content/dam"/>
                     </items>
                 </field2>
+                <field3
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Pages Root Path"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                    <items jcr:primaryType="nt:unstructured">
+                        <pathbrowser
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                emptyText="/content"
+                                fieldLabel="Site Path"
+                                name="pageRootPath"
+                                predicate="folder"
+                                rootPath="/content"/>
+                    </items>
+                </field3>
             </items>
         </column1>
     </items>
