@@ -73,7 +73,7 @@ public class EAEMReportJobConsumer implements JobConsumer {
             }
 
             tempFile = File.createTempFile("report", ".csv");
-            FileOutputStream e = new FileOutputStream(tempFile.getPath());
+            FileOutputStream e = new FileOutputStream(tempFile);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(e, "UTF-8"));
 
             List csvHeaders = writeColumnsHeaderToCSV(writer, columns);
