@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "362b088f-f7dd-47f7-b792-69325bc4be3e",
+		"name": "Adobe Ims",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get jwt token and access token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var navigator = {};\r",
+							"var window = {};\r",
+							"var PRIVATE_KEY = \"-----BEGIN RSA PRIVATE KEY-----\\r\\nMIIEpQIBAAKROZPUrCvfNI=\\r\\n-----END RSA PRIVATE KEY-----\\r\\n\"\r",
+							"var CLIENT_ID = \"cm-pxxxxx-exxxxx-integration\";\r",
+							"var ORG_ID = \"2FBxxxxxx@AdobeOrg\";\r",
+							"var SUBJECT = \"312xxxxxx@techacct.adobe.com\";\r",
+							"var META_SCOPE = \"https://ims-na1.adobelogin.com/s/ent_aem_cloud_api\";\r",
+							"\r",
+							"pm.sendRequest('http://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js', (error, response) => {\r",
+							"    if (error) {\r",
+							"        console.log(error);\r",
+							"    } else {\r",
+							"        let resBody = new Buffer.from(response.stream).toString()\r",
+							"\r",
+							"        pm.globals.set(\"jsrsasign-js\", resBody);\r",
+							"\r",
+							"        eval(pm.globals.get(\"jsrsasign-js\"));\r",
+							"\r",
+							"        var jwt_payload = {\r",
+							"            iss: ORG_ID,\r",
+							"            sub: SUBJECT,\r",
+							"            exp: Math.floor((Date.now() / 1000) + 3600 * 8),\r",
+							"            aud: \"https://ims-na1.adobelogin.com/c/\" + CLIENT_ID\r",
+							"        }\r",
+							"\r",
+							"        jwt_payload[META_SCOPE] = true;\r",
+							"\r",
+							"        var jwtToken = KJUR.jws.JWS.sign(\"RS256\", '{\"alg\" : \"RS256\",\"typ\" : \"JWT\"}', jwt_payload, PRIVATE_KEY);\r",
+							"\r",
+							"        postman.setEnvironmentVariable(\"jwt-token\", jwtToken);\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "cm-pxxxxxx-exxxxx-integration",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "p8e-xxxxxxxxxxxxxxxxxxxxxrP",
+							"type": "text"
+						},
+						{
+							"key": "jwt_token",
+							"value": "{{jwt-token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
+					"protocol": "https",
+					"host": [
+						"ims-na1",
+						"adobelogin",
+						"com"
+					],
+					"path": [
+						"ims",
+						"exchange",
+						"jwt",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get aem dam json using IMS access token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGcixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxe59A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://author-p10961-e90064.adobeaemcloud.com/content/dam/experience-aem/adobe.jpg",
+					"protocol": "https",
+					"host": [
+						"author-p10961-e90064",
+						"adobeaemcloud",
+						"com"
+					],
+					"path": [
+						"content",
+						"dam",
+						"experience-aem",
+						"adobe.jpg"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

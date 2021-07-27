@@ -1,0 +1,31 @@
+var navigator = {};
+var window = {};
+var PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\r\nMIIECvfNI=\r\n-----END RSA PRIVATE KEY-----\r\n"
+var CLIENT_ID = "cm-pxxxx-exxxxx-integration";
+var ORG_ID = "2Fxxxxxxx@AdobeOrg";
+var SUBJECT = "31xxxxxx@techacct.adobe.com";
+var META_SCOPE = "https://ims-na1.adobelogin.com/s/ent_aem_cloud_api";
+
+pm.sendRequest('http://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js', (error, response) =&gt; {
+    if (error) {
+        console.log(error);
+    } else {
+        let resBody = new Buffer.from(response.stream).toString()
+
+        pm.globals.set("jsrsasign-js", resBody);
+
+        eval(pm.globals.get("jsrsasign-js"));
+
+        var jwt_payload = {
+            iss: ORG_ID,
+            sub: SUBJECT,
+            exp: Math.floor((Date.now() / 1000) + 3600 * 8),
+            aud: "https://ims-na1.adobelogin.com/c/" + CLIENT_ID,
+            META_SCOPE : true
+        }
+
+        var jwtToken = KJUR.jws.JWS.sign("RS256", '{"alg" : "RS256","typ" : "JWT"}', jwt_payload, PRIVATE_KEY);
+
+        postman.setEnvironmentVariable("jwt-token", jwtToken);
+    }
+});
