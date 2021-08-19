@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-no-decoration/clientlibs"/>
+    <filter root="/apps/eaem-no-decoration/components"/>
+    <filter root="/apps/eaem-no-decoration/i18n"/>
+</workspaceFilter>

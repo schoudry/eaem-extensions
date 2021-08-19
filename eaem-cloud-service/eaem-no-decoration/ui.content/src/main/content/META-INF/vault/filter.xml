@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-no-decoration" mode="merge"/>
+    <filter root="/content/eaem-no-decoration" mode="merge"/>
+    <filter root="/content/dam/eaem-no-decoration/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-no-decoration" mode="merge"/>
+</workspaceFilter>

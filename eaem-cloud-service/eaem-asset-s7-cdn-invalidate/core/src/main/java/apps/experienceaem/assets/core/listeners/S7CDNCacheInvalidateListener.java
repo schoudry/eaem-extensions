@@ -30,7 +30,7 @@ import java.util.*;
                 ResourceChangeListener.CHANGES + "=CHANGED",
                 ResourceChangeListener.PATHS + "=glob:/content/dam"
         })
-@ServiceDescription("RH - Invalidate CDN Cache on Asset Create")
+@ServiceDescription("Experience AEM - Invalidate CDN Cache on Asset Create")
 public class S7CDNCacheInvalidateListener implements ResourceChangeListener {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
