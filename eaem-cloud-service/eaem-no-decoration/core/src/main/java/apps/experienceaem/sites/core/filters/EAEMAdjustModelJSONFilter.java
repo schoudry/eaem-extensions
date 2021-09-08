@@ -31,6 +31,7 @@ public class EAEMAdjustModelJSONFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(EAEMAdjustModelJSONFilter.class);
 
     private static String TEXT_COMP_TYPE = "eaem-no-decoration/components/text";
+    private static String GRID_COMP_TYPE = "wcm/foundation/components/responsivegrid";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -97,6 +98,9 @@ public class EAEMAdjustModelJSONFilter implements Filter {
 
                 if (TEXT_COMP_TYPE.equals(value)) {
                     ValueMap vm = resolver.getResource("/apps/" + TEXT_COMP_TYPE).getValueMap();
+                    modJSONObj.put("aemNoDecoration", vm.get("aemNoDecoration", Boolean.class));
+                }else if (GRID_COMP_TYPE.equals(value)) {
+                    ValueMap vm = resolver.getResource("/libs/" + GRID_COMP_TYPE).getValueMap();
                     modJSONObj.put("aemNoDecoration", vm.get("aemNoDecoration", Boolean.class));
                 }
             }else {
