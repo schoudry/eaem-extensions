@@ -16,8 +16,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="aem65" exported="" />
-    <orderEntry type="library" exported="" name="uber-jar-6.5.0-apis" level="application" />
+    <orderEntry type="library" exported="" name="uber-jar-6.5.9-apis-with-deprecations" level="application" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="CQ" level="application" />
-    <orderEntry type="library" exported="" name="aem-sdk-api-2021.5.5343.20210524T070738Z-210527" level="application" />
   </component>
 </module>

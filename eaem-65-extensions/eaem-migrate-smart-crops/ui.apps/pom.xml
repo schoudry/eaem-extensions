@@ -147,6 +147,7 @@
         <dependency>
             <groupId>com.adobe.aem</groupId>
             <artifactId>uber-jar</artifactId>
+            <classifier>apis-with-deprecations</classifier>
         </dependency>
 
         <dependency>
