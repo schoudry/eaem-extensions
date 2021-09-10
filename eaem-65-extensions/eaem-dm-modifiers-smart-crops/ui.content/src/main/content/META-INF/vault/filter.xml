@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-dm-modifiers-smart-crops" mode="merge"/>
+    <filter root="/content/eaem-dm-modifiers-smart-crops" mode="merge"/>
+    <filter root="/content/dam/eaem-dm-modifiers-smart-crops/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-dm-modifiers-smart-crops" mode="merge"/>
+</workspaceFilter>
