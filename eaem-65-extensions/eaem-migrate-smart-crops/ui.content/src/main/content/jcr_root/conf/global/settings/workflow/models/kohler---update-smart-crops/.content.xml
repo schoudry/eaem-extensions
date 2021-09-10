@@ -23,7 +23,7 @@
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     PROCESS="apps.experienceaem.assets.core.workflow.MigrateSmartCropsStep"
-                    PROCESS_ARGS="srcS7Account=c|233802/sreek@adobe.com/ForAdobeCustomers1$"
+                    PROCESS_ARGS="srcS7Account=c|233802/sreek@adobe.com/Password"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
         </flow>
