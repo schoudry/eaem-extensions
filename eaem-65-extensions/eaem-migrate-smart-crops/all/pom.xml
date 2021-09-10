@@ -67,6 +67,12 @@
                         </embedded>
                         <embedded>
                             <groupId>apps.experienceaem.assets</groupId>
+                            <artifactId>eaem-migrate-smart-crops.ui.content</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-migrate-smart-crops-packages/content/install.author</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.assets</groupId>
                             <artifactId>eaem-migrate-smart-crops.ui.config</artifactId>
                             <type>zip</type>
                             <target>/apps/eaem-migrate-smart-crops-packages/application/install.author</target>

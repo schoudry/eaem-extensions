@@ -224,7 +224,13 @@ public class MigrateSmartCropsStep implements WorkflowProcess {
     }
 
     private Map<String, Map<String, String>> getSourceS7AssetCropRect(S7Config s7Config, String destScene7FolderPath, String assetPath) throws Exception{
-        String srcS7FolderPath = getSrcS7CompanyRootFolderName(s7Config) + destScene7FolderPath.substring(destScene7FolderPath.indexOf("/"));
+        String rootPath = getSrcS7CompanyRootFolderName(s7Config).trim();
+
+        if(rootPath.endsWith("/")){
+            rootPath = rootPath.substring(0, rootPath.lastIndexOf("/"));
+        }
+
+        String srcS7FolderPath = rootPath + destScene7FolderPath.substring(destScene7FolderPath.indexOf("/"));
 
         String assetName = assetPath.substring(assetPath.lastIndexOf("/") + 1);
 
