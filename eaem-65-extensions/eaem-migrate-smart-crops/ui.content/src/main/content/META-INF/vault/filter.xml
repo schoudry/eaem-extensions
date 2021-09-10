@@ -4,4 +4,6 @@
     <filter root="/content/eaem-migrate-smart-crops" mode="merge"/>
     <filter root="/content/dam/eaem-migrate-smart-crops/asset.jpg" mode="merge"/>
     <filter root="/content/experience-fragments/eaem-migrate-smart-crops" mode="merge"/>
+    <filter root="/conf/global/settings/workflow/models/kohler---update-smart-crops" mode="merge"/>
+    <filter root="/var/workflow/models/kohler---update-smart-crops" mode="merge"/>
 </workspaceFilter>
