@@ -2,5 +2,4 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-dm-modifiers-smart-crops/clientlibs"/>
     <filter root="/apps/eaem-dm-modifiers-smart-crops/components"/>
-    <filter root="/apps/eaem-dm-modifiers-smart-crops/i18n"/>
 </workspaceFilter>

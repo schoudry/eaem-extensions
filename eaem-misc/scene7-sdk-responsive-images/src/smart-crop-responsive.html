@@ -1,0 +1,43 @@
+<!--https://experienceleague.adobe.com/docs/dynamic-media-developer-resources/image-serving-api/image-serving-api/responsive-static-image-library/t-using-responsive-static-image-library.html?lang=en-->
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        .container {
+            width: 50%;
+        }
+        .fluidimage {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img id="responsiveImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+         data-src="https://s7d1.scene7.com/is/image/EAEM/test-zab67579_rgb"
+         class="fluidimage" data-mode="smartcrop">
+</div>
+<script type="text/javascript" src="https://s7d9.scene7.com/s7viewers/libs/responsive_image.js"></script>
+<script type="text/javascript">
+    function changeImage(){
+        var image = document.getElementById("responsiveImage");
+
+        s7responsiveImage(image);
+
+        image.addEventListener("s7responsiveViewer", function (event) {
+            var s7event = event.s7responsiveViewerEvent;
+
+            if (s7event.type !== "breakpointchanged") {
+                return;
+            }
+
+            var src = this.src.substring(0, this.src.indexOf("?"));
+
+            this.src = src + "?wid=400";
+        });
+    }
+
+    changeImage();
+</script>
+</body>
+</html>
