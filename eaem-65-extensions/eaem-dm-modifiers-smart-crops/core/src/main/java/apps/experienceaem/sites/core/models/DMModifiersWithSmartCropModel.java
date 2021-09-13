@@ -30,6 +30,9 @@ public class DMModifiersWithSmartCropModel {
     SlingHttpServletRequest request;
 
     @Inject
+    Resource resource;
+
+    @Inject
     Page currentPage;
 
     @ValueMapValue
@@ -64,6 +67,10 @@ public class DMModifiersWithSmartCropModel {
         String s7File = imgAsset.getMetadataValue(META_S7_FILE);
 
         s7Src = s7Domain + "is/image/" + s7File;
+    }
+
+    public String getImageName() {
+        return "ri-" + resource.getName();
     }
 
     public String getFileReference() {

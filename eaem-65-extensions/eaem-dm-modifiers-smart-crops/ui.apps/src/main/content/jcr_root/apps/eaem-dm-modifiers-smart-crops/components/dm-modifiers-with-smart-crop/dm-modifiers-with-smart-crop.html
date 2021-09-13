@@ -4,38 +4,39 @@
 	}
 </style>
 
-<div class="container" data-sly-use.model="apps.experienceaem.sites.core.models.DMModifiersWithSmartCropModel"
-	 data-sly-test="${model.fileReference}">
-	<img id="responsiveImage"
-		 data-src="${model.s7Src}"
-		 data-mode="smartcrop">
-</div>
-<div style="width: 100%; margin: 25px 0 25px 0"
-	 data-sly-use.model="apps.experienceaem.sites.core.models.DMModifiersWithSmartCropModel"
-	 data-sly-test="${!model.fileReference && wcmmode.edit}">
-	Drag and drop an image in dialog
-</div>
-
 <script type="text/javascript" src="https://s7d9.scene7.com/s7viewers/libs/responsive_image.js"></script>
 
-<script type="text/javascript">
-	function attachSmartCropDMModifiers(){
-		var image = document.getElementById("responsiveImage");
+<div class="container" data-sly-use.model="apps.experienceaem.sites.core.models.DMModifiersWithSmartCropModel">
+	<img data-sly-test="${model.fileReference}"
+			id="${model.imageName}"
+		 data-src="${model.s7Src}"
+		 data-mode="smartcrop">
+	<div style="width: 100%; margin: 25px 0 25px 0"
+		 data-sly-test="${!model.fileReference && wcmmode.edit}">
+		Drag and drop an image in dialog
+	</div>
 
-		s7responsiveImage(image);
+	<script type="text/javascript">
+		function attachSmartCropDMModifiers(){
+			var image = document.getElementById("${model.imageName @ context='unsafe'}");
 
-		image.addEventListener("s7responsiveViewer", function (event) {
-			var s7event = event.s7responsiveViewerEvent;
+			s7responsiveImage(image);
 
-			if (s7event.type !== "breakpointchanged") {
-				return;
-			}
+			image.addEventListener("s7responsiveViewer", function (event) {
+				var s7event = event.s7responsiveViewerEvent;
 
-			var src = this.src.substring(0, this.src.indexOf("?"));
+				if (s7event.type !== "breakpointchanged") {
+					return;
+				}
 
-			this.src = src + "?wid=400";
-		});
-	}
+				var src = this.src.substring(0, this.src.indexOf("?"));
 
-	attachSmartCropDMModifiers();
-</script>
+				this.src = src + "?wid=400";
+			});
+		}
+
+		attachSmartCropDMModifiers();
+	</script>
+</div>
+
+
