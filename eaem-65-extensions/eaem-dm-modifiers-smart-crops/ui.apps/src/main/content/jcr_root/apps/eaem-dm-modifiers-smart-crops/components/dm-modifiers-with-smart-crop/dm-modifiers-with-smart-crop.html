@@ -7,6 +7,7 @@
 <script type="text/javascript" src="https://s7d9.scene7.com/s7viewers/libs/responsive_image.js"></script>
 
 <div class="container" data-sly-use.model="apps.experienceaem.sites.core.models.DMModifiersWithSmartCropModel">
+	<div id="${model.imageName}Url" style="padding: 3px 0 10px 0; word-wrap: break-word;"></div>
 	<img data-sly-test="${model.fileReference}"
 			id="${model.imageName}"
 		 data-src="${model.s7Src}"
@@ -16,9 +17,12 @@
 		Drag and drop an image in dialog
 	</div>
 
+	<br><br><br><hr>
+
 	<script type="text/javascript">
 		function attachSmartCropDMModifiers(){
-			var image = document.getElementById("${model.imageName @ context='unsafe'}");
+			var image = document.getElementById("${model.imageName @ context='unsafe'}"),
+				imageUrlDiv = document.getElementById("${model.imageName @ context='unsafe'}Url");
 
 			s7responsiveImage(image);
 
@@ -29,9 +33,9 @@
 					return;
 				}
 
-				var src = this.src.substring(0, this.src.indexOf("?"));
+				this.src = this.src.substring(0, this.src.indexOf("?")) + "?wid=" + this.parentElement.offsetWidth;
 
-				this.src = src + "?wid=400";
+				imageUrlDiv.innerHTML = this.src;
 			});
 		}
 
