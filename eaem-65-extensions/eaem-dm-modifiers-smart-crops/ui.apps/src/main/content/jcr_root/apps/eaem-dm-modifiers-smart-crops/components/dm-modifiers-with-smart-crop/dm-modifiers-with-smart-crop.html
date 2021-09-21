@@ -32,7 +32,10 @@
 					return;
 				}
 
-				this.src = this.src.substring(0, this.src.indexOf("?")) + "?wid=" + this.parentElement.offsetWidth;
+				//this.src = this.src.substring(0, this.src.indexOf("?")) + "?wid=" + this.parentElement.offsetWidth;
+
+				this.src = this.src.substring(0, this.src.indexOf("?"))
+						+ "?wid=" + this.parentElement.offsetWidth + "&hei=" + this.parentElement.offsetHeight;
 
 				imageUrlDiv.innerHTML = this.src;
 			});
