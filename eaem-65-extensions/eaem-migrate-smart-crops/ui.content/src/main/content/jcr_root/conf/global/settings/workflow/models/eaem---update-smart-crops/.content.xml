@@ -7,7 +7,7 @@
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Kohler - Update Smart Crops"
+        jcr:title="EAEM - Update Smart Crops"
         sling:resourceType="cq/workflow/components/pages/model">
         <flow
             jcr:primaryType="nt:unstructured"

@@ -5,9 +5,9 @@
     jcr:uuid="c727ad7c-736d-422e-af3a-6c4b4c32b194"
     sling:resourceType="cq/workflow/components/model"
     description="No Description"
-    title="Kohler - Update Smart Crops">
+    title="EAEM - Update Smart Crops">
     <metaData
-        cq:generatingPage="/conf/global/settings/workflow/models/kohler---update-smart-crops/jcr:content"
+        cq:generatingPage="/conf/global/settings/workflow/models/eaem---update-smart-crops/jcr:content"
         cq:lastModified="{Long}1631302121061"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>

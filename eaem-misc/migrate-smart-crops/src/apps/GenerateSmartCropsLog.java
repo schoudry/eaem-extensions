@@ -22,9 +22,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-/**
- * Created by nalabotu on 8/27/2021.
- */
 public class GenerateSmartCropsLog {
     private static String S7_NA_IPS_URL = "https://s7sps1apissl.scene7.com/scene7/api/IpsApiService";
     private static String SRC_S7_COMPANY_HANDLE = "";

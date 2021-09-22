@@ -53,7 +53,7 @@ import java.util.Map;
 
 @Component(
         service = WorkflowProcess.class,
-        property = { "process.label=Kohler - Migrate Smart Crops between Scene7 Accounts" })
+        property = { "process.label=EAEM - Migrate Smart Crops between Scene7 Accounts" })
 public class MigrateSmartCropsStep implements WorkflowProcess {
     private static final Logger log = LoggerFactory.getLogger(MigrateSmartCropsStep.class);
 
