@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/ui.apps/src/main/content/jcr_root" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/core/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/ui.apps/src/main/content/jcr_root/apps/eaem-spa-extend-model-client/clientlibs/clientlib-react" />
       <excludeFolder url="file://$MODULE_DIR$/ui.apps/target" />
       <excludeFolder url="file://$MODULE_DIR$/ui.frontend/build" />
       <excludeFolder url="file://$MODULE_DIR$/ui.frontend/node" />

@@ -10,9 +10,10 @@ import { Router } from 'react-router-dom';
 import App from './App';
 import './components/import-components';
 import './index.css';
+import extendModelClient from './utils/extend-model-client';
 
 const renderApp = () => {
-    ModelManager.initialize().then(pageModel => {
+    ModelManager.initialize({ modelClient : extendModelClient()}).then(pageModel => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
@@ -30,9 +31,6 @@ const renderApp = () => {
     });
 };
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-
     renderApp();
 });
