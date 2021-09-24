@@ -1,10 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
-import { AuthoringUtils, Constants, ModelClient } from "@adobe/aem-spa-page-model-manager";
-import { ModelManager } from "@adobe/aem-spa-page-model-manager";
+import { ModelClient } from "@adobe/aem-spa-page-model-manager";
 
 export const extendModelClient = () => {
     const client = new ModelClient();
-    const isEditor = AuthoringUtils.isInEditor();
     
     const extend = (modelClient:any) => {
         const fetch = modelClient.fetch as Function;
