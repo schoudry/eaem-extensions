@@ -8,8 +8,7 @@ export const extendModelClient = () => {
     
         modelClient.fetch = async function (modelPath:string):Promise<object> {
             try {
-                console.log(modelPath);
-                const jsonData = await fetch.call(this,"/content/eaem-spa-extend-model-client/us/en.model.json?some_token=some_token");
+                const jsonData = await fetch.call(this, modelPath + "?ck=" + Math.floor(Math.random() * 999999));
                 return Promise.resolve(jsonData);
             } catch (err) {
                 return Promise.reject(err);
