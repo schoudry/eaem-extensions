@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-spa-vanity-urls" mode="merge"/>
+    <filter root="/content/eaem-spa-vanity-urls" mode="merge"/>
+    <filter root="/content/dam/eaem-spa-vanity-urls/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-spa-vanity-urls" mode="merge"/>
+</workspaceFilter>

@@ -22,7 +22,7 @@
     <!-- ====================================================================== -->
     <parent>
         <groupId>apps.experienceaem.sites</groupId>
-        <artifactId>eaem-spa-extend-model-client</artifactId>
+        <artifactId>eaem-spa-vanity-urls</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -30,9 +30,9 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>eaem-spa-extend-model-client.ui.frontend</artifactId>
+    <artifactId>eaem-spa-vanity-urls.ui.frontend</artifactId>
     <packaging>pom</packaging>
-    <name>Experience AEM Extend Model Client - UI Frontend</name>
+    <name>Experience AEM SPA Vanity URLs - UI Frontend</name>
 
 
     <!-- ====================================================================== -->
@@ -44,17 +44,6 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <nodeVersion>v10.16.0</nodeVersion>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

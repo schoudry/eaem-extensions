@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require("fs-extra");
 const readline = require('readline');
 
-const PROJECT_FOLDER_NAME = path.basename(path.join(__dirname, '..'));
+const PROJECT_FOLDER_NAME = "eaem-spa-extend-model-client"; //path.basename(path.join(__dirname, '..'));
 
 const MAP_BUILD_DIR = path.join(__dirname, 'build', "static", "js");
 
