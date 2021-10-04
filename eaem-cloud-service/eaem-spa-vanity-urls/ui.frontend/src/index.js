@@ -33,7 +33,6 @@ const getVanityUrls = async () => {
 
 class VanityURLModelClient extends ModelClient{
     fetch(modelPath) {
-        console.log("-------------", modelPath)
         if (modelPath && !modelPath.startsWith("/content")) {
             return Promise.resolve({});
         }else{
