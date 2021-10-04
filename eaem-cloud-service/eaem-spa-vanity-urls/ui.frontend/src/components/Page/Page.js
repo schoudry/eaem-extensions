@@ -20,7 +20,6 @@ import {
     withComponentMappingContext
 } from '@adobe/aem-react-editable-components';
 import { withRoute } from '../RouteHelper/RouteHelper';
-import withAEMRoute from '../RouteHelper/AEMRouteHelper';
 
 require('./Page.css');
 

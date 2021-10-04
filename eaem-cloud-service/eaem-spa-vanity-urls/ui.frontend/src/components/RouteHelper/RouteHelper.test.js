@@ -194,20 +194,6 @@ describe('RouterHelper ->', () => {
       expect(result).toMatchInlineSnapshot(PATH_AND_PROPS_INLINE_SNAPSHOT);
     });
 
-    it('should render page without extension', () => {
-      let WrappedComponent = withRoute(RouteContent);
-      ReactDOM.render(
-        <MemoryRouter initialEntries={[CUSTOM_ROUTE_PATH]}>
-          <WrappedComponent cqPath={CUSTOM_ROUTE_PATH} />
-        </MemoryRouter>,
-        rootNode
-      );
-
-      expect(
-        rootNode.querySelector('.' + ROUTE_CONTENT_CLASS_NAME)
-      ).toBeTruthy();
-    });
-
     it('should encapsulate and hide the wrapped component in a route', () => {
       const cqModel = {
         path: '/content/page/path',
