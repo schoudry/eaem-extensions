@@ -13,9 +13,25 @@ import './components/import-components';
 import './index.css';
 
 const modelManagerOptions = {};
+
 if(process.env.REACT_APP_PROXY_ENABLED) {
     modelManagerOptions.modelClient = new LocalDevModelClient(process.env.REACT_APP_API_HOST);
 }
+
+const getVanityUrls = async () => {
+    console.log("once ----......");
+
+    const QUERY = "/bin/querybuilder.json?path=/content/eaem-spa-vanity-urls&property=jcr:content/sling:vanityPath&property.operation=exists" +
+        "&p.hits=selective&p.properties=jcr:content/sling:vanityPath%20jcr:path&type=cq:Page";
+
+    const response = await fetch(QUERY);
+
+    const data = (await response.json()).hits.reduce((first, second) => {
+        return { ...first, ...{ [second["jcr:path"]]: second["jcr:content"]?.["sling:vanityPath"] } }
+    }, {});
+
+    return data;
+};
 
 const renderApp = () => {
     ModelManager.initialize(modelManagerOptions).then(pageModel => {
@@ -36,9 +52,9 @@ const renderApp = () => {
     });
 };
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-
-    renderApp();
+    getVanityUrls().then((vanityUrls) => {
+        console.log("vanityUrls>>>>>>", vanityUrls);
+        renderApp();
+    });
 });
