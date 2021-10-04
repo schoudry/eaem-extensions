@@ -40,12 +40,20 @@ export const withRoute = (WrappedComponent, extension) => {
 
             extension = extension || 'html';
 
+            let vanityUrl = this.props.vanityUrls[routePath];
+
+            if(vanityUrl){
+                vanityUrl = "/" + vanityUrl;
+            }
+
+            console.log(routePath, "----vanityUrl-----", vanityUrl);
+
             // Context path + route path + extension
             return (
                 <Route
                     key={routePath}
                     exact
-                    path={'(.*)' + routePath + '(.' + extension + ')?'}
+                    path={ ['(.*)' + routePath + '(.' + extension + ')?', vanityUrl ] }
                     render={routeProps => {
                         return <WrappedComponent {...this.props} {...routeProps} />;
                     }}

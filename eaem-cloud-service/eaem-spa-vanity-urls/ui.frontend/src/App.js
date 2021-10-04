@@ -3,14 +3,23 @@ import React from 'react';
 
 // This component is the application entry point
 class App extends Page {
-  render() {
-    return (
-      <div>
-        {this.childComponents}
-        {this.childPages}
-      </div>
-    );
-  }
+    render() {
+        const vanityUrls = this.props.vanityUrls;
+
+        return (
+            <div>
+                {this.childComponents}
+                {this.childPages.map((childPage) => {
+                    {
+                        childPage.props.vanityUrls = vanityUrls;
+                        return <React.Fragment>
+                            {childPage}
+                        </React.Fragment>
+                    }
+                })}
+            </div>
+        );
+    }
 }
 
 export default withModel(App);

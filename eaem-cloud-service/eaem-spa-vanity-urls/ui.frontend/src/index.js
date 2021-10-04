@@ -19,8 +19,6 @@ if(process.env.REACT_APP_PROXY_ENABLED) {
 }
 
 const getVanityUrls = async () => {
-    console.log("once ----......");
-
     const QUERY = "/bin/querybuilder.json?path=/content/eaem-spa-vanity-urls&property=jcr:content/sling:vanityPath&property.operation=exists" +
         "&p.hits=selective&p.properties=jcr:content/sling:vanityPath%20jcr:path&type=cq:Page";
 
@@ -33,12 +31,13 @@ const getVanityUrls = async () => {
     return data;
 };
 
-const renderApp = () => {
+const renderApp = (vanityUrls) => {
     ModelManager.initialize(modelManagerOptions).then(pageModel => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
                 <App
+                    vanityUrls={vanityUrls}
                     history={history}
                     cqChildren={pageModel[Constants.CHILDREN_PROP]}
                     cqItems={pageModel[Constants.ITEMS_PROP]}
@@ -54,7 +53,6 @@ const renderApp = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     getVanityUrls().then((vanityUrls) => {
-        console.log("vanityUrls>>>>>>", vanityUrls);
-        renderApp();
+        renderApp(vanityUrls);
     });
 });
