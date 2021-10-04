@@ -10,12 +10,11 @@ class App extends Page {
             <div>
                 {this.childComponents}
                 {this.childPages.map((childPage) => {
-                    {
-                        childPage.props.vanityUrls = vanityUrls;
-                        return <React.Fragment>
-                            {childPage}
-                        </React.Fragment>
-                    }
+                    return <React.Fragment>
+                        { React.cloneElement(childPage, {
+                            vanityUrls: vanityUrls
+                        })}
+                    </React.Fragment>
                 })}
             </div>
         );

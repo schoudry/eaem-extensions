@@ -22,14 +22,22 @@ const getVanityUrls = async () => {
     const QUERY = "/bin/querybuilder.json?path=/content/eaem-spa-vanity-urls&property=jcr:content/sling:vanityPath&property.operation=exists" +
         "&p.hits=selective&p.properties=jcr:content/sling:vanityPath%20jcr:path&type=cq:Page";
 
-    const response = await fetch(QUERY);
+    const response = process.env.REACT_APP_PROXY_ENABLED ? await fetch(QUERY, {
+        credentials: 'same-origin',
+        headers: {
+            'Authorization': process.env.REACT_APP_AEM_AUTHORIZATION_HEADER
+        }
+    }): await fetch(QUERY);
 
-    const data = (await response.json()).hits.reduce((first, second) => {
-        return { ...first, ...{ [second["jcr:path"]]: second["jcr:content"]?.["sling:vanityPath"] } }
+    const data = (await response.json()).hits.reduce((current, next) => {
+        return { ...current, ...{ [next["jcr:path"]]: next["jcr:content"]?.["sling:vanityPath"] } }
     }, {});
 
     return data;
 };
+
+// class LocalDevModelClient extends ModelClient{
+// }
 
 const renderApp = (vanityUrls) => {
     ModelManager.initialize(modelManagerOptions).then(pageModel => {
@@ -54,5 +62,8 @@ const renderApp = (vanityUrls) => {
 document.addEventListener('DOMContentLoaded', () => {
     getVanityUrls().then((vanityUrls) => {
         renderApp(vanityUrls);
+    }, (err) => {
+        console.log("Error getting vanity urls", err);
+        renderApp({});
     });
 });
