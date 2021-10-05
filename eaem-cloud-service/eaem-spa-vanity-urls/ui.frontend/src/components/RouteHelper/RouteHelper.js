@@ -43,7 +43,7 @@ export const withRoute = (WrappedComponent, extension) => {
 
             let paths = ['(.*)' + routePath + '(.' + extension + ')?'];
 
-            if(!AuthoringUtils.isEditMode()){
+            if(!AuthoringUtils.isInEditor()){
                 let vanityUrl = this.props.vanityUrls?.[routePath];
 
                 if(vanityUrl){
