@@ -3,7 +3,7 @@
     jcr:description="Token Configuration for Simple Readonly Auth"
     jcr:primaryType="nt:unstructured"
     jcr:title="Token Configuration"
-    href="/apps/eaem-simple-token-based-auth/extensions/simple-token-atuh/token-config.html/conf/global/settings/dam/experience-aem"
+    href="/apps/eaem-simple-token-based-auth/extensions/simple-token-auth/token-config.html/conf/global/settings/dam/experience-aem"
     icon="asset"
     id="experience-aem-config"
     size="XL"/>

@@ -1,26 +1,26 @@
 package apps.experienceaem.assets.core.services.impl;
 
 import apps.experienceaem.assets.core.services.SimpleTokenAuthService;
-import jdk.nashorn.internal.ir.annotations.Reference;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by nalabotu on 10/5/2021.
- */
+@Component(service = SimpleTokenAuthService.class)
 public class SimpleTokenAuthServiceImpl implements SimpleTokenAuthService{
     protected final static Logger log = LoggerFactory.getLogger(SimpleTokenAuthServiceImpl.class);
 
     private static final String EAEM_SERVICE_USER = "eaem-service-user";
 
-    public String CONFIG_PATH = "/conf/global/settings/dam/aem-vision-dam";
+    public String CONFIG_PATH = "/conf/global/settings/dam/experience-aem";
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;

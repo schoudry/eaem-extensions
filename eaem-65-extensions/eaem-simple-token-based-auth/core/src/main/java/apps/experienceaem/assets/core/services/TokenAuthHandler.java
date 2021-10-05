@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class TokenAuthHandler implements AuthenticationHandler {
     private static final Logger log = LoggerFactory.getLogger(TokenAuthHandler.class);
 
-    private static String AUTH_TYPE_ASSET_SELECTOR = "VISION_DAM_ASSET_PICKER";
+    private static String AUTH_TYPE_TOKEN_AUTH = "EXPERIENCE_AEM_TOKEN_AUTH";
 
     private static String TOKEN_PARAM = "tokenKey";
 
@@ -79,7 +79,7 @@ public class TokenAuthHandler implements AuthenticationHandler {
     @Override
     public AuthenticationInfo extractCredentials(HttpServletRequest request, HttpServletResponse response) {
         Session userSession = (Session)request.getSession().getAttribute(SESSION_REQ_ATTR);
-        AuthenticationInfo authInfo = new AuthenticationInfo(AUTH_TYPE_ASSET_SELECTOR);
+        AuthenticationInfo authInfo = new AuthenticationInfo(AUTH_TYPE_TOKEN_AUTH);
 
         if(isLogout(request)){
             request.getSession().removeAttribute(SESSION_REQ_ATTR);
@@ -133,7 +133,7 @@ public class TokenAuthHandler implements AuthenticationHandler {
 
             authInfo.put(JcrResourceConstants.AUTHENTICATION_INFO_SESSION, userSession);
         }catch(RepositoryException e){
-            log.error("Error could not create session for  - " + AUTH_TYPE_ASSET_SELECTOR, e);
+            log.error("Error could not create session for  - " + AUTH_TYPE_TOKEN_AUTH, e);
             return AuthenticationInfo.FAIL_AUTH;
         }
 

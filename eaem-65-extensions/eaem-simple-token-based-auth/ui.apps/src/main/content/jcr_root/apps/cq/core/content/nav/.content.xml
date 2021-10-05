@@ -2,8 +2,6 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured">
     <tools jcr:primaryType="nt:unstructured">
-        <cloudservices/>
-        <acs-commons/>
         <experience-aem/>
     </tools>
 </jcr:root>

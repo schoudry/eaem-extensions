@@ -4,9 +4,7 @@
         import="org.apache.commons.lang3.StringUtils,
                   com.adobe.granite.ui.components.AttrBuilder,
                   com.adobe.granite.ui.components.Config,
-                  com.adobe.granite.ui.components.Field,
                   com.adobe.granite.ui.components.Tag" %>
-<%@ page import="org.apache.sling.api.SlingHttpServletRequest" %>
 <%@ page import="apps.experienceaem.assets.core.services.SimpleTokenAuthService" %>
 <%
     Config cfg = cmp.getConfig();
@@ -35,7 +33,7 @@
         <coral-tooltip-content><%=fieldDesc%></coral-tooltip-content>
     </coral-tooltip>
 </div>
-<div style="text-align: right; width: 100%; margin: 0 0 15px 0">
+<div style="text-align: right; width: 100%; margin: 15px 0 15px 0">
     <button is="coral-button" iconsize="S" id="<%=name%>Gen">Generate</button>
     <button is="coral-button" iconsize="S" id="<%=name%>Copy">copy</button>
 </div>

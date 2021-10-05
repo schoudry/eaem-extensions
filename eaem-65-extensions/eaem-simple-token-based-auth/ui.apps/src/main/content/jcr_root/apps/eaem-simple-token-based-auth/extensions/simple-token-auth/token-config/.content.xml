@@ -36,7 +36,7 @@
                         jcr:title="Success"
                         sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
                         open="/assets.html"
-                        redirect="/apps/eaem-simple-token-based-auth/extensions/simple-token-atuh/token-config.html/conf/global/settings/dam/experience-aem"
+                        redirect="/apps/eaem-simple-token-based-auth/extensions/simple-token-auth/token-config.html/conf/global/settings/dam/experience-aem"
                         text="Configuration saved"/>
                     <items jcr:primaryType="nt:unstructured">
                         <type
