@@ -47,7 +47,7 @@ export const withRoute = (WrappedComponent, extension) => {
                 let vanityUrl = this.props.vanityUrls?.[routePath];
 
                 if(vanityUrl){
-                    paths.push("/" + vanityUrl) ;
+                    paths.push((!vanityUrl.startsWith("/") ? "/" : "") + vanityUrl) ;
                 }
             }
 
