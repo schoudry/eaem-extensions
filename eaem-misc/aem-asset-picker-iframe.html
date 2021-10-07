@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale = 1.0,maximum-scale = 1.0">
+    <script
+        src="https://www.adobe.io/experience-manager/reference-materials/6-5/coral-ui/coralui3/js/libs/moment.js"></script>
+    <script
+        src="https://www.adobe.io/experience-manager/reference-materials/6-5/coral-ui/coralui3/js/libs/jquery.js"></script>
+    <script
+        src="https://www.adobe.io/experience-manager/reference-materials/6-5/coral-ui/coralui3/js/coral.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://www.adobe.io/experience-manager/reference-materials/6-5/coral-ui/coralui3/css/coral.css">
+    <style type="text/css">
+        .container {
+            width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <button is="coral-button" id="open-asset-picker" style="margin: 20px; text-align: center" variant="primary">
+                Open Asset Selector
+            </button>
+        </div>
+
+        <iframe id="asset-picker-iframe" src="" height="800" width="800"></iframe>
+    </div>
+    <script>
+
+        $(document).ready(() => {
+            $("#open-asset-picker").click(function () {
+                var selUrl = "http://localhost:4502/aem/assetpicker",
+                    html = "<iframe width='1200px' height='800px' frameBorder='0' src='" + selUrl + "'></iframe>";
+
+                var dialog = new Coral.Dialog().set({
+                    content: {
+                        innerHTML: html
+                    }
+                });
+
+                document.body.appendChild(dialog);
+
+                dialog.show();
+
+                //window.open(selUrl, "_blank");
+            });
+        });
+
+        function authenticateIFrameWithAEM() {
+            var xhr = new XMLHttpRequest();
+
+            //xhr.open('GET', "http://localhost:4502/apps/eaem-assetpicker-redirect/content.html");
+            xhr.open('GET', "http://localhost:4502/aem/assetpicker");
+            xhr.onreadystatechange = handler;
+            xhr.responseType = 'document';
+            xhr.setRequestHeader("Authorization", "Basic YWRtaW46YWRtaW4=");
+            xhr.send();
+
+            function handler() {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        console.log(this.response);
+                        //$("#asset-picker-iframe")[0].src = URL.createObjectURL(this.response);
+                        var iframe = $("#asset-picker-iframe");
+                        var content = iframe[0].contentWindow ||
+                            iframe[0].contentDocument.document ||
+                            iframe[0].contentDocument;
+                        content.document.open();
+                        content.document.write(this.response.documentElement.innerHTML);
+                        content.document.close();
+                    } else {
+                        alert('XHR failed');
+                    }
+                }
+            }
+        }
+
+        function authenticateWithAEM() {
+            var xhr = new XMLHttpRequest();
+
+            $.ajax({
+                url: "http://localhost:4502/aem/assetpicker?tokenKey=rcivcbk0zcmwpjy3cqwgktsl3",
+                headers: {
+                    "Authorization": "Basic YWRtaW46YWRtaW4="
+                },
+                success: (data) => {
+                    $("#asset-picker-iframe")[0].src = "http://localhost:4502/aem/assetpicker"
+                },
+                error: () => {
+                    alert("Errror")
+                }
+            })
+        }
+
+        authenticateIFrameWithAEM();
+    </script>
+</body>
+
+</html>
