@@ -3,19 +3,12 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:deviceGroups="[mobile/groups/responsive]"
-        cq:template="/conf/eaem-spa-geo-target/settings/wcm/templates/spa-next-remote-page"
+        cq:template="/conf/rh/settings/wcm/templates/geo-targeting-xf"
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="core/wcm/components/page/v2/page">
+        sling:resourceType="rh/components/structure/basepage">
         <root
             jcr:primaryType="nt:unstructured"
-            sling:resourceType="wcm/foundation/components/responsivegrid">
-            <responsivegrid
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="wcm/foundation/components/responsivegrid"
-                editable="{Boolean}true">
-                <cq:responsive jcr:primaryType="nt:unstructured"/>
-            </responsivegrid>
-        </root>
+            sling:resourceType="wcm/foundation/components/responsivegrid"/>
         <cq:responsive jcr:primaryType="nt:unstructured">
             <breakpoints jcr:primaryType="nt:unstructured">
                 <phone
