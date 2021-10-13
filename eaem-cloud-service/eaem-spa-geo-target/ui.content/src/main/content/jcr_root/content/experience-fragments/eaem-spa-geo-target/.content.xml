@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    cq:adobeTargetExportFormat="html"
+    cq:allowedTemplates="[/conf/eaem-spa-geo-target/settings/wcm/templates/(?!page-).*]"
+    cq:conf="/conf/eaem-spa-geo-target"
+    jcr:primaryType="sling:OrderedFolder"
+    jcr:title="Experience AEM SPA Geo Targeting Fragments"
+    sling:configRef="/conf/eaem-spa-geo-target">
+    <us/>
+</jcr:root>

@@ -54,8 +54,8 @@
         function authenticateIFrameWithAEM() {
             var xhr = new XMLHttpRequest();
 
-            //xhr.open('GET', "http://localhost:4502/apps/eaem-assetpicker-redirect/content.html");
-            xhr.open('GET', "http://localhost:4502/aem/assetpicker");
+            xhr.open('GET', "http://localhost:4502/apps/eaem-assetpicker-redirect/content.html");
+            //xhr.open('GET', "http://localhost:4502/aem/assetpicker");
             xhr.onreadystatechange = handler;
             xhr.responseType = 'document';
             xhr.setRequestHeader("Authorization", "Basic YWRtaW46YWRtaW4=");
@@ -64,7 +64,6 @@
             function handler() {
                 if (this.readyState === this.DONE) {
                     if (this.status === 200) {
-                        console.log(this.response);
                         //$("#asset-picker-iframe")[0].src = URL.createObjectURL(this.response);
                         var iframe = $("#asset-picker-iframe");
                         var content = iframe[0].contentWindow ||
@@ -73,6 +72,8 @@
                         content.document.open();
                         content.document.write(this.response.documentElement.innerHTML);
                         content.document.close();
+
+                        setTimeout(function)
                     } else {
                         alert('XHR failed');
                     }

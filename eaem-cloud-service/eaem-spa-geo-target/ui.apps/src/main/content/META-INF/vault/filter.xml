@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-spa-geo-target/clientlibs"/>
+    <filter root="/apps/eaem-spa-geo-target/components"/>
+    <filter root="/apps/eaem-spa-geo-target/i18n"/>
+</workspaceFilter>
