@@ -10,7 +10,7 @@ const GeoXFConfig = {
 };
 
 const GeoXF: FC = props => {
-    return <div>This is Xf Content</div>;
+    return <div style= { { margin: "20px" } }>This is Xf Content</div>;
 }    
 
 export default MapTo('eaem-spa-geo-target/components/geo-xf')(GeoXF, GeoXFConfig);

@@ -18,6 +18,7 @@ import withAsyncImport from "../utils/withAsyncImport";
 import './Page/Page';
 import './Container/Container';
 import './ExperienceFragment/ExperienceFragment';
+import './Nav/Nav';
 import './geo-xf/geo-xf';
 
 import {MapTo} from '@adobe/aem-react-editable-components';
