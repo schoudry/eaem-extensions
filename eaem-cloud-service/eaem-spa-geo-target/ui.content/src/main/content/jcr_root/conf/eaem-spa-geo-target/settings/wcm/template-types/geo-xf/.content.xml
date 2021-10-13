@@ -6,6 +6,6 @@
     <jcr:content
         jcr:description="Generic template for empty experience fragments variations"
         jcr:primaryType="cq:PageContent"
-        jcr:title="RH Experience Fragment"
+        jcr:title="EAEM Experience Fragment"
         status="draft"/>
 </jcr:root>
