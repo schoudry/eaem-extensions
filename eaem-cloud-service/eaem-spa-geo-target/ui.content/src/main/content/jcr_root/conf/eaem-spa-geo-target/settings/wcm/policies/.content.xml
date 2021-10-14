@@ -34,9 +34,9 @@
                     jcr:title="Content Image"
                     sling:resourceType="wcm/core/components/policy/policy"
                     allowedRenditionWidths="[320,480,600,800,1024,1200,1600]"
+                    disableLazyLoading="false"
                     allowUpload="false"
                     altValueFromDAM="true"
-                    disableLazyLoading="false"
                     displayPopupTitle="true"
                     isDecorative="false"
                     jpegQuality="{Long}85"
@@ -275,13 +275,10 @@
                 </policy_649128221558427>
                 <policy_1575040440977
                     jcr:description="Allows the template components and defines the component mapping (this configures what components should be automatically created when authors drop assets from the content finder to the page editor)."
-                    jcr:lastModified="{Date}2021-10-13T06:22:03.390-05:00"
-                    jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     jcr:title="XF Root"
                     sling:resourceType="wcm/core/components/policy/policy"
-                    components="[group:Experience AEM SPA Geo Targeting - Content]"
-                    layoutDisabled="false">
+                    components="[group:Experience AEM SPA Geo Targeting - Content,/apps/eaem-spa-geo-target/components/form/container]">
                     <jcr:content jcr:primaryType="nt:unstructured"/>
                     <cq:authoring jcr:primaryType="nt:unstructured">
                         <assetToComponentMapping jcr:primaryType="nt:unstructured">
@@ -297,6 +294,12 @@
                                 assetMimetype="text/html"
                                 droptarget="experiencefragment"
                                 resourceType="eaem-spa-geo-target/components/experiencefragment"/>
+                            <mapping_1575030853128
+                                jcr:primaryType="nt:unstructured"
+                                assetGroup="media"
+                                assetMimetype="[text/html,application/vnd.adobe.contentfragment]"
+                                droptarget="contentfragment"
+                                resourceType="eaem-spa-geo-target/components/contentfragment"/>
                         </assetToComponentMapping>
                     </cq:authoring>
                 </policy_1575040440977>
@@ -350,19 +353,9 @@
                     sling:resourceType="wcm/core/components/policy/policy"
                     clientlibs="[eaem-spa-geo-target.react]"
                     isRoot="{Boolean}true"
-                    structureDepth="3"/>
+                    structureDepth="3"
+                />
             </spa>
-            <xfpage jcr:primaryType="nt:unstructured">
-                <policy_1634124054078
-                    jcr:lastModified="{Date}2021-10-13T06:21:26.362-05:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    jcr:title="EAEM Geo Policy"
-                    sling:resourceType="wcm/core/components/policy/policy"
-                    clientlibs="eaem-spa-geo-target.react">
-                    <jcr:content jcr:primaryType="nt:unstructured"/>
-                </policy_1634124054078>
-            </xfpage>
         </components>
     </eaem-spa-geo-target>
     <wcm jcr:primaryType="nt:unstructured">
@@ -371,24 +364,13 @@
                 <responsivegrid jcr:primaryType="nt:unstructured">
                     <spa-default
                         jcr:description="Includes only SPA-Enabled components."
-                        jcr:lastModified="{Date}2021-10-13T12:38:02.978-05:00"
-                        jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="SPA Content"
                         sling:resourceType="wcm/core/components/policy/policy"
-                        components="[/libs/wcm/foundation/components/responsivegrid,/apps/eaem-spa-geo-target/components/geo-xf,/apps/eaem-spa-geo-target/components/navigation,/apps/eaem-spa-geo-target/components/text]">
+                        components="[/libs/wcm/foundation/components/responsivegrid,/apps/eaem-spa-geo-target/components/text]">
                         <jcr:content jcr:primaryType="nt:unstructured"/>
                     </spa-default>
-                    <policy_18229853022400
-                        jcr:lastModified="{Date}2021-10-14T13:18:47.275-05:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        jcr:title="Geo XF Template Policy"
-                        sling:resourceType="wcm/core/components/policy/policy"
-                        components="group:Core Content">
-                        <jcr:content jcr:primaryType="nt:unstructured"/>
-                    </policy_18229853022400>
-                </responsivegrid>
+                    </responsivegrid>
             </components>
         </foundation>
     </wcm>
