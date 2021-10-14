@@ -14,7 +14,7 @@ const GeoXF: FC = props => {
     const [html, setHtml] = useState("<div>Loading...</div>");
 
     useEffect(() => {
-        const XF_URL = '/content/experience-fragments/eaem-spa-geo-target/us/en/site/experience-aem/master.html?wcmmode=disabled';
+        const XF_URL = '/content/experience-fragments/eaem-spa-geo-target/us/en/site/texas/master.html?wcmmode=disabled';
 
         const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(XF_URL, {
             credentials: 'same-origin',
@@ -24,7 +24,6 @@ const GeoXF: FC = props => {
         }): fetch(XF_URL);
 
         respPromise.then(response => response.text()).then(html => setHtml(html))
-
       }, []);
 
     return <div dangerouslySetInnerHTML={{ __html: html }} />;;
