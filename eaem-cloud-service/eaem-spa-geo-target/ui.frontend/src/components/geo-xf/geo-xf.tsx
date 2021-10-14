@@ -24,6 +24,7 @@ const GeoXF: FC = props => {
         }): fetch(XF_URL);
 
         respPromise.then(response => response.text()).then(html => setHtml(html))
+
       }, []);
 
     return <div dangerouslySetInnerHTML={{ __html: html }} />;;

@@ -4,5 +4,5 @@
     <jcr:content
         cq:template="/conf/eaem-spa-geo-target/settings/wcm/templates/geo-targeting-xf"
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="rh/components/structure/xfpage"/>
+        sling:resourceType="core/wcm/components/page/v3/page"/>
 </jcr:root>
