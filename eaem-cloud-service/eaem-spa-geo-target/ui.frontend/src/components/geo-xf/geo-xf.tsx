@@ -28,9 +28,14 @@ const GeoXF: FC = props => {
                         return;
                     }
 
-                    fetch(offerJSON.xfHtmlPath)
-                        .then( response => response.text())
-                        .then( (html) => setHtml(html));
+                    const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(offerJSON.xfHtmlPath, {
+                        credentials: 'same-origin',
+                        headers: {
+                            'Authorization': process.env.REACT_APP_AEM_AUTHORIZATION_HEADER
+                        } as any
+                    }): fetch(offerJSON.xfHtmlPath);
+
+                    respPromise.then( response => response.text()).then( (html) => setHtml(html))
                 },
                 error: () => setHtml("<div>Target Error loading offer</div>")
             })
