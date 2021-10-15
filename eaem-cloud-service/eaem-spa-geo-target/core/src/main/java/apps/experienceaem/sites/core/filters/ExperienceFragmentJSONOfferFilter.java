@@ -47,7 +47,7 @@ public class ExperienceFragmentJSONOfferFilter implements Filter {
             ResourceResolver resolver = slingRequest.getResourceResolver();
             Externalizer externalizer = resolver.adaptTo(Externalizer.class);
 
-            model.put("xfHtmlPath", externalizer.authorLink(resolver, masterXFPath));
+            model.put("xfHtmlPath", externalizer.publishLink(resolver, masterXFPath));
 
             response.getWriter().print(model);
         } catch (Exception e) {
