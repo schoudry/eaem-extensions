@@ -14,6 +14,6 @@
  *  limitations under the License.
  */
 @Version("1.0")
-package apps.experienceaem.sites.core.servlets;
+package apps.experienceaem.sites.core.filters;
 
 import org.osgi.annotation.versioning.Version;
