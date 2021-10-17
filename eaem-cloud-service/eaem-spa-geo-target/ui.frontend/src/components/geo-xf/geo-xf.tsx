@@ -1,5 +1,5 @@
-import { MapTo } from "@adobe/aem-react-editable-components";
-import React, { FC, useState, useEffect } from "react";
+import {MappedComponentProperties, MapTo} from "@adobe/aem-react-editable-components";
+import React, { FC, useState } from "react";
 import Helmet from "react-helmet";
 import useScript from 'react-script-hook';
 import {AuthoringUtils} from "@adobe/aem-spa-page-model-manager";
@@ -12,50 +12,52 @@ const GeoXFConfig = {
     }
 };
 
+type GeoXFProps = MappedComponentProperties & {
+    mboxName ?: string;
+}
+
 const isInProxyOrAuthoring = () => process.env.REACT_APP_PROXY_ENABLED || AuthoringUtils.isInEditor()
                 || (window.location.search.indexOf("wcmmode=disabled") !== -1)
 
-const GeoXF: FC = props => {
-    const [html, setHtml] = useState("<div>Loading...</div>");
-
+const GeoXF: FC<GeoXFProps> = props => {
     // @ts-ignore
     window.targetGlobalSettings = {
         cookieDomain: window.location.hostname
     };
+
+    const [html, setHtml] = useState("<div>Loading...</div>");
+
+    const successFn = (offer : any) => {
+        const offerJSON = JSON.parse(offer[0].content);
+
+        if (!offerJSON.xfHtmlPath) {
+            setHtml("<div>Target Error loading offer : xfHtmlPath not available</div>");
+            return;
+        }
+
+        let xfHtmlPath = offerJSON.xfHtmlPath;
+
+        if(isInProxyOrAuthoring()){
+            xfHtmlPath = xfHtmlPath.substring(xfHtmlPath.indexOf("/content"));
+        }
+
+        const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(xfHtmlPath, {
+            credentials: 'same-origin',
+            headers: {
+                'Authorization': process.env.REACT_APP_AEM_AUTHORIZATION_HEADER
+            } as any
+        }): fetch(xfHtmlPath);
+
+        respPromise.then( response => response.text()).then( (html) => setHtml(html))
+    }
 
     useScript({
         src: '/etc.clientlibs/eaem-spa-geo-target/clientlibs/clientlib-react/resources/at.js',
         onload: () => {
             // @ts-ignore
             window.adobe.target.getOffer({
-                mbox: 'eaem-state-flag-box',
-                success: (offer : any) => {
-                    const offerJSON = JSON.parse(offer[0].content);
-
-                    console.log("offerJSON-----------", offerJSON);
-
-                    if (!offerJSON.xfHtmlPath) {
-                        setHtml("<div>Target Error loading offer : xfHtmlPath not available</div>");
-                        return;
-                    }
-
-                    let xfHtmlPath = offerJSON.xfHtmlPath;
-
-                    if(isInProxyOrAuthoring()){
-                        xfHtmlPath = xfHtmlPath.substring(xfHtmlPath.indexOf("/content"));
-                    }
-
-                    console.log("xfHtmlPath-----------", xfHtmlPath);
-
-                    const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(xfHtmlPath, {
-                        credentials: 'same-origin',
-                        headers: {
-                            'Authorization': process.env.REACT_APP_AEM_AUTHORIZATION_HEADER
-                        } as any
-                    }): fetch(xfHtmlPath);
-
-                    respPromise.then( response => response.text()).then( (html) => setHtml(html))
-                },
+                mbox: props.mboxName || 'eaem-state-flag-box',
+                success: successFn,
                 error: () => setHtml("<div>Target Error loading offer</div>")
             })
         }
