@@ -2,6 +2,7 @@ import { MapTo } from "@adobe/aem-react-editable-components";
 import React, { FC, useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import useScript from 'react-script-hook';
+import {AuthoringUtils} from "@adobe/aem-spa-page-model-manager";
 
 const GeoXFConfig = {
     emptyLabel: "Geo XF - Experience AEM",
@@ -11,8 +12,16 @@ const GeoXFConfig = {
     }
 };
 
+const isInProxyOrAuthoring = () => process.env.REACT_APP_PROXY_ENABLED || AuthoringUtils.isInEditor()
+                || (window.location.search.indexOf("wcmmode=disabled") !== -1)
+
 const GeoXF: FC = props => {
     const [html, setHtml] = useState("<div>Loading...</div>");
+
+    // @ts-ignore
+    window.targetGlobalSettings = {
+        cookieDomain: window.location.hostname
+    };
 
     useScript({
         src: '/etc.clientlibs/eaem-spa-geo-target/clientlibs/clientlib-react/resources/at.js',
@@ -23,17 +32,27 @@ const GeoXF: FC = props => {
                 success: (offer : any) => {
                     const offerJSON = JSON.parse(offer[0].content);
 
+                    console.log("offerJSON-----------", offerJSON);
+
                     if (!offerJSON.xfHtmlPath) {
                         setHtml("<div>Target Error loading offer : xfHtmlPath not available</div>");
                         return;
                     }
 
-                    const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(offerJSON.xfHtmlPath, {
+                    let xfHtmlPath = offerJSON.xfHtmlPath;
+
+                    if(isInProxyOrAuthoring()){
+                        xfHtmlPath = xfHtmlPath.substring(xfHtmlPath.indexOf("/content"));
+                    }
+
+                    console.log("xfHtmlPath-----------", xfHtmlPath);
+
+                    const respPromise = process.env.REACT_APP_PROXY_ENABLED ? fetch(xfHtmlPath, {
                         credentials: 'same-origin',
                         headers: {
                             'Authorization': process.env.REACT_APP_AEM_AUTHORIZATION_HEADER
                         } as any
-                    }): fetch(offerJSON.xfHtmlPath);
+                    }): fetch(xfHtmlPath);
 
                     respPromise.then( response => response.text()).then( (html) => setHtml(html))
                 },
