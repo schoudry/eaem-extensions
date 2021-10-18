@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-detect-duplicate-vanity" mode="merge"/>
+    <filter root="/content/eaem-detect-duplicate-vanity" mode="merge"/>
+    <filter root="/content/dam/eaem-detect-duplicate-vanity/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-detect-duplicate-vanity" mode="merge"/>
+</workspaceFilter>
