@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import {BrowserRouter} from 'react-router-dom';
 import {Route} from 'react-router-dom';
+import {PROJECT_URL_ROOT} from "../appConstants";
 
 import "./Nav.css";
  
@@ -20,9 +21,14 @@ class NavItem extends Component {
         if(!this.props.path || !this.props.title || !this.props.url) {
             return null;
         }
+
+        let url = this.props.url;
+
+        url = url.substring(PROJECT_URL_ROOT.length, url.lastIndexOf(".html"))
+
         return (
             <li className="NavItem" key={this.props.path}>
-                <Link className="NavItem-link" to={this.props.url}>
+                <Link className="NavItem-link" to={url}>
                         {this.props.title}
                 </Link>
             </li>
@@ -45,4 +51,4 @@ export default class Nav extends Component {
         );
     }
 }
-MapTo("eaem-spa-geo-target/components/navigation")(Nav, NavEditConfig);
+MapTo("eaem-spa-short-urls/components/navigation")(Nav, NavEditConfig);

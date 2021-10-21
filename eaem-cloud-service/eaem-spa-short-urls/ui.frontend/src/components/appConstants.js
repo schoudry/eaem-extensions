@@ -1,0 +1,1 @@
+export const PROJECT_URL_ROOT = "/content/eaem-spa-short-urls";

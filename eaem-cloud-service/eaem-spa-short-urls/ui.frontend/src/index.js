@@ -2,19 +2,33 @@ import 'react-app-polyfill/stable';
 import 'react-app-polyfill/ie9';
 import 'custom-event-polyfill';
 
-import { Constants, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { createBrowserHistory } from 'history';
+import {Constants, ModelClient, ModelManager} from '@adobe/aem-spa-page-model-manager';
+import {createBrowserHistory} from 'history';
 import React from 'react';
-import { render } from 'react-dom';
-import { Router } from 'react-router-dom';
+import {render} from 'react-dom';
+import {Router} from 'react-router-dom';
 import App from './App';
 import LocalDevModelClient from './LocalDevModelClient';
 import './components/import-components';
 import './index.css';
 
+class ShortURLModelClient extends ModelClient {
+    fetch(modelPath) {
+        //if the path does not start with /content (page editing) or /conf (template editing) return empty model
+        if (modelPath && !/^\/content|^\/conf/.test(modelPath)) {
+            return Promise.resolve({});
+        } else {
+            return super.fetch(modelPath);
+        }
+    }
+}
+
 const modelManagerOptions = {};
-if(process.env.REACT_APP_PROXY_ENABLED) {
+
+if (process.env.REACT_APP_PROXY_ENABLED) {
     modelManagerOptions.modelClient = new LocalDevModelClient(process.env.REACT_APP_API_HOST);
+} else {
+    modelManagerOptions.modelClient = new ShortURLModelClient(process.env.REACT_APP_API_HOST);
 }
 
 const renderApp = () => {
@@ -35,7 +49,6 @@ const renderApp = () => {
         );
     });
 };
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
