@@ -16,7 +16,7 @@ export const withRoute = (WrappedComponent, extension) => {
             let paths = ['(.*)' + routePath + '(.' + extension + ')?'];
 
             if (!AuthoringUtils.isInEditor() && routePath.startsWith(PROJECT_URL_ROOT)) {
-                paths.push(routePath.substring(PROJECT_URL_ROOT.length));
+                paths.push(routePath.substring(PROJECT_URL_ROOT.length) + ".html");
             }
 
             console.log(paths);

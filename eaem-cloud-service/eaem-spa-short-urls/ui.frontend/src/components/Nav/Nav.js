@@ -24,7 +24,7 @@ class NavItem extends Component {
 
         let url = this.props.url;
 
-        url = url.substring(PROJECT_URL_ROOT.length, url.lastIndexOf(".html"))
+        url = url.substring(PROJECT_URL_ROOT.length);
 
         return (
             <li className="NavItem" key={this.props.path}>
