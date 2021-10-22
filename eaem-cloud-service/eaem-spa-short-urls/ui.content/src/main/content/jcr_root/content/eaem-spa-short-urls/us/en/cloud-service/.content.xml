@@ -2,30 +2,31 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2021-10-21T13:26:51.130-05:00"
+        cq:lastModified="{Date}2021-10-21T12:34:47.173-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/conf/eaem-spa-short-urls/settings/wcm/templates/spa-page-template"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Home"
-        sling:resourceType="eaem-spa-short-urls/components/page"
-        pwaCachestrategy="staleWhileRevalidate"
-        pwaDisplay="standalone"
-        pwaOrientation="any">
+        jcr:title="Cloud Service"
+        sling:resourceType="eaem-spa-short-urls/components/page">
         <root
             jcr:primaryType="nt:unstructured"
             sling:resourceType="wcm/foundation/components/responsivegrid">
             <responsivegrid
+                jcr:created="{Date}2018-10-22T16:48:57.968+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-10-22T16:49:29.168+05:30"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="wcm/foundation/components/responsivegrid">
                 <text
-                    jcr:lastModified="{Date}2021-10-21T12:35:21.537-05:00"
+                    jcr:created="{Date}2021-10-21T12:34:38.246-05:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2021-10-21T12:34:47.171-05:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="eaem-spa-short-urls/components/text"
-                    text="&lt;p>Thsi is Home Page&lt;/p>&#xd;&#xa;"
-                    textIsRich="true">
-                    <cq:responsive jcr:primaryType="nt:unstructured"/>
-                </text>
+                    text="&lt;p>This is a Cloud Service Page&lt;/p>&#xd;&#xa;"
+                    textIsRich="true"/>
             </responsivegrid>
         </root>
     </jcr:content>

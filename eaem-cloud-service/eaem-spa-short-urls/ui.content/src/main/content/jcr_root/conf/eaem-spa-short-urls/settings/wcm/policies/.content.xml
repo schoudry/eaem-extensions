@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:mixinTypes="[rep:AccessControllable]"
     jcr:primaryType="cq:Page">
     <rep:policy/>
@@ -34,9 +34,9 @@
                     jcr:title="Content Image"
                     sling:resourceType="wcm/core/components/policy/policy"
                     allowedRenditionWidths="[320,480,600,800,1024,1200,1600]"
-                    disableLazyLoading="false"
                     allowUpload="false"
                     altValueFromDAM="true"
+                    disableLazyLoading="false"
                     displayPopupTitle="true"
                     isDecorative="false"
                     jpegQuality="{Long}85"
@@ -353,8 +353,7 @@
                     sling:resourceType="wcm/core/components/policy/policy"
                     clientlibs="[eaem-spa-short-urls.react]"
                     isRoot="{Boolean}true"
-                    structureDepth="3"
-                />
+                    structureDepth="3"/>
             </spa>
         </components>
     </eaem-spa-short-urls>
@@ -364,13 +363,15 @@
                 <responsivegrid jcr:primaryType="nt:unstructured">
                     <spa-default
                         jcr:description="Includes only SPA-Enabled components."
+                        jcr:lastModified="{Date}2021-10-21T12:30:13.251-05:00"
+                        jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="SPA Content"
                         sling:resourceType="wcm/core/components/policy/policy"
-                        components="[/libs/wcm/foundation/components/responsivegrid,/apps/eaem-spa-short-urls/components/text]">
+                        components="[/libs/wcm/foundation/components/responsivegrid,/apps/eaem-spa-short-urls/components/text,/apps/eaem-spa-short-urls/components/navigation]">
                         <jcr:content jcr:primaryType="nt:unstructured"/>
                     </spa-default>
-                    </responsivegrid>
+                </responsivegrid>
             </components>
         </foundation>
     </wcm>

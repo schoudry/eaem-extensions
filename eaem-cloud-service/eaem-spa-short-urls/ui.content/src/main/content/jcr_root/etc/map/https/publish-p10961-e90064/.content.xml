@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="sling:Mapping"
+    sling:internalRedirect="/content/eaem-spa-short-urls/us/"
+    sling:match="publish-p10961-e90064.adobeaemcloud.com/us/"/>
