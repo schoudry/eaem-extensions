@@ -3,6 +3,4 @@
     <filter root="/etc/map" mode="merge"/>
     <filter root="/conf/eaem-spa-short-urls" mode="merge"/>
     <filter root="/content/eaem-spa-short-urls" mode="merge"/>
-    <filter root="/content/dam/eaem-spa-short-urls/asset.jpg" mode="merge"/>
-    <filter root="/content/experience-fragments/eaem-spa-short-urls" mode="merge"/>
 </workspaceFilter>
