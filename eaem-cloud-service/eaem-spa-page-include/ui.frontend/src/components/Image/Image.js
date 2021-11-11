@@ -1,7 +1,6 @@
-import { MapTo } from '@adobe/cq-react-editable-components';
-import DOMPurify from 'dompurify';
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import {MapTo} from "@adobe/aem-react-editable-components";
 
 const ImageEditConfig = {
     emptyLabel: 'Image - Experience AEM',
