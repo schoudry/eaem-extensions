@@ -15,11 +15,11 @@ type SPAIncludeProps = MappedComponentProperties & {
     pagePath?: string | "";
 };
 
-const SPAInclude = loadable(() => import('./SPAInclude'), {fallback: <></>});
+const SPAIncludeLazy = loadable(() => import('./SPAIncludeLazy'), {fallback: <></>});
 
 const AEMSPAInclude: FC<SPAIncludeProps> = props => {
     return (
-        <SPAInclude {...props} />
+        <SPAIncludeLazy {...props} />
     );
 };
 

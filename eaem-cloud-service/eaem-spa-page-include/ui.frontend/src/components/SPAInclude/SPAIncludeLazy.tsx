@@ -5,7 +5,7 @@ type SPAIncludeProps = {
     pagePath ?: string;
 };
 
-const SPAInclude: FC<SPAIncludeProps> = props => {
+const SPAIncludeLazy: FC<SPAIncludeProps> = props => {
     const styles : React.CSSProperties = {
         padding: "40px",
         textAlign: "center"
@@ -20,4 +20,4 @@ const SPAInclude: FC<SPAIncludeProps> = props => {
     return html;
 };
 
-export default SPAInclude;
+export default SPAIncludeLazy;
