@@ -1,0 +1,6 @@
+{
+  "mobile.resourceTypes": [
+    "eaem-spa-page-include/components/page"
+  ],
+  "README": "Indicate which page resource types should display the mobile emulators."
+}

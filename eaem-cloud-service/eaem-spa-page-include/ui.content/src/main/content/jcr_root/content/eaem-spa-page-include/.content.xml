@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:allowedTemplates="[/conf/eaem-spa-page-include/settings/wcm/templates/(?!xf-).*]"
+        cq:conf="/conf/eaem-spa-page-include"
+        cq:redirectTarget="/content/eaem-spa-page-include/us/en"
+        cq:template="/conf/eaem-spa-page-include/settings/wcm/templates/spa-app-template"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Experience AEM SPA Page Include"
+        sling:configRef="/conf/eaem-spa-page-include"
+        sling:redirect="{Boolean}true"
+        sling:redirectStatus="{Long}302"
+        sling:resourceType="eaem-spa-page-include/components/page">
+        <image jcr:primaryType="nt:unstructured">
+            <file/>
+        </image>
+    </jcr:content>
+    <us/>
+</jcr:root>
