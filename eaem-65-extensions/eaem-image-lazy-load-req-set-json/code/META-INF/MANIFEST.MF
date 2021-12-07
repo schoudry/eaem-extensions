@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Content-Package-Roots: /apps/eaem-dm-modifiers-smart-crops/components/
+ image
+Content-Package-Type: application
+Content-Package-Id: my_packages:eaem-image-lazy-load-req-set-json
+
