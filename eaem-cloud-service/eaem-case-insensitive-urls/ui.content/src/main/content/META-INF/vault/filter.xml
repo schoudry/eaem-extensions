@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-case-insensitive-urls" mode="merge"/>
+    <filter root="/content/eaem-case-insensitive-urls" mode="merge"/>
+    <filter root="/content/dam/eaem-case-insensitive-urls/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-case-insensitive-urls" mode="merge"/>
+</workspaceFilter>

@@ -19,7 +19,6 @@ public class SpecialCharacterInFulltextPredicateEvaluator extends FulltextPredic
         }
 
         searchTerm = searchTerm.replace("_", " ");
-
         predicate.set("fulltext", searchTerm);
 
         return super.getXPathExpression(predicate, context);
