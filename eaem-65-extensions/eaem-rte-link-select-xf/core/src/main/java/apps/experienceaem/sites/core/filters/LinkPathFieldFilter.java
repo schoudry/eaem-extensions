@@ -2,7 +2,6 @@ package apps.experienceaem.sites.core.filters;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.wrappers.SlingHttpServletRequestWrapper;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
