@@ -26,6 +26,8 @@ public class LinkPathFieldFilter implements Filter {
     private static Logger logger = LoggerFactory.getLogger(LinkPathFieldFilter.class);
 
     public static String EXCLUDE = "exclude";
+    public static String HIDE_CF = "hideContentFragments";
+    public static String HIDE_CF_FALSE = "false";
     public static String EXCLUDE_NONE = "none";
     public static String LINK_PATH_DS = "/libs/cq/gui/content/linkpathfield/picker/views/column/datasource";
 
@@ -35,7 +37,9 @@ public class LinkPathFieldFilter implements Filter {
 
         try{
             Resource linkPathDSRes = slingRequest.getResourceResolver().getResource(LINK_PATH_DS);
-            linkPathDSRes.adaptTo(Node.class).setProperty(EXCLUDE, EXCLUDE_NONE);//set property for this request, not saved to CRX
+            Node dsNode = linkPathDSRes.adaptTo(Node.class);
+            dsNode.setProperty(EXCLUDE, EXCLUDE_NONE);//set property for this request, not saved to CRX
+            dsNode.setProperty(HIDE_CF, HIDE_CF_FALSE);
         }catch(Exception e){
             logger.error("Error overriding property 'exclude'", e);
         }
