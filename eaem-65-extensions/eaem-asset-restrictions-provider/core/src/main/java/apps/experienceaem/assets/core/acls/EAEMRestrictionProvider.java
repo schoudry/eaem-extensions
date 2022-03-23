@@ -25,9 +25,9 @@ public class EAEMRestrictionProvider extends AbstractRestrictionProvider {
     }
 
     private static Map<String, RestrictionDefinition> supportedRestrictions() {
-        RestrictionDefinition folderCategoryRes = new RestrictionDefinitionImpl(EAEMAssetCategoryRestriction.ASSET_CATEGORY,
+        RestrictionDefinition assetCategoryRes = new RestrictionDefinitionImpl(EAEMAssetCategoryRestriction.ASSET_CATEGORY,
                 Type.STRING, false);
-        return ImmutableMap.of(folderCategoryRes.getName(), folderCategoryRes);
+        return ImmutableMap.of(assetCategoryRes.getName(), assetCategoryRes);
     }
 
     @Override
@@ -37,10 +37,10 @@ public class EAEMRestrictionProvider extends AbstractRestrictionProvider {
         } else {
             List<RestrictionPattern> patterns = new ArrayList(1);
 
-            PropertyState folderCategoryProperty = tree.getProperty(EAEMAssetCategoryRestriction.ASSET_CATEGORY);
+            PropertyState assetCategoryProperty = tree.getProperty(EAEMAssetCategoryRestriction.ASSET_CATEGORY);
 
-            if (folderCategoryProperty != null) {
-                patterns.add(new EAEMAssetCategoryRestriction(folderCategoryProperty.getValue(Type.STRING)));
+            if (assetCategoryProperty != null) {
+                patterns.add(new EAEMAssetCategoryRestriction(assetCategoryProperty.getValue(Type.STRING)));
             }
 
             return CompositePattern.create(patterns);
