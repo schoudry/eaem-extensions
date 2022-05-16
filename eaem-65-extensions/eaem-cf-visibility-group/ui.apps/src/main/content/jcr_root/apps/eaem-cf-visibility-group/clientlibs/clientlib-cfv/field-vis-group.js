@@ -28,20 +28,33 @@
                 doVisibility(fieldTypeSelect);
             });
         });
+    }
 
-        function doGrouping(fieldTypeSelect){
-            $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
-                                .css("margin-top", "15px");
+    function doGrouping(fieldTypeSelect){
+        $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
+            .css("margin-top", "15px");
 
-            const lastItem = fieldTypeSelect.items.getAll().at(-1),
-                    $widget = $("[name^='" + lastItem.value + "_']");
+        const lastItem = fieldTypeSelect.items.getAll().at(-1),
+            $widget = $("[name^='" + lastItem.value + "_']");
 
-            $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
-                                .css("margin-bottom", "10px").css("padding-bottom", "10px");
-        }
+        $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
+            .css("margin-bottom", "10px").css("padding-bottom", "10px");
+    }
 
-        function doVisibility(fieldTypeSelect){
+    function doVisibility(fieldTypeSelect){
+        const widgetItems = fieldTypeSelect.items.getAll();
 
+        hideAllButThis();
+
+        fieldTypeSelect.on("change", function() {
+            hideAllButThis(this.value);
+        });
+
+        function hideAllButThis(doNotHide){
+            _.each(widgetItems, (item) => {
+                const $cffw = $("[name^='" + item.value + "_']").closest(CFFW);
+                $cffw.css("display", ( doNotHide == item.value ) ? "block" : "none");
+            })
         }
     }
 
