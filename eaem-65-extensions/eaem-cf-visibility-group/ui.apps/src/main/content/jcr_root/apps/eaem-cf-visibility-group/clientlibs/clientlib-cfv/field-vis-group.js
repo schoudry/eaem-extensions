@@ -27,7 +27,7 @@
         });
     }
 
-    function setFieldStyling(fieldTypeSelect){
+    function setFieldNamesAndStyling(fieldTypeSelect){
         const widgetItems = fieldTypeSelect.items.getAll();
 
         $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
@@ -35,7 +35,6 @@
 
         _.each(widgetItems, (item) => {
             const $widget = $("[name^='" + item.value + "_']");
-
             $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
                 .css("margin-bottom", "10px").css("padding-bottom", "10px");
         })
@@ -44,7 +43,7 @@
     function doVisibility(fieldTypeSelect){
         const widgetItems = fieldTypeSelect.items.getAll();
 
-        setFieldStyling(fieldTypeSelect);
+        setFieldNamesAndStyling(fieldTypeSelect);
 
         hideAllButThis(fieldTypeSelect.selectedItem.value);
 
