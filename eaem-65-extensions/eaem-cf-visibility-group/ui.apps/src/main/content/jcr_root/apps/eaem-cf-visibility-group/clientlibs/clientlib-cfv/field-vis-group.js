@@ -1,6 +1,7 @@
 (function ($, $document) {
     const   URL = document.location.pathname,
             CFFW = ".coral-Form-fieldwrapper",
+            BORDER_STYLE = "1px solid #AAA",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -22,13 +23,25 @@
 
     function addFieldGrouping(){
         $(FIELD_TYPE_SELECTOR).each(function(index, fieldTypeSelect){
-            Coral.commons.ready(fieldTypeSelect, doGrouping);
+            Coral.commons.ready(fieldTypeSelect, (fieldTypeSelect) => {
+                doGrouping(fieldTypeSelect);
+                doVisibility(fieldTypeSelect);
+            });
         });
 
         function doGrouping(fieldTypeSelect){
-            _.each(fieldTypeSelect.items.getAll(), (item) => {
-                console.log(item.value);
-            });
+            $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
+                                .css("margin-top", "15px");
+
+            const lastItem = fieldTypeSelect.items.getAll().at(-1),
+                    $widget = $("[name^='" + lastItem.value + "_']");
+
+            $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
+                                .css("margin-bottom", "10px").css("padding-bottom", "10px");
+        }
+
+        function doVisibility(fieldTypeSelect){
+
         }
     }
 
