@@ -1,4 +1,4 @@
-(function ($, $document) {
+(function ($) {
     const   URL = document.location.pathname,
             CFFW = ".coral-Form-fieldwrapper",
             BORDER_STYLE = "1px solid #AAA",
@@ -23,28 +23,30 @@
 
     function addFieldGrouping(){
         $(FIELD_TYPE_SELECTOR).each(function(index, fieldTypeSelect){
-            Coral.commons.ready(fieldTypeSelect, (fieldTypeSelect) => {
-                doGrouping(fieldTypeSelect);
-                doVisibility(fieldTypeSelect);
-            });
+            Coral.commons.ready(fieldTypeSelect, doVisibility);
         });
     }
 
-    function doGrouping(fieldTypeSelect){
+    function setFieldStyling(fieldTypeSelect){
+        const widgetItems = fieldTypeSelect.items.getAll();
+
         $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
-            .css("margin-top", "15px");
+                    .css("margin-top", "15px");
 
-        const lastItem = fieldTypeSelect.items.getAll().at(-1),
-            $widget = $("[name^='" + lastItem.value + "_']");
+        _.each(widgetItems, (item) => {
+            const $widget = $("[name^='" + item.value + "_']");
 
-        $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
-            .css("margin-bottom", "10px").css("padding-bottom", "10px");
+            $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
+                .css("margin-bottom", "10px").css("padding-bottom", "10px");
+        })
     }
 
     function doVisibility(fieldTypeSelect){
         const widgetItems = fieldTypeSelect.items.getAll();
 
-        hideAllButThis();
+        setFieldStyling(fieldTypeSelect);
+
+        hideAllButThis(fieldTypeSelect.selectedItem.value);
 
         fieldTypeSelect.on("change", function() {
             hideAllButThis(this.value);
@@ -62,4 +64,4 @@
         return ((URL.indexOf("/editor.html") == 0)
             ||  (URL.indexOf("/mnt/overlay/dam/cfm/admin/content/v2/fragment-editor.html") == 0) )
     }
-}(jQuery, jQuery(document)));
+}(jQuery));
