@@ -15,14 +15,7 @@
             let $startWfBut = $(BULK_WF_ACTIVATOR);
 
             if(!_.isEmpty($startWfBut)){
-                const $items = $(".foundation-selections-item");
-
-                if(_.isEmpty($items)){
-                    $startWfBut.removeClass(FOU_COL_ACT_HIDDEN);
-                }else{
-                    $startWfBut.addClass(FOU_COL_ACT_HIDDEN);
-                }
-
+                $startWfBut.removeClass(FOU_COL_ACT_HIDDEN);
                 return;
             }
 
