@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:mixinTypes="[sling:VanityPath]"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Start Bulk Workflow"
+            sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <favicon
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <viewport
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation]"/>
+        </head>
+        <body
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <content
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form"
+                        action="/var/workflow/instances.package"
+                        foundationForm="{Boolean}true"
+                        maximized="{Boolean}true"
+                        method="post"
+                        novalidate="{Boolean}true"
+                        style="vertical">
+                    <successresponse
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Success"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
+                            open="/assets.html"
+                            redirect="/apps/eaem-assets-start-bulk-wf/components/content/start-bulk-workflow.html"
+                            text="Workflow started..."/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <type
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                name="./jcr:primaryType"
+                                value="nt:unstructured"/>
+                        <wizard
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Start Workflow"
+                                sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                            <items jcr:primaryType="nt:unstructured">
+                                <area
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Start Workflow..."
+                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                        maximized="{Boolean}true">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <columns
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                                margin="{Boolean}true">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <charset
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                                name="_charset_"
+                                                                value="utf-8"/>
+                                                        <model
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                                emptyText="Select one"
+                                                                fieldLabel="Workflow model"
+                                                                ignoreData="{Boolean}true"
+                                                                name="workflowModel"
+                                                                required="{Boolean}true">
+                                                            <datasource
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    sling:resourceType="cq/gui/components/coral/common/admin/timeline/events/workflow/datasources/models"/>
+                                                        </model>
+                                                        <workflowtitle
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                fieldLabel="Workflow title"
+                                                                ignoreData="{Boolean}true"
+                                                                name="workflowTitle"
+                                                                required="{Boolean}true"/>
+                                                        <keeppackage
+                                                                granite:rel="cq-sites-startbulkworkflows-keeppackage"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                checked="{Boolean}false"
+                                                                disabled="{Boolean}true"
+                                                                fieldDescription="If checked, the workflow package will have a unique name."
+                                                                text="Keep workflow package"
+                                                                value="true"/>
+                                                        <packagetitle
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                disabled="{Boolean}true"
+                                                                fieldLabel="Package title"
+                                                                ignoreData="{Boolean}true"
+                                                                name="packageTitle"
+                                                                required="{Boolean}true"/>
+                                                        <packagesPath
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                                name="workflowPackagesPath"
+                                                                value="/var/workflow/packages${empty tenant.id? &quot;&quot; : &quot;/&quot;}${tenant.id}"/>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </columns>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                                granite:class="foundation-wizard-control"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                                href="/aem/start.html"
+                                                text="Cancel">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                                granite:class="foundation-wizard-control"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                text="Start"
+                                                type="submit"
+                                                variant="primary">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </area>
+                            </items>
+                        </wizard>
+                    </items>
+                </content>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>
