@@ -16,7 +16,7 @@
             <clientlibs
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
-                    categories="[coralui3,granite.ui.coral.foundation]"/>
+                    categories="[coralui3,granite.ui.coral.foundation,eaem.bulkwf]"/>
         </head>
         <body
                 jcr:primaryType="nt:unstructured"
@@ -39,11 +39,6 @@
                             redirect="/apps/eaem-assets-start-bulk-wf/components/content/start-bulk-workflow.html"
                             text="Workflow started..."/>
                     <items jcr:primaryType="nt:unstructured">
-                        <type
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                                name="./jcr:primaryType"
-                                value="nt:unstructured"/>
                         <wizard
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Start Workflow"
