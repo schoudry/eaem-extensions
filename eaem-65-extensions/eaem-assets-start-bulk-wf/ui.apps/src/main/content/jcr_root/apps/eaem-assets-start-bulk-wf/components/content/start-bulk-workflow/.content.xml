@@ -35,8 +35,8 @@
                             jcr:primaryType="nt:unstructured"
                             jcr:title="Success"
                             sling:resourceType="granite/ui/components/coral/foundation/form/responses/openprompt"
-                            open="/assets.html"
-                            redirect="/apps/eaem-assets-start-bulk-wf/components/content/start-bulk-workflow.html"
+                            open="/libs/cq/workflow/admin/console/content/instances.html"
+                            redirect="/assets.html"
                             text="Workflow started..."/>
                     <items jcr:primaryType="nt:unstructured">
                         <wizard
