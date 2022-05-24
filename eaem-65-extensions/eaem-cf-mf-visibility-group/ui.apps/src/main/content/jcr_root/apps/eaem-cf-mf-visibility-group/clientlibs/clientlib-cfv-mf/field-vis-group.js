@@ -1,7 +1,6 @@
 (function ($) {
     const   URL = document.location.pathname,
             CFFW = ".coral-Form-fieldwrapper",
-            BORDER_STYLE = "1px solid #AAA",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -18,7 +17,15 @@
 
         initialized = true;
 
-        window.Dam.CFM.Core.registerReadyHandler(addFieldGrouping);
+        window.Dam.CFM.Core.registerReadyHandler(() => {
+            hideTabHeaders();
+
+            addFieldGrouping();
+        });
+    }
+
+    function hideTabHeaders(){
+        $("coral-tablist").hide();
     }
 
     function addFieldGrouping(){
@@ -27,23 +34,8 @@
         });
     }
 
-    function setFieldNamesAndStyling(fieldTypeSelect){
-        const widgetItems = fieldTypeSelect.items.getAll();
-
-        $(fieldTypeSelect).closest(CFFW).css("border-top", BORDER_STYLE)
-                    .css("margin-top", "15px");
-
-        _.each(widgetItems, (item) => {
-            const $widget = $("[name^='" + item.value + "_']");
-            $widget.closest(CFFW).css("border-bottom", BORDER_STYLE)
-                .css("margin-bottom", "10px").css("padding-bottom", "10px");
-        })
-    }
-
     function doVisibility(fieldTypeSelect){
         const widgetItems = fieldTypeSelect.items.getAll();
-
-        setFieldNamesAndStyling(fieldTypeSelect);
 
         hideAllButThis(fieldTypeSelect.selectedItem.value);
 
