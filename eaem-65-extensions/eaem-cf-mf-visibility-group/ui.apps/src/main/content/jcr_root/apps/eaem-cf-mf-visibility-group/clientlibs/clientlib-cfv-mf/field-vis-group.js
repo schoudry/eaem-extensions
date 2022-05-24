@@ -39,7 +39,7 @@
         $kvMulti.append(getKeyValueTemplateFromLastParkedTab());
 
         $kvMulti.on("coral-collection:add", function(event){
-            //Coral.commons.ready(event.detail.item, addKeyValueMFFromParkedTab);
+            Coral.commons.ready(event.detail.item, addFieldGrouping);
         });
     }
 
@@ -53,14 +53,8 @@
         return template;
     }
 
-    function addKeyValueMFFromParkedTab(mfItem){
-        const $mfContent = $imageReference.closest("coral-multifield-item-content");
-    }
-
-    function addFieldGrouping(){
-        $(FIELD_TYPE_SELECTOR).each(function(index, fieldTypeSelect){
-            Coral.commons.ready(fieldTypeSelect, doVisibility);
-        });
+    function addFieldGrouping(mfItem){
+        Coral.commons.ready($(mfItem).find(FIELD_TYPE_SELECTOR)[0], doVisibility);
     }
 
     function doVisibility(fieldTypeSelect){
