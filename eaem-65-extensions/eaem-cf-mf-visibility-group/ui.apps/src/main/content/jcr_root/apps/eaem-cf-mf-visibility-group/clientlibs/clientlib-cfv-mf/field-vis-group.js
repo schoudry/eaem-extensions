@@ -1,6 +1,7 @@
 (function ($) {
     const   URL = document.location.pathname,
             CFFW = ".coral-Form-fieldwrapper",
+            KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -20,12 +21,40 @@
         window.Dam.CFM.Core.registerReadyHandler(() => {
             hideTabHeaders();
 
+            addKeyValueMultiFieldListener();
+
             addFieldGrouping();
         });
     }
 
     function hideTabHeaders(){
         $("coral-tablist").hide();
+    }
+
+    function addKeyValueMultiFieldListener(){
+        const $kvMulti = $(KV_MF_SELECTOR);
+
+        $kvMulti.find("template").remove();
+
+        $kvMulti.append(getKeyValueTemplateFromLastParkedTab());
+
+        $kvMulti.on("coral-collection:add", function(event){
+            //Coral.commons.ready(event.detail.item, addKeyValueMFFromParkedTab);
+        });
+    }
+
+    function getKeyValueTemplateFromLastParkedTab(){
+        const $parkedMFTab = $("coral-panel").last();
+
+        let template = '<template coral-multifield-template=""><div>'
+                            + $parkedMFTab.html() || $parkedMFTab.find("coral-panel-content").html()
+                        + '</div></template>'
+
+        return template;
+    }
+
+    function addKeyValueMFFromParkedTab(mfItem){
+        const $mfContent = $imageReference.closest("coral-multifield-item-content");
     }
 
     function addFieldGrouping(){
