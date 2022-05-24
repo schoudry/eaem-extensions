@@ -38,23 +38,50 @@
     function addKeyValueMultiFieldListener(){
         const $kvMulti = $(KV_MF_SELECTOR);
 
-        $kvMulti.find("template").remove();
-
-        $kvMulti.append(getKeyValueTemplateFromLastParkedTab());
+        createTemplateFromLastParkedTab();
 
         $kvMulti.on("coral-collection:add", function(event){
             Coral.commons.ready(event.detail.item, addFieldGrouping);
         });
+
+        Coral.commons.ready($kvMulti[0], splitKeyValueJSONIntoFields);
     }
 
-    function getKeyValueTemplateFromLastParkedTab(){
+    function splitKeyValueJSONIntoFields(kvMFField){
+        const kvMFName = $(kvMFField).attr("data-granite-coral-multifield-name");
+
+        _.each(kvMFField.items.getAll(), function(item) {
+            const $content = $(item).find("coral-multifield-item-content");
+            let jsonData = $content.find("[name=" + kvMFName + "]").val();
+
+            if(!jsonData){
+                return;
+            }
+
+            jsonData = JSON.parse(jsonData);
+
+            $content.html(getParkedMFHtml());
+
+            Coral.commons.ready($content.find(FIELD_TYPE_SELECTOR)[0], (fieldTypeSelect) => {
+                fieldTypeSelect.value = jsonData[fieldTypeSelect.name];
+                doVisibility(fieldTypeSelect);
+            });
+        });
+    }
+
+    function createTemplateFromLastParkedTab(){
+        const $kvMulti = $(KV_MF_SELECTOR);
+
+        $kvMulti.find("template").remove();
+
+        let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml() + '</div></template>';
+
+        $kvMulti.append(template);
+    }
+
+    function getParkedMFHtml(){
         const $parkedMFTab = $("coral-panel").last();
-
-        let template = '<template coral-multifield-template=""><div>'
-                            + $parkedMFTab.html() || $parkedMFTab.find("coral-panel-content").html()
-                        + '</div></template>'
-
-        return template;
+        return $parkedMFTab.html() || $parkedMFTab.find("coral-panel-content").html();
     }
 
     function getKeyValueData(){
