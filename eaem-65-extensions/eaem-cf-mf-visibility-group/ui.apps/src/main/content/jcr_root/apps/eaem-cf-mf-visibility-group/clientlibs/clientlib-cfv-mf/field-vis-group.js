@@ -64,7 +64,7 @@
 
             Coral.commons.ready($content.find(FIELD_TYPE_SELECTOR)[0], (fieldTypeSelect) => {
                 fieldTypeSelect.value = jsonData[fieldTypeSelect.name];
-                doVisibility(fieldTypeSelect);
+                doVisibility(fieldTypeSelect, jsonData);
             });
         });
     }
@@ -89,8 +89,6 @@
                 kvMFName = $kvMulti.attr("data-granite-coral-multifield-name");
         let kevValueData = [];
 
-        $kvMulti.find('input:hidden[name=' + kvMFName + ']').remove();
-
         _.each($kvMulti[0].items.getAll(), function(item) {
             const $content = $(item.content),
                 fieldTypeSelect = $content.find(FIELD_TYPE_SELECTOR)[0],
@@ -111,7 +109,7 @@
         Coral.commons.ready($(mfItem).find(FIELD_TYPE_SELECTOR)[0], doVisibility);
     }
 
-    function doVisibility(fieldTypeSelect){
+    function doVisibility(fieldTypeSelect, jsonData){
         if(!fieldTypeSelect){
             return;
         }
@@ -126,7 +124,13 @@
 
         function hideAllButThis(doNotHide){
             _.each(widgetItems, (item) => {
-                const $cffw = $("[name^='" + item.value + "_']").closest(CFFW);
+                let $widget = $(fieldTypeSelect).closest("coral-multifield-item").find("[name^='" + item.value + "_']");
+
+                if(jsonData && jsonData[$widget.attr("name")]){
+                    $widget.val(jsonData[$widget.attr("name")]);
+                }
+
+                const $cffw = $widget.closest(CFFW);
                 $cffw.css("display", ( doNotHide == item.value ) ? "block" : "none");
             })
         }
