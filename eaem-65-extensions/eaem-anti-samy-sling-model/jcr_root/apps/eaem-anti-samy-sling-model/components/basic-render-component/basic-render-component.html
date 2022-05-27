@@ -1,7 +1,8 @@
 <div>
     <h2>Experience AEM Basic Render Component</h2>
     <br>
-    <div>
+    <div data-sly-use.eaemModel="apps.eaem_anti_samy_sling_model.components.basic_render_component.ExperienceAEMModel">
+        ${eaemModel.html @ context='html'}
     </div>
 <br>
 </div>

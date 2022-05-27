@@ -21,7 +21,7 @@
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                     fieldLabel="Experience AEM Title"
-                                    name="./eaemTitle"/>
+                                    name="./title"/>
                         </items>
                     </column>
                 </items>
