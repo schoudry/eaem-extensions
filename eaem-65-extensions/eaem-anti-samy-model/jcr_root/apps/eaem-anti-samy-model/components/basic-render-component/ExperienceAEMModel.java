@@ -15,6 +15,6 @@ public class ExperienceAEMModel {
     }
 
     public String getHtml() {
-        return "<span font='color:red'>test antisamy</span>";
+        return "<span slot='1234'>adobe antisamy</span>";
     }
 }

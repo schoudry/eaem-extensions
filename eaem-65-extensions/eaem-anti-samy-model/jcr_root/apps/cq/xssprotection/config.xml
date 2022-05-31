@@ -964,6 +964,11 @@ http://www.w3.org/TR/html401/struct/global.html
 					<regexp value="[0-9a-zA-Z_-]+"/>
 				</regexp-list>
 			</attribute>
+			<attribute name="slot">
+				<regexp-list>
+					<regexp name="anything" />
+				</regexp-list>
+			</attribute>
 		</tag>
 
 		<tag name="div" action="validate">
