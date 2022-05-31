@@ -1,4 +1,4 @@
-package apps.eaem_anti_samy_sling_model.components.basic_render_component;
+package apps.eaem_anti_samy_model.components.basic_render_component;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
