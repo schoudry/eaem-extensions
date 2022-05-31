@@ -8,13 +8,10 @@ import javax.annotation.PostConstruct;
 public class ExperienceAEMModel {
     private static final Logger log = LoggerFactory.getLogger(ExperienceAEMModel.class);
 
-    private String title;
-
-    public String getTitle() {
-        return title;
-    }
-
     public String getHtml() {
-        return "<span slot='1234'>adobe antisamy</span>";
+        return "<tv3-tooltip id='demo-1' tip='The CREF Board of Trustees consists of 10 people who oversee the management of CREF.'>" +
+                    "<span slot='source'>CREF Board of Trustees</span>" +
+                    "<div>The CREF Board of Trustees consists of 10 people who oversee the management of CREF.</div>" +
+                "</tv3-tooltip>";
     }
 }

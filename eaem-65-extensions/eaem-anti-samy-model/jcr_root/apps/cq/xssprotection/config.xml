@@ -952,6 +952,14 @@ http://www.w3.org/TR/html401/struct/global.html
 			<attribute name="media"/>
 		</tag>
 
+		<tag name="tv3-tooltip" action="validate">
+			<attribute name="tip">
+				<regexp-list>
+					<regexp name="anything" />
+				</regexp-list>
+			</attribute>
+		</tag>
+
 		<tag name="span" action="validate">
 			<!-- the data-* attributes as supported in HTML5 -->
 			<attribute name="data-adobesigntype" description="Attribute data-adobesigntype provides type information of 'adobe sign field text tag' enclosed in the span.">
