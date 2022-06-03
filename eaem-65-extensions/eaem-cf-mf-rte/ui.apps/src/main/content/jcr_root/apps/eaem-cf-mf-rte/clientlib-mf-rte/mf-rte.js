@@ -26,14 +26,14 @@
 
         initialized = true;
 
+        extendMultiEditorSupport();
+
         window.Dam.CFM.Core.registerReadyHandler(() => {
             extendRequestSave();
 
             hideTabHeaders();
 
             addKeyValueMultiFieldListener();
-
-            extendMultiEditorSupport();
         });
     }
 
@@ -327,9 +327,11 @@
 
     function extendMultiEditorSupport() {
         const CFM = window.Dam.CFM,
+            origHandleContainerFn = CFM.MultiEditorManager.prototype.handleContainer,
             origGetEditorFn = CFM.MultiEditorManager.prototype.getEditor;
 
         CFM.MultiEditorManager.prototype.getEditor = getEditor;
+        CFM.MultiEditorManager.prototype.handleContainer = handleContainer;
 
         function getEditor($container) {
             const editor = origGetEditorFn.call(this, $container);
@@ -342,6 +344,11 @@
                 const eContainer = containerObj.container;
                 console.log(eContainer);
             })
+        }
+
+        function handleContainer($container){
+            origHandleContainerFn.call(this, $container);
+            $container.addClass("eaem-mf-rte");
         }
     }
 
