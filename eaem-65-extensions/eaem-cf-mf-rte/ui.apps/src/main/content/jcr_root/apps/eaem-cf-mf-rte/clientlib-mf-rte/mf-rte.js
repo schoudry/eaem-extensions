@@ -9,6 +9,7 @@
             CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
             EAEM_SUMMARY = "eaem-summary",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
+            RTE_SELECTOR = ".cfm-multieditor",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -31,6 +32,8 @@
             hideTabHeaders();
 
             addKeyValueMultiFieldListener();
+
+            extendMultiEditorSupport();
         });
     }
 
@@ -67,6 +70,9 @@
 
             Coral.commons.ready($content.find(FIELD_TYPE_SELECTOR)[0], (fieldTypeSelect) => {
                 fieldTypeSelect.value = jsonData[fieldTypeSelect.name];
+
+                indexRTEsInMF(fieldTypeSelect.closest("coral-multifield-item"));
+
                 doVisibility(fieldTypeSelect, jsonData);
             });
 
@@ -74,6 +80,16 @@
         });
 
         addCollapsers();
+    }
+
+    function indexRTEsInMF(mfItem){
+        const $rte = $(mfItem).find(RTE_SELECTOR);
+
+        if(_.isEmpty($rte)){
+            return;
+        }
+
+        $rte.addClass("eaem-mf-rte");
     }
 
     function fillMultiFieldItem(mfItem, jsonData){
@@ -307,6 +323,26 @@
         $summarySection.click(function(){
             $mfItem.find("[icon='accordionDown']").click();
         });
+    }
+
+    function extendMultiEditorSupport() {
+        const CFM = window.Dam.CFM,
+            origGetEditorFn = CFM.MultiEditorManager.prototype.getEditor;
+
+        CFM.MultiEditorManager.prototype.getEditor = getEditor;
+
+        function getEditor($container) {
+            const editor = origGetEditorFn.call(this, $container);
+
+            if(editor){
+                return;
+            }
+
+            _.each(this._editorContainers, (containerObj) => {
+                const eContainer = containerObj.container;
+                console.log(eContainer);
+            })
+        }
     }
 
     function extendRequestSave(){
