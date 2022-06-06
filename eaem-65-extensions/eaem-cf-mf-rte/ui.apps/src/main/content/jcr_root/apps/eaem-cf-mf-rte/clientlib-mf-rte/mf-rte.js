@@ -11,6 +11,7 @@
             EAEM_MF_RTE = "eaem-mf-rte",
             FIELD_MULTI_STRING = "FIELD_MULTI_STRING",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
+            RTE_PAGE_URL = "/apps/eaem-cf-mf-rte/rte-page.html",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -371,11 +372,11 @@
     }
 
     function getRTEBlock(){
-        const iframeHTML = "<iframe width='600px' height='450px' frameBorder='0' src='/apps/eaem-cf-mf-rte/common/properties.html'></iframe>";
+        const iframeHTML = "<iframe width='1050px' height='200px' frameBorder='0' src='" + RTE_PAGE_URL + "'></iframe>";
 
         return "<div>" +
                     "<div class='" + EAEM_MF_RTE + "'>" + iframeHTML + "</div>" +
-                    "<div><button is='coral-button'>Open RTE</div>" +
+                    //"<div><button is='coral-button'>Open RTE</div>" +
                 "</div>";
     }
 
