@@ -10,6 +10,7 @@
             EAEM_SUMMARY = "eaem-summary",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
             RTE_SELECTOR = ".cfm-multieditor",
+            MF_RTE_CLASS = "eaem-mf-rte",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -38,7 +39,7 @@
     }
 
     function hideTabHeaders(){
-        $("coral-tablist").hide();
+        $("coral-tablist").last().hide();
     }
 
     function addKeyValueMultiFieldListener(){
@@ -71,8 +72,6 @@
             Coral.commons.ready($content.find(FIELD_TYPE_SELECTOR)[0], (fieldTypeSelect) => {
                 fieldTypeSelect.value = jsonData[fieldTypeSelect.name];
 
-                indexRTEsInMF(fieldTypeSelect.closest("coral-multifield-item"));
-
                 doVisibility(fieldTypeSelect, jsonData);
             });
 
@@ -80,16 +79,6 @@
         });
 
         addCollapsers();
-    }
-
-    function indexRTEsInMF(mfItem){
-        const $rte = $(mfItem).find(RTE_SELECTOR);
-
-        if(_.isEmpty($rte)){
-            return;
-        }
-
-        $rte.addClass("eaem-mf-rte");
     }
 
     function fillMultiFieldItem(mfItem, jsonData){
@@ -169,6 +158,12 @@
 
                 if(jsonData && jsonData[$widget.attr("name")]){
                     $widget.val(jsonData[$widget.attr("name")]);
+                }
+
+                const $rteWidget = $widget.closest(".cfm-multieditor") ;
+
+                if($rteWidget.length > 0){
+                    $rteWidget.addClass(MF_RTE_CLASS);
                 }
 
                 const $cffw = $widget.closest(CFFW);
@@ -348,7 +343,6 @@
 
         function handleContainer($container){
             origHandleContainerFn.call(this, $container);
-            $container.addClass("eaem-mf-rte");
         }
     }
 
