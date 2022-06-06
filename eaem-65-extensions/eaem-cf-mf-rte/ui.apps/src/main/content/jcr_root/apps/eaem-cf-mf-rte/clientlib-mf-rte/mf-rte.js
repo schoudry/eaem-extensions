@@ -8,10 +8,10 @@
             SUMMARY_FIELD = "[name='key']",
             CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
             EAEM_SUMMARY = "eaem-summary",
-            EAEM_MF_RTE = "eaem-mf-rte",
             FIELD_MULTI_STRING = "FIELD_MULTI_STRING",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
             RTE_PAGE_URL = "/apps/eaem-cf-mf-rte/rte-page.html",
+            MF_RTE_NAME = "eaem-mf-rte",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -34,7 +34,31 @@
             hideTabHeaders();
 
             addKeyValueMultiFieldListener();
+
+            addRTEDataListener();
         });
+    }
+
+    function addRTEDataListener(){
+        $(window).off('message', receiveMessage).on('message', receiveMessage);
+
+        function receiveMessage(event) {
+            event = event.originalEvent || {};
+
+            if (_.isEmpty(event.data)) {
+                return;
+            }
+
+            let message;
+
+            try{
+                message = JSON.parse(event.data);
+            }catch(err){
+                return;
+            }
+
+            $("[" + MF_RTE_NAME + "=" + message.rteName + "]").val(message.content);
+        }
     }
 
     function hideTabHeaders(){
@@ -162,19 +186,25 @@
                 const $cffw = $widget.closest(CFFW);
                 $cffw.css("display", ( doNotHide == item.value ) ? "block" : "none");
 
-                if(fieldTypeSelect.value !== FIELD_MULTI_STRING){
-                    return;
+                if( (doNotHide === FIELD_MULTI_STRING) && ( doNotHide == item.value )){
+                    addRTEContainer($cffw, $widget);
                 }
-
-                addRTEContainer($cffw, $widget);
             })
         }
     }
 
     function addRTEContainer($cffw, $widget){
-        $widget.remove();
+        $widget.hide();
 
-        $cffw.append(getRTEBlock());
+        const rteName = MF_RTE_NAME + "-" + (Math.random() + 1).toString(36).substring(7)
+
+        if($widget.attr(MF_RTE_NAME)){
+            return;
+        }
+
+        $widget.attr(MF_RTE_NAME, rteName);
+
+        $cffw.append(getRTEBlock(rteName, $widget.val()));
     }
 
     function addCollapsers(){
@@ -371,13 +401,12 @@
         }
     }
 
-    function getRTEBlock(){
-        const iframeHTML = "<iframe width='1050px' height='150px' frameBorder='0' src='" + RTE_PAGE_URL + "'></iframe>";
+    function getRTEBlock(rteName, value){
+        const iframeHTML = "<iframe width='1050px' height='150px' frameBorder='0' " +
+                                "src='" + RTE_PAGE_URL + "?rteName=" + rteName + "&value=" + encodeURIComponent(value)+ "'>" +
+                            "</iframe>";
 
-        return "<div>" +
-                    "<div class='" + EAEM_MF_RTE + "'>" + iframeHTML + "</div>" +
-                    //"<div><button is='coral-button'>Open RTE</div>" +
-                "</div>";
+        return "<div>" + iframeHTML + "</div>";
     }
 
     function getVariation(){
