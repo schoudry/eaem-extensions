@@ -371,8 +371,10 @@
     }
 
     function getRTEBlock(){
+        const iframeHTML = "<iframe width='600px' height='450px' frameBorder='0' src='/apps/eaem-cf-mf-rte/common/properties.html'></iframe>";
+
         return "<div>" +
-                    "<div class='" + EAEM_MF_RTE + "'></div>" +
+                    "<div class='" + EAEM_MF_RTE + "'>" + iframeHTML + "</div>" +
                     "<div><button is='coral-button'>Open RTE</div>" +
                 "</div>";
     }
