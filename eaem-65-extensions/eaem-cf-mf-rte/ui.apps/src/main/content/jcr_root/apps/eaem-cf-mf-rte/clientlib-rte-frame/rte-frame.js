@@ -9,19 +9,21 @@
 
         $(RTE_CONTAINER_CLASS).css("width", "95%").css("padding-left", "20px");
 
+        let INIT_INTERVAL = setInterval(() =>{
+            const rteInstance = $(".cq-RichText-editable").data("rteinstance");
 
-        setTimeout(() =>{
-            const rteInsance = $(".cq-RichText-editable").data("rteinstance");
-            if(rteInsance){
-                rteInsance.setContent(decodeURIComponent(queryParams.value));
+            if(rteInstance && rteInstance.editorKernel){
+                rteInstance.setContent(decodeURIComponent(queryParams.value));
+                clearInterval(INIT_INTERVAL);
             }
-
-        }, 2000);
+        }, 500);
 
         setInterval( () => {
+            const rteInstance = $(".cq-RichText-editable").data("rteinstance");
+
             let message = {
                 rteName: queryParams.rteName,
-                content: rteInsance ? rteInsance.getContent() : $(RTE_VALUE_SEL).val()
+                content: rteInstance ? rteInstance.getContent() : $(RTE_VALUE_SEL).val()
             };
 
             getParent().postMessage(JSON.stringify(message), "*");
