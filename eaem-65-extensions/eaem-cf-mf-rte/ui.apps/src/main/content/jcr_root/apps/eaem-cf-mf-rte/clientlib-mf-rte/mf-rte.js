@@ -8,6 +8,8 @@
             SUMMARY_FIELD = "[name='key']",
             CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
             EAEM_SUMMARY = "eaem-summary",
+            EAEM_MF_RTE = "eaem-mf-rte",
+            FIELD_MULTI_STRING = "FIELD_MULTI_STRING",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
@@ -158,8 +160,20 @@
 
                 const $cffw = $widget.closest(CFFW);
                 $cffw.css("display", ( doNotHide == item.value ) ? "block" : "none");
+
+                if(fieldTypeSelect.value !== FIELD_MULTI_STRING){
+                    return;
+                }
+
+                addRTEContainer($cffw, $widget);
             })
         }
+    }
+
+    function addRTEContainer($cffw, $widget){
+        $widget.remove();
+
+        $cffw.append(getRTEBlock());
     }
 
     function addCollapsers(){
@@ -354,6 +368,13 @@
                 ui: (options && options.ui)
             })
         }
+    }
+
+    function getRTEBlock(){
+        return "<div>" +
+                    "<div class='" + EAEM_MF_RTE + "'></div>" +
+                    "<div><button is='coral-button'>Open RTE</div>" +
+                "</div>";
     }
 
     function getVariation(){
