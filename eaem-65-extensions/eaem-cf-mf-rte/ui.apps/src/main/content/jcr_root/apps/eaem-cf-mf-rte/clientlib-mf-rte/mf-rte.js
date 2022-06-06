@@ -372,7 +372,7 @@
     }
 
     function getRTEBlock(){
-        const iframeHTML = "<iframe width='1050px' height='200px' frameBorder='0' src='" + RTE_PAGE_URL + "'></iframe>";
+        const iframeHTML = "<iframe width='1050px' height='150px' frameBorder='0' src='" + RTE_PAGE_URL + "'></iframe>";
 
         return "<div>" +
                     "<div class='" + EAEM_MF_RTE + "'>" + iframeHTML + "</div>" +
