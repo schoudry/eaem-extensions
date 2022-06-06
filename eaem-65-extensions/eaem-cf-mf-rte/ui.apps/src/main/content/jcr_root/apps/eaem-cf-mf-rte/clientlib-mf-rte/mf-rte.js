@@ -9,8 +9,6 @@
             CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
             EAEM_SUMMARY = "eaem-summary",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
-            RTE_SELECTOR = ".cfm-multieditor",
-            MF_RTE_CLASS = "eaem-mf-rte",
             FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
     let initialized = false;
 
@@ -26,8 +24,6 @@
         }
 
         initialized = true;
-
-        extendMultiEditorSupport();
 
         window.Dam.CFM.Core.registerReadyHandler(() => {
             extendRequestSave();
@@ -158,12 +154,6 @@
 
                 if(jsonData && jsonData[$widget.attr("name")]){
                     $widget.val(jsonData[$widget.attr("name")]);
-                }
-
-                const $rteWidget = $widget.closest(".cfm-multieditor") ;
-
-                if($rteWidget.length > 0){
-                    $rteWidget.addClass(MF_RTE_CLASS);
                 }
 
                 const $cffw = $widget.closest(CFFW);
@@ -318,32 +308,6 @@
         $summarySection.click(function(){
             $mfItem.find("[icon='accordionDown']").click();
         });
-    }
-
-    function extendMultiEditorSupport() {
-        const CFM = window.Dam.CFM,
-            origHandleContainerFn = CFM.MultiEditorManager.prototype.handleContainer,
-            origGetEditorFn = CFM.MultiEditorManager.prototype.getEditor;
-
-        CFM.MultiEditorManager.prototype.getEditor = getEditor;
-        CFM.MultiEditorManager.prototype.handleContainer = handleContainer;
-
-        function getEditor($container) {
-            const editor = origGetEditorFn.call(this, $container);
-
-            if(editor){
-                return;
-            }
-
-            _.each(this._editorContainers, (containerObj) => {
-                const eContainer = containerObj.container;
-                console.log(eContainer);
-            })
-        }
-
-        function handleContainer($container){
-            origHandleContainerFn.call(this, $container);
-        }
     }
 
     function extendRequestSave(){
