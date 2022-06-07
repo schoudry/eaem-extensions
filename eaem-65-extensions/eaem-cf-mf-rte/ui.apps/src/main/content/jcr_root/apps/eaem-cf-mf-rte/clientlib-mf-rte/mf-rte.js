@@ -117,7 +117,11 @@
                 return;
             }
 
-            field.value = fValue;
+            if(field.tagName === 'CORAL-DATEPICKER'){
+                field.valueAsDate = new Date(fValue);
+            }else{
+                field.value = fValue;
+            }
         });
     }
 
