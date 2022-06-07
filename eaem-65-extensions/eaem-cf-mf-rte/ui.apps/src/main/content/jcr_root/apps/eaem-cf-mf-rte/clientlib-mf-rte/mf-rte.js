@@ -160,7 +160,7 @@
     }
 
     function canBeSkipped(field){
-        return (($(field).attr("type") == "hidden") || !field.value);
+        return (($(field).attr("type") == "hidden") || $(field).closest(CFFW).is(":hidden") ||!field.value);
     }
 
     function addFieldGrouping(mfItem){
