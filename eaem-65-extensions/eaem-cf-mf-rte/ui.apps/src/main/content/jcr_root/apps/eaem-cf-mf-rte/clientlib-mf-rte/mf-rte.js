@@ -36,6 +36,11 @@
             addKeyValueMultiFieldListener();
 
             addRTEDataListener();
+
+            Dam.CFM.editor.UI.addBeforeApplyHandler( () => {
+                Dam.CFM.EditSession.notifyActiveSession();
+                Dam.CFM.EditSession.setDirty(true);
+            });
         });
     }
 
@@ -304,7 +309,8 @@
         }
 
         function getSummary($mfItem){
-            let summary = $mfItem.find(SUMMARY_FIELD).val();
+            const fieldTypeSelect = $mfItem.find(FIELD_TYPE_SELECTOR);
+            let summary = $mfItem.find("[name^='" + fieldTypeSelect[0].value + "_']").val();
 
             if(!summary){
                 summary = "Click to expand";

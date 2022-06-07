@@ -1,5 +1,6 @@
 (function ($, $document) {
     const RTE_CONTAINER_CLASS = ".richtext-container",
+            DATA_RTE_INSTANCE = "rteinstance",
             RTE_VALUE_SEL = "[name='./text']";
 
     $document.one("foundation-contentloaded", initRTE);
@@ -9,8 +10,8 @@
 
         $(RTE_CONTAINER_CLASS).css("width", "95%").css("padding-left", "20px");
 
-        let INIT_INTERVAL = setInterval(() =>{
-            const rteInstance = $(".cq-RichText-editable").data("rteinstance");
+        const INIT_INTERVAL = setInterval(() =>{
+            const rteInstance = $(".cq-RichText-editable").data(DATA_RTE_INSTANCE);
 
             if(rteInstance && rteInstance.editorKernel){
                 rteInstance.setContent(decodeURIComponent(queryParams.value));
@@ -19,7 +20,7 @@
         }, 500);
 
         setInterval( () => {
-            const rteInstance = $(".cq-RichText-editable").data("rteinstance");
+            const rteInstance = $(".cq-RichText-editable").data(DATA_RTE_INSTANCE);
 
             let message = {
                 rteName: queryParams.rteName,
@@ -28,9 +29,6 @@
 
             getParent().postMessage(JSON.stringify(message), "*");
         }, 1000);
-    }
-
-    function sendDataToMF(queryParams){
     }
 
     function getParent() {
