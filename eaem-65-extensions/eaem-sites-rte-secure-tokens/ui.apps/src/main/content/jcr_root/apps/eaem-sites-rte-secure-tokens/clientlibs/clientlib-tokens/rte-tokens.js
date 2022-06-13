@@ -5,6 +5,7 @@
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         TOKEN_PAGE_URL = "/apps/eaem-sites-rte-secure-tokens/rte-tokens.html",
         SENDER = "experience-aem", REQUESTER = "requester", $eaemTokenVarPicker,
+        TOKEN_PLACEHOLDER = "${SECURE_CONTENT:ID=TOKEN_PLACEHOLDER}",
         url = document.location.pathname;
 
     if( (url.indexOf("/editor.html") == 0)
@@ -18,10 +19,10 @@
     function handlePicker(){
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
-        $document.submit(sendSelectedVars);
+        $document.submit(sendSelectedToken);
     }
 
-    function sendSelectedVars(){
+    function sendSelectedToken(){
         var message = {
             sender: SENDER,
             action: "submit",
@@ -29,10 +30,6 @@
         }, $form = $("form"), $field;
 
         _.each($form.find("[name^='./']"), function(field){
-            if(!field.checked || (field.tagName !== "CORAL-CHECKBOX")){
-                return;
-            }
-
             $field = $(field);
             message.data[$field.attr("name").substr(2)] = $field.val();
         });
@@ -160,10 +157,10 @@
                     return;
                 }
 
-                this.showFontModal(this.getPickerIFrameUrl());
+                this.showTokenModal(this.getPickerIFrameUrl());
             },
 
-            showFontModal: function(url){
+            showTokenModal: function(url){
                 var self = this, $iframe = $('<iframe>'),
                     $modal = $('<div>').addClass('eaem-cfm-font-size coral-Modal');
 
@@ -202,7 +199,9 @@
             },
 
             execute: function (execDef) {
-                execDef.value = Object.values(execDef.value).join(" ");
+                execDef.value = Object.values(execDef.value).join("");
+
+                execDef.value = TOKEN_PLACEHOLDER.replace("TOKEN_PLACEHOLDER",execDef.value);
 
                 CUI.rte.commands.InsertHtml().execute(execDef);
             },
