@@ -1,102 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="cq:Page">
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
     <jcr:content
-        jcr:mixinTypes="[sling:VanityPath]"
-        jcr:primaryType="nt:unstructured"
-        jcr:title="RTE Tokens"
-        sling:resourceType="granite/ui/components/coral/foundation/page">
+            jcr:mixinTypes="[sling:VanityPath]"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="RTE Tokens"
+            sling:resourceType="granite/ui/components/coral/foundation/page">
         <head jcr:primaryType="nt:unstructured">
             <favicon
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
             <viewport
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
             <clientlibs
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
-                categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral, eaem-cfm.rte.plugin]"/>
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral, eaem-cfm.rte.plugin]"/>
         </head>
         <body
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/body">
             <items jcr:primaryType="nt:unstructured">
                 <form
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/coral/foundation/form"
-                    class="foundation-form content-container"
-                    maximized="{Boolean}true"
-                    style="vertical">
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form"
+                        class="foundation-form content-container"
+                        maximized="{Boolean}true"
+                        style="vertical">
                     <items jcr:primaryType="nt:unstructured">
                         <wizard
-                            jcr:primaryType="nt:unstructured"
-                            jcr:title="Select the Dynamic Variable..."
-                            sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Select the Token..."
+                                sling:resourceType="granite/ui/components/coral/foundation/wizard">
                             <items jcr:primaryType="nt:unstructured">
-                                <text
-                                    jcr:primaryType="nt:unstructured"
-                                    jcr:title="Select the Dynamic Variable..."
-                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <properties
+                                        jcr:primaryType="nt:unstructured"
+                                        granite:class="eaem-container-margin"
+                                        jcr:title="Properties"
+                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                        margin="{Boolean}true">
                                     <items jcr:primaryType="nt:unstructured">
-                                        <accordion
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/accordion"
-                                            margin="{Boolean}true"
-                                            variant="quiet">
+                                        <column
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
                                             <items jcr:primaryType="nt:unstructured">
-                                                <fees
-                                                    jcr:primaryType="nt:unstructured"
-                                                    jcr:title="Fees"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                    <items jcr:primaryType="nt:unstructured">
-                                                        <membershipFee
+                                                <token
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
+                                                        emptyText="Select Token"
+                                                        margin="{Boolean}true"
+                                                        multiple="{Boolean}false"
+                                                        name="./token"
+                                                        required="{Boolean}false">
+                                                    <datasource
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./membershipFee"
-                                                            text="\{{membershipFee}}"
-                                                            value="\{{membershipFee}}"/>
-                                                        <balanceTransferMinFee
+                                                            sling:resourceType="/apps/eaem-sites-rte-secure-tokens/token-ds"/>
+                                                    <options
                                                             jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./balanceTransferMinFee"
-                                                            text="\{{balanceTransferMinFee}}"
-                                                            value="\{{balanceTransferMinFee}}"/>
-                                                        <cashAdvanceMinFee
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                            name="./cashAdvanceMinFee"
-                                                            text="\{{cashAdvanceMinFee}}"
-                                                            value="\{{cashAdvanceMinFee}}"/>
-                                                    </items>
-                                                </fees>
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete/list"/>
+                                                </token>
                                             </items>
-                                        </accordion>
+                                        </column>
                                     </items>
                                     <parentConfig jcr:primaryType="nt:unstructured">
                                         <prev
-                                            granite:class="foundation-wizard-control"
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
-                                            text="Cancel">
-                                            <granite:data
+                                                granite:class="foundation-wizard-control"
                                                 jcr:primaryType="nt:unstructured"
-                                                foundation-wizard-control-action="cancel"/>
+                                                sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                                text="Cancel">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="cancel"/>
                                         </prev>
                                         <next
-                                            granite:class="foundation-wizard-control"
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/button"
-                                            disabled="{Boolean}true"
-                                            text="Insert"
-                                            type="submit"
-                                            variant="primary">
-                                            <granite:data
+                                                granite:class="foundation-wizard-control"
                                                 jcr:primaryType="nt:unstructured"
-                                                foundation-wizard-control-action="next"/>
+                                                sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                disabled="{Boolean}true"
+                                                text="Insert"
+                                                type="submit"
+                                                variant="primary">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="next"/>
                                         </next>
                                     </parentConfig>
-                                </text>
+                                </properties>
                             </items>
                         </wizard>
                     </items>
