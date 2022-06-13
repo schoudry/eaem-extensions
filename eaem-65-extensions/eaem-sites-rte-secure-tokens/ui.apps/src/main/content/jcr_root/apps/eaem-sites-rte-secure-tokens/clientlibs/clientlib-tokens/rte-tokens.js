@@ -1,17 +1,17 @@
 (function ($, $document) {
-    var EAEM_PLUGIN_ID = "eaem-dyn-var",
-        EAEM_TEXT_DYN_VAR_FEATURE = "eaemDynVar",
-        EAEM_DYN_VAR_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TEXT_DYN_VAR_FEATURE,
+    var EAEM_PLUGIN_ID = "eaem-token-var",
+        EAEM_TOKEN_FEATURE = "eaemTokenVar",
+        EAEM_TOKEN_VAR_ICON = EAEM_PLUGIN_ID + "#" + EAEM_TOKEN_FEATURE,
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
-        DYN_VAR_SELECTOR_URL = "/apps/eaem-sites-rte-secure-tokens/rte-tokens.html",
-        SENDER = "experience-aem", REQUESTER = "requester", $eaemDynVarPicker,
+        TOKEN_PAGE_URL = "/apps/eaem-sites-rte-secure-tokens/rte-tokens.html",
+        SENDER = "experience-aem", REQUESTER = "requester", $eaemTokenVarPicker,
         url = document.location.pathname;
 
     if( (url.indexOf("/editor.html") == 0)
             || ( url.indexOf("/mnt/overlay/dam/cfm/admin/content/v2/fragment-editor.html") == 0) ){
         extendStyledTextEditor();
         registerPlugin();
-    }else if(url.indexOf(DYN_VAR_SELECTOR_URL) == 0){
+    }else if(url.indexOf(TOKEN_PAGE_URL) == 0){
         handlePicker();
     }
 
@@ -79,10 +79,10 @@
         action = message.action;
 
         if(action === "submit"){
-            $eaemDynVarPicker.eaemFontPlugin.editorKernel.execCmd(EAEM_TEXT_DYN_VAR_FEATURE, message.data);
+            $eaemTokenVarPicker.eaemTokenPlugin.editorKernel.execCmd(EAEM_TOKEN_FEATURE, message.data);
         }
 
-        var modal = $eaemDynVarPicker.data('modal');
+        var modal = $eaemTokenVarPicker.data('modal');
         modal.hide();
         modal.$element.remove();
     }
@@ -91,32 +91,32 @@
         var origFn = Dam.CFM.StyledTextEditor.prototype._start;
 
         Dam.CFM.StyledTextEditor.prototype._start = function(){
-            addDynVarPluginSettings(this);
+            addTokenVarPluginSettings(this);
             origFn.call(this);
         }
     }
 
-    function addDynVarPluginSettings(editor){
+    function addTokenVarPluginSettings(editor){
         var config = editor.$editable.data("config");
 
         config.rtePlugins[EAEM_PLUGIN_ID] = {
             features: "*"
         };
 
-        config.uiSettings.cui.multieditorFullscreen.toolbar.push(EAEM_DYN_VAR_ICON);
-        config.uiSettings.cui.inline.toolbar.push(EAEM_DYN_VAR_ICON);
+        config.uiSettings.cui.multieditorFullscreen.toolbar.push(EAEM_TOKEN_VAR_ICON);
+        config.uiSettings.cui.inline.toolbar.push(EAEM_TOKEN_VAR_ICON);
     }
 
     function registerPlugin(){
-        var EAEM_CFM_DYN_VAR_PLUGIN = new Class({
-            toString: "eaemCFMDynVarPlugin",
+        var EAEM_CFM_TOKEN_PLUGIN = new Class({
+            toString: "eaemCFMTokenVarPlugin",
 
             extend: CUI.rte.plugins.Plugin,
 
             textFontUI:  null,
 
             getFeatures: function () {
-                return [ EAEM_TEXT_DYN_VAR_FEATURE ];
+                return [ EAEM_TOKEN_FEATURE ];
             },
 
             notifyPluginConfig: function (pluginConfig) {
@@ -124,8 +124,8 @@
                     tooltips: {}
                 };
 
-                defaults.tooltips[EAEM_TEXT_DYN_VAR_FEATURE] = {
-                    title: "Select Dynamic Variable..."
+                defaults.tooltips[EAEM_TOKEN_FEATURE] = {
+                    title: "Select Tokenamic Variable..."
                 };
 
                 CUI.rte.Utils.applyDefaults(pluginConfig, defaults);
@@ -134,17 +134,17 @@
             },
 
             initializeUI: function (tbGenerator) {
-                if (!this.isFeatureEnabled(EAEM_TEXT_DYN_VAR_FEATURE)) {
+                if (!this.isFeatureEnabled(EAEM_TOKEN_FEATURE)) {
                     return;
                 }
 
-                this.textFontUI = new tbGenerator.createElement(EAEM_TEXT_DYN_VAR_FEATURE, this, false,
-                                        this.config.tooltips[EAEM_TEXT_DYN_VAR_FEATURE]);
+                this.textFontUI = new tbGenerator.createElement(EAEM_TOKEN_FEATURE, this, false,
+                                        this.config.tooltips[EAEM_TOKEN_FEATURE]);
 
-                tbGenerator.addElement(EAEM_TEXT_DYN_VAR_FEATURE, 999, this.textFontUI, 999);
+                tbGenerator.addElement(EAEM_TOKEN_FEATURE, 999, this.textFontUI, 999);
 
                 if (tbGenerator.registerIcon) {
-                    tbGenerator.registerIcon(EAEM_DYN_VAR_ICON, "brackets");
+                    tbGenerator.registerIcon(EAEM_TOKEN_VAR_ICON, "brackets");
                 }
 
                 $(window).off('message', closePicker).on('message', closePicker);
@@ -156,7 +156,7 @@
             },
 
             execute: function (pluginCommand, value, envOptions) {
-                if (pluginCommand != EAEM_TEXT_DYN_VAR_FEATURE) {
+                if (pluginCommand != EAEM_TOKEN_FEATURE) {
                     return;
                 }
 
@@ -175,25 +175,25 @@
                     visible: true
                 });
 
-                $eaemDynVarPicker = $modal;
+                $eaemTokenVarPicker = $modal;
 
-                $eaemDynVarPicker.eaemFontPlugin = self;
+                $eaemTokenVarPicker.eaemTokenPlugin = self;
 
                 $modal.nextAll(".coral-Modal-backdrop").addClass("cfm-coral2-backdrop");
             },
 
             getPickerIFrameUrl: function(){
-                return Granite.HTTP.externalize(DYN_VAR_SELECTOR_URL) + "?" + REQUESTER + "=" + SENDER;
+                return Granite.HTTP.externalize(TOKEN_PAGE_URL) + "?" + REQUESTER + "=" + SENDER;
             }
         });
 
-        var EAEM_CFM_DYN_VAR_CMD = new Class({
-            toString: "eaemDynVarCmd",
+        var EAEM_TOKEN_CMD = new Class({
+            toString: "eaemTokenCmd",
 
             extend: CUI.rte.commands.Command,
 
             isCommand: function (cmdStr) {
-                return (cmdStr.toLowerCase() == EAEM_TEXT_DYN_VAR_FEATURE);
+                return (cmdStr.toLowerCase() == EAEM_TOKEN_FEATURE);
             },
 
             getProcessingOptions: function () {
@@ -212,8 +212,8 @@
             }
         });
 
-        CUI.rte.plugins.PluginRegistry.register(EAEM_PLUGIN_ID, EAEM_CFM_DYN_VAR_PLUGIN);
+        CUI.rte.plugins.PluginRegistry.register(EAEM_PLUGIN_ID, EAEM_CFM_TOKEN_PLUGIN);
 
-        CUI.rte.commands.CommandRegistry.register(EAEM_TEXT_DYN_VAR_FEATURE, EAEM_CFM_DYN_VAR_CMD);
+        CUI.rte.commands.CommandRegistry.register(EAEM_TOKEN_FEATURE, EAEM_TOKEN_CMD);
     }
 }(jQuery, jQuery(document)));
