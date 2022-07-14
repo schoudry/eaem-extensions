@@ -76,7 +76,12 @@
         createTemplateFromLastParkedTab();
 
         $kvMulti.on("coral-collection:add", function(event){
-            Coral.commons.ready(event.detail.item, addFieldGrouping);
+            Coral.commons.ready(event.detail.item, function(mfItem){
+                const $mfItem = $(mfItem),
+                     $cffw = $widget.closest(CFFW);
+
+                //addRTEContainer($cffw);
+            });
         });
 
         Coral.commons.ready($kvMulti[0], splitKeyValueJSONIntoFields);
@@ -96,6 +101,8 @@
             jsonData = JSON.parse(jsonData);
 
             $content.html(getParkedMFHtml());
+
+            //addRTEContainer($cffw, $widget);
 
             fillMultiFieldItem(item, jsonData);
         });
@@ -164,7 +171,7 @@
     function addRTEContainer($cffw, $widget){
         $widget.hide();
 
-        const rteName = MF_RTE_NAME + "-" + (Math.random() + 1).toString(36).substring(7)
+        const rteName = MF_RTE_NAME + "-" + (Math.random() + 1).toString(36).substring(7);
 
         if($widget.attr(MF_RTE_NAME)){
             return;
