@@ -213,7 +213,44 @@
 
         $widget.attr(MF_RTE_NAME, rteName);
 
-        $cffw.append(getRTEBlock(rteName, $widget.val()));
+        const $iframeDiv = $(getRTEBlock(rteName, $widget.val())).appendTo($cffw);
+
+        const rteExpandBut = new Coral.Button().set({
+            style: "margin-top: 15px",
+            variant: 'secondary',
+            innerText: "Expand Editor"
+        });
+
+        const rteCollapseBut = new Coral.Button().set({
+            style: "margin-top: 15px",
+            variant: 'secondary',
+            innerText: "Collapse Editor"
+        });
+
+        rteExpandBut.on('click', function(event){
+            event.preventDefault();
+            $iframeDiv.find("iframe").attr("height","600px");
+
+            rteExpandBut.hide();
+            rteCollapseBut.show();
+
+            const $body = $($iframeDiv.find("iframe")[0].contentWindow.document.body);
+            $body.find(".cq-RichText-editable").css("height","540px");
+        });
+
+        rteCollapseBut.on('click', function(event){
+            event.preventDefault();
+            $iframeDiv.find("iframe").attr("height","150px");
+
+            rteCollapseBut.hide();
+            rteExpandBut.show();
+
+            const $body = $($iframeDiv.find("iframe")[0].contentWindow.document.body);
+            $body.find(".cq-RichText-editable").css("height","90px");
+        });
+
+        rteCollapseBut.hide();
+        $iframeDiv.append(rteExpandBut).append(rteCollapseBut);
     }
 
     function addCollapsers(){
