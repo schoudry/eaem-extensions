@@ -42,6 +42,7 @@
                         <filter><root>/apps/cq</root></filter>
                         <filter><root>/apps/dam</root></filter>
                         <filter><root>/apps/wcm</root></filter>
+                        <filter><root>/apps/wcm/core/content/common</root></filter>
                         <filter><root>/apps/msm</root></filter>
 
                         <!-- Immutable context-aware configurations -->

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/eaem-sites-csv-export-custom-columns"/>
+    <filter root="/apps/wcm/core/content/common/availablecolumns"/>
 </workspaceFilter>

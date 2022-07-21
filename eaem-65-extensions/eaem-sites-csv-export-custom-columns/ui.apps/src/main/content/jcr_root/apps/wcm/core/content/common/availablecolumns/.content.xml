@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <componentsCount
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Components Count"
+        columnGroup="Experience AEM"
+        default="{Boolean}false"
+        page-info-provider="experienceaem"
+        page-info-provider-property="componentsCount"
+        sortable="{Boolean}true"/>
+</jcr:root>
