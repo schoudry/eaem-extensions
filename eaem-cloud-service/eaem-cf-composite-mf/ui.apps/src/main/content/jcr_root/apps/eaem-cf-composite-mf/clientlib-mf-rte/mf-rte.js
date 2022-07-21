@@ -3,16 +3,9 @@
             CFFW = ".coral-Form-fieldwrapper",
             MASTER = "master",
             CFM_EDITOR_SEL = ".content-fragment-editor",
-            CORAL_MULTIFIELD = "coral-multifield",
-            CORAL_MULTIFIELD_ITEM = "coral-multifield-item",
-            SUMMARY_FIELD = "[name='key']",
-            CORAL_MULTIFIELD_ITEM_CONTENT = "coral-multifield-item-content",
-            EAEM_SUMMARY = "eaem-summary",
-            FIELD_MULTI_STRING = "FIELD_MULTI_STRING",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
             RTE_PAGE_URL = "/apps/eaem-cf-mf-rte/rte-page.html",
-            MF_RTE_NAME = "eaem-mf-rte",
-            FIELD_TYPE_SELECTOR = "coral-select[name$='FieldType']";
+            MF_RTE_NAME = "eaem-mf-rte";
     let initialized = false;
 
     if( !isCFEditor() ){
@@ -88,7 +81,8 @@
     }
 
     function splitKeyValueJSONIntoFields(kvMFField){
-        const kvMFName = $(kvMFField).attr("data-granite-coral-multifield-name");
+        const $kvMFField = $(kvMFField),
+              kvMFName = $kvMFField.attr("data-granite-coral-multifield-name");
 
         _.each(kvMFField.items.getAll(), function(item) {
             const $content = $(item).find("coral-multifield-item-content");
@@ -106,8 +100,6 @@
 
             fillMultiFieldItem(item, jsonData);
         });
-
-        addCollapsers();
     }
 
     function fillMultiFieldItem(mfItem, jsonData){
@@ -137,8 +129,7 @@
     }
 
     function getParkedMFHtml(){
-        const $parkedMFTab = $("coral-panel").last();
-        return $parkedMFTab.find("coral-panel-content").html();
+        return $("coral-panel").last().find("coral-panel-content").html();
     }
 
     function getKeyValueData(){
@@ -180,155 +171,6 @@
         $widget.attr(MF_RTE_NAME, rteName);
 
         $cffw.append(getRTEBlock(rteName, $widget.val()));
-    }
-
-    function addCollapsers(){
-        const $kvMulti = $(KV_MF_SELECTOR).css("padding-right", "2.5rem");
-
-        if(_.isEmpty($kvMulti)){
-            return;
-        }
-
-        $kvMulti.find(CORAL_MULTIFIELD_ITEM).each(handler);
-
-        $kvMulti.on('change', function(){
-            $kvMulti.find(CORAL_MULTIFIELD_ITEM).each(handler);
-        });
-
-        addExpandCollapseAll($kvMulti);
-
-        function handler(){
-            const $mfItem = $(this);
-
-            if(!_.isEmpty($mfItem.find("[icon=accordionUp]"))){
-                return;
-            }
-
-            addAccordionIcons($mfItem);
-
-            addSummarySection($mfItem);
-        }
-    }
-
-    function addAccordionIcons($mfItem){
-        const up = new Coral.Button().set({
-            variant: "quiet",
-            icon: "accordionUp",
-            title: "Collapse"
-        });
-
-        up.setAttribute('style', 'position:absolute; top: 0; right: -2.175rem');
-        up.on('click', handler);
-
-        $mfItem.append(up);
-
-        const down = new Coral.Button().set({
-            variant: "quiet",
-            icon: "accordionDown",
-            title: "Expand"
-        });
-
-        down.setAttribute('style', 'position:absolute; top: 0; right: -2.175rem');
-        down.on('click', handler).hide();
-
-        $mfItem.append(down);
-
-        function handler(event){
-            event.preventDefault();
-
-            const mfName = $(this).closest(CORAL_MULTIFIELD).attr("data-granite-coral-multifield-name"),
-                $mfItem = $(this).closest(CORAL_MULTIFIELD_ITEM),
-                $summarySection = $mfItem.children("." + EAEM_SUMMARY);
-
-            $summarySection.html(getSummary($mfItem, mfName));
-
-            adjustUI.call(this, $summarySection);
-        }
-
-        function adjustUI($summarySection){
-            const icon = $(this).find("coral-icon").attr("icon"),
-                $content = $mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT);
-
-            if(icon == "accordionUp"){
-                if($summarySection.css("display") !== "none"){
-                    return;
-                }
-
-                $summarySection.show();
-
-                $content.slideToggle( "fast", function() {
-                    $content.hide();
-                });
-
-                up.hide();
-                down.show();
-            }else{
-                if($summarySection.css("display") === "none"){
-                    return;
-                }
-
-                $summarySection.hide();
-
-                $content.slideToggle( "fast", function() {
-                    $content.show();
-                });
-
-                up.show();
-                down.hide();
-            }
-        }
-
-        function getSummary($mfItem){
-            const fieldTypeSelect = $mfItem.find(FIELD_TYPE_SELECTOR);
-            let summary = $mfItem.find("[name^='" + fieldTypeSelect[0].value + "_']").val();
-
-            if(!summary){
-                summary = "Click to expand";
-            }
-
-            return summary;
-        }
-    }
-
-    function addExpandCollapseAll($kvMulti){
-        let $mfAdd, expandAll, collapseAll;
-
-        $kvMulti.find("[coral-multifield-add]").each(handler);
-
-        function handler(){
-            $mfAdd = $(this);
-
-            expandAll = new Coral.Button().set({
-                variant: 'secondary',
-                innerText: "Expand All"
-            });
-
-            $(expandAll).css("margin-left", "10px").click((event) => {
-                event.preventDefault();
-                $(this).closest(CORAL_MULTIFIELD).find("[icon='accordionDown']").click();
-            });
-
-            collapseAll = new Coral.Button().set({
-                variant: 'secondary',
-                innerText: "Collapse All"
-            });
-
-            $(collapseAll).css("margin-left", "10px").click((event) => {
-                event.preventDefault();
-                $(this).closest(CORAL_MULTIFIELD).find("[icon='accordionUp']").click();
-            });
-
-            $mfAdd.after(expandAll).after(collapseAll);
-        }
-    }
-
-    function addSummarySection($mfItem){
-        const $summarySection = $("<div/>").insertAfter($mfItem.find(CORAL_MULTIFIELD_ITEM_CONTENT))
-                    .addClass("coral-Well " + EAEM_SUMMARY).css("cursor", "pointer").hide();
-
-        $summarySection.click(function(){
-            $mfItem.find("[icon='accordionDown']").click();
-        });
     }
 
     function extendRequestSave(){
