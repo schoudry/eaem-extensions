@@ -138,7 +138,7 @@
 
     function getParkedMFHtml(){
         const $parkedMFTab = $("coral-panel").last();
-        return $parkedMFTab.html() || $parkedMFTab.find("coral-panel-content").html();
+        return $parkedMFTab.find("coral-panel-content").html();
     }
 
     function getKeyValueData(){

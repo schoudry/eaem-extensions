@@ -1,4 +1,4 @@
-package apps.experienceaem.sites.core.filters;
+package apps.experienceaem.sites.core;
 
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
