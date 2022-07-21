@@ -9,6 +9,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.osgi.framework.Constants;
@@ -36,7 +37,7 @@ import java.util.List;
 public class AvailableColumnsDSFilter implements Filter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static String EAEM_COLUMN_GROUP = "Experience AEM";
+    public static String EAEM_COLUMNS = "/apps/wcm/core/content/common/availablecolumns";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -47,10 +48,17 @@ public class AvailableColumnsDSFilter implements Filter {
             throws IOException, ServletException {
         SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
         SlingHttpServletResponse slingResponse = (SlingHttpServletResponse) response;
+        ResourceResolver resolver = slingRequest.getResourceResolver();
 
         chain.doFilter(slingRequest, slingResponse);
 
         DataSource ds = (DataSource)request.getAttribute(DataSource.class.getName());
+
+        Resource eaemColumnsRes = resolver.getResource(EAEM_COLUMNS);
+
+        if( (ds == null) || (eaemColumnsRes == null)){
+            return;
+        }
 
         final List<ValueMap> dsList = new ArrayList<ValueMap>();
         Iterator items = ds.iterator();
@@ -59,7 +67,15 @@ public class AvailableColumnsDSFilter implements Filter {
             dsList.add(((ValueMapResource)items.next()).getValueMap());
         }
 
-        dsList.add(getCustomColumnVM("eaemTitle", "EAEM Title"));
+        Iterator<Resource> resourceItr = eaemColumnsRes.listChildren();
+
+        while(resourceItr.hasNext()){
+            Resource columnRes = resourceItr.next();
+            ValueMap columnVM = columnRes.getValueMap();
+
+            dsList.add(getCustomColumnVM(columnRes.getName(), columnVM.get("jcr:title", String.class),
+                            columnVM.get("columnGroup", String.class)));
+        }
 
         ds = new SimpleDataSource(new TransformIterator(dsList.iterator(), new Transformer() {
             public Object transform(Object o) {
@@ -72,14 +88,14 @@ public class AvailableColumnsDSFilter implements Filter {
         request.setAttribute(DataSource.class.getName(), ds);
     }
 
-    private ValueMap getCustomColumnVM(String value, String text){
+    private ValueMap getCustomColumnVM(String value, String text, String columnGroup){
         ValueMap vm = new ValueMapDecorator(new HashMap<String, Object>());
 
         vm.put("value", value);
         vm.put("default", false);
         vm.put("text", text);
         vm.put("show-selector", "");
-        vm.put("columnGroup", EAEM_COLUMN_GROUP);
+        vm.put("columnGroup", columnGroup);
         vm.put("description-icon", "");
 
         return vm;
