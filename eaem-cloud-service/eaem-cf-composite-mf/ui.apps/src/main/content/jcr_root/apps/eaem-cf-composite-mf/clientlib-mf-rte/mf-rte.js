@@ -3,9 +3,7 @@
             CFFW = ".coral-Form-fieldwrapper",
             MASTER = "master",
             CFM_EDITOR_SEL = ".content-fragment-editor",
-            KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']",
-            RTE_PAGE_URL = "/apps/eaem-cf-mf-rte/rte-page.html",
-            MF_RTE_NAME = "eaem-mf-rte";
+            KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']";
     let initialized = false;
 
     if( !isCFEditor() ){
@@ -28,35 +26,11 @@
 
             addKeyValueMultiFieldListener();
 
-            addRTEDataListener();
-
             Dam.CFM.editor.UI.addBeforeApplyHandler( () => {
                 Dam.CFM.EditSession.notifyActiveSession();
                 Dam.CFM.EditSession.setDirty(true);
             });
         });
-    }
-
-    function addRTEDataListener(){
-        $(window).off('message', receiveMessage).on('message', receiveMessage);
-
-        function receiveMessage(event) {
-            event = event.originalEvent || {};
-
-            if (_.isEmpty(event.data)) {
-                return;
-            }
-
-            let message;
-
-            try{
-                message = JSON.parse(event.data);
-            }catch(err){
-                return;
-            }
-
-            $("[" + MF_RTE_NAME + "=" + message.rteName + "]").val(message.content);
-        }
     }
 
     function hideTabHeaders(){
@@ -67,15 +41,6 @@
         const $kvMulti = $(KV_MF_SELECTOR);
 
         createTemplateFromLastParkedTab();
-
-        $kvMulti.on("coral-collection:add", function(event){
-            Coral.commons.ready(event.detail.item, function(mfItem){
-                const $mfItem = $(mfItem),
-                     $cffw = $widget.closest(CFFW);
-
-                //addRTEContainer($cffw);
-            });
-        });
 
         Coral.commons.ready($kvMulti[0], splitKeyValueJSONIntoFields);
     }
@@ -95,8 +60,6 @@
             jsonData = JSON.parse(jsonData);
 
             $content.html(getParkedMFHtml());
-
-            //addRTEContainer($cffw, $widget);
 
             fillMultiFieldItem(item, jsonData);
         });
@@ -159,20 +122,6 @@
         return (($(field).attr("type") == "hidden") || $(field).closest(CFFW).is(":hidden") ||!field.value);
     }
 
-    function addRTEContainer($cffw, $widget){
-        $widget.hide();
-
-        const rteName = MF_RTE_NAME + "-" + (Math.random() + 1).toString(36).substring(7);
-
-        if($widget.attr(MF_RTE_NAME)){
-            return;
-        }
-
-        $widget.attr(MF_RTE_NAME, rteName);
-
-        $cffw.append(getRTEBlock(rteName, $widget.val()));
-    }
-
     function extendRequestSave(){
         const CFM = window.Dam.CFM,
             orignFn = CFM.editor.Page.requestSave;
@@ -217,14 +166,6 @@
                 ui: (options && options.ui)
             })
         }
-    }
-
-    function getRTEBlock(rteName, value){
-        const iframeHTML = "<iframe width='1050px' height='150px' frameBorder='0' " +
-                                "src='" + RTE_PAGE_URL + "?rteName=" + rteName + "&value=" + encodeURIComponent(value)+ "'>" +
-                            "</iframe>";
-
-        return "<div>" + iframeHTML + "</div>";
     }
 
     function getVariation(){
