@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "eaem-assets-ids-connector.core:eaem-ids-service=[eaem-ids-service]"
+  ]
+}
