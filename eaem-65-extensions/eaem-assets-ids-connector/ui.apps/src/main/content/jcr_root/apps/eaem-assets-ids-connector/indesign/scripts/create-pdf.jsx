@@ -1,6 +1,6 @@
 (function () {
-    var returnObj = {}, aemHost, base64EncodedAEMCreds, resourcePath, uploadUrl, document,
-        AWS_DOMAIN_SUFFIX = ".amazonaws.com", aemUploadPath, contentJson;
+    var returnObj = {}, aemHost, base64EncodedAEMCreds, resourcePath, document,
+        aemUploadPath, contentJson;
 
     function createPDF() {
         var sourceFolder = getSourceFolder(),
@@ -79,9 +79,6 @@
 
         document.exportFile(ExportFormat.pdfType, pdfOutputFile);
 
-        //app.consoleout('Uploading PDF to - ' + uploadUrl);
-        //uploadToS3(pdfOutputFile, 'application/pdf');
-
         app.consoleout('Uploading PDF to - ' + aemUploadPath);
 
         putResource(aemHost, base64EncodedAEMCreds, pdfOutputFile, pdfOutputFile.name, 'application/pdf', aemUploadPath);
@@ -123,12 +120,6 @@
             throw "resourcePath argument missing";
         }
 
-        if (app.scriptArgs.isDefined("uploadUrl")) {
-            uploadUrl = app.scriptArgs.getValue("uploadUrl");
-        } else {
-            throw "uploadUrl argument missing";
-        }
-
         if (app.scriptArgs.isDefined("contentJson")) {
             contentJson = JSON.parse(app.scriptArgs.getValue("contentJson"));
             app.consoleout('contentJson: ' + app.scriptArgs.getValue("contentJson"));
@@ -141,7 +132,6 @@
         app.consoleout('base64EncodedAEMCreds --- ' + base64EncodedAEMCreds);
         app.consoleout('aemHost --- ' + aemHost);
         app.consoleout('resourcePath --- ' + resourcePath);
-        app.consoleout('uploadUrl --- ' + uploadUrl);
         app.consoleout('aemUploadPath --- ' + aemUploadPath);
     }
 
@@ -161,126 +151,4 @@
     }
 
     return JSON.stringify(returnObj);
-
-    /*function uploadToS3(file, contentType) {
-        app.consoleout("Uplading to S3 : " + file);
-
-        file.open ("r");
-        file.encoding = "BINARY";
-
-        var boundary = '----------V2ymHFg03ehbqgZCaKO6jy',
-            awsHost = uploadUrl.substring(0, uploadUrl.indexOf(AWS_DOMAIN_SUFFIX)) + AWS_DOMAIN_SUFFIX,
-            awsUploadUri = uploadUrl.substring(awsHost.length),
-            awsHost = awsHost.substring(awsHost.indexOf("://") + 3) + ":80",
-            connection = new Socket;
-
-        app.consoleout("awsHost > " + awsHost);
-        app.consoleout("awsUploadUri > " + awsUploadUri);
-
-        if (connection.open (awsHost, "binary")) {
-            connection.write ("PUT "+ awsUploadUri +" HTTP/1.1");
-            connection.write ("\n");
-            connection.write ("Content-Type: multipart/form-data; boundary=" + boundary);
-            connection.write ("\n");
-            var body = buildMultipartBody (boundary, file, file.name, contentType);
-            connection.write ("Content-Length: " + body.length);
-            connection.write ("\r\n\r\n");
-            //END of header
-            connection.write (body);
-            connection.read();
-            while (!connection.eof) {
-                var output = connection.read();
-                app.consoleout("output : " + output);
-
-            }
-            connection.close();
-        }else {
-            file.close();
-            throw 'Connection to S3 could not be opened';
-        }
-
-    }
-
-    function setTestParams(){
-        contentJson = {
-            "Page_1_H1":{"type":"RAW_TEXT","value":"Test Texas"},
-            "Page_2_callout_title":{"type":"RAW_TEXT","value":"Again California"},
-            "Page_1_featured_bgImage":{"type":"JCR_PATH","value":"/content/dam/gcom/allowed.jpeg"},
-            "Page_1_primary_logo":{"type":"JCR_PATH","value":"/content/dam/gcom/neither.png"}
-        };
-        base64EncodedAEMCreds = "YWRtaW46YWRtaW4=";
-        aemHost = "localhost:4502";
-        resourcePath = "/content/dam/gcom/jci-philanthropic-report-template.indd";
-        uploadUrl = "https://gcom-dev.s3.us-east-2.amazonaws.com/jci-philanthropic-report-template.indd.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220602T133401Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86399&X-Amz-Credential=AKIATUOLYZC4WYICJHP5%2F20220602%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Signature=f73929a87b56e00a388e78f0e54209adadd25daca4f24122cc83d0023b21f3b3";
-        aemUploadPath = "/var/dam/gcom/2022-06-02/acf8e234-945a-4541-985f-8f59000fbb56";
-    }
-
-    function fetchResource(host, credentials, resource, file) {
-        var success = file.open ("w");
-        file.encoding = "BINARY";
-        var connection = new Socket;
-
-        // transform host (get context path, add port 80 when not set etc.)
-        var transformedHost = transformHost(host);
-        host = transformedHost.host;
-        var contextPath = transformedHost.contextPath
-
-        if (connection.open (host, "binary")) {
-
-            // very basic request to fetch a single resource
-            connection.write ("GET "+ encodeURI(contextPath+resource) +" HTTP/1.0");
-            connection.write ("\n");
-            connection.write ("Authorization: Basic "+credentials);
-            connection.write ("\n\n");
-
-            // skip header - Sling seems to always return proper headers
-            // Works for now but needs to be improved
-            var buffer = "";
-            while (!connection.eof) {
-                var ch = connection.read(1);
-                if (ch.match("\n")) {
-                    if (buffer.length == 1) {
-                        // start of message body
-                        break;
-                    }
-                    buffer = "";
-                } else {
-                    buffer = buffer + ch;
-                }
-            }
-
-            // write message body
-            while (!connection.eof) {
-                file.write(connection.read());
-            }
-
-            connection.close();
-            if (file.error != "") {
-                app.consoleout('Failed to open ' + file.error);
-            }
-
-            file.close();
-        }
-        else {
-            file.close();
-            throw 'Connection to host ' + host + ' could not be opened';
-        }
-    }
-
-    function transformHost(hostExpression) {
-        var contextPath = "";
-        var host = hostExpression;
-
-        // remove contextPath
-        idx = host.indexOf('/');
-        if (idx > 0){
-            contextPath = host.substring(idx);
-            host = host.substring(0, idx);
-        }
-        return {
-            contextPath : contextPath,
-            host : host,
-            protocol : "http://"
-        }
-    }*/
 }());

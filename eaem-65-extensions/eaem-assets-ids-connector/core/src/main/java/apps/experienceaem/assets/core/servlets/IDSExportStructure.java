@@ -25,10 +25,10 @@ import static apps.experienceaem.assets.core.util.Constants.*;
         immediate = true,
         service = Servlet.class,
         property = {
-                Constants.SERVICE_DESCRIPTION + "=GCOM InDesign Server Get Structure Servlet",
+                Constants.SERVICE_DESCRIPTION + "=Experience AEM InDesign Server Get Structure Servlet",
                 "sling.servlet.methods=" + HttpConstants.METHOD_GET,
                 "sling.servlet.resourceTypes=sling/servlet/default",
-                "sling.servlet.extensions=" + "getDocStructure"
+                "sling.servlet.extensions=" + "getTemplateStructure"
         }
 )
 public class IDSExportStructure extends SlingAllMethodsServlet {

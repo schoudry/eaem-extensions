@@ -64,7 +64,7 @@ public class IDSJobConsumer implements JobConsumer {
     private String[] getIDSScriptForStructure(){
         return new String[] { "/libs/settings/dam/indesign/scripts/json2.jsx/jcr:content",
                 "/libs/settings/dam/indesign/scripts/cq-lib.jsx/jcr:content",
-                "/apps/publish-ids-connector/indesign/scripts/export-structure.jsx/jcr:content"};
+                "/apps/eaem-assets-ids-connector/indesign/scripts/export-structure.jsx/jcr:content"};
     }
 
     private JobResult executeStructureExport(String indesignTemplatePath, ResourceResolver resolver )

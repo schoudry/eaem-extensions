@@ -34,11 +34,11 @@ import static apps.experienceaem.assets.core.util.Constants.*;
         immediate = true,
         service = Servlet.class,
         property = {
-                Constants.SERVICE_DESCRIPTION + "=GCOM InDesign Server Process Servlet",
+                Constants.SERVICE_DESCRIPTION + "=Experience AEM InDesign Server Process Servlet",
                 "sling.servlet.methods=" + HttpConstants.METHOD_GET,
                 "sling.servlet.methods=" + HttpConstants.METHOD_POST,
                 "sling.servlet.resourceTypes=sling/servlet/default",
-                "sling.servlet.extensions=" + "idspdf"
+                "sling.servlet.extensions=" + "createPDF"
         }
 )
 public class IDSRequestServlet extends SlingAllMethodsServlet {
@@ -182,7 +182,7 @@ public class IDSRequestServlet extends SlingAllMethodsServlet {
 
             valueJson.addProperty("value", removeUnnecessaryChars(value));
 
-            contentMap.add(idPathPrefix + "_" + cfElement.getName(), valueJson);
+            contentMap.add(idPathPrefix + cfElement.getName(), valueJson);
         }
     }
 

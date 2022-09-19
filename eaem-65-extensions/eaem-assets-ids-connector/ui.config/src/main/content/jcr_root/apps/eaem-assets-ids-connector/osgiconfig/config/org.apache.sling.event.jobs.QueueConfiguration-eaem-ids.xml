@@ -6,5 +6,5 @@
           queue.priority="MIN"
           queue.retries="{Long}0"
           queue.retrydelay="{Long}60000"
-          queue.topics="com/gcom/eaem"
+          queue.topics="com/eaem/ids"
           queue.type="ORDERED"/>

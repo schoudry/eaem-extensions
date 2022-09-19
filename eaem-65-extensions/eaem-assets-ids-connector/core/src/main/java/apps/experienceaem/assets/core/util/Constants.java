@@ -14,11 +14,11 @@ public class Constants {
 
     public static final String CONTENT_JSON = "contentJson";
 
-    public static final String INDESIGN_SERVER_TOPIC = "com/gcom/ids";
+    public static final String INDESIGN_SERVER_TOPIC = "com/eaem/ids";
 
-    public static final String INDESIGN_SERVICE_USER = "gcom-ids-service";
+    public static final String INDESIGN_SERVICE_USER = "eaem-ids-service";
 
-    public static final String INDESIGN_GEN_REPORTS_PATH = "/var/dam/gcom";
+    public static final String INDESIGN_GEN_REPORTS_PATH = "/var/dam/eaem";
 
     public static final String JOB_STATUS_PROCESSING = "PROCESSING";
 

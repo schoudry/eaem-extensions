@@ -195,7 +195,7 @@ public class IDSServiceImpl implements IDSService{
         httpClient = builder.build();
     }
 
-    @ObjectClassDefinition(name = "GCOM InDesign Server Configuration")
+    @ObjectClassDefinition(name = "Experience AEM InDesign Server Configuration")
     public @interface IDSConfiguration {
 
         @AttributeDefinition(
@@ -207,7 +207,7 @@ public class IDSServiceImpl implements IDSService{
         String[] inDesignServerScripts() default {
                 "/libs/settings/dam/indesign/scripts/json2.jsx/jcr:content",
                 "/libs/settings/dam/indesign/scripts/cq-lib.jsx/jcr:content",
-                "/apps/publish-ids-connector/indesign/scripts/create-pdf.jsx/jcr:content"
+                "/apps/eaem-assets-ids-connector/indesign/scripts/create-pdf.jsx/jcr:content"
         };
 
         @AttributeDefinition(
