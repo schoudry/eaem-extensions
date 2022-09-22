@@ -9,25 +9,12 @@
         <root
             jcr:primaryType="nt:unstructured"
             sling:resourceType="wcm/foundation/components/responsivegrid">
-            <experiencefragment-header
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="eaem-sites-react-spa-ssr/components/experiencefragment"
-                                fragmentVariationPath="/content/experience-fragments/eaem-sites-react-spa-ssr/us/en/site/header/master"/>
-                
-
             <responsivegrid
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="wcm/foundation/components/responsivegrid"
                 editable="{Boolean}true">
                 <cq:responsive jcr:primaryType="nt:unstructured"/>
             </responsivegrid>
-
-            <experiencefragment-footer
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="eaem-sites-react-spa-ssr/components/experiencefragment"
-                        fragmentVariationPath="/content/experience-fragments/eaem-sites-react-spa-ssr/us/en/site/footer/master"/>
-            
-
         </root>
         <cq:responsive jcr:primaryType="nt:unstructured">
             <breakpoints jcr:primaryType="nt:unstructured">
