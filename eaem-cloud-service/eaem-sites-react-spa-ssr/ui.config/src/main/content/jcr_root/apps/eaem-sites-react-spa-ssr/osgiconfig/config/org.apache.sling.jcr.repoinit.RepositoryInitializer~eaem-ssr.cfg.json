@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-sites-react-spa-ssr",
+        "create path (nt:unstructured) /content/dam/eaem-sites-react-spa-ssr/jcr:content",
+        "set properties on /content/dam/eaem-sites-react-spa-ssr/jcr:content\n  set cq:conf{String} to /conf/eaem-sites-react-spa-ssr\n  set jcr:title{String} to \"Experience AEM React SSR Sample\"\nend"
+    ]
+}

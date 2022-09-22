@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-sites-react-spa-ssr/clientlibs"/>
+    <filter root="/apps/eaem-sites-react-spa-ssr/components"/>
+    <filter root="/apps/eaem-sites-react-spa-ssr/i18n"/>
+</workspaceFilter>

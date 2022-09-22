@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-sites-react-spa-ssr" mode="merge"/>
+    <filter root="/content/eaem-sites-react-spa-ssr" mode="merge"/>
+    <filter root="/content/dam/eaem-sites-react-spa-ssr/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-sites-react-spa-ssr" mode="merge"/>
+</workspaceFilter>

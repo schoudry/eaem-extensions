@@ -1,0 +1,9 @@
+{
+    "getContentPathPattern": "/content/eaem-sites-react-spa-ssr/(.*)|/conf/eaem-sites-react-spa-ssr/(.*)/settings/wcm/templates/(.*)",
+    "getRemoteHTMLRendererUrl" : "http://localhost:3233/api/v1/web/guest/eaem-sites-react-spa-ssr-0.1.0/ssr",
+    "getRequestTimeout": 10000,
+    "getAdditionalRequestHeaders": [
+
+    ],
+    "getCompression": "none"
+}
