@@ -33,6 +33,8 @@ exapp.post('/api/v1/web/guest/eaem-sites-react-spa-ssr-0.1.0/ssr/*', (req, res, 
         method: 'POST'
     };
 
+    console.log("----->", args);
+
     return processSPA(args).then((response) => {
         res.send(response);
     }).catch((error) => {

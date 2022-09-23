@@ -37,6 +37,8 @@ async function processSPA(args) {
     let modelData = args.data;
     let pagePath = args.pagePath.replace('.html', '');
 
+    console.log("modelData---->", modelData);
+
     await ModelManager.initialize({path: pageModelRootPath, model: modelData});
     const response = await renderModelToHTMLString(modelData, pagePath, args.pagePath, args.pagePath, pageModelRootPath, isInEditor);
     return response;

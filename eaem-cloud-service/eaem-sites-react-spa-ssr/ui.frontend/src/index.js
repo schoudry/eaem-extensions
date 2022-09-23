@@ -22,14 +22,7 @@ const renderApp = () => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
-                <App
-                    history={history}
-                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                    cqItems={pageModel[Constants.ITEMS_PROP]}
-                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                    cqPath={pageModel[Constants.PATH_PROP]}
-                    locationPathname={window.location.pathname}
-                />
+                <App... />
             </Router>,
             document.getElementById('spa-root')
         );
@@ -37,20 +30,12 @@ const renderApp = () => {
 };
 
 const hydrateApp = (initialState) => {
-
     modelManagerOptions.model = initialState.rootModel;
     ModelManager.initialize(modelManagerOptions).then(pageModel => {
         const history = createBrowserHistory();
         hydrate(
             <Router history={history}>
-                <App
-                    history={history}
-                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                    cqItems={pageModel[Constants.ITEMS_PROP]}
-                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                    cqPath={pageModel[Constants.PATH_PROP]}
-                    locationPathname={window.location.pathname}
-                />
+                <App.../>
             </Router>,
             document.getElementById('spa-root')
         );
