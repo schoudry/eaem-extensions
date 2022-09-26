@@ -1,0 +1,3 @@
+{
+  "siteMapHostPrefix": "$[env:EAEM_SITEMAP_HOST_PREFIX]"
+}
