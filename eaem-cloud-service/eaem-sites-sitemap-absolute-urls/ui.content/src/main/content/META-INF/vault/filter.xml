@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-sites-sitemap-absolute-urls" mode="merge"/>
+    <filter root="/content/eaem-sites-sitemap-absolute-urls" mode="merge"/>
+    <filter root="/content/dam/eaem-sites-sitemap-absolute-urls/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-sites-sitemap-absolute-urls" mode="merge"/>
+</workspaceFilter>

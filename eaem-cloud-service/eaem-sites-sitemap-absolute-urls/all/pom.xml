@@ -67,6 +67,12 @@
                         </embedded>
                         <embedded>
                             <groupId>apps.experienceaem.sites</groupId>
+                            <artifactId>eaem-sites-sitemap-absolute-urls.ui.content</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-sites-sitemap-absolute-urls-packages/content/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.sites</groupId>
                             <artifactId>eaem-sites-sitemap-absolute-urls.ui.config</artifactId>
                             <type>zip</type>
                             <target>/apps/eaem-sites-sitemap-absolute-urls-packages/application/install</target>
@@ -175,6 +181,12 @@
         <dependency>
             <groupId>apps.experienceaem.sites</groupId>
             <artifactId>eaem-sites-sitemap-absolute-urls.ui.apps</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>apps.experienceaem.sites</groupId>
+            <artifactId>eaem-sites-sitemap-absolute-urls.ui.content</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
