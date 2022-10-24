@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AEM S7 video testing</title>
+</head>
+<body>
+    <style type="text/css">
+        #s7_videoview.s7videoviewer {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <script type="text/javascript" language="javascript"
+            src="http://s7d9.scene7.com/s7viewers/html5/js/VideoViewer.js"></script>
+
+    <div id="s7_videoview" style="width: 600px; height: 600px"></div>
+
+    <script type="text/javascript">
+        var s7_videoview = new s7viewers.VideoViewer({
+            "containerId": "s7_videoview",
+            "params": {
+                "asset": "CEM/SirKenRobinsonSreek-0x720-3000k",
+                "serverurl": "http://s7d9.scene7.com/is/image/",
+                "contenturl": "http://s7d9.scene7.com/skins/",
+                "config": "Scene7SharedAssets/Universal_HTML5_Video",
+                "emailurl": "http://s7d9.scene7.com/s7/emailFriend",
+                "videoserverurl": "http://s7d9.scene7.com/is/content/",
+                "config2": "companypreset",
+				"stagesize": "640,360",
+				"caption":"https://s7d9.scene7.com/is/content/CEM/experience%2Daem%2D65/SirKenRobinsonSreek.vtt,1"
+            }
+        }).init();
+    </script>
+</body>
+</html>
