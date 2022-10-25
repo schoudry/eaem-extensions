@@ -1,33 +1,50 @@
 (function () {
-    var aemHost, base64EncodedAEMCreds, resourcePath, relinkHostPrefix = "";
-
-    var QUERY_BUILDER_PATH = "/bin/querybuilder.json?path=/content/dam&type=dam:Asset&group.p.or=true",
-        AEMS_PROTOCOL = "aems://",
-        document,
-        sourceFile = "",
-        relinkedFile = "";
+    var RELINK_HOST_PREFIX = "",
+        QUERY_BUILDER_PATH = "/bin/querybuilder.json?path=/content/dam&type=dam:Asset&group.p.or=true",
+        AEM_RELINKED_DOC_SUFFIX = "-with-aem-links.indd",
+        AEMS_PROTOCOL = "aems://";
 
     try{
-        setTestParams();
+        app.consoleout('Checking if relinking to AEM links is required for : ' + resourcePath);
 
-        document = app.open(sourceFile);
-
-        var hostPrefix = relinkHostPrefix;
+        var links = document.links,
+            hostPrefix = RELINK_HOST_PREFIX;
 
         if(!hostPrefix){
-            hostPrefix =  AEMS_PROTOCOL + aemHost;
+            hostPrefix =  AEMS_PROTOCOL + host;
         }
 
-        var links = document.links;
-        var aemPaths = getAEMPaths(links);
+        if(!hasAEMLinks()){
+            app.consoleout('Document contains local links, AEM relinking required : ' + resourcePath);
 
-        relinkLocalToAEM(links, aemPaths, hostPrefix);
+            var aemPaths = getAEMPaths(links);
+
+            relinkLocalToAEM(links, aemPaths, hostPrefix);
+
+            var fileName = resourcePath.substring(resourcePath.lastIndexOf ('/') + 1, resourcePath.lastIndexOf ('.') ),
+                relinkedFile = new File( sourceFolder.fullName + "/" + fileName + AEM_RELINKED_DOC_SUFFIX + ".indd");
+
+            document.save(relinkedFile);
+
+            app.consoleout('Document links relinked to AEM : ' + resourcePath + ", saved in indesign servet at : " + relinkedFile);
+        }else{
+            app.consoleout('Document contains AEM links, relinking to AEM NOT required : ' + resourcePath);
+        }
     }catch(err){
-        app.consoleout("Error processing document : " + resourcePath + ", error : " + err);
-    }finally{
-        if(document){
-            document.close(SaveOptions.no);
+        app.consoleout("Error relinking document : " + resourcePath + ", error : " + err);
+    }
+
+    function hasAEMLinks(links){
+        var containsAEMLinks = false;
+
+        for(var i = 0; i < links.length; i++ ){
+            if(links[i].linkResourceURI.indexOf(AEMS_PROTOCOL) == 0){
+                containsAEMLinks = true;
+                break;
+            }
         }
+
+        return containsAEMLinks;
     }
 
     function relinkLocalToAEM(links, aemPaths, hostPrefix){
@@ -50,13 +67,6 @@
                 return;
             }
         }
-
-        document.save(new File(relinkedFile));
-    }
-
-    function setTestParams(){
-        base64EncodedAEMCreds = "YWRtaW46YWRtaW4=";
-        aemHost = "localhost:4502";
     }
 
     function getAEMPaths(links){
@@ -67,7 +77,7 @@
             query = query + "&group." + (i + 1) + "_nodename=" + links[i].name;
         }
 
-        var response = getResponse(aemHost, query, base64EncodedAEMCreds);
+        var response = fetchJSONObjectByGET(host, credentials, query);
 
         if(!response){
             return;
@@ -87,7 +97,7 @@
         return aemPaths;
     }
 
-    function getResponse(host, uri, base64Creds){
+    function getQueryResponseFromAEM(host, uri, base64Creds){
         var aemConn = new Socket, body = "", response, firstRead = true;
 
         if (!aemConn.open(host, "UTF-8")) {
