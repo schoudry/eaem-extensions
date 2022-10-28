@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-dm-smart-crop-jsonp-cache" mode="merge"/>
+    <filter root="/content/eaem-dm-smart-crop-jsonp-cache" mode="merge"/>
+    <filter root="/content/dam/eaem-dm-smart-crop-jsonp-cache/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-dm-smart-crop-jsonp-cache" mode="merge"/>
+</workspaceFilter>
