@@ -1,16 +1,16 @@
 (function() {
     "use strict";
 
-    if(isPublishedMode()){
-        //return;
-    }
-
     const CONFIG_NODE_SEL = '[data-config]',
         SRC_URI_TEMPLATE_WIDTH_VAR = "{.width}",
         SMART_CROPS_SET_JSON = "smartCropsSetJson",
         EAEM_DM_IMAGE = "eaem-image";
 
-    function init(){
+    if(!isPublishedMode()){
+        postSetJsonInAuthoring();
+    }
+
+    function postSetJsonInAuthoring(){
         const elements = document.querySelectorAll('[data-cmp-is="image"]');
 
         elements.forEach((element) => {
@@ -25,9 +25,8 @@
                 return;
             }
 
-            const cmpCrxPath = configNode.dataset.path;
-
-            const url = imageUrl + (imageUrl.indexOf("?") < 0 ? "?" : "") + "req=set,json";
+            const cmpCrxPath = configNode.dataset.path,
+                url = imageUrl + (imageUrl.indexOf("?") < 0 ? "?" : "") + "req=set,json";
 
             const setJsonResponseStr = getSmartCropsSetJsonResponse(url);
 
@@ -95,6 +94,4 @@
     function isPublishedMode(){
         return (typeof Granite === 'undefined');
     }
-
-    init();
 })();
