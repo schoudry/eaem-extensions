@@ -1,19 +1,15 @@
-
-<div class="cmp-helloworld" data-cmp-is="helloworld">
-    <h2 class="cmp-helloworld__title">Hello World Component</h2>
-    <div class="cmp-helloworld__item" data-sly-test="${properties.text}">
-        <p class="cmp-helloworld__item-label">Text property:</p>
-        <pre class="cmp-helloworld__item-output" data-cmp-hook-helloworld="property">${properties.text}</pre>
-    </div>
-    <div class="cmp-helloworld__item" data-sly-use.model="apps.eaem.assets.core.models.HelloWorldModel" data-sly-test="${model.message}">
-        <p class="cmp-helloworld__item-label">Model message:</p>
-        <pre class="cmp-helloworld__item-output"data-cmp-hook-helloworld="model">${model.message}</pre>
-    </div>
+<div data-sly-use.model="apps.eaem.assets.core.models.HelloWorldModel"
+     style="margin: 20px 0 20px 0"
+     data-sly-test="${!model.iconName}">
+        Hello, select a svg icon in dialog!
 </div>
 
+<div data-sly-use.model="apps.eaem.assets.core.models.HelloWorldModel" data-sly-test="${model.iconName}">
+    <div style="margin-bottom: 20px">
+        Hello, you've selected the icon : ${model.iconName}
+    </div>
 
-<div>
     <svg focusable="false">
-        <use xlink:href="#chevron_down"></use>
+        <use xlink:href="#${model.iconName}"></use>
     </svg>
 </div>

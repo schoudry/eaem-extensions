@@ -1,10 +1,35 @@
 (function(){
-    const SVG_URL = "/bin/eaem/svgs";
+    const SVG_URL = "/bin/eaem/svgs",
+    SVG_HOLDER_CLASS = "sprite-holder";
 
-    function createSpriteDiv(){
-        var elemDiv = document.createElement('div');
+    init();
+
+    function init(){
+        loadSVGStream();
+    }
+
+    function createSvgSpriteDiv(content){
+        let elemDiv = document.createElement('div');
+        elemDiv.className = SVG_HOLDER_CLASS;
+        elemDiv.style.display = "none";
+        elemDiv.innerHTML = content;
+
         document.body.appendChild(elemDiv);
     }
 
-    createSpriteDiv();
+    function loadSVGStream(){
+        var request = new XMLHttpRequest();
+
+        request.open("GET", SVG_URL, true);
+
+        request.onload = () => {
+            if (request.status != 200) {
+                return;
+            }
+
+            createSvgSpriteDiv(request.responseText);
+        }
+
+        request.send();
+    }
 }())

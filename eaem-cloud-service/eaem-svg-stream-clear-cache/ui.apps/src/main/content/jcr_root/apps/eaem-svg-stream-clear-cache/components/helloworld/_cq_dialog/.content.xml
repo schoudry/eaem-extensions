@@ -13,9 +13,10 @@
                 <items jcr:primaryType="nt:unstructured">
                     <text
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                        fieldLabel="Text"
-                        name="./text"/>
+                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                        fieldLabel="Icon Path"
+                        rootPath="/content/dam/eaem-svg-stream-clear-cache"
+                        name="./iconPath"/>
                 </items>
             </column>
         </items>
