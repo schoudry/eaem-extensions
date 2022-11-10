@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "eaem-svg-stream-clear-cache.core:eaem-service-user=[eaem-service-user]"
+  ]
+}
