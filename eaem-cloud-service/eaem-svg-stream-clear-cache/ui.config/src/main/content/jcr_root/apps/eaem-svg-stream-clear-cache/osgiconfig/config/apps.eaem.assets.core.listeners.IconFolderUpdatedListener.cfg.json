@@ -1,0 +1,3 @@
+{
+  "fastlyPurgeKey": "$[env:EAEM_FASTLY_PURGE_KEY]"
+}
