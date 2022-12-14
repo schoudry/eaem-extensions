@@ -65,6 +65,12 @@
                             <artifactId>eaem-assets-replace-binary.core</artifactId>
                             <target>/apps/eaem-assets-replace-binary-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>apps.eaem.assets</groupId>
+                            <artifactId>eaem-assets-replace-binary.ui.content</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-assets-replace-binary-packages/content/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -96,7 +102,7 @@
                     <execution>
                         <id>aem-analyser</id>
                         <goals>
-                            <goal>project-analyse</goal>                           
+                            <goal>project-analyse</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -159,7 +165,7 @@
                     </plugin>
                 </plugins>
             </build>
-    </profile>
+        </profile>
     </profiles>
 
     <!-- ====================================================================== -->
@@ -178,12 +184,5 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
-        <dependency>
-            <groupId>apps.eaem.assets</groupId>
-            <artifactId>eaem-assets-replace-binary.ui.config</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-
     </dependencies>
 </project>

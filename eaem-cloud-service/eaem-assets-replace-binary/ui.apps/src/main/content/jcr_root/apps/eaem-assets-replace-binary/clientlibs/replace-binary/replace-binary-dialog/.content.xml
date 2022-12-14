@@ -25,7 +25,7 @@
                 <content
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/form"
-                    action="/content/api/vs/replace-binary"
+                    action="/content/api/eaem/replace-binary"
                     foundationForm="{Boolean}true"
                     maximized="{Boolean}true"
                     method="post"
@@ -38,7 +38,7 @@
                             sling:resourceType="granite/ui/components/coral/foundation/wizard">
                             <items jcr:primaryType="nt:unstructured">
                                 <container
-                                    granite:class="vs-replace-binary-form"
+                                    granite:class="eaem-replace-binary-form"
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="Replace Binary"
                                     sling:resourceType="granite/ui/components/coral/foundation/container">
