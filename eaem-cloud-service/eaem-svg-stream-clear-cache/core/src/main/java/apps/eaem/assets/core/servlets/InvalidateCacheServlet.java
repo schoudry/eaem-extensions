@@ -1,6 +1,11 @@
 package apps.eaem.assets.core.servlets;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHttpRequest;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -15,11 +20,6 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 
 @Component(
         name = "Experience AEM Invalidate Cache Servlet",
@@ -54,22 +54,21 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
             PrintWriter writer = response.getWriter();
 
             if(StringUtils.isEmpty(path)){
-                writer.println("Empty path...");
-                return;
+                path = SPRITE_CACHE_PATH;
             }
 
             ResourceResolver resolver = request.getResourceResolver();
 
             if("DISPATCHER".equals(type)){
                 writer.println("---->DISPATCHER CLEAR CACHE VIA SERVLET : " + path + "\n");
-                clearDispatcherCache(resolver, SPRITE_CACHE_PATH, writer);
+                clearDispatcherCache(resolver, path, writer);
             }else if("CDN".equals(type)){
                 writer.println("---->CDN CLEAR CACHE VIA SERVLET : " + path + "\n");
-                clearCDNCache(SPRITE_CACHE_PATH, writer);
+                clearCDNCache(path, writer, request);
             }else{
                 LOGGER.info("---->DISPATCHER AND CDN CLEAR CACHE VIA SERVLET : " + path);
-                clearDispatcherCache(resolver, SPRITE_CACHE_PATH, writer);
-                clearCDNCache(SPRITE_CACHE_PATH, writer) ;
+                clearDispatcherCache(resolver, path, writer);
+                clearCDNCache(path, writer, request) ;
             }
         }catch(Exception e){
             throw new ServletException("Error", e);
@@ -84,33 +83,22 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
         if(!dResponse.isSuccessful()){
             writer.println("Error Dispatcher Clear : " + dResponse.getDistributionInfo().getId() + " - " + dResponse.getMessage());
         }else{
-            writer.println("Success Dispatcher Cache cleared successfully for - " + path);
+            writer.println("Success Dispatcher Cache cleared successfully for - " + path + ", " + dResponse.getMessage());
         }
     }
 
-    private void clearCDNCache(String path, PrintWriter writer ) throws Exception{
-        String CDN_PUBLISH_HOST = "https://publish-p10961-e854712.adobeaemcloud.com";
-        String PURGE_KEY = "530d7d660d4fb5a43ba11187f3456f73819464c4bccf64d2505027e5df093d23";
+    private void clearCDNCache(String path, PrintWriter writer, SlingHttpServletRequest request ) throws Exception{
+        String CDN_PUBLISH_HOST = request.getParameter("cdnHost");
+        String PURGE_KEY = request.getParameter("purgeKey");
         String METHOD_PURGE = "PURGE";
 
-        HttpClient cdnClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.NORMAL)
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
+        HttpHost host = new HttpHost(CDN_PUBLISH_HOST);
+        HttpClient httpclient = HttpClientBuilder.create().build();
 
-        HttpRequest cdnRequest = HttpRequest.newBuilder()
-                .uri(URI.create(CDN_PUBLISH_HOST + path))
-                .header("x-aem-purge-key", PURGE_KEY)
-                .method(METHOD_PURGE, HttpRequest.BodyPublishers.noBody())
-                .build();
+        BasicHttpRequest purgeRequest = new BasicHttpRequest(METHOD_PURGE, "/some/url");
+        purgeRequest.addHeader("x-aem-purge-key", PURGE_KEY);
 
-        HttpResponse<String> cdnResponse = cdnClient.send(cdnRequest, HttpResponse.BodyHandlers.ofString());
-
-        if (cdnResponse.statusCode() != 200) {
-            writer.println("Error clearing CDN Cache, response code : " + cdnResponse.statusCode() + ", " + cdnResponse.body());
-        }else{
-            writer.println("Success : " + cdnResponse.body());
-        }
+        HttpResponse cdnResponse = httpclient.execute(host, purgeRequest);
+        writer.println("Success : " + cdnResponse.getStatusLine());
     }
 }
