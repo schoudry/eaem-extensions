@@ -31,7 +31,7 @@ import java.util.Map;
         service = Servlet.class,
         property = {
                 "sling.servlet.methods=" + HttpConstants.METHOD_POST,
-                "sling.servlet.resourceTypes=" + "/bin/vs/replace-binary"})
+                "sling.servlet.resourceTypes=" + "/bin/eaem/replace-binary"})
 public class ReplaceBinaryServlet extends SlingAllMethodsServlet {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
