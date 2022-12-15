@@ -2,7 +2,7 @@
     "use strict";
 
     const METADATA_EDITOR_PAGE = "/mnt/overlay/dam/gui/content/assets/metadataeditor.external.html",
-        META_RTE_URL = "/apps/eaem-assets-metadata-rte/components/extensions/metadata-rte/rte-modal.html",
+        META_RTE_URL = "/apps/eaem-assets-metadata-rte/clientlibs/metadata-rte/rte-modal.html",
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         RTE_VALUE_SEL = "[name='./text']",
         RICH_TEXT_EDITABLE = ".cq-RichText-editable",
