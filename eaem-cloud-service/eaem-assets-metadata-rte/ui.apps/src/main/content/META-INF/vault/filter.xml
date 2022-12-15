@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/eaem-assets-metadata-rte/clientlibs"/>
+    <filter root="/apps/eaem-assets-metadata-rte/components"/>
+    <filter root="/apps/eaem-assets-metadata-rte/i18n"/>
+</workspaceFilter>

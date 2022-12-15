@@ -1,0 +1,24 @@
+.eaem-metadata-rte-form{
+    margin: 10px 40px 0px 40px;
+    width: 90%;
+    height: 87%;
+}
+
+.eaem-metadata-rte-modal {
+    width: 70%;
+    margin-left: -50%;
+    height: 63%;
+    margin-top: -50%;
+    box-sizing: content-box;
+    z-index: 10100;
+}
+
+.eaem-metadata-rte-modal > iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #888;
+}
+
+.cq-RichText-editable{
+    height: 450px;
+}
