@@ -34,7 +34,7 @@ import org.jsoup.parser.Parser;
         service = Servlet.class,
         property = {
                 "sling.servlet.methods=GET",
-                "sling.servlet.paths=/bin/eaem/sprite.svg"
+                "sling.servlet.paths=/bin/eaem/sprite"
         }
 )
 public class SVGExporter extends SlingSafeMethodsServlet {
