@@ -1,5 +1,5 @@
 (function(){
-    const SVG_URL = "/bin/eaem/sprite.svg",
+    const SVG_URL = "/content/api/eaem/sprite.svg",
     SVG_HOLDER_CLASS = "sprite-holder";
 
     init();

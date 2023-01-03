@@ -34,7 +34,7 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(InvalidateCacheServlet.class);
 
     private static final String ICONS_FOLDER = "/content/dam/eaem-svg-stream-clear-cache";
-    private static final String SPRITE_CACHE_PATH = "/bin/eaem/sprite.svg";
+    private static final String SPRITE_CACHE_PATH = "/content/api/eaem/sprite.svg";
     private static final String PUBLISH_AGENT = "publish";
 
     @Reference

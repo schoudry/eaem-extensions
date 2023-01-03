@@ -42,7 +42,7 @@ public class IconFolderUpdatedListener implements EventHandler {
     private static final Logger LOG = LoggerFactory.getLogger(IconFolderUpdatedListener.class);
 
     private static final String ICONS_FOLDER = "/content/dam/eaem-svg-stream-clear-cache";
-    private static final String SPRITE_CACHE_PATH = "/bin/eaem/sprite.svg";
+    private static final String SPRITE_CACHE_PATH = "/content/api/eaem/sprite.svg";
     private static final String PUBLISH_AGENT = "publish";
     private static final String EAEM_SERVICE_USER = "eaem-service-user";
 
