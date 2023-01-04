@@ -60,6 +60,7 @@ Include conf.d/variables/custom.vars
 
 	</IfModule>
 	<LocationMatch "^/content">
+	    Header add X-EAEM-TEST "eaem-sprite-no-cache-01-04"
         Header unset Surrogate-Control
         Header always set Surrogate-Control "no-store, no-cache"
     </LocationMatch>
