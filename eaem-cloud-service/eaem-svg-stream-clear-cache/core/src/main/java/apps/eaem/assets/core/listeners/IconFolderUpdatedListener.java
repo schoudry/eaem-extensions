@@ -110,10 +110,6 @@ public class IconFolderUpdatedListener implements EventHandler {
         }
     }
 
-    private void issueCDNPurgeRequest(){
-
-    }
-
     private String isIconFolderPath(String path){
         if(path.startsWith(ICONS_FOLDER)){
             return path;

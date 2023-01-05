@@ -59,8 +59,13 @@ Include conf.d/variables/custom.vars
 		RewriteRule "^(/?)$" "/index.html" [PT]
 
 	</IfModule>
-	<LocationMatch "^/content">
-	    Header add X-EAEM-TEST "eaem-sprite-no-cache-01-04"
+
+	<LocationMatch "/content/eaem-svg-stream-clear-cache/us/en/dispatcher-and-cdn.html">
+	    Header add X-EAEM-TEST "eaem-disp-cdn-01-04"
+    </LocationMatch>
+
+    <LocationMatch "/content/eaem-svg-stream-clear-cache/us/en/dispatcher.html">
+        Header add X-EAEM-TEST "eaem-disp-01-04"
         Header unset Surrogate-Control
         Header always set Surrogate-Control "no-store, no-cache"
     </LocationMatch>

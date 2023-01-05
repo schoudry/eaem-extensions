@@ -95,7 +95,7 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
         HttpHost host = new HttpHost(CDN_PUBLISH_HOST);
         HttpClient httpclient = HttpClientBuilder.create().build();
 
-        BasicHttpRequest purgeRequest = new BasicHttpRequest(METHOD_PURGE, "/some/url");
+        BasicHttpRequest purgeRequest = new BasicHttpRequest(METHOD_PURGE, path);
         purgeRequest.addHeader("x-aem-purge-key", PURGE_KEY);
 
         HttpResponse cdnResponse = httpclient.execute(host, purgeRequest);
