@@ -3,7 +3,7 @@ package apps.eaem.assets.core.models;
 
 import javax.annotation.PostConstruct;
 
-import com.adobe.xfa.ut.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;

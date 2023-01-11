@@ -33,8 +33,6 @@ import java.io.PrintWriter;
 public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(InvalidateCacheServlet.class);
 
-    private static final String ICONS_FOLDER = "/content/dam/eaem-svg-stream-clear-cache";
-    private static final String SPRITE_CACHE_PATH = "/content/api/eaem/sprite.svg";
     private static final String PUBLISH_AGENT = "publish";
 
     @Reference
@@ -54,7 +52,8 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
             PrintWriter writer = response.getWriter();
 
             if(StringUtils.isEmpty(path)){
-                path = SPRITE_CACHE_PATH;
+                writer.println("---->Empty Path, nothing to invalidate");
+                return;
             }
 
             ResourceResolver resolver = request.getResourceResolver();
@@ -88,11 +87,11 @@ public class InvalidateCacheServlet extends SlingSafeMethodsServlet {
     }
 
     private void clearCDNCache(String path, PrintWriter writer, SlingHttpServletRequest request ) throws Exception{
-        String CDN_PUBLISH_HOST = request.getParameter("cdnHost");
+        String CDN_PUBLISH_HOST = request.getParameter("publishHost");
         String PURGE_KEY = request.getParameter("purgeKey");
         String METHOD_PURGE = "PURGE";
 
-        HttpHost host = new HttpHost(CDN_PUBLISH_HOST);
+        HttpHost host = new HttpHost(CDN_PUBLISH_HOST,443,"https");
         HttpClient httpclient = HttpClientBuilder.create().build();
 
         BasicHttpRequest purgeRequest = new BasicHttpRequest(METHOD_PURGE, path);
