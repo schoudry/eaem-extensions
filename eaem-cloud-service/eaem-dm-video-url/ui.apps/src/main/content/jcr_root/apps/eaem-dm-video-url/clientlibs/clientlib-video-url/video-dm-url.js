@@ -3,11 +3,7 @@
 
     var ASSET_DETAILS_PAGE = "/assetdetails.html",
         initialized = false,
-        RENDITION_ACTIVE = ".rendition-active",
-        IMAGE_SMART_CROPS_URL = "/apps/eaem-cs-smart-crop-open/extensions/image-smart-crops/renditions.html",
-        VIDEO_ENCODES_URL = "/apps/eaem-cs-smart-crop-open/extensions/video-encodes/renditions.html",
         BESIDE_ACTIVATOR = "cq-damadmin-admin-actions-download-activator",
-        PROXY_SERLVET = "/bin/eaem/proxy?dr=",
         VIDEO_BUTTON_URL = "/apps/eaem-dm-video-url/clientlibs/content/show-video-url-but.html";
 
     if (!isAssetDetailsPage()) {
@@ -22,6 +18,10 @@
         }
 
         initialized = true;
+
+        if(!window.s7viewers.VideoViewer){
+            return;
+        }
 
         $.ajax(VIDEO_BUTTON_URL).done(addVideoUrlButton);
     }
