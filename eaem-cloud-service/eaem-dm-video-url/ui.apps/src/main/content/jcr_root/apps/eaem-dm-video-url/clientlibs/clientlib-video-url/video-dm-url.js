@@ -4,6 +4,8 @@
     var ASSET_DETAILS_PAGE = "/assetdetails.html",
         initialized = false,
         BESIDE_ACTIVATOR = "cq-damadmin-admin-actions-download-activator",
+        DATA_ENCODE_LINK = "data-video-encode-link",
+        VIDEO_ENCODES_URL  = "/apps/eaem-dm-video-url/components/video-encodes/renditions.html",
         VIDEO_BUTTON_URL = "/apps/eaem-dm-video-url/clientlibs/content/show-video-url-but.html";
 
     if (!isAssetDetailsPage()) {
@@ -36,11 +38,42 @@
         const $videoUrlBUt = $(html).insertAfter($eActivator);
 
         $videoUrlBUt.find("coral-button-label").css("padding-left", "7px");
-        $videoUrlBUt.click(showVidoeUrl);
+        $videoUrlBUt.click(showVideoUrl);
     }
 
-    function showVidoeUrl(){
+    function getCopyOpenLinks(link){
+        return  "<div style='text-align: right'>" +
+                        "<span style='margin-right: 10px; cursor: pointer' " + DATA_ENCODE_LINK + "='" + link + "'>Copy</span>" +
+                        "<a style='text-decoration: none' href='" + link+ "' target='_blank'>Open</a>" +
+                    "</div>";
+    }
 
+    function showVideoUrl(){
+        const assetUrl = window.location.pathname.substring(ASSET_DETAILS_PAGE.length);
+
+        jQuery.ajax({url: VIDEO_ENCODES_URL + assetUrl}).done(handler);
+
+        function handler(data){
+            let rendsText = "";
+
+            jQuery.each(data,(index, rend) => {
+                rendsText = rendsText + "<span>" + rend["s7Url"] + "</span>" + getCopyOpenLinks(rend["s7Url"]) + "<br>";
+            })
+
+            const fui = $(window).adaptTo("foundation-ui"),
+                    options = [
+                    {
+                        id: "ok",
+                        text: "Close",
+                        primary: true
+                    }];
+
+            fui.prompt("Renditions",rendsText, "default", options);
+
+            $("[" + DATA_ENCODE_LINK + "]").click((event) => {
+                const videoLink = event.currentTarget.dataset.videoEncodeLink;
+            })
+        }
     }
 
     function showAlert(message, title, type, callback) {
