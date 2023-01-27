@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@adobe/asset-compute-sdk": "^2.0.0",
+    "@adobe/asset-compute-sdk": "^2.11.4",
     "@adobe/cloud-blobstore-wrapper": "^1.1.0",
     "@azure/storage-blob": "^12.2.0-preview.1",
     "azure-storage": "^2.10.3"
