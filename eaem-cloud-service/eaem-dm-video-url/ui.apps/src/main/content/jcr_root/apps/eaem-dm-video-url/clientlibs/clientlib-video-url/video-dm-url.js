@@ -57,7 +57,7 @@
             let rendsText = "";
 
             jQuery.each(data,(index, rend) => {
-                rendsText = rendsText + "<span>" + rend["s7Url"] + "</span>" + getCopyOpenLinks(rend["s7Url"]) + "<br>";
+                rendsText =  rendsText + "<div><span>" + rend["s7Url"] + "</span>" + getCopyOpenLinks(rend["s7Url"]) + "</div>";
             })
 
             const fui = $(window).adaptTo("foundation-ui"),
@@ -71,7 +71,7 @@
             fui.prompt("Renditions",rendsText, "default", options);
 
             $("[" + DATA_ENCODE_LINK + "]").click((event) => {
-                const videoLink = event.currentTarget.dataset.videoEncodeLink;
+                navigator.clipboard.writeText(event.currentTarget.dataset.videoEncodeLink);
             })
         }
     }
