@@ -57,7 +57,8 @@
             let rendsText = "";
 
             jQuery.each(data,(index, rend) => {
-                rendsText =  rendsText + "<div><span>" + rend["s7Url"] + "</span>" + getCopyOpenLinks(rend["s7Url"]) + "</div>";
+                rendsText =  rendsText + "<div style='padding: 5px'><span>" + rend["s7Url"] + "</span>"
+                                + getCopyOpenLinks(rend["s7Url"]) + "</div>";
             })
 
             const fui = $(window).adaptTo("foundation-ui"),

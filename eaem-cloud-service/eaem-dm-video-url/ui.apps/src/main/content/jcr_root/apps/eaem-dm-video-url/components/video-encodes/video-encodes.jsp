@@ -23,16 +23,14 @@
     Resource currentResource = eaemSlingRequest.getResourceResolver().getResource(assetPath);
     Asset asset = (currentResource != null ? currentResource.adaptTo(Asset.class) : null);
 
-    String s7Domain = "/";
-
-    s7Domain = s7Domain.replace("http://", "https://");
-
     JSONObject dynRenditions = new JSONObject();
 
     if( (asset == null) || !(asset.getMimeType().startsWith("video/"))) {
         dynRenditions.write(response.getWriter());
         return;
     }
+
+    String s7Domain = asset.getMetadataValue("dam:scene7Domain");
 
     DynamicMediaRenditionProvider dmRendProvider = sling.getService(DynamicMediaRenditionProvider.class);
 
@@ -53,7 +51,7 @@
 
         image = image.substring(0, image.lastIndexOf("."));
 
-        s7EncodeUrl = getPreviewUrl(s7Domain, dmRendition.getPath());
+        s7EncodeUrl = getDeliveryUrl(s7Domain, dmRendition.getPath());
 
         dynRendition.put("type", "VIDEO");
         dynRendition.put("name", dmRendition.getName());
@@ -67,11 +65,7 @@
 %>
 
 <%!
-    private static String getScene7Url(String s7Domain, String rendPath){
-        return s7Domain + "/s7viewers/html5/VideoViewer.html?asset=" + rendPath;
-    }
-
-    private static String getPreviewUrl(String s7Domain, String rendPath){
+    private static String getDeliveryUrl(String s7Domain, String rendPath){
         if(rendPath.contains(".")){
             rendPath = rendPath.substring(0, rendPath.lastIndexOf("."));
         }
