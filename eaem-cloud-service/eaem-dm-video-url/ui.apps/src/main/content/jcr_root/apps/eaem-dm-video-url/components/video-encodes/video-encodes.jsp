@@ -13,6 +13,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.apache.sling.api.resource.Resource" %>
+<%@ page import="org.apache.sling.commons.json.JSONException" %>
 
 <%
     response.setContentType("application/json");
@@ -38,9 +39,11 @@
     rules.put("remote", true);
     rules.put("video", true);
 
-    JSONObject dynRendition = new JSONObject();
     String image = null;
     String s7EncodeUrl = null;
+
+    JSONObject dynRendition = getVideo(s7Domain, asset);
+    dynRenditions.put(dynRendition.getString("name"), dynRendition);
 
     List<Rendition> dmRenditions = dmRendProvider.getRenditions(asset, rules);
 
@@ -65,6 +68,16 @@
 %>
 
 <%!
+    private JSONObject getVideo(String s7Domain, Asset asset) throws JSONException {
+        JSONObject dynRendition = new JSONObject();
+
+        dynRendition.put("type", "VIDEO");
+        dynRendition.put("name", asset.getMetadataValue("dam:scene7Name"));
+        dynRendition.put("s7Url", getDeliveryUrl(s7Domain, asset.getMetadataValue("dam:scene7File")));
+
+        return dynRendition;
+    }
+
     private static String getDeliveryUrl(String s7Domain, String rendPath){
         if(rendPath.contains(".")){
             rendPath = rendPath.substring(0, rendPath.lastIndexOf("."));

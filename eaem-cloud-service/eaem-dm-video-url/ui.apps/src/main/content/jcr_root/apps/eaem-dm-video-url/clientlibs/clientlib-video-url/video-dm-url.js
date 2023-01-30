@@ -62,34 +62,18 @@
             })
 
             const fui = $(window).adaptTo("foundation-ui"),
-                    options = [
-                    {
+                    options = [{
                         id: "ok",
                         text: "Close",
                         primary: true
                     }];
 
-            fui.prompt("Renditions",rendsText, "default", options);
+            fui.prompt("Video Encodes",rendsText, "default", options);
 
             $("[" + DATA_ENCODE_LINK + "]").click((event) => {
                 navigator.clipboard.writeText(event.currentTarget.dataset.videoEncodeLink);
             })
         }
-    }
-
-    function showAlert(message, title, type, callback) {
-        const fui = $(window).adaptTo("foundation-ui"),
-            options = [{
-                id: "ok",
-                text: "Ok",
-                primary: true
-            }];
-
-        message = message || "Unknown Error";
-        title = title || "Error";
-        type = type || "warning";
-
-        fui.prompt(title, message, type, options, callback);
     }
 
     function isAssetDetailsPage() {
