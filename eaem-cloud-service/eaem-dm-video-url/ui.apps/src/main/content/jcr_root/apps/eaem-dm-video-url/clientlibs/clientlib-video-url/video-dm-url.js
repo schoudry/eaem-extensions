@@ -68,7 +68,7 @@
                         primary: true
                     }];
 
-            fui.prompt("Video Encodes",rendsText, "default", options);
+            fui.prompt("Video URL",rendsText, "default", options);
 
             $("[" + DATA_ENCODE_LINK + "]").click((event) => {
                 navigator.clipboard.writeText(event.currentTarget.dataset.videoEncodeLink);

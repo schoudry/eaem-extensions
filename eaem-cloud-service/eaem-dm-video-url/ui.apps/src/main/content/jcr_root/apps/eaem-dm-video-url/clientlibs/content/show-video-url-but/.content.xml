@@ -4,5 +4,5 @@
     sling:resourceType="granite/ui/components/coral/foundation/collection/action"
     icon="link"
     target=".cq-damadmin-admin-childpages"
-    text="Encodes"
+    text="URL"
     variant="actionBar"/>

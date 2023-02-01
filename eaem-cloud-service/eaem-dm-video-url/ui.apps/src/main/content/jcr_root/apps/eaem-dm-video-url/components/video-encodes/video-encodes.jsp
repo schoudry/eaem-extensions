@@ -61,7 +61,7 @@
         dynRendition.put("image", getRendThumbnail(s7Domain, image));
         dynRendition.put("s7Url", s7EncodeUrl);
 
-        dynRenditions.put(dmRendition.getName(), dynRendition);
+        //dynRenditions.put(dmRendition.getName(), dynRendition);
     }
 
     dynRenditions.write(response.getWriter());
