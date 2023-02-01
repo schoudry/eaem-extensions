@@ -1,9 +1,12 @@
 const https = require('https');
+const QS = require('querystring');
 
-let AEM_HOST = 'author-p999-e9999.adobeaemcloud.com';
-let AEM_TOKEN = "x3qoDa4q9zhjn98qHRDXfxJDYA";
-let QB = "/bin/querybuilder.json?type=dam:Asset&1_property=jcr:content/dam:assetState&1_property.value=PROCESSING&path=";
-let PATH = "/content/dam/staging/choices/historical/50/90";
+let AEM_HOST = 'author-p10961-e880305.adobeaemcloud.com';
+let AEM_TOKEN = "eyJhbGciOiJQ";
+let PATH = "/content/dam/eaem-svg-stream-clear-cache";
+let LIMIT = -1;
+//let QB = "/bin/querybuilder.json?type=dam:Asset&1_property=jcr:content/dam:assetState&1_property.value=PROCESSING&p.limit=" + LIMIT + "&path=";
+let QB = "/bin/querybuilder.json?type=dam:Asset&p.limit=" + LIMIT + "&path=";
 let goAhead = true;
 
 runQueryAndProcess(QB + PATH);
@@ -17,57 +20,10 @@ function runQueryAndProcess(query) {
         }
     }
 
-    doRequest(options);
+    doQueryRequest(options);
 }
 
-function startReprocess(path){
-    const INTERVAL = setInterval(() => {
-        if(goAhead){
-            goAhead = false;
-            clearInterval(INTERVAL);
-            doReprocessOnAsset(path);
-        }
-    }, 500);
-}
-
-function doReprocessOnAsset(path){
-    const postData = JSON.stringify({
-        asset : path,
-        operation : 'PROCESS',
-        "profile-select" : "full-process",
-        runPostProcess: "false",
-        description: "Reprocessing asset - " + path,
-
-    });
-
-    const options = {
-        hostname: AEM_HOST,
-        path: '/bin/asynccommand',
-        method: 'POST',
-        headers: {
-            Authorization: 'Bearer ' + AEM_TOKEN,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': postData.length
-        }
-    }
-
-    let req = https.request(options, (res) => {
-        res.on('data', (d) => {
-            console.log("STARTED REPROCESS : " + path);
-            goAhead = true;
-        });
-    });
-
-    req.on('error', (e) => {
-        console.log("ERROR REPROCESS : "  + path + " , " + e);
-        goAhead = true;
-    });
-
-    req.write(postData);
-    req.end();
-}
-
-function doRequest(options){
+function doQueryRequest(options){
     https.get(options,(res) => {
         let body = "";
 
@@ -79,7 +35,7 @@ function doRequest(options){
             try {
                 let json = JSON.parse(body);
 
-                console.log("ASSETS TO REPROCESS : " + json.hits.length);
+                console.log("COUNT OF ASSETS TO REPROCESS : " + json.results);
 
                 json.hits.forEach((hit) => {
                     startReprocess(hit.path)
@@ -94,4 +50,56 @@ function doRequest(options){
         goAhead = true;
     });
 }
+
+function startReprocess(path){
+    const INTERVAL = setInterval(() => {
+        if(goAhead){
+            goAhead = false;
+            clearInterval(INTERVAL);
+            doReprocessOnAsset(path);
+        }
+    }, 500);
+}
+
+function doReprocessOnAsset(path){
+    const postData = {
+        asset : path,
+        operation : 'PROCESS',
+        "profile-select" : "full-process",
+        runPostProcess: "false",
+        description: "Reprocessing asset - " + path,
+    };
+
+    let payload = QS.stringify(postData);
+
+    const options = {
+        hostname: AEM_HOST,
+        path: '/bin/asynccommand',
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + AEM_TOKEN,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': payload.length
+        }
+    }
+
+    let req = https.request(options, (res) => {
+        res.setEncoding('utf8');
+
+        res.on('data', () => {
+            console.log(res.statusCode + " : STARTED REPROCESS : " + path);
+            goAhead = true;
+        });
+    });
+
+    req.on('error', (e) => {
+        console.log("ERROR REPROCESS : "  + path + " , " + e);
+        goAhead = true;
+    });
+
+    req.write(payload);
+    req.end();
+}
+
+
 
