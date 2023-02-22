@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Session;
 import java.util.List;
 
 @Component(
@@ -41,6 +42,18 @@ public class WatchFolderSaveProcessor implements SlingPostProcessor {
             if (!"true".equals(watchFolder)) {
                 return;
             }
+
+            Session session = resolver.adaptTo(Session.class);
+            /*ValueFactory valueFactory = session.getValueFactory();
+
+            final String folderPath = request.getRequestPathInfo().getSuffix();
+            Node jcrContent = resolver.getResource(folderPath).getChild("jcr:content").adaptTo(Node.class);
+
+            Property watchProp = jcrContent.getProperty(WATCH_FOLDER);
+            Value thisUser = valueFactory.createValue(session.getUserID());
+            Value values[] = ((watchProp == null) ? new Value[] { thisUser } : ArrayUtils.add(watchProp.getValues(), thisUser));
+
+            jcrContent.setProperty(WATCH_FOLDER, values);*/
         } catch (Exception e) {
             logger.error("Error saving folder watch", e);
         }
