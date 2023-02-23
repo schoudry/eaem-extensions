@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "eaem-watch-folders-inbox-notify.core:eaem-service-user=[eaem-service-user]"
+  ]
+}

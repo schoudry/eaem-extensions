@@ -25,7 +25,7 @@ public class WatchFolderSaveProcessor implements SlingPostProcessor {
 
     private static final String OPERATION = ":operation";
     private static final String OPERATION_DAM_SHARE_FOLDER = "dam.share.folder";
-    private static final String WATCH_FOLDER = "eaemWatch";
+    public static final String WATCH_FOLDER = "eaemWatch";
 
     @Override
     public void process(final SlingHttpServletRequest request, final List<Modification> modifications){
