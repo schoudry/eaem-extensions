@@ -1,15 +1,11 @@
 package apps.eaem.assets.core.listeners;
 
 import com.adobe.granite.taskmanagement.Task;
-import com.adobe.granite.taskmanagement.TaskAction;
 import com.adobe.granite.taskmanagement.TaskManager;
 import com.adobe.granite.workflow.exec.InboxItem;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.*;
 import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.observation.ResourceChange;
 import org.apache.sling.api.resource.observation.ResourceChangeListener;
 import org.osgi.service.component.annotations.Component;
@@ -37,6 +33,7 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
     private static final String EAEM_SERVICE_USER = "eaem-service-user";
     private static final String ORIGINAL_RENDITION_PATH = "/jcr:content/renditions/original";
     public static final String NOTIFICATION_TASK_TYPE = "Notification";
+    private static final String AUDTT_PATH = "/var/audit/com.day.cq.dam";
 
     @Reference
     private ResourceResolverFactory resolverFactory;
@@ -95,10 +92,17 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
         String assetName = resourcePath.substring(resourcePath.lastIndexOf("/") + 1);
         String folderPath = resourcePath.substring(0, resourcePath.lastIndexOf("/"));
 
+        StringBuilder description = new StringBuilder();
+        description.append("Asset '" + assetName + "' removed. ");
+        description.append("You are receiving this notification because you have watch enabled on the folder.\r\n");
+        description.append("Name: ").append(assetName).append("\r\n");
+        description.append("Folder: ").append(folderPath).append("\r\n");
+        description.append("Removed By: ").append(getRemovedByUserIdFromAudit(resolver, resourcePath)).append("\r\n");
+        description.append("Removed Date: ").append(new Date());
+
         task.setName(assetName);
         task.setContentPath(resourcePath);
-        task.setDescription("Asset '" + assetName + "' removed from folder '" + folderPath
-                + "'. You are receiving this notification because you have watch enabled on the folder");
+        task.setDescription( description.toString() );
         task.setCurrentAssignee(assignee);
         task.setPriority(InboxItem.Priority.LOW);
 
@@ -109,19 +113,53 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
 
     private Task createAssetAddedNotification(Resource resource, String assignee) throws Exception{
         ResourceResolver resolver = resource.getResourceResolver();
+        Node assetNode = resource.adaptTo(Node.class);
+
         TaskManager taskManager = resolver.adaptTo(TaskManager.class);
         Task task = taskManager.getTaskManagerFactory().newTask(NOTIFICATION_TASK_TYPE);
 
+        StringBuilder description = new StringBuilder();
+        description.append("Asset '" + resource.getName() + "' added. ");
+        description.append("You are receiving this notification because you have watch enabled on the folder.\r\n");
+        description.append("Name: ").append(resource.getName()).append("\r\n");
+        description.append("Folder: ").append(resource.getParent().getPath()).append("\r\n");
+        description.append("Created By: ").append(assetNode.getProperty("jcr:createdBy").getString()).append("\r\n");
+        description.append("Created Date: ").append(assetNode.getProperty("jcr:created").getValue().getDate().getTime());
+
         task.setName(resource.getName());
         task.setContentPath(resource.getPath());
-        task.setDescription("Asset '" + resource.getName() + "' uploaded to folder '" + resource.getParent().getPath()
-                        + "'. You are receiving this notification because you have watch enabled on the folder");
+        task.setDescription(description.toString());
         task.setCurrentAssignee(assignee);
         task.setPriority(InboxItem.Priority.LOW);
 
         taskManager.createTask(task);
 
         return task;
+    }
+
+    private String getRemovedByUserIdFromAudit(ResourceResolver resolver, String resourcePath){
+        String removedBy = "";
+        Resource auditHistoryResource = resolver.getResource(AUDTT_PATH + resourcePath);
+
+        if(auditHistoryResource == null) {
+            return removedBy;
+        }
+
+        Iterator<Resource> auditIter = auditHistoryResource.getChildren().iterator();
+        Resource auditResource = null;
+        ValueMap auditVM = null;
+
+        while(auditIter.hasNext()){
+            auditResource = auditIter.next();
+            auditVM = auditResource.getValueMap();
+
+            if("ASSET_REMOVED".equals(auditVM.get("cq:type"))){
+                removedBy = auditVM.get("cq:userid","");
+                break;
+            }
+        }
+
+        return removedBy;
     }
 
     private ResourceResolver getServiceResourceResolver(ResourceResolverFactory resourceResolverFactory) {
