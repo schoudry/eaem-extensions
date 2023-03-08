@@ -86,6 +86,10 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
         }
     }
 
+    private boolean checkIfWatchSetOnParentHierarchy(){
+
+    }
+
     private Task createAssetRemovedNotification(ResourceResolver resolver, String resourcePath, String assignee) throws Exception{
         TaskManager taskManager = resolver.adaptTo(TaskManager.class);
         Task task = taskManager.getTaskManagerFactory().newTask(NOTIFICATION_TASK_TYPE);
