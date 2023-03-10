@@ -1,36 +1,23 @@
 const https = require('https');
 const QS = require('querystring');
 
-const S7_NA_IPS_HOST = "s7sps1apissl.scene7.com";
-const S7_USER = "user@adomain.com";
-const S7_PASS = "pass";
+let AEM_HOST = 'author-p9999-e999999.adobeaemcloud.com';
+let AEM_TOKEN = "eyJh";
+const S7_USER = "user@domain.com";
+const S7_PASS = "s7password";
+let ROOT_FOLDER = "/content/dam/eaemstage/en/sreek";
+const S7_FOLDER_PROP_STARTS_WITH = "eaemstage/en/sreek/";
+const S7_FOLDER_PROP_REPLACE_WITH = "eaemstage/eaemstage/en/sreek/";
 
-let AEM_HOST = 'author-p9999-e9999.adobeaemcloud.com';
-let AEM_TOKEN = "eyJhbGc";
+const S7_NA_IPS_HOST = "s7sps1apissl.scene7.com";
 const COMPANY_HANDLE_PROP = "dam:scene7CompanyID";
 const ASSET_HANDLE_PROP = "dam:scene7ID";
 const S7_NAME_PROP = "dam:scene7Name";
 const S7_FOLDER_PROP = "dam:scene7Folder";
-let ROOT_FOLDER = "/content/dam/eaem/en/adobe";
-const S7_FOLDER_PROP_STARTS_WITH = "eaem/en/adobe/";
-const S7_FOLDER_PROP_REPLACE_WITH = "eaem/eaem/en/adobe/";
+
 let goAhead = true;
 
 requestFolderJson(ROOT_FOLDER);
-
-function getUpdatedS7FolderValue(value){
-    if(!value){
-        return undefined;
-    }
-
-    let modifiedValue = undefined;
-
-    if(value.startsWith(S7_FOLDER_PROP_STARTS_WITH)){
-        modifiedValue = S7_FOLDER_PROP_REPLACE_WITH + value.substring(S7_FOLDER_PROP_STARTS_WITH.length);
-    }
-
-    return modifiedValue;
-}
 
 function requestFolderJson(parentFolderPath) {
     const options = {
@@ -138,7 +125,7 @@ function checkAndUpdateAsset(assetPath){
                         }
                     }
                 }catch(err){
-                    console.error("\tERROR READ : " + metadataPath + " : " + err.message);
+                    console.error("\tERROR : " + err.message);
                 }
 
                 goAhead = true;
@@ -150,6 +137,33 @@ function checkAndUpdateAsset(assetPath){
     }
 }
 
+function moveAssetInS7ToUpdatedFolder(companyHandle, s7Name, assetHandle, updatedFolderPath){
+    let createPayload = creatFolderPayload(companyHandle, updatedFolderPath);
+
+    makeS7Request(createPayload, "createFolder").then(() => {
+        console.log("\tCREATED Folder : ", updatedFolderPath + ", now performing move");
+        makeS7Request(movePayload, "moveAssets").then((data) => {
+            console.log("\tMOVED IN S7 : " + s7Name + ","  + assetHandle + " to " + updatedFolderPath);
+        }).catch(err => {
+            console.log("\tERROR MOVE IN S7 : " + s7Name + ","  + assetHandle + " to " + updatedFolderPath);
+            console.log(err)
+        });
+    }).catch(errJSON => {
+        if(errJSON.resBody.indexOf("already exists") > 0){
+            console.log("\tFolder Exists : ", updatedFolderPath + ", now performing move");
+            makeS7Request(movePayload, "moveAssets").then((data) => {
+                console.log("\tMOVED IN S7 : " + s7Name + ","  + assetHandle + " to " + updatedFolderPath);
+            }).catch(err => {
+                console.log("\tERROR MOVE IN S7 : " + s7Name + ","  + assetHandle + " to " + updatedFolderPath);
+                console.log(err)
+            });
+        }else{
+            console.log("\tError creating folder : ", updatedFolderPath, errJSON);
+        }
+    });
+
+    let movePayload = getMovePaylod(companyHandle, assetHandle, updatedFolderPath);
+}
 
 function updateS7FolderMetaPropInAEM(metadataPath, s7FolderPropName, s7FolderValue){
     const postData = {
@@ -191,44 +205,43 @@ function updateS7FolderMetaPropInAEM(metadataPath, s7FolderPropName, s7FolderVal
     req.end();
 }
 
-function moveAssetInS7ToUpdatedFolder(companyHandle, s7Name, assetHandle, updatedFolderPath){
-    let movePayload = getMovePaylod(companyHandle, assetHandle, updatedFolderPath);
-
+function makeS7Request(payload, soapAction){
     let options = {
         host: S7_NA_IPS_HOST,
         path: "/scene7/services/IpsApiService",
         method: "POST",
         headers: {
-            'SOAPAction': "moveAssets",
+            'SOAPAction': soapAction,
             'Content-Type': 'text/xml',
-            'Content-length' : Buffer.byteLength(movePayload)
+            'Content-length' : Buffer.byteLength(payload)
         }
     };
 
-    let req = https.request(options, (res) => {
-        const chunks = [];
-        res.on('data', data => chunks.push(data));
+    let reqPromise = new Promise(function(resolve, reject) {
+        let req = https.request(options, (res) => {
+            const chunks = [];
+            res.on('data', data => chunks.push(data));
 
-        res.on('end', () => {
-            let resBody = Buffer.concat(chunks).toString();
+            res.on('end', () => {
+                let resBody = Buffer.concat(chunks).toString();
 
-            if(res.statusCode == 200){
-                if(resBody.indexOf("<errorCount>1</errorCount>") > 0){
-                    console.log("\t" + resBody);
+                if(res.statusCode == 200){
+                    resolve(resBody);
+                }else{
+                    reject( { statusCode : res.statusCode, resBody : resBody} );
                 }
-            }else{
-                console.log("\tERROR MOVE IN S7 : " + s7Name + ","  + assetHandle + " to " + updatedFolderPath);
-                console.log(res.statusCode, resBody);
-            }
+            });
         });
+
+        req.on('error', (e) => {
+            reject(e);
+        });
+
+        req.write(payload);
+        req.end();
     });
 
-    req.on('error', (e) => {
-        console.log("\tERROR MOVING IN S7 : "  + assetHandle + " to " + updatedFolderPath + ", " + e);
-    });
-
-    req.write(movePayload);
-    req.end();
+    return reqPromise;
 }
 
 function getMovePaylod(companyHandle, assetHandle, folderPath){
@@ -260,8 +273,6 @@ function getMovePaylod(companyHandle, assetHandle, folderPath){
 }
 
 function creatFolderPayload(companyHandle, folderPath){
-    //EAEM/adobe/one/two/
-
     let payload = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
         "  <SOAP-ENV:Header>\n" +
         "    <authHeader xmlns=\"http://www.scene7.com/IpsApi/xsd/2016-01-14-beta\">\n" +
@@ -280,4 +291,20 @@ function creatFolderPayload(companyHandle, folderPath){
         "    </createFolderParam>\n" +
         "  </SOAP-ENV:Body>\n" +
         "</SOAP-ENV:Envelope>";
+
+    return payload;
+}
+
+function getUpdatedS7FolderValue(value){
+    if(!value){
+        return undefined;
+    }
+
+    let modifiedValue = undefined;
+
+    if(value.startsWith(S7_FOLDER_PROP_STARTS_WITH)){
+        modifiedValue = S7_FOLDER_PROP_REPLACE_WITH + value.substring(S7_FOLDER_PROP_STARTS_WITH.length);
+    }
+
+    return modifiedValue;
 }

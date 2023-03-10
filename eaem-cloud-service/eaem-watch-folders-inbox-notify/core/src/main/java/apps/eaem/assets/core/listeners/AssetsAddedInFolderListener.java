@@ -65,13 +65,12 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
 
         try{
             Resource parentFolder = resolver.getResource(parentPath);
-            Node jcrContent = parentFolder.getChild("jcr:content").adaptTo(Node.class);
+            Property watchProp = checkIfWatchSetOnParentHierarchy(parentFolder);
 
-            if(!jcrContent.hasProperty(WATCH_FOLDER)){
+            if(watchProp == null){
                 return;
             }
 
-            Property watchProp = jcrContent.getProperty(WATCH_FOLDER);
             Value values[] = watchProp.getValues();
 
             for(Value v : values){
@@ -86,8 +85,18 @@ public class AssetsAddedInFolderListener implements ResourceChangeListener {
         }
     }
 
-    private boolean checkIfWatchSetOnParentHierarchy(){
+    private Property checkIfWatchSetOnParentHierarchy(Resource parentFolder) throws Exception{
+        do{
+            Node jcrContent = parentFolder.getChild("jcr:content").adaptTo(Node.class);
 
+            if(jcrContent.hasProperty(WATCH_FOLDER)){
+                return jcrContent.getProperty(WATCH_FOLDER);
+            }
+
+            parentFolder = parentFolder.getParent();
+        }while(!parentFolder.getPath().equals("/content/dam"));
+
+        return null;
     }
 
     private Task createAssetRemovedNotification(ResourceResolver resolver, String resourcePath, String assignee) throws Exception{
