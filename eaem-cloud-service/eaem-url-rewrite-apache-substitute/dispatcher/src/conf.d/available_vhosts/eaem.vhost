@@ -61,6 +61,6 @@ Include conf.d/variables/custom.vars
 
      <Location "/">
        AddOutputFilterByType SUBSTITUTE text/html
-       Substitute "s|/content/eaem-url-rewrite-apache-substitute/us/en/(.+?).html|$1|"
+       Substitute "s|/content/eaem-url-rewrite-apache-substitute/us/en/(.+?).html|/$1.html|"
      </Location>
 </VirtualHost>
