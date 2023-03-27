@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@adobe/aem-upload": "^1.5.0",
+    "jws": "^4.0.0"
+  }
+}
