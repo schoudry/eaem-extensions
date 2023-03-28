@@ -67,7 +67,6 @@ import org.json.JSONObject;
 )
 
 @Component(
-        name = "Experience AEM Overlay Creator",
         immediate = true,
         service = Servlet.class,
         property = {

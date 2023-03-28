@@ -1,0 +1,3 @@
+{
+  "bannerText": "$[env:ENV_BANNER_TEXT]"
+}
