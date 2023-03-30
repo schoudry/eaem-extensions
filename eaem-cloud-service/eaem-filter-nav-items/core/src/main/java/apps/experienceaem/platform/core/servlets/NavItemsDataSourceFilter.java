@@ -66,7 +66,6 @@ public class NavItemsDataSourceFilter implements Filter {
             SimpleDataSource ds = (SimpleDataSource) request.getAttribute(DataSource.class.getName());
 
             if (ds == null) {
-                chain.doFilter(slingRequest, slingResponse);
                 return;
             }
 
