@@ -33,9 +33,9 @@
                     sling:resourceType="granite/ui/components/coral/foundation/tabs"
                     maximized="{Boolean}true">
                 <items jcr:primaryType="nt:unstructured">
-                    <sites
+                    <links
                             jcr:primaryType="nt:unstructured"
-                            jcr:title="Sites"
+                            jcr:title="Overlay Links"
                             sling:resourceType="granite/ui/components/coral/foundation/container"
                             margin="{Boolean}true">
                         <items jcr:primaryType="nt:unstructured">
@@ -48,61 +48,53 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container">
                                         <items jcr:primaryType="nt:unstructured">
-                                            <siteTitle
+                                            <linksList
                                                     jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    fieldLabel="Title"
-                                                    name="./siteTitle"/>
-                                            <siteList
-                                                    jcr:primaryType="nt:unstructured"
-                                                    jcr:title="Navigation URL"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <multi
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                            aem-nested=""
                                                             class="full-width"
                                                             composite="{Boolean}true"
-                                                            fieldDescription="Click the '+' to add a new Link."
-                                                            fieldLabel="Global sites list"
+                                                            fieldDescription="Click the '+' to add a new image overlay text and url."
+                                                            fieldLabel="Overlay Links list"
                                                             fieldName="List of Links"
-                                                            name="siteList">
+                                                            name="linksList">
                                                         <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="granite/ui/components/coral/foundation/form/fieldset"
-                                                                name="./siteList">
+                                                                name="./linksList">
                                                             <items jcr:primaryType="nt:unstructured">
                                                                 <column
                                                                         jcr:primaryType="nt:unstructured"
                                                                         sling:resourceType="granite/ui/components/coral/foundation/container">
                                                                     <items jcr:primaryType="nt:unstructured">
-                                                                        <sitename
+                                                                        <linkText
                                                                                 jcr:primaryType="nt:unstructured"
                                                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                                fieldLabel="site Name"
-                                                                                name="./sitename"/>
-                                                                        <pagelink
-                                                                                granite:id="urls-field"
+                                                                                fieldLabel="Link Text"
+                                                                                name="./linkText"/>
+                                                                        <pageLink
                                                                                 jcr:primaryType="nt:unstructured"
-                                                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                                                fieldLabel="Site Path"
-                                                                                name="./pagelink"
-                                                                                rootPath="/content"
-                                                                                validation="urls.validation"/>
+                                                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                                                fieldLabel="Link Path"
+                                                                                validation="urls.validation"
+                                                                                name="./pageLink"
+                                                                                rootPath="/content"/>
                                                                     </items>
                                                                 </column>
                                                             </items>
                                                         </field>
                                                     </multi>
                                                 </items>
-                                            </siteList>
+                                            </linksList>
                                         </items>
                                     </column>
                                 </items>
                             </columns>
                         </items>
-                    </sites>
+                    </links>
                 </items>
             </tabs>
         </items>
