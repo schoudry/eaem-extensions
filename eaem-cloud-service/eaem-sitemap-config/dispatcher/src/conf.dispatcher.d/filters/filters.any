@@ -13,3 +13,4 @@ $include "./default_filters.any"
 /0102 { /type "allow" /extension "webmanifest" /path "/content/*/manifest" }
 
 /0200 { /type "allow" /path "/content/*" /selectors '(sitemap-index|sitemap)' /extension "xml" }
+/0201 { /type "allow" /method "GET" /url "*.*.json" }
