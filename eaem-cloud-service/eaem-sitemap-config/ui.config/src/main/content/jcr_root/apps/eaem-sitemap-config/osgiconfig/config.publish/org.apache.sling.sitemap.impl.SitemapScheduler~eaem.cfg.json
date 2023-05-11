@@ -1,0 +1,5 @@
+{
+  "scheduler.name": "EAEM Sitemaps",
+  "scheduler.expression": "0 0/1 * 1/1 * ? *",
+  "searchPath": "/content/eaem-sitemap-config"
+}
