@@ -1,0 +1,34 @@
+{
+  "jcr:primaryType": "cq:Page",
+  "jcr:createdBy"  : "admin",
+  "jcr:content": {
+    "jcr:primaryType"   : "cq:PageContent",
+    "jcr:createdBy"     : "admin",
+    "jcr:title"			: "home",
+    "sling:resourceType": "core/wcm/components/page/v3/page",
+    "root": {
+      "container": {
+        "sling:resourceType":"core/wcm/components/container/v1/container"
+      }
+    }
+  },
+  "electric-life":  {
+    "jcr:primaryType": "cq:Page",
+    "jcr:createdBy"  : "admin",
+    "jcr:content": {
+      "jcr:primaryType"   : "cq:PageContent",
+      "jcr:createdBy"     : "admin",
+      "jcr:title"			: "Electric Life",
+      "sling:resourceType": "core/wcm/components/page/v3/page",
+      "root": {
+        "container": {
+          "sling:resourceType":"core/wcm/components/container/v1/container",
+          "textComponent": {
+            "sling:resourceType":"core/wcm/components/text/v2",
+            "text": "Testing Electric Life"
+          }
+        }
+      }
+    }
+  }
+}
