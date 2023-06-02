@@ -4,6 +4,7 @@
             MASTER = "master",
             CFM_EDITOR_SEL = ".content-fragment-editor",
             CMF_SELECTOR = "[data-granite-coral-multifield-name$='CMF']",
+            CMF_TEMPLATE = "Template",
             KV_MF_SELECTOR = "[data-granite-coral-multifield-name$='keyValues']";
     let initialized = false;
 
@@ -87,15 +88,29 @@
 
         _.each($cmfMultis, (cmfMulti) => {
             let $cmfMulti = $(cmfMulti);
+
             $cmfMulti.find("template").remove();
 
-            let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml() + '</div></template>';
+            let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml($cmfMulti) + '</div></template>';
+
             $cmfMulti.append(template);
         })
     }
 
-    function getParkedMFHtml(){
-        return $("coral-panel").last().find("coral-panel-content").html();
+    function getParkedMFHtml($cmfMulti){
+        let cmfMultiName = $cmfMulti.attr("data-granite-coral-multifield-name"),
+            cmfMultiTemplateName =  cmfMultiName + CMF_TEMPLATE,
+            $tabView = $cmfMulti.closest("coral-tabview"),
+            $tabLabels = $tabView.find('coral-tab-label'),
+            templateIndex;
+
+        _.each($tabLabels, (tabLabel, index) => {
+            if($(tabLabel).html().trim() == cmfMultiTemplateName){
+                templateIndex = index;
+            }
+        })
+
+        return $($tabView.find("coral-panel").get(templateIndex)).find("coral-panel-content").html();
     }
 
     function getKeyValueData(){
