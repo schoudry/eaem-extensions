@@ -24,9 +24,7 @@
         window.Dam.CFM.Core.registerReadyHandler(() => {
             extendRequestSave();
 
-            hideTabHeaders();
-
-            addKeyValueMultiFieldListener();
+            addCMFMultiFieldListener();
 
             Dam.CFM.editor.UI.addBeforeApplyHandler( () => {
                 Dam.CFM.EditSession.notifyActiveSession();
@@ -35,25 +33,23 @@
         });
     }
 
-    function hideTabHeaders(){
-        $("coral-tablist").last().hide();
-    }
-
-    function addKeyValueMultiFieldListener(){
-        const $kvMulti = $(KV_MF_SELECTOR);
+    function addCMFMultiFieldListener(){
+        const $cmfMultis = $(CMF_SELECTOR);
 
         createMultiFieldTemplates();
 
-        Coral.commons.ready($kvMulti[0], splitKeyValueJSONIntoFields);
+        _.each($cmfMultis, (cmfMulti) => {
+            Coral.commons.ready(cmfMulti, splitKeyValueJSONIntoFields);
+        })
     }
 
-    function splitKeyValueJSONIntoFields(kvMFField){
-        const $kvMFField = $(kvMFField),
-              kvMFName = $kvMFField.attr("data-granite-coral-multifield-name");
+    function splitKeyValueJSONIntoFields(cmfMFField){
+        const $cmfMFField = $(cmfMFField),
+              cmfMFName = $cmfMFField.attr("data-granite-coral-multifield-name");
 
-        _.each(kvMFField.items.getAll(), function(item) {
+        _.each(cmfMFField.items.getAll(), function(item) {
             const $content = $(item).find("coral-multifield-item-content");
-            let jsonData = $content.find("[name=" + kvMFName + "]").val();
+            let jsonData = $content.find("[name=" + cmfMFName + "]").val();
 
             if(!jsonData){
                 return;
@@ -61,7 +57,7 @@
 
             jsonData = JSON.parse(jsonData);
 
-            $content.html(getParkedMFHtml());
+            $content.html(getParkedMFHtml($cmfMFField));
 
             fillMultiFieldItem(item, jsonData);
         });
@@ -93,11 +89,18 @@
 
             let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml($cmfMulti) + '</div></template>';
 
+            hideTemplateTab($cmfMulti);
+
             $cmfMulti.append(template);
         })
     }
 
     function getParkedMFHtml($cmfMulti){
+        let $tabView = $cmfMulti.closest("coral-tabview");
+        return $($tabView.find("coral-panel").get(getTemplateIndex($cmfMulti))).find("coral-panel-content").html();
+    }
+
+    function getTemplateIndex($cmfMulti){
         let cmfMultiName = $cmfMulti.attr("data-granite-coral-multifield-name"),
             cmfMultiTemplateName =  cmfMultiName + CMF_TEMPLATE,
             $tabView = $cmfMulti.closest("coral-tabview"),
@@ -110,34 +113,45 @@
             }
         })
 
-        return $($tabView.find("coral-panel").get(templateIndex)).find("coral-panel-content").html();
+        return templateIndex;
     }
 
-    function getKeyValueData(){
-        const $kvMulti = $(KV_MF_SELECTOR),
-                kvMFName = $kvMulti.attr("data-granite-coral-multifield-name");
-        let kevValueData = [];
+    function hideTemplateTab($cmfMulti){
+        let $tabView = $cmfMulti.closest("coral-tabview");
+        $($tabView.find("coral-tab").get(getTemplateIndex($cmfMulti))).hide();
+    }
 
-        _.each($kvMulti[0].items.getAll(), function(item) {
-            const $fields = $(item.content).find("[name]"),
-                data = {};
+    function getCompositeFieldsData(){
+        const $cmfMultis = $(CMF_SELECTOR), allData = {};
 
-            _.each($fields, function(field){
-                if(canBeSkipped(field)){
-                    return;
-                }
+        _.each($cmfMultis, (cmfMulti) => {
+            let $cmfMulti = $(cmfMulti),
+                kevValueData = [],
+                cmfName = $cmfMulti.attr("data-granite-coral-multifield-name");
 
-                data[field.getAttribute("name")] =  field.value;
+            _.each(cmfMulti.items.getAll(), function(item) {
+                const $fields = $(item.content).find("[name]"),
+                    cmfData = {};
+
+                _.each($fields, function(field){
+                    if(canBeSkipped(field)){
+                        return;
+                    }
+
+                    cmfData[field.getAttribute("name")] =  field.value;
+                });
+
+                kevValueData.push(JSON.stringify(cmfData));
             });
 
-            kevValueData.push(JSON.stringify(data));
-        });
+            allData[cmfName] = kevValueData;
+        })
 
-        return { [ kvMFName]  : kevValueData} ;
+        return allData ;
     }
 
     function canBeSkipped(field){
-        return (($(field).attr("type") == "hidden") || $(field).closest(CFFW).is(":hidden") ||!field.value);
+        return (($(field).attr("type") == "hidden") || !field.value);
     }
 
     function extendRequestSave(){
@@ -149,7 +163,7 @@
         function requestSave(callback, options) {
             orignFn.call(this, callback, options);
 
-            const kvData = getKeyValueData();
+            const kvData = getCompositeFieldsData();
 
             if(_.isEmpty(kvData)){
                 return;
