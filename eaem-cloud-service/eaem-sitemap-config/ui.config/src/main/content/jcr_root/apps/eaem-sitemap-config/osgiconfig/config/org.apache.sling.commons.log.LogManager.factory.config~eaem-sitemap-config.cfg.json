@@ -1,8 +1,9 @@
 {
   "org.apache.sling.commons.log.names": [
-    "apps.experienceaem.sites"
+    "apps.experienceaem.sites",
+    "org.apache.sling.sitemap"
   ],
-  "org.apache.sling.commons.log.level": "INFO",
+  "org.apache.sling.commons.log.level": "TRACE",
   "org.apache.sling.commons.log.file": "logs/error.log",
   "org.apache.sling.commons.log.additiv": "false"
 }

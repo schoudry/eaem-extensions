@@ -3,7 +3,8 @@
             CFFW = ".coral-Form-fieldwrapper",
             MASTER = "master",
             CFM_EDITOR_SEL = ".content-fragment-editor",
-            KV_MF_SELECTOR = "[data-granite-coral-multifield-name='keyValues']";
+            CMF_SELECTOR = "[data-granite-coral-multifield-name$='CMF']",
+            KV_MF_SELECTOR = "[data-granite-coral-multifield-name$='keyValues']";
     let initialized = false;
 
     if( !isCFEditor() ){
@@ -40,7 +41,7 @@
     function addKeyValueMultiFieldListener(){
         const $kvMulti = $(KV_MF_SELECTOR);
 
-        createTemplateFromLastParkedTab();
+        createMultiFieldTemplates();
 
         Coral.commons.ready($kvMulti[0], splitKeyValueJSONIntoFields);
     }
@@ -81,14 +82,16 @@
         });
     }
 
-    function createTemplateFromLastParkedTab(){
-        const $kvMulti = $(KV_MF_SELECTOR);
+    function createMultiFieldTemplates(){
+        const $cmfMultis = $(CMF_SELECTOR);
 
-        $kvMulti.find("template").remove();
+        _.each($cmfMultis, (cmfMulti) => {
+            let $cmfMulti = $(cmfMulti);
+            $cmfMulti.find("template").remove();
 
-        let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml() + '</div></template>';
-
-        $kvMulti.append(template);
+            let template = '<template coral-multifield-template=""><div>' + getParkedMFHtml() + '</div></template>';
+            $cmfMulti.append(template);
+        })
     }
 
     function getParkedMFHtml(){
