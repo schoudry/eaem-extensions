@@ -4,8 +4,8 @@
             MASTER = "master",
             CFM_EDITOR_SEL = ".content-fragment-editor",
             CMF_SELECTOR = "[data-granite-coral-multifield-name$='CMF']",
-            CMF_TEMPLATE = "Template",
-            KV_MF_SELECTOR = "[data-granite-coral-multifield-name$='keyValues']";
+            CMF_TEMPLATE = "Template";
+
     let initialized = false;
 
     if( !isCFEditor() ){
