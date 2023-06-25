@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-random-test",
+        "create path (nt:unstructured) /content/dam/eaem-random-test/jcr:content",
+        "set properties on /content/dam/eaem-random-test/jcr:content\n  set cq:conf{String} to /conf/eaem-random-test\n  set jcr:title{String} to \"Experience AEM Random Test\"\nend"
+    ]
+}
