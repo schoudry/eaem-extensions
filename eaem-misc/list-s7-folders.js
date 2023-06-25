@@ -12,23 +12,25 @@ const S7_PASS = "pass";
 
 logMessage("\n---------------------------" + new Date() + "------------------------------------\n");
 
-runRecursiveListProcess();
+runRecursiveListProcess(FOLDER_PATH);
 
-function runRecursiveListProcess(){
-    let payload = getFolderTreePayload(S7_COMPANY_HANDLE, FOLDER_PATH);
+function runRecursiveListProcess(folderPath){
+    let payload = getFolderTreePayload(S7_COMPANY_HANDLE, folderPath);
 
     makeS7ReadRequest(payload).then((xml) => {
         const doc = new dom().parseFromString(xml);
         let index = 0;
 
         for(;;){
-            let subFolderHandle = getSubFolderViaXPath(++index, doc);
+            let subFolderParams = getSubFolderViaXPath(++index, doc);
 
-            logMessage(subFolderHandle);
-
-            if(!subFolderHandle){
+            if(!subFolderParams.path){
                 break;
             }
+
+            logMessage(subFolderParams.path);
+
+            runRecursiveListProcess(subFolderParams.path);
         }
     }).catch(err => {
         logMessage("ERROR listing Folder : " + FOLDER_PATH);
@@ -38,8 +40,18 @@ function runRecursiveListProcess(){
 
 function getSubFolderViaXPath(index, doc){
     const select = xpath.useNamespaces({"eaems7": "http://www.scene7.com/IpsApi/xsd/2016-01-14-beta"});
-    let value = select('//eaems7:getFolderTreeReturn/eaems7:folders/eaems7:subfolderArray/eaems7:items[' + index + ']/eaems7:folderHandle/text()', doc);
-    return ( value && value.length > 0 ) ? value[0].nodeValue : "";
+    let subFolderParams = {};
+
+    let path = select('//eaems7:getFolderTreeReturn/eaems7:folders/eaems7:subfolderArray/eaems7:items[' + index + ']/eaems7:path/text()', doc);
+    path = ( path && path.length > 0 ) ? path[0].nodeValue : "";
+
+    if(path){
+        subFolderParams = {
+            path : path
+        }
+    }
+
+    return subFolderParams;
 }
 
 function makeS7ReadRequest(payload){
@@ -156,6 +168,86 @@ function getFolderTreePayload(companyHandle, folderPath){
         "</SOAP-ENV:Envelope>";
 
     return payLoad;
+}
+
+function getSearchAssetsParamPayload(companyHandle, folderPath){
+    let payload = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+        "  <SOAP-ENV:Header>\n" +
+        "    <authHeader xmlns=\"http://www.scene7.com/IpsApi/xsd/2016-01-14-beta\">\n" +
+        "      <user>" + S7_USER + "</user>\n" +
+        "      <password>" + S7_PASS + "</password>\n" +
+        "      <locale>en-US</locale>\n" +
+        "      <appName>Experience AEM</appName>\n" +
+        "      <appVersion>1.0</appVersion>\n" +
+        "      <faultHttpStatusCode>200</faultHttpStatusCode>\n" +
+        "    </authHeader>\n" +
+        "  </SOAP-ENV:Header>\n" +
+        "  <SOAP-ENV:Body>\n" +
+        "    <searchAssetsParam xmlns=\"http://www.scene7.com/IpsApi/xsd/2016-01-14-beta\">\n" +
+        "      <companyHandle>" + companyHandle + "</companyHandle>\n" +
+        "      <folder>" + folderPath + "</folder>\n" +
+        "      <includeSubfolders>false</includeSubfolders>\n" +
+        "      <trashState>NotInTrash</trashState>\n" +
+        "      <assetTypeArray>\n" +
+        "        <items>Aco</items>\n" +
+        "        <items>AdjustedView</items>\n" +
+        "        <items>AnimatedGif</items>\n" +
+        "        <items>AssetSet</items>\n" +
+        "        <items>Audio</items>\n" +
+        "        <items>Cabinet</items>\n" +
+        "        <items>Catalog</items>\n" +
+        "        <items>Css</items>\n" +
+        "        <items>Excel</items>\n" +
+        "        <items>Flash</items>\n" +
+        "        <items>Font</items>\n" +
+        "        <items>Fxg</items>\n" +
+        "        <items>IccProfile</items>\n" +
+        "        <items>Illustrator</items>\n" +
+        "        <items>InDesign</items>\n" +
+        "        <items>Image</items>\n" +
+        "        <items>ImageSet</items>\n" +
+        "        <items>Javascript</items>\n" +
+        "        <items>PDFSettings</items>\n" +
+        "        <items>LayerView</items>\n" +
+        "        <items>MasterVideo</items>\n" +
+        "        <items>Pdf</items>\n" +
+        "        <items>PostScript</items>\n" +
+        "        <items>PowerPoint</items>\n" +
+        "        <items>PsdTemplate</items>\n" +
+        "        <items>RenderScene</items>\n" +
+        "        <items>RenderSet</items>\n" +
+        "        <items>Rtf</items>\n" +
+        "        <items>SpinSet</items>\n" +
+        "        <items>Svg</items>\n" +
+        "        <items>Swc</items>\n" +
+        "        <items>Template</items>\n" +
+        "        <items>Video</items>\n" +
+        "        <items>ViewerSwf</items>\n" +
+        "        <items>Vignette</items>\n" +
+        "        <items>Watermark</items>\n" +
+        "        <items>WindowCovering</items>\n" +
+        "        <items>Word</items>\n" +
+        "        <items>Xml</items>\n" +
+        "        <items>Xsl</items>\n" +
+        "        <items>Zip</items>\n" +
+        "        <items>VideoCaption</items>\n" +
+        "      </assetTypeArray>\n" +
+        "      <recordsPerPage>5000</recordsPerPage>\n" +
+        "      <resultsPage>1</resultsPage>\n" +
+        "      <sortBy>Created</sortBy>\n" +
+        "      <sortDirection>Ascending</sortDirection>\n" +
+        "      <responseFieldArray>\n" +
+        "        <items>assetArray/items/name</items>\n" +
+        "        <items>assetArray/items/assetHandle</items>\n" +
+        "        <items>assetArray/items/type</items>\n" +
+        "        <items>assetArray/items/subType</items>\n" +
+        "        <items>totalRows</items>\n" +
+        "      </responseFieldArray>\n" +
+        "    </searchAssetsParam>\n" +
+        "  </SOAP-ENV:Body>\n" +
+        "</SOAP-ENV:Envelope>";
+
+    return payload;
 }
 
 function logMessage(message){
