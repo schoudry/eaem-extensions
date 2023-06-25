@@ -15,9 +15,13 @@ logMessage("\n---------------------------" + new Date() + "---------------------
 runRecursiveListProcess(FOLDER_PATH);
 
 function runRecursiveListProcess(folderPath){
-    let payload = getFolderTreePayload(S7_COMPANY_HANDLE, folderPath);
+    let payload = getSearchAssetsParamPayload(S7_COMPANY_HANDLE, folderPath);
 
-    makeS7ReadRequest(payload).then((xml) => {
+    listAssets(folderPath, payload);
+
+    payload = getFolderTreePayload(S7_COMPANY_HANDLE, folderPath);
+
+    makeS7ReadRequest("getFolderTree", payload).then((xml) => {
         const doc = new dom().parseFromString(xml);
         let index = 0;
 
@@ -28,14 +32,63 @@ function runRecursiveListProcess(folderPath){
                 break;
             }
 
-            logMessage(subFolderParams.path);
-
-            runRecursiveListProcess(subFolderParams.path);
+            const INTERVAL = setInterval(() => {
+                if(goAhead){
+                    clearInterval(INTERVAL);
+                    runRecursiveListProcess(subFolderParams.path);
+                }
+            }, 500);
         }
     }).catch(err => {
-        logMessage("ERROR listing Folder : " + FOLDER_PATH);
+        logMessage("ERROR listing folders : " + FOLDER_PATH);
         logMessage(err);
     });
+}
+
+function listAssets(folderPath, payload){
+    makeS7ReadRequest("searchAssets", payload).then((xml) => {
+        const doc = new dom().parseFromString(xml);
+        let index = 0;
+
+        logMessage(folderPath);
+
+        for(;;){
+            let assetProps = getAssetPropsViaXPath(++index, doc);
+
+            if(!assetProps.assetHandle){
+                break;
+            }
+
+            totalAssets++;
+
+            logMessage("\t" + assetProps.assetHandle + "," + folderPath + assetProps.name);
+        }
+
+        logMessage("Running assets count - " + totalAssets);
+    }).catch(err => {
+        logMessage("ERROR listing assets  : " + FOLDER_PATH);
+        logMessage(err);
+    });
+}
+
+function getAssetPropsViaXPath(index, doc){
+    let assetParams = {};
+    const select = xpath.useNamespaces({"eaems7": "http://www.scene7.com/IpsApi/xsd/2016-01-14-beta"});
+
+    let assetHandle = select('//eaems7:searchAssetsReturn/eaems7:assetArray/eaems7:items[' + index + ']/eaems7:assetHandle/text()', doc);
+    assetHandle = ( assetHandle && assetHandle.length > 0 ) ? assetHandle[0].nodeValue : "";
+
+    if(assetHandle){
+        let name = select('//eaems7:searchAssetsReturn/eaems7:assetArray/eaems7:items[' + index + ']/eaems7:name/text()', doc);
+        name = ( name && name.length > 0 ) ? name[0].nodeValue : "";
+
+        assetParams = {
+            assetHandle : assetHandle,
+            name: name
+        }
+    }
+
+    return assetParams;
 }
 
 function getSubFolderViaXPath(index, doc){
@@ -54,13 +107,15 @@ function getSubFolderViaXPath(index, doc){
     return subFolderParams;
 }
 
-function makeS7ReadRequest(payload){
+function makeS7ReadRequest(action, payload){
+    goAhead = false;
+
     let options = {
         host: S7_NA_IPS_HOST,
         path: "/scene7/services/IpsApiService",
         method: "POST",
         headers: {
-            'SOAPAction': "getFolderTree",
+            'SOAPAction': action,
             'Content-Type': 'text/xml',
             'Content-length' : Buffer.byteLength(payload)
         }
@@ -81,11 +136,14 @@ function makeS7ReadRequest(payload){
                 }else{
                     reject( { statusCode : res.statusCode, resBody : resBody} );
                 }
+
+                goAhead = true;
             });
         });
 
         req.on('error', (e) => {
             reject(e);
+            goAhead = true;
         });
 
         req.write(payload);
