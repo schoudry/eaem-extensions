@@ -1,0 +1,1 @@
+java -jar biz.aQute.bnd-6.4.0.jar aws-osgi.bnd
