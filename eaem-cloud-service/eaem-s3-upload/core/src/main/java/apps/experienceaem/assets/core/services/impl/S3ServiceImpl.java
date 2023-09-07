@@ -7,7 +7,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -32,7 +31,7 @@ import java.util.Date;
 
 @Component(service = S3Service.class)
 @Designate(ocd = S3ServiceImpl.S3Configuration.class)
-public class S3ServiceImpl {
+public class S3ServiceImpl implements S3Service{
     private final Logger logger = LoggerFactory.getLogger(S3ServiceImpl.class);
 
     private String s3BucketName = "";
@@ -83,17 +82,17 @@ public class S3ServiceImpl {
     public void uploadToS3(Resource csvResource) throws Exception{
         File tempFile = File.createTempFile(csvResource.getName(), ".temp");
 
-        InputStream assetStream =  (InputStream) csvResource.getChild("jcr:content").adaptTo(ValueMap.class).get("jcr:data"); ;
+        InputStream assetStream =  (InputStream) csvResource.getChild("jcr:content/renditions/original/jcr:content").adaptTo(ValueMap.class).get("jcr:data"); ;
         FileOutputStream out = new FileOutputStream(tempFile);
 
         try{
-            IOUtils.copy(assetStream, out);
+            assetStream.transferTo(out);
         }finally {
             assetStream.close();
             out.close();
         }
 
-        FileInputStream pdfIS = new FileInputStream(tempFile);
+        FileInputStream csvIS = new FileInputStream(tempFile);
 
         HttpURLConnection connection = (HttpURLConnection) getUploadPUTPresignedUrl(csvResource.getName()).openConnection();
         connection.setDoOutput(true);
@@ -103,9 +102,9 @@ public class S3ServiceImpl {
         BufferedOutputStream awsOut = new BufferedOutputStream(connection.getOutputStream());
 
         try{
-            IOUtils.copy(pdfIS, awsOut);
+            csvIS.transferTo(awsOut);
         }finally {
-            pdfIS.close();
+            csvIS.close();
             awsOut.close();
         }
 

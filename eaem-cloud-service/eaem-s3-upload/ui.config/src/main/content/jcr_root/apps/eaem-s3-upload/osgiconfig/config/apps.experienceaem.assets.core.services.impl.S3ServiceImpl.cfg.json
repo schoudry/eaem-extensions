@@ -1,0 +1,6 @@
+{
+  "s3BucketName": "$[env:EAEM_S3_BUCKET_NAME]",
+  "s3AccessKey": "$[env:EAEM_S3_ACCESS_KEY]",
+  "s3SecretKey": "$[env:EAEM_S3_SECRET_KEY]",
+  "s3Region": "$[env:EAEM_S3_REGION]"
+}

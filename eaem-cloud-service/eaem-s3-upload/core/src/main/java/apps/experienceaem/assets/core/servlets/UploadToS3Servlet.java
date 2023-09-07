@@ -52,6 +52,8 @@ public class UploadToS3Servlet extends SlingAllMethodsServlet {
             }
 
             s3Service.uploadToS3(csvRes);
+
+            response.getWriter().println("Done uploading to S3 : " + path);
         }catch(Exception e){
             throw new ServletException("Error", e);
         }
