@@ -1,0 +1,7 @@
+-classpath: aws-java-sdk-bundle-1.12.470.jar
+-output: aws-java-sdk-bundle-osgi-1.12.470.jar
+Export-Package: *
+Import-Package: *
+Bundle-Version: 1.12.470
+Bundle-Name: AWS SDK For Java for OSGi
+Bundle-SymbolicName: com.amazonaws.aws-java-sdk-osgi

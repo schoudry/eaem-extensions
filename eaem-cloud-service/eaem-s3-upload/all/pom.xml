@@ -71,6 +71,11 @@
                             <type>zip</type>
                             <target>/apps/eaem-s3-upload-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>com.amazonaws</groupId>
+                            <artifactId>aws-java-sdk-bundle-osgi</artifactId>
+                            <target>/apps/eaem-s3-upload-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -102,7 +107,7 @@
                     <execution>
                         <id>aem-analyser</id>
                         <goals>
-                            <goal>project-analyse</goal>                           
+                            <!--<goal>project-analyse</goal>-->
                         </goals>
                     </execution>
                 </executions>
@@ -184,6 +189,12 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
-
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-bundle-osgi</artifactId>
+            <version>1.12.470</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../dependencies/aws-java-sdk-bundle-osgi-1.12.470.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
