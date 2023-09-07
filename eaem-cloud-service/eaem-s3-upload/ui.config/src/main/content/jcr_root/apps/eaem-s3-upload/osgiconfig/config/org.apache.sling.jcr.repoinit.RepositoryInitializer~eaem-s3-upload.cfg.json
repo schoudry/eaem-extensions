@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-s3-upload",
+        "create path (nt:unstructured) /content/dam/eaem-s3-upload/jcr:content",
+        "set properties on /content/dam/eaem-s3-upload/jcr:content\n  set cq:conf{String} to /conf/eaem-s3-upload\n  set jcr:title{String} to \"Experience AEM S3 Upload\"\nend"
+    ]
+}
