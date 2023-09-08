@@ -2,13 +2,11 @@ package apps.experienceaem.assets.core.servlets;
 
 import apps.experienceaem.assets.core.services.S3Service;
 import com.adobe.xfa.ut.StringUtils;
-import com.amazonaws.services.s3.AmazonS3;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.service.component.annotations.Component;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +28,7 @@ public class UploadToS3Servlet extends SlingAllMethodsServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadToS3Servlet.class);
 
     @Reference
-    S3Service s3Service;
+    transient S3Service s3Service;
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)

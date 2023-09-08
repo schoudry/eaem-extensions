@@ -7,16 +7,12 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.osgi.services.HttpClientBuilderFactory;
+import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
@@ -38,11 +34,6 @@ public class S3ServiceImpl implements S3Service{
     private String s3AccessKey = "";
     private String s3SecretKey = "";
     private String s3Region = "";
-
-    @Reference
-    private transient HttpClientBuilderFactory httpClientBuilderFactory;
-
-    private transient CloseableHttpClient httpClient;
 
     private URL getUploadPUTPresignedUrl(String fileName){
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
@@ -68,60 +59,75 @@ public class S3ServiceImpl implements S3Service{
         s3AccessKey = config.s3AccessKey();
         s3SecretKey = config.s3SecretKey();
         s3Region = config.s3Region();
-
-        final HttpClientBuilder builder = httpClientBuilderFactory.newBuilder();
-
-        final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000)
-                                .setSocketTimeout(30000).build();
-
-        builder.setDefaultRequestConfig(requestConfig);
-
-        httpClient = builder.build();
     }
 
-    public void uploadToS3(Resource csvResource) throws Exception{
-        File tempFile = File.createTempFile(csvResource.getName(), ".temp");
+    public void uploadToS3(Resource csvResource){
+        InputStream assetStream = null;
+        FileOutputStream out = null;
+        BufferedOutputStream awsOut = null;
+        String tempFilePath = null;
 
-        InputStream assetStream =  (InputStream) csvResource.getChild("jcr:content/renditions/original/jcr:content").adaptTo(ValueMap.class).get("jcr:data"); ;
-        FileOutputStream out = new FileOutputStream(tempFile);
+        try {
+            assetStream = (InputStream) csvResource.getChild("jcr:content/renditions/original/jcr:content").adaptTo(ValueMap.class).get("jcr:data");
 
-        try{
-            assetStream.transferTo(out);
+            @SuppressWarnings({"findsecbugs:PATH_TRAVERSAL_OUT", "findsecbugs:PATH_TRAVERSAL_IN"})
+            File tempFile = File.createTempFile(csvResource.getName(), ".temp");
+            tempFilePath = tempFile.getPath();
+
+            out = new FileOutputStream(tempFile);
+            IOUtils.copy(assetStream, out);
+        }catch(Exception e) {
+            logger.error("Error uploading to S3 - " + e);
+            throw new RuntimeException("Error uploading to S3", e);
         }finally {
-            assetStream.close();
-            out.close();
+            try {
+                if(out != null) { out.close(); }
+            } catch (IOException e) {
+                logger.warn("Error closing streams", e);
+            }
         }
 
-        FileInputStream csvIS = new FileInputStream(tempFile);
+        @SuppressWarnings({"findsecbugs:PATH_TRAVERSAL_OUT", "findsecbugs:PATH_TRAVERSAL_IN"})
+        File tempFile = new File(tempFilePath);
 
-        HttpURLConnection connection = (HttpURLConnection) getUploadPUTPresignedUrl(csvResource.getName()).openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Content-Type", "text/csv");
-        connection.setRequestMethod("PUT");
+        try (FileInputStream csvIS = new FileInputStream(tempFile)){
+            HttpURLConnection connection = (HttpURLConnection) getUploadPUTPresignedUrl(csvResource.getName()).openConnection();
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "text/csv");
+            connection.setRequestMethod("PUT");
 
-        BufferedOutputStream awsOut = new BufferedOutputStream(connection.getOutputStream());
+            awsOut = new BufferedOutputStream(connection.getOutputStream());
 
-        try{
-            csvIS.transferTo(awsOut);
-        }finally {
-            csvIS.close();
+            IOUtils.copy(csvIS, awsOut);
+
             awsOut.close();
-        }
 
-        int resCode = connection.getResponseCode();
+            int resCode = connection.getResponseCode();
 
-        if(resCode != 200){
-            throw new RuntimeException("Error uploading file to S3");
-        }
+            if(resCode != 200){
+                throw new RuntimeException("Error uploading file to S3, received response " + resCode);
+            }
 
-        if(!tempFile.delete()){
-            logger.warn("Error deleting temp file from local file system after uploading to S3 - " + tempFile.getPath());
+            if(!tempFile.delete()){
+                logger.warn("Error deleting temp file from local file system after uploading to S3 - " + tempFile.getPath());
+            }
+        }catch(Exception e){
+            logger.error("Error uploading to S3 - " + e);
+            throw new RuntimeException("Error uploading to S3", e);
+        } finally {
+            try {
+                if(assetStream != null) { assetStream.close(); }
+                if(awsOut != null) { awsOut.close(); }
+            } catch (IOException e) {
+                logger.warn("Error closing streams", e);
+            }
         }
     }
 
     @ObjectClassDefinition(name = "Amazon S3 Configuration")
     public @interface S3Configuration {
-
         @AttributeDefinition(
             name = "S3 Bucket Name",
             description = "S3 Bucket Name for uploading files",

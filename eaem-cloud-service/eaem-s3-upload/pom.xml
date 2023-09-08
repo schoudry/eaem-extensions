@@ -49,7 +49,7 @@
         <bnd.version>5.1.2</bnd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <aem.sdk.api>2023.8.13323.20230831T134651Z-230800</aem.sdk.api>
+        <aem.sdk.api>2023.6.12255.20230608T053118Z-230400</aem.sdk.api>
         <aemanalyser.version>1.4.2</aemanalyser.version>
         <componentGroupName>Experience AEM S3 Upload</componentGroupName>
     </properties>
