@@ -110,7 +110,7 @@
                     return;
                 }
 
-                $.ajax(FF_SERVLET).done((base64Image) => {
+                $.ajax(FF_SERVLET + "?text=" + text).done((base64Image) => {
                     let html = "<div>" +
                                     "<img src='data:image/jpeg;base64," + base64Image + "' />" +
                                 "</div>";

@@ -86,7 +86,7 @@ public class FireflyServiceImpl implements FireflyService {
         body.addProperty("contentClass", "photo");
         body.add("styles", styles);
 
-        return body.getAsString();
+        return body.toString();
     }
 
     public String generateImage(String text){
