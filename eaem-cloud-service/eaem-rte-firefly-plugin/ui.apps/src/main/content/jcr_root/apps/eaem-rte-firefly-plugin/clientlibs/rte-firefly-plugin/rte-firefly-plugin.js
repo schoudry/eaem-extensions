@@ -42,7 +42,7 @@
                 tbGenerator.addElement(GROUP, plg.Plugin.SORT_FORMAT, this.pickerUI, 10);
 
                 const groupFeature = GROUP + "#" + FF_IMAGE_FEATURE;
-                tbGenerator.registerIcon(groupFeature, "colorPalette");
+                tbGenerator.registerIcon(groupFeature, "emotionJoyColor");
             },
 
             notifyPluginConfig: function (pluginConfig) {
