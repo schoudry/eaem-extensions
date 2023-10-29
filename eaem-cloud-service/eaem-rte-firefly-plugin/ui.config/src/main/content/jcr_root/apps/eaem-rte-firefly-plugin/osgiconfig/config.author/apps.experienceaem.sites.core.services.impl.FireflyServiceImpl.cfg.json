@@ -1,0 +1,4 @@
+{
+  "clientId": "$[env:EAEM_FF_CLIENT_ID]",
+  "clientSecret": "$[env:EAEM_FF_CLIENT_SECRET]"
+}

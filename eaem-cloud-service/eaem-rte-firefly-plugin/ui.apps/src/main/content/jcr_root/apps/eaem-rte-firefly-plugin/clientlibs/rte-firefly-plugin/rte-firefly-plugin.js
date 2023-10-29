@@ -1,6 +1,7 @@
 (function($, CUI, $document){
     const GROUP = "experience-aem",
-        FF_IMAGE_FEATURE = "fireFlyImage";
+        FF_IMAGE_FEATURE = "fireFlyImage",
+        FF_SERVLET = "/bin/eaem/firefly/generate";
 
     addPlugin();
 
@@ -103,12 +104,18 @@
             },
 
             execute: function (execDef) {
-                const text = execDef.value, selection = execDef.selection,
-                    nodeList = execDef.nodeList;
+                const text = execDef.value, context = execDef.editContext;;
 
-                if (!selection || !nodeList) {
+                if (!text) {
                     return;
                 }
+
+                $.ajax(FF_SERVLET).done((base64Image) => {
+                    let html = "<div>" +
+                                    "<img src='data:image/jpeg;base64," + base64Image + "' />" +
+                                "</div>";
+                    context.doc.execCommand('inserthtml', false, html);
+                })
             },
 
             queryState: function(selectionDef, cmd) {

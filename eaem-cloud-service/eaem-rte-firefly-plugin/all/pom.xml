@@ -71,6 +71,12 @@
                             <type>zip</type>
                             <target>/apps/eaem-rte-firefly-plugin-packages/content/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.sites</groupId>
+                            <artifactId>eaem-rte-firefly-plugin.ui.config</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-rte-firefly-plugin-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -102,7 +108,7 @@
                     <execution>
                         <id>aem-analyser</id>
                         <goals>
-                            <goal>project-analyse</goal>                           
+                            <goal>project-analyse</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -165,7 +171,7 @@
                     </plugin>
                 </plugins>
             </build>
-    </profile>
+        </profile>
     </profiles>
 
     <!-- ====================================================================== -->
@@ -184,5 +190,12 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>apps.experienceaem.sites</groupId>
+            <artifactId>eaem-rte-firefly-plugin.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+
     </dependencies>
 </project>
