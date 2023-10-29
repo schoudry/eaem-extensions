@@ -2,6 +2,7 @@ package apps.experienceaem.sites.core.services.impl;
 
 import apps.experienceaem.sites.core.services.FireflyService;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -60,6 +61,8 @@ public class FireflyServiceImpl implements FireflyService {
 
         responseBody = IOUtils.toString(responseEntity.getContent(), "UTF-8");
 
+        client.close();
+
         Gson gson = new Gson();
 
         JsonObject responseObject = gson.fromJson(responseBody, JsonObject.class);
@@ -71,11 +74,52 @@ public class FireflyServiceImpl implements FireflyService {
         return "grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret + "&scope=openid,AdobeID,firefly_api";
     }
 
+    private String getGenerateImageRequestBody(String text){
+        JsonObject body = new JsonObject();
+        JsonArray styles = new JsonArray();
+
+        styles.add("concept art");
+
+        body.addProperty("size", "1024x1024");
+        body.addProperty("batch", 2);
+        body.addProperty("prompt", text);
+        body.addProperty("contentClass", "photo");
+        body.add("styles", styles);
+
+        return body.getAsString();
+    }
+
     public String generateImage(String text){
         String base64Image = "";
 
         try{
-            base64Image = getAccessToken();
+            String accessToken = getAccessToken();
+
+            SocketConfig sc = SocketConfig.custom().setSoTimeout(180000).build();
+            CloseableHttpClient client = HttpClients.custom().setDefaultSocketConfig(sc).build();
+
+            HttpPost post = new HttpPost(FF_URL);
+            StringEntity entity = new StringEntity(getGenerateImageRequestBody(text), "UTF-8");
+
+            post.addHeader("X-Api-Key", clientId);
+            post.addHeader("Authorization", "Bearer " + accessToken);
+            post.addHeader("Accept", "application/json+base64");
+            post.addHeader("Content-Type", "application/json");
+            post.setEntity(entity);
+
+            HttpResponse response = client.execute(post);
+
+            HttpEntity responseEntity = response.getEntity();
+
+            String responseBody = IOUtils.toString(responseEntity.getContent(), "UTF-8");
+
+            client.close();
+
+            Gson gson = new Gson();
+
+            JsonObject responseObject = gson.fromJson(responseBody, JsonObject.class);
+
+            base64Image = ((JsonObject)((JsonArray)responseObject.get("images")).get(0)).get("base64").getAsString();
         }catch(Exception e){
             logger.error("Error generating Image for text : " + text,e);
             throw new RuntimeException("Error generating image", e);
