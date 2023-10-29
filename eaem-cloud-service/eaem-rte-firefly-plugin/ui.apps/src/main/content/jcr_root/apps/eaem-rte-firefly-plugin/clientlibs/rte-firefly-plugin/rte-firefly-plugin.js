@@ -61,7 +61,30 @@
             },
 
             execute: function (pluginCommand, value, envOptions) {
-                alert("hi");
+                const context = envOptions.editContext,
+                    ek = this.editorKernel;
+
+                if (pluginCommand != FF_IMAGE_FEATURE) {
+                    return;
+                }
+
+                if(!isValidSelection()){
+                    return;
+                }
+
+                const selection = CUI.rte.Selection.createProcessingSelection(context);
+                let startNode = selection.startNode;
+
+                if ( (selection.startOffset === startNode.length) && (startNode != selection.endNode)) {
+                    startNode = startNode.nextSibling;
+                }
+
+                ek.relayCmd(pluginCommand, startNode.nodeValue);
+
+                function isValidSelection(){
+                    const winSel = window.getSelection();
+                    return winSel && winSel.rangeCount == 1 && winSel.getRangeAt(0).toString().length > 0;
+                }
             }
         });
 
@@ -80,14 +103,12 @@
             },
 
             execute: function (execDef) {
-                const textData = execDef.value, selection = execDef.selection,
+                const text = execDef.value, selection = execDef.selection,
                     nodeList = execDef.nodeList;
 
                 if (!selection || !nodeList) {
                     return;
                 }
-
-                alert("hello");
             },
 
             queryState: function(selectionDef, cmd) {
