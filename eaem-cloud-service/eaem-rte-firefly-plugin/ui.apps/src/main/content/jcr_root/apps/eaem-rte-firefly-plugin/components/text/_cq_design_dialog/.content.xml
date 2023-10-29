@@ -41,13 +41,13 @@
                                                         <items jcr:primaryType="nt:unstructured">
                                                             <ffPlugin
                                                                 jcr:primaryType="nt:unstructured"
-                                                                jcr:title="Show HTML source editing option"
+                                                                jcr:title="Show Generate Firefly Image Plugin"
                                                                 sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                                name="sourceedit"/>
+                                                                name="fireFlyImage"/>
                                                         </items>
                                                         <granite:data
                                                             jcr:primaryType="nt:unstructured"
-                                                            name="fireFlyImage"
+                                                            name="experience-aem"
                                                             plugin-root-name="rtePlugins"/>
                                                     </ffPlugin>
                                                 </items>
