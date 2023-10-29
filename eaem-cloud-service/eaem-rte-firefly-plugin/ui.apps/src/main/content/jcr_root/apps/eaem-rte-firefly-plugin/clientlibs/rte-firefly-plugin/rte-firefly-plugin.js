@@ -110,11 +110,17 @@
                     return;
                 }
 
+                const ui = $(window).adaptTo("foundation-ui");
+
+                ui.wait();
+
                 $.ajax(FF_SERVLET + "?text=" + text).done((base64Image) => {
-                    let html = "<div>" +
-                                    "<img src='data:image/jpeg;base64," + base64Image + "' />" +
+                    let html = "<div style='display: grid; grid-template-columns: 320px 1fr; column-gap: 5px;'>" +
+                                    "<div style='max-width: 100%; max-height:100%;'><img src='data:image/jpeg;base64," + base64Image + "' width='312' height='312'/></div>" +
+                                    "<div>" + text + "</div>" +
                                 "</div>";
                     context.doc.execCommand('inserthtml', false, html);
+                    ui.clearWait();
                 })
             },
 
