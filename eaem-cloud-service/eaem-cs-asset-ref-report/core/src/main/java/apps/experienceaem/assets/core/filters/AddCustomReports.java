@@ -62,7 +62,7 @@ public class AddCustomReports implements Filter {
         String reportPath = repConfigVM.get("reportPath", "");
         String itemRT = repConfigVM.get("itemResourceType", "");
 
-        if(!OTB_REPORTS_PATH.equals(reportPath) || StringUtils.isEmpty(itemRT)){
+        if(!reportPath.endsWith(OTB_REPORTS_PATH) || StringUtils.isEmpty(itemRT)){
             return;
         }
 
