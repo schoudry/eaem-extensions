@@ -1,5 +1,5 @@
 {
   "clientId": "$[env:EAEM_UMPAI_CLIENT_ID]",
   "clientSecret": "$[env:EAEM_UMPAI_CLIENT_SECRET]",
-  "xApiKey": "$[env:EAEM_UMPAI_X_API_KEY]"
+  "adobeOrg": "$[env:EAEM_ADOBE_ORG]"
 }
