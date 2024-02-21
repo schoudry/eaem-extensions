@@ -15,15 +15,20 @@
     function addPickerInDamRolesWidget(){
         $.ajax(UMAPI_USERS_URL).done( json => {
             usersJson = json;
+            $(DAM_ROLES_SELECTOR)[0].items.getAll().forEach((mfItem) => addRolesDropdown(mfItem));
         });
 
-        $(DAM_ROLES_SELECTOR).on("coral-collection:add", function(event){
-            Coral.commons.ready(event.detail.item, (mfItem) => {
-                const $autoComplete = $(mfItem).find("coral-multifield-item-content").html(getUsersAutoComplete()).find("coral-autocomplete");
-                Coral.commons.ready($autoComplete[0], (autoComplete) => {
-                    autoComplete._elements["inputGroup"].style.width = "100%";
-                    autoComplete._elements["trigger"].style.marginRight = "15px"
-                });
+        $(DAM_ROLES_SELECTOR).on("coral-collection:add", (event) =>  addRolesDropdown(event.detail.item));
+    }
+
+    function addRolesDropdown(item){
+        Coral.commons.ready(item, (mfItem) => {
+            const selectedVal = mfItem.content.querySelector("input").value,
+                  $autoComplete = $(mfItem).find("coral-multifield-item-content").html(getUsersAutoComplete()).find("coral-autocomplete");
+            Coral.commons.ready($autoComplete[0], (autoComplete) => {
+                autoComplete.value = selectedVal || '';
+                autoComplete._elements["inputGroup"].style.width = "100%";
+                autoComplete._elements["trigger"].style.marginRight = "15px"
             });
         });
     }
