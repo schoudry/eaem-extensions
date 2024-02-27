@@ -1,9 +1,10 @@
 (function ($, $document) {
     const FOUNDATION_CONTENT_LOADED = "foundation-contentloaded",
         GRANITE_OMNI_SEARCH_CONTENT = ".granite-omnisearch-content",
-        SEARCH_TOOL_BAR_SEL = ".search-scrollable";
+        SEARCH_TOOL_BAR_SEL = ".search-scrollable",
+        NESTED_CHECKBOX_LIST_SEL = '.dam-nestedcheckboxlist-item';
 
-    let initialized = false, formAdapterOrignFn;
+    let initialized = false, liveFilteringHandler;
 
     $document.on(FOUNDATION_CONTENT_LOADED, GRANITE_OMNI_SEARCH_CONTENT, function(event){
         if(initialized){
@@ -14,55 +15,25 @@
 
         $(SEARCH_TOOL_BAR_SEL).append( getSearchButton() );
 
-        //pauseLiveFiltering();
+        pauseLiveFiltering();
 
         //resetFormSearchAdapter();
     });
 
     function pauseLiveFiltering(){
-        const registry = $(window).adaptTo("foundation-registry"),
-            adapters = registry.get("foundation.adapters");
+        liveFilteringHandler = getChangeHandler();
 
-        let formAdapter = _.reject(adapters, function(adapter){
-            return ((adapter.type !== "foundation-form") || (adapter.selector !== "form.foundation-form"));
-        });
+        $document.off('change', NESTED_CHECKBOX_LIST_SEL);
 
-        if(_.isEmpty(formAdapter)){
-            return;
-        }
-
-        formAdapter = formAdapter[0];
-
-        formAdapterOrignFn = formAdapter.adapter;
-
-        formAdapter.adapter = function (el) {
-            const formAdapterOrigObj = formAdapterOrignFn.call(el);
-
-            return Object.assign(formAdapterOrigObj, {
-                submitAsync: function() {
-                    return { done : function() {} };
-                }
-            });
-        }
+        $document.on('change', NESTED_CHECKBOX_LIST_SEL, function( eve ) { });
     }
 
-    function resetFormSearchAdapter(){
-        const registry = $(window).adaptTo("foundation-registry"),
-            adapters = registry.get("foundation.adapters");
+    function getChangeHandler(){
+        const handlers = $._data(document, "events")["change"];
 
-        let formAdapter = _.reject(adapters, function(adapter){
-            return ((adapter.type !== "foundation-form") || (adapter.selector !== "form.foundation-form"));
-        });
-
-        if(_.isEmpty(formAdapter)){
-            return;
-        }
-
-        formAdapter = formAdapter[0];
-
-        formAdapter.adapter = formAdapterOrignFn;
-
-        console.log("override execute resetting");
+        return _.reject(handlers, function(handler){
+            return (handler.selector != NESTED_CHECKBOX_LIST_SEL );
+        })[0].handler;
     }
 
     function getSearchButton(){
