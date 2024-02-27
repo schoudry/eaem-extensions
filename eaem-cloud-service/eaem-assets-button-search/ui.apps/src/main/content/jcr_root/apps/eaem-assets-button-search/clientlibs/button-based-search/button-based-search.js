@@ -15,12 +15,27 @@
 
         liveFilteringHandler = getSubmitHandler();
 
-        setTimeout(pauseLiveFiltering, 2000);
+        initPauseFiltering();
 
         const $searchButton = $(getSearchButton()).appendTo(SEARCH_TOOL_BAR_SEL);
 
         $searchButton.click(doSearch);
     });
+
+    function initPauseFiltering(){
+        const registry = $(window).adaptTo("foundation-registry");
+
+        registry.register("foundation.form.submit", {
+            selector: "*",
+            handler: function(formEl) {
+                return {
+                    post: function() {
+                        pauseLiveFiltering();
+                    }
+                };
+            }
+        });
+    }
 
     function doSearch(){
         resumeLiveFiltering();
