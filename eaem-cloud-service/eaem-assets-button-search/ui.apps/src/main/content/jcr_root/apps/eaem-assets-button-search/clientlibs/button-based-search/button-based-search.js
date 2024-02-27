@@ -2,7 +2,7 @@
     const FOUNDATION_CONTENT_LOADED = "foundation-contentloaded",
         GRANITE_OMNI_SEARCH_CONTENT = ".granite-omnisearch-content",
         SEARCH_TOOL_BAR_SEL = ".search-scrollable",
-        NESTED_CHECKBOX_LIST_SEL = '.dam-nestedcheckboxlist-item';
+        FOUNDATION_FORM_SEL = 'form.foundation-form';
 
     let initialized = false, liveFilteringHandler;
 
@@ -13,30 +13,44 @@
 
         initialized = true;
 
-        $(SEARCH_TOOL_BAR_SEL).append( getSearchButton() );
+        liveFilteringHandler = getSubmitHandler();
 
-        pauseLiveFiltering();
+        setTimeout(pauseLiveFiltering, 2000);
 
-        //resetFormSearchAdapter();
+        const $searchButton = $(getSearchButton()).appendTo(SEARCH_TOOL_BAR_SEL);
+
+        $searchButton.click(doSearch);
     });
 
-    function pauseLiveFiltering(){
-        liveFilteringHandler = getChangeHandler();
+    function doSearch(){
+        resumeLiveFiltering();
 
-        $document.off('change', NESTED_CHECKBOX_LIST_SEL);
+        $(FOUNDATION_FORM_SEL).submit();
 
-        $document.on('change', NESTED_CHECKBOX_LIST_SEL, function( eve ) { });
+        pauseLiveFiltering();
     }
 
-    function getChangeHandler(){
-        const handlers = $._data(document, "events")["change"];
+    function resumeLiveFiltering(){
+        $document.off('submit', FOUNDATION_FORM_SEL);
+        $document.on('submit', FOUNDATION_FORM_SEL, liveFilteringHandler);
+    }
+
+    function pauseLiveFiltering(){
+        $document.off('submit', FOUNDATION_FORM_SEL);
+        $document.on('submit', FOUNDATION_FORM_SEL, function(e) { e.preventDefault() });
+    }
+
+    function getSubmitHandler(){
+        const handlers = $._data(document, "events")["submit"];
 
         return _.reject(handlers, function(handler){
-            return (handler.selector != NESTED_CHECKBOX_LIST_SEL );
+            return (handler.selector != FOUNDATION_FORM_SEL );
         })[0].handler;
     }
 
     function getSearchButton(){
-        return '<div style="text-align: center; margin: 15px 0 10px 0"><button is="coral-button" icon="search" iconsize="S">Search</button></div>'
+        return '<div style="text-align: center; margin: 15px 0 10px 0"><button is="coral-button" icon="search" iconsize="S">' +
+                'Search' +
+            '</button></div>';
     }
 })(jQuery, jQuery(document));
