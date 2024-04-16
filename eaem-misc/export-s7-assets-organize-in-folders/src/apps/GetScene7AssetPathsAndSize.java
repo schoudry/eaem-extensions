@@ -295,6 +295,10 @@ public class GetScene7AssetPathsAndSize {
 
             NodeList imageInfoList = eElement.getElementsByTagName("imageInfo");
 
+            if (imageInfoList.getLength() == 0) {
+                imageInfoList = eElement.getElementsByTagName("videoInfo");
+            }
+
             for (int j = 0; j < imageInfoList.getLength(); j++) {
                 Node imageInfo = imageInfoList.item(j);
 
@@ -340,6 +344,8 @@ public class GetScene7AssetPathsAndSize {
             InputStream is = postMethod.getResponseBodyAsStream();
 
             responseBody = IOUtils.toByteArray(is);
+
+            System.out.println(new String(responseBody));
         }finally{
             if(postMethod != null){
                 postMethod.releaseConnection();
@@ -378,48 +384,27 @@ public class GetScene7AssetPathsAndSize {
     private static SearchAssetsParam getSearchAssetsParam(S7Folder s7Folder, int nextPage){
         SearchAssetsParam searchAssetsParam = new SearchAssetsParam();
         StringArray assetTypes = new StringArray();
-        assetTypes.getItems().add("Aco");
-        assetTypes.getItems().add("AdjustedView");
         assetTypes.getItems().add("AnimatedGif");
-        assetTypes.getItems().add("AssetSet");
         assetTypes.getItems().add("Audio");
-        assetTypes.getItems().add("Cabinet");
-        assetTypes.getItems().add("Catalog");
         assetTypes.getItems().add("Css");
         assetTypes.getItems().add("Excel");
-        assetTypes.getItems().add("Flash");
-        assetTypes.getItems().add("Font");
-        assetTypes.getItems().add("Fxg");
-        assetTypes.getItems().add("IccProfile");
         assetTypes.getItems().add("Illustrator");
         assetTypes.getItems().add("InDesign");
         assetTypes.getItems().add("Image");
-        assetTypes.getItems().add("ImageSet");
         assetTypes.getItems().add("Javascript");
-        assetTypes.getItems().add("PDFSettings");
-        assetTypes.getItems().add("LayerView");
         assetTypes.getItems().add("MasterVideo");
         assetTypes.getItems().add("Pdf");
         assetTypes.getItems().add("PostScript");
         assetTypes.getItems().add("PowerPoint");
         assetTypes.getItems().add("PsdTemplate");
-        assetTypes.getItems().add("RenderScene");
-        assetTypes.getItems().add("RenderSet");
-        assetTypes.getItems().add("Rtf");
-        assetTypes.getItems().add("SpinSet");
         assetTypes.getItems().add("Svg");
         assetTypes.getItems().add("Swc");
-        assetTypes.getItems().add("Template");
         assetTypes.getItems().add("Video");
         assetTypes.getItems().add("ViewerSwf");
-        assetTypes.getItems().add("Vignette");
-        assetTypes.getItems().add("Watermark");
-        assetTypes.getItems().add("WindowCovering");
         assetTypes.getItems().add("Word");
         assetTypes.getItems().add("Xml");
         assetTypes.getItems().add("Xsl");
         assetTypes.getItems().add("Zip");
-        assetTypes.getItems().add("VideoCaption");
 
         searchAssetsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
         searchAssetsParam.setFolder(s7Folder.getFolderPath());
@@ -432,6 +417,7 @@ public class GetScene7AssetPathsAndSize {
                 "assetArray/items/fileName",
                 "assetArray/items/folder",
                 "assetArray/items/imageInfo/fileSize",
+                "assetArray/items/videoInfo/fileSize",
                 "totalRows"
         }) );
 
