@@ -13,12 +13,12 @@
         let loginBoxH1 = document.querySelector(LOGGIN_BOX_SEL + " h1");
 
         loginBoxH1.innerText = "Experiencing Adobe Experience Manager";
-        loginBoxH1.style.backgroundColor = "#cc4400";
+        loginBoxH1.style.backgroundColor = "#111111cc";
         loginBoxH1.style.padding = "5px";
 
         let loginBoxP = document.querySelector(LOGGIN_BOX_SEL + " p");
         loginBoxP.innerText = "Aodbe IMS users please use 'Sign in with Adobe'";
-        loginBoxP.style.backgroundColor = "#cc4400";
+        loginBoxP.style.backgroundColor = "#111111cc";
         loginBoxP.style.padding = "5px";
 
         let loginBG = document.querySelector(BG_DEFAULT_SEL);
