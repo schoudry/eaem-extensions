@@ -22,7 +22,7 @@
         loginBoxP.style.padding = "5px";
 
         let loginBG = document.querySelector(BG_DEFAULT_SEL);
-        loginBG.style.backgroundImage = "url(https://wallpapercave.com/wp/wp10747952.jpg)";
+        loginBG.style.backgroundSize = "100% 100%";
     }
 
     function isLoginPage(){

@@ -1,0 +1,5 @@
+{
+    "scripts": [
+        "set ACL for anonymous\n  allow jcr:read on /apps/eaem-branding-login/clientlibs/login-branding/resources\nend"
+    ]
+}
