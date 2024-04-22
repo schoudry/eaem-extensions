@@ -22,6 +22,7 @@
         loginBoxP.style.padding = "5px";
 
         let loginBG = document.querySelector(BG_DEFAULT_SEL);
+        loginBG.style.backgroundImage = "url(/apps/eaem-branding-login/clientlibs/login-branding/resources/team.jpeg)";
         loginBG.style.backgroundSize = "100% 100%";
     }
 
