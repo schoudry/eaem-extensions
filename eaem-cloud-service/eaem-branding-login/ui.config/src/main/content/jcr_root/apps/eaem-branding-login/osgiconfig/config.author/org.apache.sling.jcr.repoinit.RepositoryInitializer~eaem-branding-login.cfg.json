@@ -1,5 +1,6 @@
 {
     "scripts": [
-        "set ACL for anonymous\n  allow jcr:read on /apps/eaem-branding-login/clientlibs/login-branding/resources\nend"
+        "create path (sling:Folder) /apps/eaem-branding-login",
+        "set ACL for anonymous\n  allow jcr:read on /apps/eaem-branding-login\nend"
     ]
 }
