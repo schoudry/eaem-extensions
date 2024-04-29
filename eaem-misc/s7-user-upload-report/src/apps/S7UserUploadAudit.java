@@ -21,9 +21,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class S7UserUploadAudit {
     private static String S7_NA_IPS_URL = "https://s7sps1apissl.scene7.com/scene7/api/IpsApiService";
@@ -65,9 +63,28 @@ public class S7UserUploadAudit {
 
         byte[] responseBody = getResponse(authHeaderStr, apiMethod);
 
-        List<S7JobDetails> jobs = parseResponse(responseBody);
+        Map<String, List<S7JobDetails>> jobsList = parseResponse(responseBody);
 
-        System.out.println(jobs);
+        System.out.println(jobsList);
+    }
+
+    private static void writeJobDetailsToLog(List<S7JobDetails> jobDetails){
+        if(jobDetails.isEmpty()){
+            System.out.println("NO JOB DETAILS available for company : " + SRC_S7_COMPANY_HANDLE);
+            return;
+        }
+
+        jobDetails.forEach(folder -> {
+            jobDetails.stream().forEach(job -> {
+                try {
+                    LOG_WRITER.write(job.getUserEmail() + "," + job.getTotalFileCount());
+                    LOG_WRITER.write("\r\n");
+                    LOG_WRITER.flush();
+                }catch (Exception lw){
+                    System.out.println("ERROR: writing to log : " + lw.getMessage());
+                }
+            });
+        });
     }
 
     private static GetJobLogsParam getGetJobLogsParam(){
@@ -78,8 +95,8 @@ public class S7UserUploadAudit {
         return getJobLogsParam;
     }
 
-    private static List<S7JobDetails> parseResponse(byte[] responseBody) throws Exception{
-        List<S7JobDetails> jobs = new ArrayList<S7JobDetails>();
+    private static Map<String, List<S7JobDetails>> parseResponse(byte[] responseBody) throws Exception{
+        Map<String, List<S7JobDetails>> jobs = new HashMap<String, List<S7JobDetails>>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -104,7 +121,15 @@ public class S7UserUploadAudit {
                 continue;
             }
 
-            jobs.add(jobDetails);
+            List<S7JobDetails> jobDetailsList = jobs.get(jobDetails.getUserEmail());
+
+            if(jobDetailsList == null){
+                jobDetailsList = new ArrayList<S7JobDetails>();
+            }
+
+            jobDetailsList.add(jobDetails);
+
+            jobs.put(jobDetails.getUserEmail(), jobDetailsList);
         }
 
         return jobs;
@@ -122,6 +147,7 @@ public class S7UserUploadAudit {
             jobDetails.setJobHandle(getTextContent(eElement, "jobHandle"));
             jobDetails.setJobName(getTextContent(eElement, "jobName"));
             jobDetails.setUserEmail(getTextContent(eElement, "submitUserEmail"));
+            jobDetails.setTotalFileCount(Integer.valueOf(getTextContent(eElement, "totalFileCount")));
         }
 
         return jobDetails;
@@ -233,6 +259,7 @@ public class S7UserUploadAudit {
         private String jobName = "";
         private String logType = "";
         private String userEmail = "";
+        private int totalFileCount = 0;
 
         public String getJobHandle() {
             return jobHandle;
@@ -264,6 +291,14 @@ public class S7UserUploadAudit {
 
         public void setUserEmail(String userEmail) {
             this.userEmail = userEmail;
+        }
+
+        public int getTotalFileCount() {
+            return totalFileCount;
+        }
+
+        public void setTotalFileCount(int totalFileCount) {
+            this.totalFileCount = totalFileCount;
         }
 
         public String toString(){
