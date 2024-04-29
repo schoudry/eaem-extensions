@@ -1,7 +1,28 @@
 package apps;
 
+import com.scene7.ipsapi.AuthHeader;
+import com.scene7.ipsapi.GetJobLogsParam;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.io.IOUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class S7UserUploadAudit {
@@ -19,8 +40,97 @@ public class S7UserUploadAudit {
 
         System.out.println("INFO : Reading all uploads for company : " + SRC_S7_COMPANY_HANDLE);
 
+        getJogLogs();
+
         LOG_WRITER.flush();
         LOG_WRITER.close();
+    }
+
+    private static void getJogLogs() throws Exception {
+        AuthHeader authHeader = getS7AuthHeader();
+
+        Marshaller marshaller = getMarshaller(AuthHeader.class);
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(authHeader, sw);
+
+        String authHeaderStr = sw.toString();
+
+        GetJobLogsParam getJobLogsParam = getGetJobLogsParam();
+
+        marshaller = getMarshaller(getJobLogsParam.getClass());
+        sw = new StringWriter();
+        marshaller.marshal(getJobLogsParam, sw);
+
+        String apiMethod = sw.toString();
+
+        byte[] responseBody = getResponse(authHeaderStr, apiMethod);
+
+        List<S7JobDetails> jobs = parseResponse(responseBody);
+
+        System.out.println(jobs);
+    }
+
+    private static GetJobLogsParam getGetJobLogsParam(){
+        GetJobLogsParam getJobLogsParam = new GetJobLogsParam();
+
+        getJobLogsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
+
+        return getJobLogsParam;
+    }
+
+    private static List<S7JobDetails> parseResponse(byte[] responseBody) throws Exception{
+        List<S7JobDetails> jobs = new ArrayList<S7JobDetails>();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        ByteArrayInputStream input =  new ByteArrayInputStream(responseBody);
+
+        Document doc = builder.parse(input);
+
+        XPath xPath =  XPathFactory.newInstance().newXPath();
+
+        String expression = "/getJobLogsReturn/jobLogArray/items";
+
+        NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+
+        for (int i = 0; i < itemList.getLength(); i++) {
+            Node item = itemList.item(i);
+
+            S7JobDetails jobDetails = fillJobDetails(item);
+
+            if(!jobDetails.getLogType().equalsIgnoreCase(S7JobDetails.LOG_TYPE.BEGINUPLOAD.toString())){
+                continue;
+            }
+
+            jobs.add(jobDetails);
+        }
+
+        return jobs;
+    }
+
+    private static S7JobDetails fillJobDetails(Node item) throws Exception{
+        S7JobDetails jobDetails = new S7JobDetails();
+
+        if(item.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) item;
+
+            String logType = getTextContent(eElement, "logType");
+            jobDetails.setLogType(logType);
+
+            jobDetails.setJobHandle(getTextContent(eElement, "jobHandle"));
+            jobDetails.setJobName(getTextContent(eElement, "jobName"));
+        }
+
+        return jobDetails;
+    }
+
+    private static Marshaller getMarshaller(Class apiMethodClass) throws JAXBException {
+        Marshaller marshaller = JAXBContext.newInstance(new Class[]{apiMethodClass}).createMarshaller();
+        marshaller.setProperty("jaxb.formatted.output", Boolean.valueOf(true));
+        marshaller.setProperty("jaxb.fragment", Boolean.valueOf(true));
+        return marshaller;
     }
 
     private static void setProperties(){
@@ -54,13 +164,100 @@ public class S7UserUploadAudit {
 
             String assetLogFilePath = (new File(propFile.getPath())).getParentFile().getPath() + "/" + logName;
 
-            System.out.println("INFO: Writing asset paths to csv file : " + assetLogFilePath);
+            System.out.println("INFO: Writing uploads to csv file : " + assetLogFilePath);
 
             LOG_WRITER = new BufferedWriter(new FileWriter(assetLogFilePath));
         }catch(Exception e){
             System.out.println("ERROR: Reading config.properties, is it in the current folder? - " + e.getMessage());
             e.printStackTrace();
             System.exit(-1);
+        }
+    }
+
+    private static String getTextContent(Element eElement, String tagName){
+        return eElement.getElementsByTagName(tagName).item(0).getTextContent();
+    }
+
+    private static byte[] getResponse(String authHeaderStr, String apiMethod) throws Exception{
+        StringBuilder requestBody = new StringBuilder("<Request xmlns=\"http://www.scene7.com/IpsApi/xsd/2017-10-29-beta\">");
+        requestBody.append(authHeaderStr).append(apiMethod).append("</Request>");
+
+        byte[] responseBody = null;
+        PostMethod postMethod = null;
+
+        try {
+            HttpClient httpclient = new HttpClient();
+
+            postMethod = new PostMethod(S7_NA_IPS_URL);
+
+            postMethod.setRequestHeader("Content-Type", "text/xml");
+            postMethod.setRequestEntity(new ByteArrayRequestEntity(requestBody.toString().getBytes()));
+
+            int responseCode = httpclient.executeMethod(postMethod);
+
+            if(responseCode != 200){
+                System.out.println("Response code - " + responseCode + ", returning here...");
+            }
+
+            InputStream is = postMethod.getResponseBodyAsStream();
+
+            responseBody = IOUtils.toByteArray(is);
+        }finally{
+            if(postMethod != null){
+                postMethod.releaseConnection();
+            }
+        }
+
+        return responseBody;
+    }
+
+    private static AuthHeader getS7AuthHeader(){
+        AuthHeader authHeader = new AuthHeader();
+
+        authHeader.setUser(SRC_S7_USER);
+        authHeader.setPassword(SRC_S7_PASS);
+        authHeader.setAppName(STAND_ALONE_APP_NAME);
+        authHeader.setAppVersion("1.0");
+        authHeader.setFaultHttpStatusCode(new Integer(200));
+
+        return authHeader;
+    }
+
+    private static class S7JobDetails{
+        public enum LOG_TYPE {
+            BEGINUPLOAD
+        }
+
+        private String jobHandle = "";
+        private String jobName = "";
+        private String logType = "";
+
+        public String getJobHandle() {
+            return jobHandle;
+        }
+
+        public void setJobHandle(String jobHandle) {
+            this.jobHandle = jobHandle;
+        }
+
+        public String getJobName() {
+            return jobName;
+        }
+
+        public void setJobName(String jobName) {
+            this.jobName = jobName;
+        }
+
+        public String getLogType() {
+            return logType;
+        }
+
+        public void setLogType(String logType) {
+            this.logType = logType;
+        }
+
+        public String toString(){
+            return "'" + logType + "," + jobName + "," + jobHandle + "'\n";
         }
     }
 }
