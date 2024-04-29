@@ -121,6 +121,7 @@ public class S7UserUploadAudit {
 
             jobDetails.setJobHandle(getTextContent(eElement, "jobHandle"));
             jobDetails.setJobName(getTextContent(eElement, "jobName"));
+            jobDetails.setUserEmail(getTextContent(eElement, "submitUserEmail"));
         }
 
         return jobDetails;
@@ -231,6 +232,7 @@ public class S7UserUploadAudit {
         private String jobHandle = "";
         private String jobName = "";
         private String logType = "";
+        private String userEmail = "";
 
         public String getJobHandle() {
             return jobHandle;
@@ -256,8 +258,16 @@ public class S7UserUploadAudit {
             this.logType = logType;
         }
 
+        public String getUserEmail() {
+            return userEmail;
+        }
+
+        public void setUserEmail(String userEmail) {
+            this.userEmail = userEmail;
+        }
+
         public String toString(){
-            return "'" + logType + "," + jobName + "," + jobHandle + "'\n";
+            return "'" + logType + "," + userEmail + "," + jobName + "," + jobHandle + "'\n";
         }
     }
 }
