@@ -14,6 +14,8 @@ import org.w3c.dom.NodeList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -28,6 +30,7 @@ public class S7UserUploadAudit {
     private static String SRC_S7_COMPANY_HANDLE = "";
     private static String SRC_S7_USER = "";
     private static String SRC_S7_PASS = "";
+    private static int DAYS = -1;
     private static String STAND_ALONE_APP_NAME = "Experience AEM";
     private static String logName = "user-uploads.csv";
     private static BufferedWriter LOG_WRITER = null;
@@ -36,7 +39,7 @@ public class S7UserUploadAudit {
     public static void main(String[] args) throws Exception {
         setProperties();
 
-        System.out.println("INFO : Reading all uploads for company : " + SRC_S7_COMPANY_HANDLE);
+        System.out.println("INFO : Reading all uploads for company : " + SRC_S7_COMPANY_HANDLE + ", in the last " + DAYS + " days");
 
         getJogLogs();
 
@@ -66,16 +69,20 @@ public class S7UserUploadAudit {
         Map<String, List<S7JobDetails>> jobsList = parseResponse(responseBody);
 
         System.out.println(jobsList);
+
+        writeJobDetailsToLog(jobsList);
     }
 
-    private static void writeJobDetailsToLog(List<S7JobDetails> jobDetails){
-        if(jobDetails.isEmpty()){
+    private static void writeJobDetailsToLog(Map<String, List<S7JobDetails>> jobDetailsMap){
+        if(jobDetailsMap.isEmpty()){
             System.out.println("NO JOB DETAILS available for company : " + SRC_S7_COMPANY_HANDLE);
             return;
         }
 
-        jobDetails.forEach(folder -> {
-            jobDetails.stream().forEach(job -> {
+        jobDetailsMap.keySet().forEach(email -> {
+            List<S7JobDetails> jobDetailsList = jobDetailsMap.get(email);
+
+            jobDetailsList.stream().forEach(job -> {
                 try {
                     LOG_WRITER.write(job.getUserEmail() + "," + job.getTotalFileCount());
                     LOG_WRITER.write("\r\n");
@@ -87,10 +94,20 @@ public class S7UserUploadAudit {
         });
     }
 
-    private static GetJobLogsParam getGetJobLogsParam(){
+    private static GetJobLogsParam getGetJobLogsParam() {
         GetJobLogsParam getJobLogsParam = new GetJobLogsParam();
-
         getJobLogsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
+
+        try {
+            GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+            cal.add((GregorianCalendar.DATE), (0 - DAYS));
+
+            XMLGregorianCalendar startDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+            getJobLogsParam.setStartDate(startDate);
+        } catch (Exception e) {
+            System.out.println("ERROR: setting start date : " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return getJobLogsParam;
     }
@@ -148,6 +165,7 @@ public class S7UserUploadAudit {
             jobDetails.setJobName(getTextContent(eElement, "jobName"));
             jobDetails.setUserEmail(getTextContent(eElement, "submitUserEmail"));
             jobDetails.setTotalFileCount(Integer.valueOf(getTextContent(eElement, "totalFileCount")));
+            jobDetails.setUploadDate(getTextContent(eElement, "startDate"));
         }
 
         return jobDetails;
@@ -162,7 +180,7 @@ public class S7UserUploadAudit {
 
     private static void setProperties(){
         try{
-            URL propFile = GetScene7AssetPathsAndSize.class.getResource("config.properties");
+            URL propFile = S7UserUploadAudit.class.getResource("config.properties");
 
             System.out.println("INFO : Reading configuration from : " + propFile.getPath());
 
@@ -189,11 +207,19 @@ public class S7UserUploadAudit {
             SRC_S7_USER = words[1];
             SRC_S7_PASS = words[2];
 
-            String assetLogFilePath = (new File(propFile.getPath())).getParentFile().getPath() + "/" + logName;
+            String days = prop.getProperty("days");
 
-            System.out.println("INFO: Writing uploads to csv file : " + assetLogFilePath);
+            if((days == null) || days.trim().equals("")){
+                days = "365";
+            }
 
-            LOG_WRITER = new BufferedWriter(new FileWriter(assetLogFilePath));
+            DAYS = Integer.parseInt(days);
+
+            String logFilePath = (new File(propFile.getPath())).getParentFile().getPath() + "/" + logName;
+
+            System.out.println("INFO: Writing uploads to csv file : " + logFilePath);
+
+            LOG_WRITER = new BufferedWriter(new FileWriter(logFilePath));
         }catch(Exception e){
             System.out.println("ERROR: Reading config.properties, is it in the current folder? - " + e.getMessage());
             e.printStackTrace();
@@ -260,6 +286,7 @@ public class S7UserUploadAudit {
         private String logType = "";
         private String userEmail = "";
         private int totalFileCount = 0;
+        private String uploadDate = null;
 
         public String getJobHandle() {
             return jobHandle;
@@ -301,8 +328,16 @@ public class S7UserUploadAudit {
             this.totalFileCount = totalFileCount;
         }
 
+        public String getUploadDate() {
+            return uploadDate;
+        }
+
+        public void setUploadDate(String uploadDate) {
+            this.uploadDate = uploadDate;
+        }
+
         public String toString(){
-            return "'" + logType + "," + userEmail + "," + jobName + "," + jobHandle + "'\n";
+            return "'" + logType + "," + userEmail + "," + uploadDate + "," + jobName + "'\n";
         }
     }
 }
