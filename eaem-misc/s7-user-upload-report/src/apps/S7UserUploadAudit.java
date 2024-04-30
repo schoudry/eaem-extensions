@@ -34,7 +34,7 @@ public class S7UserUploadAudit {
     private static String STAND_ALONE_APP_NAME = "Experience AEM";
     private static String logName = "user-uploads.csv";
     private static BufferedWriter LOG_WRITER = null;
-    private static int assetCount = 0;
+    private static int LOGS_FOR_DAYS = 10;
 
     public static void main(String[] args) throws Exception {
         setProperties();
@@ -55,22 +55,62 @@ public class S7UserUploadAudit {
         marshaller.marshal(authHeader, sw);
 
         String authHeaderStr = sw.toString();
+        int days = DAYS;
 
-        GetJobLogsParam getJobLogsParam = getGetJobLogsParam();
+        Map<String, List<S7JobDetails>> jobsListMap = new HashMap<String, List<S7JobDetails>>();
+        GregorianCalendar startDate, endDate = (GregorianCalendar) GregorianCalendar.getInstance();
+        GetJobLogsParam getJobLogsParam = null;
 
-        marshaller = getMarshaller(getJobLogsParam.getClass());
-        sw = new StringWriter();
-        marshaller.marshal(getJobLogsParam, sw);
+        while(true){
+            if(days <= 0){
+                break;
+            }
 
-        String apiMethod = sw.toString();
+            try {
+                endDate = getXDaysBeforeDate(endDate, 0);
+                startDate = getXDaysBeforeDate(endDate, LOGS_FOR_DAYS);
 
-        byte[] responseBody = getResponse(authHeaderStr, apiMethod);
+                System.out.println("INFO: Fetching logs for " + endDate.getTime() + " - " + startDate.getTime());
 
-        Map<String, List<S7JobDetails>> jobsList = parseResponse(responseBody);
+                getJobLogsParam = getGetJobLogsParam(startDate, endDate);
+            } catch (Exception e) {
+                System.out.println("ERROR: setting start date : " + e.getMessage());
+                e.printStackTrace();
+                break;
+            }
 
-        System.out.println(jobsList);
+            marshaller = getMarshaller(getJobLogsParam.getClass());
+            sw = new StringWriter();
+            marshaller.marshal(getJobLogsParam, sw);
 
-        writeJobDetailsToLog(jobsList);
+            String apiMethod = sw.toString();
+
+            byte[] responseBody = getResponse(authHeaderStr, apiMethod);
+
+            parseResponse(responseBody, jobsListMap);
+
+            days = days - LOGS_FOR_DAYS;
+
+            endDate = startDate;
+        }
+
+        System.out.println("INFO: Total Users : " + jobsListMap.size());
+
+        writeJobDetailsToLog(jobsListMap);
+    }
+
+    private static GregorianCalendar getXDaysBeforeDate(GregorianCalendar cal, int xDaysBefore){
+        GregorianCalendar workCal = (GregorianCalendar) GregorianCalendar.getInstance();
+
+        workCal.setTime(cal.getTime());
+
+        workCal.add(GregorianCalendar.DATE, (0 - xDaysBefore));
+        workCal.set(Calendar.MILLISECOND, 0);
+        workCal.set(Calendar.SECOND, 0);
+        workCal.set(Calendar.MINUTE, 0);
+        workCal.set(Calendar.HOUR_OF_DAY, 0);
+
+        return workCal;
     }
 
     private static void writeJobDetailsToLog(Map<String, List<S7JobDetails>> jobDetailsMap){
@@ -94,27 +134,19 @@ public class S7UserUploadAudit {
         });
     }
 
-    private static GetJobLogsParam getGetJobLogsParam() {
+    private static GetJobLogsParam getGetJobLogsParam(GregorianCalendar startDate, GregorianCalendar endDate)
+                        throws Exception{
         GetJobLogsParam getJobLogsParam = new GetJobLogsParam();
         getJobLogsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
-
-        try {
-            GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
-            cal.add((GregorianCalendar.DATE), (0 - DAYS));
-
-            XMLGregorianCalendar startDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-            getJobLogsParam.setStartDate(startDate);
-        } catch (Exception e) {
-            System.out.println("ERROR: setting start date : " + e.getMessage());
-            e.printStackTrace();
-        }
+        getJobLogsParam.setNumRows(1000);
+        getJobLogsParam.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(startDate));
+        getJobLogsParam.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(endDate));
 
         return getJobLogsParam;
     }
 
-    private static Map<String, List<S7JobDetails>> parseResponse(byte[] responseBody) throws Exception{
-        Map<String, List<S7JobDetails>> jobs = new HashMap<String, List<S7JobDetails>>();
-
+    private static Map<String, List<S7JobDetails>> parseResponse(byte[] responseBody, Map<String,
+                        List<S7JobDetails>> jobsListMap) throws Exception{
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -138,7 +170,7 @@ public class S7UserUploadAudit {
                 continue;
             }
 
-            List<S7JobDetails> jobDetailsList = jobs.get(jobDetails.getUserEmail());
+            List<S7JobDetails> jobDetailsList = jobsListMap.get(jobDetails.getUserEmail());
 
             if(jobDetailsList == null){
                 jobDetailsList = new ArrayList<S7JobDetails>();
@@ -146,10 +178,10 @@ public class S7UserUploadAudit {
 
             jobDetailsList.add(jobDetails);
 
-            jobs.put(jobDetails.getUserEmail(), jobDetailsList);
+            jobsListMap.put(jobDetails.getUserEmail(), jobDetailsList);
         }
 
-        return jobs;
+        return jobsListMap;
     }
 
     private static S7JobDetails fillJobDetails(Node item) throws Exception{
