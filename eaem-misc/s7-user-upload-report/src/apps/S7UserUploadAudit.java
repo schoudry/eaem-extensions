@@ -35,11 +35,12 @@ public class S7UserUploadAudit {
     private static String logName = "user-uploads.csv";
     private static BufferedWriter LOG_WRITER = null;
     private static int LOGS_FOR_DAYS = 10;
+    private static int RECORDS_PER_REQUEST = 1000;
 
     public static void main(String[] args) throws Exception {
         setProperties();
 
-        System.out.println("INFO : Reading all uploads for company : " + SRC_S7_COMPANY_HANDLE + ", in the last " + DAYS + " days");
+        System.out.println("INFO: Reading all uploads for company : " + SRC_S7_COMPANY_HANDLE + ", in the last " + DAYS + " days");
 
         getJogLogs();
 
@@ -138,7 +139,7 @@ public class S7UserUploadAudit {
                         throws Exception{
         GetJobLogsParam getJobLogsParam = new GetJobLogsParam();
         getJobLogsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
-        getJobLogsParam.setNumRows(1000);
+        getJobLogsParam.setNumRows(RECORDS_PER_REQUEST);
         getJobLogsParam.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(startDate));
         getJobLogsParam.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(endDate));
 
@@ -181,6 +182,10 @@ public class S7UserUploadAudit {
             jobsListMap.put(jobDetails.getUserEmail(), jobDetailsList);
         }
 
+        if(itemList.getLength() == RECORDS_PER_REQUEST){
+            System.out.println("WARN: The number of records returned is same as limit set : " + RECORDS_PER_REQUEST + ", there might be more, decrease the LOGS_FOR_DAYS to some number less than : " + LOGS_FOR_DAYS);
+        }
+
         return jobsListMap;
     }
 
@@ -214,7 +219,7 @@ public class S7UserUploadAudit {
         try{
             URL propFile = S7UserUploadAudit.class.getResource("config.properties");
 
-            System.out.println("INFO : Reading configuration from : " + propFile.getPath());
+            System.out.println("INFO: Reading configuration from : " + propFile.getPath());
 
             InputStream input = new FileInputStream(propFile.getPath());
 
