@@ -1,7 +1,9 @@
 package apps;
 
 import com.scene7.ipsapi.AuthHeader;
+import com.scene7.ipsapi.GetJobLogDetailsParam;
 import com.scene7.ipsapi.GetJobLogsParam;
+import com.scene7.ipsapi.StringArray;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -15,7 +17,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -68,14 +69,12 @@ public class S7UserUploadAudit {
             }
 
             try {
-                endDate = getXDaysBeforeDate(endDate, 0);
-                startDate = getXDaysBeforeDate(endDate, LOGS_FOR_DAYS);
-
-                System.out.println("INFO: Fetching logs for " + endDate.getTime() + " - " + startDate.getTime());
+                endDate = getDateXDaysBack(endDate, 0);
+                startDate = getDateXDaysBack(endDate, LOGS_FOR_DAYS);
 
                 getJobLogsParam = getGetJobLogsParam(startDate, endDate);
             } catch (Exception e) {
-                System.out.println("ERROR: setting start date : " + e.getMessage());
+                System.out.println("ERROR: setting date range : " + e.getMessage());
                 e.printStackTrace();
                 break;
             }
@@ -88,7 +87,9 @@ public class S7UserUploadAudit {
 
             byte[] responseBody = getResponse(authHeaderStr, apiMethod);
 
-            parseResponse(responseBody, jobsListMap);
+            int logsReturned = parseJogLogsResponse(responseBody, jobsListMap);
+
+            System.out.println("INFO: " + logsReturned + " Logs fetched for " + endDate.getTime() + " - " + startDate.getTime());
 
             days = days - LOGS_FOR_DAYS;
 
@@ -100,39 +101,39 @@ public class S7UserUploadAudit {
         writeJobDetailsToLog(jobsListMap);
     }
 
-    private static GregorianCalendar getXDaysBeforeDate(GregorianCalendar cal, int xDaysBefore){
-        GregorianCalendar workCal = (GregorianCalendar) GregorianCalendar.getInstance();
+    private static int fillJobIndividualItemsDetail(S7JobDetails jobDetails) throws Exception{
+        AuthHeader authHeader = getS7AuthHeader();
 
-        workCal.setTime(cal.getTime());
+        Marshaller marshaller = getMarshaller(AuthHeader.class);
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(authHeader, sw);
 
-        workCal.add(GregorianCalendar.DATE, (0 - xDaysBefore));
-        workCal.set(Calendar.MILLISECOND, 0);
-        workCal.set(Calendar.SECOND, 0);
-        workCal.set(Calendar.MINUTE, 0);
-        workCal.set(Calendar.HOUR_OF_DAY, 0);
+        String authHeaderStr = sw.toString();
 
-        return workCal;
+        GetJobLogDetailsParam getJobLogDetailsParam = getGetJobLogDetailsParam(jobDetails.getJobHandle());
+
+        marshaller = getMarshaller(getJobLogDetailsParam.getClass());
+        sw = new StringWriter();
+        marshaller.marshal(getJobLogDetailsParam, sw);
+
+        String apiMethod = sw.toString();
+
+        byte[] responseBody = getResponse(authHeaderStr, apiMethod);
+
+        return parseJobDetailsResponse(responseBody, jobDetails);
     }
 
-    private static void writeJobDetailsToLog(Map<String, List<S7JobDetails>> jobDetailsMap){
-        if(jobDetailsMap.isEmpty()){
-            System.out.println("NO JOB DETAILS available for company : " + SRC_S7_COMPANY_HANDLE);
-            return;
-        }
+    private static GetJobLogDetailsParam getGetJobLogDetailsParam(String jobHandle) throws Exception{
+        GetJobLogDetailsParam getJobLogDetailsParam = new GetJobLogDetailsParam();
+        getJobLogDetailsParam.setCompanyHandle(SRC_S7_COMPANY_HANDLE);
+        getJobLogDetailsParam.setJobHandle(jobHandle);
 
-        jobDetailsMap.keySet().forEach(email -> {
-            List<S7JobDetails> jobDetailsList = jobDetailsMap.get(email);
+        StringArray logTypes = new StringArray();
+        logTypes.getItems().add("BeginUpload");
+        logTypes.getItems().add("UploadSuccess");
+        getJobLogDetailsParam.setLogTypeArray(logTypes);
 
-            jobDetailsList.stream().forEach(job -> {
-                try {
-                    LOG_WRITER.write(job.getUserEmail() + "," + job.getTotalFileCount());
-                    LOG_WRITER.write("\r\n");
-                    LOG_WRITER.flush();
-                }catch (Exception lw){
-                    System.out.println("ERROR: writing to log : " + lw.getMessage());
-                }
-            });
-        });
+        return getJobLogDetailsParam;
     }
 
     private static GetJobLogsParam getGetJobLogsParam(GregorianCalendar startDate, GregorianCalendar endDate)
@@ -146,7 +147,7 @@ public class S7UserUploadAudit {
         return getJobLogsParam;
     }
 
-    private static Map<String, List<S7JobDetails>> parseResponse(byte[] responseBody, Map<String,
+    private static int parseJogLogsResponse(byte[] responseBody, Map<String,
                         List<S7JobDetails>> jobsListMap) throws Exception{
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -162,6 +163,8 @@ public class S7UserUploadAudit {
 
         NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 
+        int logsCollected = 0;
+
         for (int i = 0; i < itemList.getLength(); i++) {
             Node item = itemList.item(i);
 
@@ -170,6 +173,8 @@ public class S7UserUploadAudit {
             if(!jobDetails.getLogType().equalsIgnoreCase(S7JobDetails.LOG_TYPE.BEGINUPLOAD.toString())){
                 continue;
             }
+
+            logsCollected = logsCollected + fillJobIndividualItemsDetail(jobDetails);
 
             List<S7JobDetails> jobDetailsList = jobsListMap.get(jobDetails.getUserEmail());
 
@@ -186,7 +191,50 @@ public class S7UserUploadAudit {
             System.out.println("WARN: The number of records returned is same as limit set : " + RECORDS_PER_REQUEST + ", there might be more, decrease the LOGS_FOR_DAYS to some number less than : " + LOGS_FOR_DAYS);
         }
 
-        return jobsListMap;
+        return logsCollected;
+    }
+
+    private static int parseJobDetailsResponse(byte[] responseBody, S7JobDetails jobDetails) throws Exception{
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        ByteArrayInputStream input =  new ByteArrayInputStream(responseBody);
+
+        Document doc = builder.parse(input);
+
+        XPath xPath =  XPathFactory.newInstance().newXPath();
+
+        String expression = "/getJobLogDetailsReturn/jobLogArray/items[1]/detailArray/items";
+
+        NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+
+        int logsCollected = 0;
+
+        for (int i = 0; i < itemList.getLength(); i++) {
+            Node item = itemList.item(i);
+
+            if(item.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) item;
+                AssetLog assetLog = new AssetLog();
+
+                String logMessage = getTextContent(eElement, "logMessage");
+
+                if(logMessage.contains(" was processed ")){
+                    logMessage = logMessage.substring(0, logMessage.lastIndexOf(" was processed "));
+                }
+
+                assetLog.setAssetPath(logMessage);
+                assetLog.setCreatedDate(getTextContent(eElement, "dateCreated"));
+                assetLog.setAssetHandle(getTextContent(eElement, "assetHandle"));
+
+                jobDetails.getAssetsUploaded().add(assetLog);
+
+                logsCollected = logsCollected + 1;
+            }
+        }
+
+        return logsCollected;
     }
 
     private static S7JobDetails fillJobDetails(Node item) throws Exception{
@@ -201,8 +249,6 @@ public class S7UserUploadAudit {
             jobDetails.setJobHandle(getTextContent(eElement, "jobHandle"));
             jobDetails.setJobName(getTextContent(eElement, "jobName"));
             jobDetails.setUserEmail(getTextContent(eElement, "submitUserEmail"));
-            jobDetails.setTotalFileCount(Integer.valueOf(getTextContent(eElement, "totalFileCount")));
-            jobDetails.setUploadDate(getTextContent(eElement, "startDate"));
         }
 
         return jobDetails;
@@ -213,6 +259,42 @@ public class S7UserUploadAudit {
         marshaller.setProperty("jaxb.formatted.output", Boolean.valueOf(true));
         marshaller.setProperty("jaxb.fragment", Boolean.valueOf(true));
         return marshaller;
+    }
+
+    private static GregorianCalendar getDateXDaysBack(GregorianCalendar cal, int xDaysBefore){
+        GregorianCalendar workCal = (GregorianCalendar) GregorianCalendar.getInstance();
+
+        workCal.setTime(cal.getTime());
+
+        workCal.add(GregorianCalendar.DATE, (0 - xDaysBefore));
+        workCal.set(Calendar.SECOND, 59);
+        workCal.set(Calendar.MINUTE, 59);
+        workCal.set(Calendar.HOUR_OF_DAY, 23);
+
+        return workCal;
+    }
+
+    private static void writeJobDetailsToLog(Map<String, List<S7JobDetails>> jobDetailsMap){
+        if(jobDetailsMap.isEmpty()){
+            System.out.println("NO JOB DETAILS available for company : " + SRC_S7_COMPANY_HANDLE);
+            return;
+        }
+
+        jobDetailsMap.keySet().forEach(email -> {
+            List<S7JobDetails> jobDetailsList = jobDetailsMap.get(email);
+
+            jobDetailsList.stream().forEach(job -> {
+                    job.getAssetsUploaded().stream().forEach(assetLog -> {
+                        try {
+                            LOG_WRITER.write(job.getUserEmail() + "," + assetLog.getAssetHandle() + "," + assetLog.getCreatedDate() + "," + assetLog.getAssetPath());
+                            LOG_WRITER.write("\r\n");
+                            LOG_WRITER.flush();
+                        }catch (Exception lw){
+                            System.out.println("ERROR: writing to log : " + lw.getMessage());
+                        }
+                    });
+            });
+        });
     }
 
     private static void setProperties(){
@@ -265,7 +347,13 @@ public class S7UserUploadAudit {
     }
 
     private static String getTextContent(Element eElement, String tagName){
-        return eElement.getElementsByTagName(tagName).item(0).getTextContent();
+        NodeList nodeList = eElement.getElementsByTagName(tagName);
+
+        if( (nodeList == null) || (nodeList.getLength() == 0)){
+            return "";
+        }
+
+        return nodeList.item(0).getTextContent();
     }
 
     private static byte[] getResponse(String authHeaderStr, String apiMethod) throws Exception{
@@ -313,6 +401,36 @@ public class S7UserUploadAudit {
         return authHeader;
     }
 
+    private static class AssetLog{
+        private String assetPath = "";
+        private String createdDate = "";
+        private String assetHandle = "";
+
+        public String getAssetPath() {
+            return assetPath;
+        }
+
+        public void setAssetPath(String assetPath) {
+            this.assetPath = assetPath;
+        }
+
+        public String getCreatedDate() {
+            return createdDate;
+        }
+
+        public void setCreatedDate(String createdDate) {
+            this.createdDate = createdDate;
+        }
+
+        public String getAssetHandle() {
+            return assetHandle;
+        }
+
+        public void setAssetHandle(String assetHandle) {
+            this.assetHandle = assetHandle;
+        }
+    }
+
     private static class S7JobDetails{
         public enum LOG_TYPE {
             BEGINUPLOAD
@@ -322,8 +440,11 @@ public class S7UserUploadAudit {
         private String jobName = "";
         private String logType = "";
         private String userEmail = "";
-        private int totalFileCount = 0;
-        private String uploadDate = null;
+        private List<AssetLog> assetsUploaded = new ArrayList<AssetLog>();
+
+        private List<AssetLog> getAssetsUploaded(){
+            return assetsUploaded;
+        }
 
         public String getJobHandle() {
             return jobHandle;
@@ -357,24 +478,8 @@ public class S7UserUploadAudit {
             this.userEmail = userEmail;
         }
 
-        public int getTotalFileCount() {
-            return totalFileCount;
-        }
-
-        public void setTotalFileCount(int totalFileCount) {
-            this.totalFileCount = totalFileCount;
-        }
-
-        public String getUploadDate() {
-            return uploadDate;
-        }
-
-        public void setUploadDate(String uploadDate) {
-            this.uploadDate = uploadDate;
-        }
-
         public String toString(){
-            return "'" + logType + "," + userEmail + "," + uploadDate + "," + jobName + "'\n";
+            return "'" + logType + "," + userEmail + "," + jobName + "'\n";
         }
     }
 }
