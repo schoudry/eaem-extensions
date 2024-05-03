@@ -16,3 +16,8 @@ $include "./default_filters.any"
 
 /0401 { /type "deny"  /glob "* /*.*[2-9]*.*json *" }
 /0402 { /type "deny"  /glob "* /*query* *" }
+
+/0501 { /type "allow" /method "GET" /url "/libs/granite/core/content/login.html" }
+/0502 { /type "allow" /method "POST" /url "*/j_security_check" }
+/0503 { /type "allow" /method "GET" /url "/system/sling/logout.html" }
+/0504 { /type "allow" /method "GET" /url "/etc.clientlibs/clientlibs/granite*" }
