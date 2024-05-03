@@ -15,7 +15,7 @@
 
     if (imsConfigProvider != null) {
         imsLoginUrl = imsConfigProvider.getImsLoginUrl(slingRequest);
-        imsLoginUrl = request.getRequestURI() + xssAPI.getValidHref(imsLoginUrl);
+        imsLoginUrl = xssAPI.getValidHref(imsLoginUrl);
     }
 %>
 

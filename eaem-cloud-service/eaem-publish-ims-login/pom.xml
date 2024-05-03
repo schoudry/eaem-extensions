@@ -28,10 +28,8 @@
 
     <modules>
         <module>all</module>
-        <module>core</module>
         <module>ui.apps</module>
         <module>ui.apps.structure</module>
-        <module>ui.config</module>
         <module>ui.content</module>
         <module>dispatcher</module>
     </modules>
