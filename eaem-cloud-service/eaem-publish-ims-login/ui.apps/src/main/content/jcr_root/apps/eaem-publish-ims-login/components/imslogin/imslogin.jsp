@@ -15,8 +15,14 @@
 
     if (imsConfigProvider != null) {
         imsLoginUrl = imsConfigProvider.getImsLoginUrl(slingRequest);
-        imsLoginUrl = xssAPI.getValidHref(imsLoginUrl);
+        imsLoginUrl = request.getRequestURI() + xssAPI.getValidHref(imsLoginUrl);
     }
 %>
 
-<%=imsLoginUrl%>
+<div class="eaem-centered coral--dark">
+    <button id="eaem-ims-submit-button" is="coral-button" variant="primary" type="submit"
+            data-ims-url='<%=imsLoginUrl%>'
+            class="_coral-Button--block _coral-Button _coral-Button--cta" size="M">
+        <coral-button-label class="_coral-Button-label">Sign in with Adobe</coral-button-label>
+    </button>
+</div>
