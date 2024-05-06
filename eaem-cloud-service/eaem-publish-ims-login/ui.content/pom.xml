@@ -88,11 +88,6 @@
     <dependencies>
         <dependency>
             <groupId>apps.experienceaem.sites</groupId>
-            <artifactId>eaem-publish-ims-login.core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>apps.experienceaem.sites</groupId>
             <artifactId>eaem-publish-ims-login.ui.apps</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
