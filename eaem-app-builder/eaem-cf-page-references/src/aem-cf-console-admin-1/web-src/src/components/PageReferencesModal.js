@@ -1,34 +1,14 @@
-/*
- * <license header>
- */
-
 import React, { useState, useEffect } from 'react'
 import { attach } from "@adobe/uix-guest"
-import {
-  Flex,
-  Form,
-  ProgressCircle,
-  Provider,
-  Content,
-  defaultTheme,
-  Text,
-  TextField,
-  ButtonGroup,
-  Button,
-  Heading,
-  View
-} from '@adobe/react-spectrum'
-
-
+import { Flex, Provider, Content, defaultTheme, Text, ButtonGroup, Button } from '@adobe/react-spectrum'
 import { useParams } from "react-router-dom"
-
 import { extensionId } from "./Constants"
 
 export default function PageReferencesModal () {
-  // Fields
-  const [guestConnection, setGuestConnection] = useState()
   const GET_REFERENCES_URL = "/libs/dam/content/schemaeditors/forms/references/items/tabs/items/tab1/items/col1/items/local-references/items/references.html";
-  
+  const [guestConnection, setGuestConnection] = useState()
+  const [references, setReferences] = useState("Loading...");
+
   const {fragmentId}  = useParams()
   
   if (!fragmentId) {
@@ -42,23 +22,24 @@ export default function PageReferencesModal () {
 
       setGuestConnection(guestConnection)
 
-      console.log("----->", guestConnection);
+      const sharedContext = guestConnection.sharedContext,
+            auth = sharedContext.get('auth');
 
-      const baseUrl = `https://${guestConnection.sharedContext.get('aemHost')}${GET_REFERENCES_URL}${fragmentId}`;
+      const baseUrl = `https://${sharedContext.get('aemHost')}${GET_REFERENCES_URL}${fragmentId}`;
 
       const requestOptions = {
         method: 'GET',
         headers: new Headers({
-          Authorization: `Bearer `,
-        }),
+          'Authorization': `Bearer ${auth['imsToken']}`,
+        })
       };
 
       const res = await fetch(baseUrl,requestOptions);
 
       if (res.ok) {
-        const text = await res.text();
-
-        console.log("text----->", text);
+        setReferences(await res.text());
+      }else{
+        setReferences("Error loading references");
       }
     })()
   })
@@ -68,10 +49,9 @@ export default function PageReferencesModal () {
   }
 
   return (
-    <Provider theme={defaultTheme} colorScheme='light'>
+    <Provider theme={defaultTheme} colorScheme='dark'>
       <Content width="100%">
-        <Text>Your modal content</Text>
-        
+        <Text>{references}</Text>
         <Flex width="100%" justifyContent="end" alignItems="center" marginTop="size-400">
           <ButtonGroup align="end">
             <Button variant="primary" onClick={onCloseHandler}>Close</Button>
