@@ -1,0 +1,15 @@
+{
+  "alloworigin": ["http://localhost:3000", "https://localhost:9080"],
+  "allowedpaths": ["/(content|conf)/eaem-cf-page-references.*"],
+  "supportedheaders": [
+    "Authorization",
+    "Origin",
+    "Accept",
+    "X-Requested-With",
+    "Content-Type",
+    "Access-Control-Request-Method",
+    "Access-Control-Request-Headers"
+  ],
+  "supportedmethods": ["GET","HEAD"],
+  "alloworiginregexp": []
+}
