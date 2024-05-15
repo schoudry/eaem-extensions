@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="/apps/eaem-cf-page-references/components/cf-page-references">
+    <datasource
+        jcr:primaryType="nt:unstructured"
+        path="${empty requestPathInfo.suffix ? param.item : requestPathInfo.suffix}"
+        sling:resourceType="dam/gui/coral/components/datasource/assetreferencesdatasource"/>
+</jcr:root>
