@@ -1,0 +1,13 @@
+{
+  "name": "Experience AEM CF Page References",
+  "id": "experience-aem-cf-page-references",
+  "description": "Experience AEM CF Page References",
+  "version": "0.0.1",
+  "actionBarButtons": [
+    {
+      "label": "Page References",
+      "needsModal": true,
+      "id": "page-references"
+    }
+  ]
+}

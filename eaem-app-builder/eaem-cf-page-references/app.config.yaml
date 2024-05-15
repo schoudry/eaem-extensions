@@ -1,0 +1,3 @@
+extensions:
+  aem/cf-console-admin/1:
+    $include: src/aem-cf-console-admin-1/ext.config.yaml

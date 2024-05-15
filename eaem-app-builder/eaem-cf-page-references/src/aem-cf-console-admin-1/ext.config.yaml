@@ -1,0 +1,6 @@
+operations:
+  view:
+    - type: web
+      impl: index.html
+actions: actions
+web: web-src
