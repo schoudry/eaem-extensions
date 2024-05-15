@@ -1,6 +1,6 @@
 {
-  "alloworigin": ["http://localhost:3000"],
-  "allowedpaths": ["/(content|conf)/eaem-random-test.*"],
+  "alloworigin": ["http://localhost:3000", "https://localhost:9080"],
+  "allowedpaths": [".*"],
   "supportedheaders": [
     "Authorization",
     "Origin",

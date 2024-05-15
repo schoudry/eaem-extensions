@@ -42,12 +42,24 @@ export default function PageReferencesModal () {
 
       setGuestConnection(guestConnection)
 
-      console.log("----->", guestConnection.sharedContext.get('aemHost'));
+      console.log("----->", guestConnection);
 
-      /*fetch(GET_REFERENCES_URL + fragmentId)
-          .then((response) => {
-            console.log("----->", response);
-          })*/
+      const baseUrl = `https://${guestConnection.sharedContext.get('aemHost')}${GET_REFERENCES_URL}${fragmentId}`;
+
+      const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+          Authorization: `Bearer `,
+        }),
+      };
+
+      const res = await fetch(baseUrl,requestOptions);
+
+      if (res.ok) {
+        const text = await res.text();
+
+        console.log("text----->", text);
+      }
     })()
   })
 
