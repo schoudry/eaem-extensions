@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:allowedTemplates="[/conf/eaem-cf-page-references/settings/wcm/templates/(?!xf-).*]"
+        cq:conf="/conf/eaem-cf-page-references"
+        cq:redirectTarget="/content/eaem-cf-page-references/us/en"
+        cq:template="/conf/eaem-cf-page-references/settings/wcm/templates/page-content"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Experience AIO CF Page References"
+        sling:configRef="/conf/eaem-cf-page-references"
+        sling:redirect="{Boolean}true"
+        sling:redirectStatus="{Long}302"
+        sling:resourceType="eaem-cf-page-references/components/page">
+        <image jcr:primaryType="nt:unstructured">
+            <file/>
+        </image>
+    </jcr:content>
+    <us/>
+</jcr:root>

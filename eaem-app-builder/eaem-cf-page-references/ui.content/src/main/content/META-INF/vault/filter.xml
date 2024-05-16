@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-cf-page-references" mode="merge"/>
+    <filter root="/content/eaem-cf-page-references" mode="merge"/>
+    <filter root="/content/dam/eaem-cf-page-references" mode="merge">
+        <exclude pattern="/content/dam/eaem-cf-page-references(/.*)?"/>
+        <include pattern="/content/dam/eaem-cf-page-references/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/eaem-cf-page-references/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-cf-page-references" mode="merge"/>
+</workspaceFilter>

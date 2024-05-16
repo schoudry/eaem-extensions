@@ -1,6 +1,6 @@
 {
-  "alloworigin": ["http://localhost:3000", "https://localhost:9080"],
-  "allowedpaths": ["/(content|conf)/eaem-cf-page-references.*"],
+  "alloworigin": ["https://localhost:9080"],
+  "allowedpaths": ["/apps/eaem-cf-page-references.*"],
   "supportedheaders": [
     "Authorization",
     "Origin",

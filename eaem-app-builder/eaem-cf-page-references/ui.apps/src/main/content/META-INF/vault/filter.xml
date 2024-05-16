@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/eaem-cf-page-references/clientlibs"/>
     <filter root="/apps/eaem-cf-page-references/components"/>
-    <filter root="/apps/eaem-cf-page-references/i18n"/>
 </workspaceFilter>

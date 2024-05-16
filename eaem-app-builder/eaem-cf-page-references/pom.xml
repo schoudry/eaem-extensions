@@ -37,11 +37,11 @@
           
   
   
-  <name>Experience AEM AIO CF Page References</name>
+  <name>Experience AIO CF Page References</name>
           
   
   
-  <description>Experience AEM AIO CF Page References</description>
+  <description>Experience AIO CF Page References</description>
           
   
   
@@ -53,10 +53,7 @@
                     
     
     
-    <module>core</module>
-                     
-    
-    
+
     <module>ui.apps</module>
                     
     
@@ -67,6 +64,11 @@
     
     <module>ui.config</module>
                     
+    
+    
+    <module>ui.content</module>
+                    
+
   </modules>
           
   
@@ -135,7 +137,7 @@
                     
     
     
-    <componentGroupName>Experience AEM AIO CF Page References</componentGroupName>
+    <componentGroupName>Experience AIO CF Page References</componentGroupName>
                 
   
   
