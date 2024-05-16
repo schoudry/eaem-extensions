@@ -9,17 +9,13 @@
 <%@ page import="org.apache.sling.api.resource.Resource" %>
 <%@ page import="org.apache.sling.api.resource.ValueMap" %>
 <%@ page import="com.adobe.granite.ui.components.ds.SimpleDataSource" %>
+<%@ page import="org.apache.sling.api.resource.ResourceMetadata" %>
 
 <%
     response.setContentType("application/json");
 
-    SlingHttpServletRequest eaemSlingRequest = slingRequest;
-
     Resource datasource = resource.getChild("datasource");
-
     DataSource refsDS = cmp.asDataSource(datasource);
-
-    response.getWriter().println( "-----" + refsDS);
 
     JSONObject cfReferences = new JSONObject();
     ValueMap refResVM = null;
@@ -29,16 +25,11 @@
         return;
     }
 
-    Resource refResource = null;
+    ResourceMetadata refResourceMeta = null;
 
     for (Iterator<Resource> items = refsDS.iterator(); items.hasNext();) {
-        refResource = items.next();
-
-        refResVM = refResource.getValueMap();
-
-        response.getWriter().println(refResVM + "-----" + refResource);
-
-        cfReferences.put(refResource.getPath(), refResource.getPath());
+        refResourceMeta = items.next().getResourceMetadata();
+        cfReferences.put(String.valueOf(refResourceMeta.get("path")), refResourceMeta.get("title"));
     }
 
     cfReferences.write(response.getWriter());
