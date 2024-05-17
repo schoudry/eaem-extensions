@@ -16,7 +16,7 @@ import {
 import {useParams} from "react-router-dom"
 import {extensionId} from "./Constants"
 
-export default function PageReferencesModal() {
+export default function CFPageReferencesModal() {
   const GET_REFERENCES_URL = "/apps/eaem-cf-page-references/components/cf-page-references/references.html";
   const [guestConnection, setGuestConnection] = useState()
   const [references, setReferences] = useState({});
