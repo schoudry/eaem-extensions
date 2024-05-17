@@ -1,7 +1,3 @@
-/*
- * <license header>
- */
-
 import { generatePath } from "react-router";
 import { Text } from "@adobe/react-spectrum";
 import { register } from "@adobe/uix-guest";
@@ -15,7 +11,6 @@ function ExtensionRegistration() {
         actionBar: {
           getButtons() {
             return [
-              // YOUR ACTION BAR BUTTONS CODE SHOULD BE HERE
               {
                 'id': 'page-references',
                 'label': 'EAEM Page References',

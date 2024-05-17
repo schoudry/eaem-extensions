@@ -1,63 +1,89 @@
-import React, { useState, useEffect } from 'react'
-import { attach } from "@adobe/uix-guest"
-import { Flex, Provider, Content, defaultTheme, Text, ButtonGroup, Button } from '@adobe/react-spectrum'
-import { useParams } from "react-router-dom"
-import { extensionId } from "./Constants"
+import React, {useState, useEffect} from 'react'
+import {attach} from "@adobe/uix-guest"
+import {
+    Flex,
+    Provider,
+    Content,
+    defaultTheme,
+    Text,
+    Item,
+    ButtonGroup,
+    Button,
+    Dialog,
+    Heading,
+    Divider
+} from '@adobe/react-spectrum'
+import {useParams} from "react-router-dom"
+import {extensionId} from "./Constants"
 
-export default function PageReferencesModal () {
-  const GET_REFERENCES_URL = "/libs/dam/content/schemaeditors/forms/references/items/tabs/items/tab1/items/col1/items/local-references/items/references.html";
-  const [guestConnection, setGuestConnection] = useState()
-  const [references, setReferences] = useState("Loading...");
+export default function PageReferencesModal() {
+    const GET_REFERENCES_URL = "/apps/eaem-cf-page-references/components/cf-page-references/references.html";
+    const [guestConnection, setGuestConnection] = useState()
+    const [references, setReferences] = useState({});
 
-  const {fragmentId}  = useParams()
-  
-  if (!fragmentId) {
-    console.error("fragmentId parameter is missing")
-    return
-  }
+    const {fragmentId} = useParams()
 
-  useEffect(() => {
-    (async () => {
-      const guestConnection = await attach({ id: extensionId })
+    if (!fragmentId) {
+        console.error("fragmentId parameter is missing")
+        return
+    }
 
-      setGuestConnection(guestConnection)
+    useEffect(() => {
+        (async () => {
+            const guestConnection = await attach({id: extensionId})
 
-      const sharedContext = guestConnection.sharedContext,
-            auth = sharedContext.get('auth');
+            setGuestConnection(guestConnection)
 
-      const baseUrl = `https://${sharedContext.get('aemHost')}${GET_REFERENCES_URL}${fragmentId}`;
+            const sharedContext = guestConnection.sharedContext,
+                auth = sharedContext.get('auth');
 
-      const requestOptions = {
-        method: 'GET',
-        headers: new Headers({
-          'Authorization': `Bearer ${auth['imsToken']}`,
-        })
-      };
+            const baseUrl = `https://${sharedContext.get('aemHost')}${GET_REFERENCES_URL}${fragmentId}`;
 
-      const res = await fetch(baseUrl,requestOptions);
+            const requestOptions = {
+                method: 'GET',
+                headers: new Headers({
+                    'Authorization': `Bearer ${auth['imsToken']}`,
+                })
+            };
 
-      if (res.ok) {
-        setReferences(await res.text());
-      }else{
-        setReferences("Error loading references");
-      }
-    })()
-  })
+            const res = await fetch(baseUrl, requestOptions);
 
-  const onCloseHandler = () => {
-    guestConnection.host.modal.close()
-  }
+            if (res.ok) {
+                setReferences(await res.json());
+            } else {
+                setReferences("Error loading references");
+            }
+        })()
+    })
 
-  return (
-    <Provider theme={defaultTheme} colorScheme='dark'>
-      <Content width="100%">
-        <Text>{references}</Text>
-        <Flex width="100%" justifyContent="end" alignItems="center" marginTop="size-400">
-          <ButtonGroup align="end">
-            <Button variant="primary" onClick={onCloseHandler}>Close</Button>
-          </ButtonGroup>
-        </Flex>
-      </Content>
-    </Provider>
-  )
+    const onCloseHandler = () => {
+        guestConnection.host.modal.close()
+    }
+
+    return (
+        <Provider theme={defaultTheme} colorScheme='dark'>
+            <Content>
+                {
+                    Object.entries(references).map(([path, title]) => {
+                        return <div>
+                            <Text>
+                                <div>{title}</div>
+                                <div>
+                                    <a target="_blank" href="/bin/wcmcommand?cmd=open&path=${path}">
+                                        {path}
+                                    </a>
+                                </div>
+                            </Text>
+                            <Divider size="S" />
+                        </div>
+                    })
+                }
+                <Flex width="100%" justifyContent="end" alignItems="center" marginTop="size-400">
+                    <ButtonGroup align="end">
+                        <Button variant="primary" onClick={onCloseHandler}>Close</Button>
+                    </ButtonGroup>
+                </Flex>
+            </Content>
+        </Provider>
+    )
 }
