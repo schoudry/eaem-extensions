@@ -63,21 +63,20 @@ export default function PageReferencesModal() {
     return (
         <Provider theme={defaultTheme} colorScheme='dark'>
             <Content>
-                {
-                    Object.entries(references).map(([path, title]) => {
-                        return <div>
-                            <Text>
-                                <div>{title}</div>
-                                <div>
-                                    <a target="_blank" href="/bin/wcmcommand?cmd=open&path=${path}">
-                                        {path}
-                                    </a>
-                                </div>
-                            </Text>
-                            <Divider size="S" />
-                        </div>
-                    })
-                }
+                <Flex direction="column" gap="size-125">
+                    {
+                        Object.entries(references).map(([path, title]) => {
+                            return <Text>
+                                        <div>{title}</div>
+                                        <div>
+                                            <a target="_blank" href="/bin/wcmcommand?cmd=open&path=${path}">
+                                                {path}
+                                            </a>
+                                        </div>
+                                    </Text>
+                        })
+                    }
+                </Flex>
                 <Flex width="100%" justifyContent="end" alignItems="center" marginTop="size-400">
                     <ButtonGroup align="end">
                         <Button variant="primary" onClick={onCloseHandler}>Close</Button>
