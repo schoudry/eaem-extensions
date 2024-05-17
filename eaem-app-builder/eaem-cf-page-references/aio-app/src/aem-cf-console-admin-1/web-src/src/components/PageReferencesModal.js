@@ -50,9 +50,7 @@ export default function PageReferencesModal() {
 
             if (res.ok) {
                 setReferences(await res.json());
-            } else {
-                setReferences("Error loading references");
-            }
+            } 
         })()
     })
 
@@ -69,7 +67,7 @@ export default function PageReferencesModal() {
                             return <Text>
                                         <div>{title}</div>
                                         <div>
-                                            <a target="_blank" href="/bin/wcmcommand?cmd=open&path=${path}">
+                                            <a target="_blank" href={`https://${guestConnection.sharedContext.get('aemHost')}/bin/wcmcommand?cmd=open&path=${path}`}>
                                                 {path}
                                             </a>
                                         </div>
