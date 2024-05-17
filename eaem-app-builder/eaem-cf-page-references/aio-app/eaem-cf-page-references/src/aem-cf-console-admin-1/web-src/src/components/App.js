@@ -6,7 +6,7 @@ import React from "react";
 import ErrorBoundary from "react-error-boundary";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ExtensionRegistration from "./ExtensionRegistration";
-import PageReferencesModal from "./PageReferencesModal";
+import CFPageReferencesModal from "./CFPageReferencesModal";
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
             element={<ExtensionRegistration />} 
           />
           <Route
-            exact path="content-fragment/:fragmentId/page-references-modal"
-            element={<PageReferencesModal />}
+            exact path="content-fragment/:fragmentId/cf-page-references-modal"
+            element={<CFPageReferencesModal />}
           />
           // YOUR CUSTOM ROUTES SHOULD BE HERE
         </Routes>

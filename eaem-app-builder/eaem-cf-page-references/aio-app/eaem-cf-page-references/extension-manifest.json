@@ -5,9 +5,9 @@
   "version": "0.0.1",
   "actionBarButtons": [
     {
-      "label": "Page References",
+      "label": "CF Page References",
       "needsModal": true,
-      "id": "page-references"
+      "id": "cf-page-references"
     }
   ]
 }

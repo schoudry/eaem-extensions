@@ -13,15 +13,15 @@ function ExtensionRegistration() {
             return [
               {
                 'id': 'page-references',
-                'label': 'EAEM Page References',
+                'label': 'EAEM CF References',
                 'icon': 'LinkPage',
                 onClick(selections) {
-                  const modalURL = "/index.html#" + generatePath("/content-fragment/:fragmentId/page-references-modal", {
+                  const modalURL = "/index.html#" + generatePath("/content-fragment/:fragmentId/cf-page-references-modal", {
                     fragmentId: encodeURIComponent(selections[0].id),
                   });
 
                   guestConnection.host.modal.showUrl({
-                    title: "EAEM Page References",
+                    title: "Experience AEM CF References",
                     url: modalURL,
                   });
                 },
