@@ -22,7 +22,6 @@ function App() {
             exact path="content-fragment/:fragmentId/cf-page-references-modal"
             element={<CFPageReferencesModal />}
           />
-          // YOUR CUSTOM ROUTES SHOULD BE HERE
         </Routes>
       </ErrorBoundary>
     </Router>
