@@ -1,17 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import {attach} from "@adobe/uix-guest"
 import {
+  defaultTheme,
   Flex,
   Provider,
   Content,
-  defaultTheme,
   Text,
-  Item,
   ButtonGroup,
   Button,
-  Dialog,
-  Heading,
-  Divider
 } from '@adobe/react-spectrum'
 import {useParams} from "react-router-dom"
 import {extensionId} from "./Constants"
@@ -59,7 +55,7 @@ export default function CFPageReferencesModal() {
   }
 
   return (
-      <Provider theme={defaultTheme} colorScheme='dark'>
+      <Provider theme={defaultTheme}>
         <Content>
           <Flex direction="column" gap="size-125">
             {
