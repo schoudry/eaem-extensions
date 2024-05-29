@@ -1,24 +1,20 @@
 package apps.experienceaem.assets.core.filters;
 
+import com.adobe.granite.asset.api.AssetManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.sling.api.resource.NonExistingResource;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.http.whiteboard.HttpWhiteboardConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHITEBOARD_FILTER_SERVLET;
@@ -41,15 +37,12 @@ public class AssetsUIRenameFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         try {
             ResourceResolver resolver = (ResourceResolver)httpRequest.getAttribute("org.apache.sling.auth.core.ResourceResolver");
             String requestURI = httpRequest.getRequestURI();
 
             Map<String, String> pathParams = getPathParameters(getPathParameterString(httpRequest).split(";"));
-
-            log.info("1-----pathParams------------>{}", pathParams);
 
             if(!RESOURCE_METADATA_REPOSITORY_ASSET.equals(pathParams.get("resource"))){
                 chain.doFilter(request, response);
@@ -61,8 +54,6 @@ public class AssetsUIRenameFilter implements Filter {
 
             Resource resource = resolver.getResource(resourcePath);
 
-            log.info("2----------------->{}----{}", resourcePath, resource);
-
             if( resource == null ){
                 chain.doFilter(request, response);
                 return;
@@ -71,8 +62,6 @@ public class AssetsUIRenameFilter implements Filter {
             ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
 
             String payload = IOUtils.toString(wrappedRequest.getReader());
-
-            log.info("stream----------------->{}", payload);
 
             if( (payload == null) || !payload.startsWith("[")){
                 wrappedRequest.resetInputStream();
@@ -101,7 +90,11 @@ public class AssetsUIRenameFilter implements Filter {
             chain.doFilter(wrappedRequest, response);
 
             if(assetName != null){
-                log.info("assetName----------------->{}", assetName);
+                AssetManager assetManager = resolver.adaptTo(AssetManager.class);
+                String destPath = resource.getParent().getPath() + "/" + assetName;
+
+                assetManager.moveAsset(resource.getPath(), destPath);
+                resolver.commit();
             }
         } catch (Exception e) {
             log.error("Error renaming resource : " + httpRequest.getRequestURI());
