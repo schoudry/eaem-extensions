@@ -20,7 +20,7 @@ import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHIT
 @Component(
     service = Filter.class,
     immediate = true,
-    property = {"service.description=Filter for Repository API bundle to capture metrics", "osgi.http.whiteboard.filter.servlet=com.adobe.aem.repoapi.RepoApiServlet", "osgi.http.whiteboard.context.select=(osgi.http.whiteboard.context.name=com.adobe.aem.adobeapi)"}
+    property = {"service.description=Filter for Repository API bundle to capture metrics", "osgi.http.whiteboard.filter.servlet=com.adobe.aem.repoapi.RepoApiServlet", "osgi.http.whiteboard.context.select=(osgi.http.whiteboard.context.name=*)"}
 )
 public class AssetsUIRenameFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(AssetsUIRenameFilter.class);
