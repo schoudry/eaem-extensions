@@ -1,5 +1,8 @@
 package apps.experienceaem.assets.core.filters;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.NonExistingResource;
 import org.apache.sling.api.resource.Resource;
@@ -71,9 +74,35 @@ public class AssetsUIRenameFilter implements Filter {
 
             log.info("stream----------------->{}", payload);
 
-            wrappedRequest.resetInputStream();
+            if( (payload == null) || !payload.startsWith("[")){
+                wrappedRequest.resetInputStream();
+                chain.doFilter(wrappedRequest, response);
+                return;
+            }
 
+            Gson gson = new Gson();
+            JsonArray payloadJson = gson.fromJson(payload, JsonArray.class);
+
+            if(payloadJson.isEmpty()){
+                wrappedRequest.resetInputStream();
+                chain.doFilter(wrappedRequest, response);
+                return;
+            }
+
+            JsonObject payloadObject = payloadJson.get(0).getAsJsonObject();
+            String assetName = null;
+
+            if(payloadObject.get("op").getAsString().equals("add")
+                && payloadObject.get("path").getAsString().equals("/dc:title")){
+                assetName = payloadObject.get("value").getAsString();
+            }
+
+            wrappedRequest.resetInputStream();
             chain.doFilter(wrappedRequest, response);
+
+            if(assetName != null){
+                log.info("assetName----------------->{}", assetName);
+            }
         } catch (Exception e) {
             log.error("Error renaming resource : " + httpRequest.getRequestURI());
         }
@@ -132,11 +161,9 @@ public class AssetsUIRenameFilter implements Filter {
 
             @Override
             public void setReadListener(ReadListener readListener) {
-
             }
         }
     }
-
 
     private String getPathParameterString(HttpServletRequest request) {
         String requestUri = request.getRequestURI();
