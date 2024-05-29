@@ -1,5 +1,6 @@
 package apps.experienceaem.assets.core.filters;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.NonExistingResource;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -11,8 +12,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHITEBOARD_FILTER_SERVLET;
@@ -57,16 +60,83 @@ public class AssetsUIRenameFilter implements Filter {
 
             log.info("2----------------->{}----{}", resourcePath, resource);
 
-            if( (resource != null) && !(resource instanceof NonExistingResource)){
+            if( resource == null ){
                 chain.doFilter(request, response);
                 return;
             }
 
-            chain.doFilter(request, response);
+            ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
+
+            String payload = IOUtils.toString(wrappedRequest.getReader());
+
+            log.info("stream----------------->{}", payload);
+
+            wrappedRequest.resetInputStream();
+
+            chain.doFilter(wrappedRequest, response);
         } catch (Exception e) {
             log.error("Error renaming resource : " + httpRequest.getRequestURI());
         }
     }
+
+    private static class ResettableStreamHttpServletRequest extends HttpServletRequestWrapper {
+        private byte[] rawData;
+        private HttpServletRequest request;
+        private ResettableServletInputStream servletStream;
+
+        public ResettableStreamHttpServletRequest(HttpServletRequest request) {
+            super(request);
+            this.request = request;
+            this.servletStream = new ResettableServletInputStream();
+        }
+
+        public void resetInputStream() {
+            servletStream.stream = new ByteArrayInputStream(rawData);
+        }
+
+        @Override
+        public ServletInputStream getInputStream() throws IOException {
+            if (rawData == null) {
+                rawData = IOUtils.toByteArray(this.request.getReader());
+                servletStream.stream = new ByteArrayInputStream(rawData);
+            }
+            return servletStream;
+        }
+
+        @Override
+        public BufferedReader getReader() throws IOException {
+            if (rawData == null) {
+                rawData = IOUtils.toByteArray(this.request.getReader());
+                servletStream.stream = new ByteArrayInputStream(rawData);
+            }
+            return new BufferedReader(new InputStreamReader(servletStream));
+        }
+
+        private class ResettableServletInputStream extends ServletInputStream {
+            private InputStream stream;
+
+            @Override
+            public int read() throws IOException {
+                return stream.read();
+            }
+
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+
+            @Override
+            public boolean isReady() {
+                return false;
+            }
+
+            @Override
+            public void setReadListener(ReadListener readListener) {
+
+            }
+        }
+    }
+
 
     private String getPathParameterString(HttpServletRequest request) {
         String requestUri = request.getRequestURI();
