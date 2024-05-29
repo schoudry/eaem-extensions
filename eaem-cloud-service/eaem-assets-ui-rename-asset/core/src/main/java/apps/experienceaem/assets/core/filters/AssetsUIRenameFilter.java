@@ -13,7 +13,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.*;
 
 import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHITEBOARD_FILTER_SERVLET;
@@ -21,12 +20,7 @@ import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHIT
 @Component(
     service = Filter.class,
     immediate = true,
-    property = {
-        Constants.SERVICE_RANKING + ":Integer=-99",
-        HTTP_WHITEBOARD_FILTER_SERVLET + "=" + "com.adobe.aem.repoapi.RepoApiServlet",
-        HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_SELECT + "=("
-            + HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_NAME + "=" + "com.adobe.aem.adobeapi"+ ")"
-    }
+    property = {"service.description=Filter for Repository API bundle to capture metrics", "osgi.http.whiteboard.filter.servlet=com.adobe.aem.repoapi.RepoApiServlet", "osgi.http.whiteboard.context.select=(osgi.http.whiteboard.context.name=com.adobe.aem.adobeapi)"}
 )
 public class AssetsUIRenameFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(AssetsUIRenameFilter.class);
@@ -49,6 +43,8 @@ public class AssetsUIRenameFilter implements Filter {
 
             Map<String, String> pathParams = getPathParameters(getPathParameterString(httpRequest).split(";"));
 
+            log.info("1-----pathParams------------>{}", pathParams);
+
             if(!RESOURCE_METADATA_REPOSITORY_ASSET.equals(pathParams.get("resource"))){
                 chain.doFilter(request, response);
                 return;
@@ -59,7 +55,7 @@ public class AssetsUIRenameFilter implements Filter {
 
             Resource resource = resolver.getResource(resourcePath);
 
-            log.info("----------------->{}----{}", resourcePath, resource);
+            log.info("2----------------->{}----{}", resourcePath, resource);
 
             if( (resource != null) && !(resource instanceof NonExistingResource)){
                 chain.doFilter(request, response);
