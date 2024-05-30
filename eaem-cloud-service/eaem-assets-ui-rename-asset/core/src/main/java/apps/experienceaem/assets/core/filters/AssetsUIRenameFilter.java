@@ -7,7 +7,9 @@ import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.http.whiteboard.HttpWhiteboardConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +24,18 @@ import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants.HTTP_WHIT
 @Component(
     service = Filter.class,
     immediate = true,
-    property = {"service.description=Filter for Repository API bundle to capture metrics", "osgi.http.whiteboard.filter.servlet=com.adobe.aem.repoapi.RepoApiServlet", "osgi.http.whiteboard.context.select=(osgi.http.whiteboard.context.name=*)"}
+    property = {
+        Constants.SERVICE_RANKING + ":Integer=-99",
+        HTTP_WHITEBOARD_FILTER_SERVLET + "=" + "com.adobe.aem.repoapi.RepoApiServlet",
+        HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_SELECT + "=("
+            + HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_PATH + "=" + "/adobe)"
+    }
 )
 public class AssetsUIRenameFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(AssetsUIRenameFilter.class);
 
     private static final String ADOBE_REPO = "/adobe/repository";
     private static final String RESOURCE_METADATA_REPOSITORY_ASSET = "assetmetadata";
-    private static final String DELIMITER_BODY_PARAMETER = "&";
-    private static final String DELIMITER_PATH_PARAMETER = ";";
     private static final String DELIMITER_NAME_VALUE = "=";
 
     @Override
@@ -59,12 +64,11 @@ public class AssetsUIRenameFilter implements Filter {
                 return;
             }
 
-            ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
+            MultiuseStreamHttpServletRequest wrappedRequest = new MultiuseStreamHttpServletRequest(httpRequest);
 
             String payload = IOUtils.toString(wrappedRequest.getReader());
 
             if( (payload == null) || !payload.startsWith("[")){
-                wrappedRequest.resetInputStream();
                 chain.doFilter(wrappedRequest, response);
                 return;
             }
@@ -73,7 +77,6 @@ public class AssetsUIRenameFilter implements Filter {
             JsonArray payloadJson = gson.fromJson(payload, JsonArray.class);
 
             if(payloadJson.isEmpty()){
-                wrappedRequest.resetInputStream();
                 chain.doFilter(wrappedRequest, response);
                 return;
             }
@@ -86,7 +89,6 @@ public class AssetsUIRenameFilter implements Filter {
                 assetName = payloadObject.get("value").getAsString();
             }
 
-            wrappedRequest.resetInputStream();
             chain.doFilter(wrappedRequest, response);
 
             if(assetName != null){
@@ -101,40 +103,40 @@ public class AssetsUIRenameFilter implements Filter {
         }
     }
 
-    private static class ResettableStreamHttpServletRequest extends HttpServletRequestWrapper {
-        private byte[] rawData;
+    private static class MultiuseStreamHttpServletRequest extends HttpServletRequestWrapper {
+        private byte[] requestData;
         private HttpServletRequest request;
-        private ResettableServletInputStream servletStream;
+        private MultiuseServletInputStream servletStream;
 
-        public ResettableStreamHttpServletRequest(HttpServletRequest request) {
+        public MultiuseStreamHttpServletRequest(HttpServletRequest request) {
             super(request);
             this.request = request;
-            this.servletStream = new ResettableServletInputStream();
-        }
-
-        public void resetInputStream() {
-            servletStream.stream = new ByteArrayInputStream(rawData);
+            this.servletStream = new MultiuseServletInputStream();
         }
 
         @Override
         public ServletInputStream getInputStream() throws IOException {
-            if (rawData == null) {
-                rawData = IOUtils.toByteArray(this.request.getReader());
-                servletStream.stream = new ByteArrayInputStream(rawData);
+            if (requestData == null) {
+                requestData = IOUtils.toByteArray(this.request.getReader());
             }
+
+            servletStream.stream = new ByteArrayInputStream(requestData);
+
             return servletStream;
         }
 
         @Override
         public BufferedReader getReader() throws IOException {
-            if (rawData == null) {
-                rawData = IOUtils.toByteArray(this.request.getReader());
-                servletStream.stream = new ByteArrayInputStream(rawData);
+            if (requestData == null) {
+                requestData = IOUtils.toByteArray(this.request.getReader());
             }
+
+            servletStream.stream = new ByteArrayInputStream(requestData);
+
             return new BufferedReader(new InputStreamReader(servletStream));
         }
 
-        private class ResettableServletInputStream extends ServletInputStream {
+        private class MultiuseServletInputStream extends ServletInputStream {
             private InputStream stream;
 
             @Override
@@ -172,8 +174,7 @@ public class AssetsUIRenameFilter implements Filter {
                 String name = nameValue[0];
                 if (!name.equals("")) {
                     parameterValuePairs.add(new String[] {
-                        name,
-                        (nameValue.length == 2) ? nameValue[1] : ((nameValue.length == 3) ? nameValue[1]+DELIMITER_NAME_VALUE+nameValue[2] : "")
+                        name, (nameValue.length == 2) ? nameValue[1] : ((nameValue.length == 3) ? nameValue[1] + DELIMITER_NAME_VALUE+nameValue[2] : "")
                     });
                 }
             }
