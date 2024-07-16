@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "aem-guides-wknd.core:target-metadata-change-listener=[repository-change-listener-service,content-reader-service,content-writer-service]"
+  ]
+}

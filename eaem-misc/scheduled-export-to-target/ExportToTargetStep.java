@@ -57,7 +57,7 @@ public class ExportToTargetStep implements WorkflowProcess {
 
             slingRequestProcessor.processRequest(request, response, resolver);
 
-            log.info("Exporting XF path - {}, response - {}", xfPath, response);
+            log.info("Exporting XF path - {}, response - {}", xfPath, bos.toString("UTF-8"));
         } catch (Exception e) {
             log.error("Error occured while exporting to Target - " + xfPath, e);
         }
