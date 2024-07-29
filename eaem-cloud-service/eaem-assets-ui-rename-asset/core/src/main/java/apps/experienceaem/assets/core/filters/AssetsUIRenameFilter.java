@@ -89,11 +89,17 @@ public class AssetsUIRenameFilter implements Filter {
                 assetName = payloadObject.get("value").getAsString();
             }
 
+            String destPath = resource.getParent().getPath() + "/" + assetName;
+
+            if(resolver.getResource(destPath) != null){
+                log.info("Asset with same name exists, skipping rename {} ", destPath);
+                return;
+            }
+
             chain.doFilter(wrappedRequest, response);
 
             if(assetName != null){
                 AssetManager assetManager = resolver.adaptTo(AssetManager.class);
-                String destPath = resource.getParent().getPath() + "/" + assetName;
 
                 assetManager.moveAsset(resource.getPath(), destPath);
                 resolver.commit();
