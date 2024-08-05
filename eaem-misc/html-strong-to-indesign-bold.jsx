@@ -1,3 +1,4 @@
+
 function createPageItem(spread) {
     var rect = spread.textFrames.add();
 
