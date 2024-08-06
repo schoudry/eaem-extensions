@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          jcr:primaryType="sling:OsgiConfig"
+          queue.maxparallel="{Long}1"
+          queue.name="Experience AEM InDesign Server Processing Queue"
+          queue.priority="MIN"
+          queue.retries="{Long}0"
+          queue.retrydelay="{Long}60000"
+          queue.topics="com/eaem/ids"
+          queue.type="ORDERED"/>

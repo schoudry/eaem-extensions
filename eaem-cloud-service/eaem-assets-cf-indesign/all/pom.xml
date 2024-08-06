@@ -67,12 +67,6 @@
                         </embedded>
                         <embedded>
                             <groupId>apps.experienceaem.assets</groupId>
-                            <artifactId>eaem-assets-cf-indesign.ui.content</artifactId>
-                            <type>zip</type>
-                            <target>/apps/eaem-assets-cf-indesign-packages/content/install</target>
-                        </embedded>
-                        <embedded>
-                            <groupId>apps.experienceaem.assets</groupId>
                             <artifactId>eaem-assets-cf-indesign.ui.config</artifactId>
                             <type>zip</type>
                             <target>/apps/eaem-assets-cf-indesign-packages/application/install</target>
@@ -181,12 +175,6 @@
         <dependency>
             <groupId>apps.experienceaem.assets</groupId>
             <artifactId>eaem-assets-cf-indesign.ui.apps</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>apps.experienceaem.assets</groupId>
-            <artifactId>eaem-assets-cf-indesign.ui.content</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
