@@ -1,24 +1,69 @@
-(function () {
-    var returnObj = {}, aemHost, base64EncodedAEMCreds, resourcePath, document,
-        aemUploadPath, contentJson;
+﻿(function () {
+    var returnObj = {}, aemHost, base64EncodedAEMCreds, cfPath, contentJson;
 
     function createInDesignDoc() {
+        cfPath = contentJson.path;
+
         var sourceFolder = getSourceFolder(),
-            fileName = resourcePath.substring(resourcePath.lastIndexOf ('/') + 1),
-            xmlFile = new File( sourceFolder.fullName + "/" + fileName + ".xml"),
-            sourceFile = new File(sourceFolder.fullName + "/" + fileName);
+            fileName = cfPath.substring(cfPath.lastIndexOf ('/') + 1),
+            documentPath = new File(sourceFolder.fullName + "/" + fileName + '.indd'),
+            pdfOutputFile = new File(sourceFolder.fullName + "/" + fileName + '.pdf');
 
-        app.consoleout('Fetching resource from AEM: ' + aemHost + resourcePath + ' to ' + sourceFile);
+        var document = app.documents.add();
 
-        fetchResource (aemHost,  base64EncodedAEMCreds, resourcePath, sourceFile);
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
+        app.changeGrepPreferences.changeTo = "$3";
 
-        var pdfOutputFile = new File(sourceFolder.fullName + "/" + fileName + '.pdf');
+        for(var eleName in contentJson){
+            if(eleName == "path"){
+                continue;
+            }
 
-        app.consoleout('Started PDF export - ' + pdfOutputFile);
+            var spread = document.spreads.lastItem();
+            var textFrame = createTextFrame(spread);
+            textFrame.contents = contentJson[eleName];
 
-        app.consoleout('contentJson - ' + contentJson);
+            var tfFont = "Calibri";
+            textFrame.parentStory.appliedFont = tfFont;
+
+            app.changeGrepPreferences.appliedCharacterStyle = getBoldStyle(document, tfFont);
+
+            app.findGrepPreferences.findWhat = "(<strong(\\s.*)?>)(.+?)(</strong(\\s.*)?>)";
+            textFrame.changeGrep();
+
+            app.findGrepPreferences.findWhat = "(<b(\\s.*)?>)(.+?)(</b(\\s.*)?>)";
+            textFrame.changeGrep();
+        }
+
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
+
+        document.exportFile(ExportFormat.pdfType, pdfOutputFile);
+        document.save(documentPath);
 
         returnObj.success = "completed";
+    }
+
+    function getBoldStyle(document, font) {
+        var boldCharacterStyle = document.characterStyles.add();
+
+        boldCharacterStyle.appliedFont = font;
+        boldCharacterStyle.fontStyle = "Bold";
+        //boldCharacterStyle.pointSize = 28;
+
+        return boldCharacterStyle;
+    }
+
+    function createTextFrame(spread) {
+        var textFrame = spread.textFrames.add();
+
+        var y1 = 10; // upper left  Y-Coordinate
+        var x1 = 10; // upper left  X-Coordinate
+        var y2 = 50; // lower right Y-Coordinate
+        var x2 = 40; // lower right X-Coordinate
+
+        textFrame.geometricBounds = [y1, x1, y2, x2];
+
+        return textFrame;
     }
 
     function getSourceFolder(){
@@ -56,20 +101,22 @@
         app.consoleout('aemHost --- ' + aemHost);
     }
 
-    try{
-        setParamsFromScriptArgs();
+    function setTestParams(){
+        aemHost = "localhost:4502";
+        contentJson = {"rteText":"This is <b>bold</b>","path":"/content/dam/experience-aem/bold"}
+    }
 
-        //setTestParams();
+    try{
+        //setParamsFromScriptArgs();
+
+        setTestParams();
 
         createInDesignDoc();
     }catch(err){
         returnObj.error = err;
-        app.consoleout("Error processing document : " + resourcePath + ", error : " + err);
+        //app.consoleout("Error processing content fragment : " + cfPath + ", error : " + err);
     }finally{
-        if(document){
-            document.close(SaveOptions.no);
-        }
     }
 
-    return JSON.stringify(returnObj);
+    //return JSON.stringify(returnObj);
 }());
