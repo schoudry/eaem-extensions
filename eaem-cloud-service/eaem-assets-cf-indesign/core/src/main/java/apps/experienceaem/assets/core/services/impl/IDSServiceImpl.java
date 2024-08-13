@@ -47,10 +47,6 @@ public class IDSServiceImpl implements IDSService{
     private String inDesignServerUrl = "";
     private String base64EncodedAEMCreds = "";
     private String aemHost = "";
-    private String s3BucketName = "";
-    private String s3AccessKey = "";
-    private String s3SecretKey = "";
-    private String s3Region = "";
 
     @Reference
     private transient HttpClientBuilderFactory httpClientBuilderFactory;
