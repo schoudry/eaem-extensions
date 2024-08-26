@@ -1337,9 +1337,6 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
 
         var document = app.open(documentFile);
 
-        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences.changeTo = "$3";
-
         for(var eleName in contentJson){
             if(eleName == "path"){
                 continue;
@@ -1347,21 +1344,18 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
 
             var firstPage = document.pages[0];
             var firstTextFrame = firstPage.textFrames[0];
+
             firstTextFrame.contents = contentJson[eleName];
 
-            var tfFont = "Calibri";
-            firstTextFrame.parentStory.appliedFont = tfFont;
+            replaceBoldTags(firstTextFrame);
 
-            app.changeGrepPreferences.appliedCharacterStyle = getBoldStyle(document, tfFont);
+            replaceParagraphTags(firstTextFrame, "<p>&nbsp;</p>");
+            replaceParagraphTags(firstTextFrame, "<p>");
+            replaceParagraphTags(firstTextFrame, "</p>");
 
-            app.findGrepPreferences.findWhat = "(<strong(\\s.*)?>)(.+?)(</strong(\\s.*)?>)";
-            firstTextFrame.changeGrep();
-
-            app.findGrepPreferences.findWhat = "(<b(\\s.*)?>)(.+?)(</b(\\s.*)?>)";
-            firstTextFrame.changeGrep();
+            changeNbsp(firstTextFrame);
         }
 
-        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
 
         document.save();
 
@@ -1377,6 +1371,48 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
         //uploadDAMFile(aemHost, base64EncodedAEMCreds, documentFile, documentFile.name, 'application/indd', uploadPath);
 
         returnObj.success = "completed";
+    }
+
+    function replaceBoldTags(textFrame){
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
+        app.changeGrepPreferences.changeTo = "$3";
+
+        var tfFont = "Calibri";
+        textFrame.parentStory.appliedFont = tfFont;
+
+        app.changeGrepPreferences.appliedCharacterStyle = getBoldStyle(document, tfFont);
+
+        app.findGrepPreferences.findWhat = "(<strong(\\s.*)?>)(.+?)(</strong(\\s.*)?>)";
+        textFrame.changeGrep();
+
+        app.findGrepPreferences.findWhat = "(<b(\\s.*)?>)(.+?)(</b(\\s.*)?>)";
+        textFrame.changeGrep();
+
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
+    }
+
+    function changeNbsp(textFrame){
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.NOTHING;
+        app.changeGrepPreferences.changeTo = " ";
+
+        app.findGrepPreferences.findWhat = "&nbsp;";
+        textFrame.changeGrep();
+
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
+    }
+
+    function replaceParagraphTags(textFrame, findSeq){
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.NOTHING;
+        app.findGrepPreferences.findWhat = findSeq;
+
+        var texts = textFrame.findGrep();
+
+        for (var i = 0; i < texts.length; i++) {
+            var text = texts[i];
+            text.remove();
+        }
+
+        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.NOTHING;
     }
 
     function getBoldStyle(document, font) {
@@ -1563,9 +1599,9 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
         createInDesignDoc();
     }catch(err){
         returnObj.error = err;
-        $.writeln("Error processing content fragment : " + cfPath + ", error : " + err);
+        $.writeln(err);
     }finally{
     }
 
-    return JSON.stringify(returnObj);
+    //return JSON.stringify(returnObj);
 }());
