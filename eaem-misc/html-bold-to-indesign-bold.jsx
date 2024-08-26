@@ -1349,8 +1349,6 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
             var firstTextFrame = firstPage.textFrames[0];
             firstTextFrame.contents = contentJson[eleName];
 
-            firstTextFrame.textColumns.everyItem().fillColor = "black";
-
             var tfFont = "Calibri";
             firstTextFrame.parentStory.appliedFont = tfFont;
 
@@ -1365,10 +1363,11 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
 
         app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
 
-        document.exportFile(ExportFormat.pdfType, pdfOutputFile);
         document.save();
 
-        //document.close();
+        document.exportFile(ExportFormat.pdfType, pdfOutputFile);
+
+        //document.close(SaveOptions.no);
 
         var uploadPath = cfPath.substring(0, cfPath.lastIndexOf("/"));
 
