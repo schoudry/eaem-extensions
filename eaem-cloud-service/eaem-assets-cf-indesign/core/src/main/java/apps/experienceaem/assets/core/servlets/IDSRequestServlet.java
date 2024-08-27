@@ -48,6 +48,7 @@ public class IDSRequestServlet extends SlingAllMethodsServlet {
     public static final String CONTENT_JSON = "contentJson";
     public static final String INDESIGN_SERVER_TOPIC = "com/eaem/ids";
     public static final String MASTER_VARIATION = "master";
+    public static final String ELE_NAME_PARAM = "eleName";
     public static final String P_TAG = "<p>";
     public static final String P_END_TAG = "</p>";
 
@@ -74,12 +75,14 @@ public class IDSRequestServlet extends SlingAllMethodsServlet {
                 writer.endObject();
             }
 
+            String eleName = req.getParameter(ELE_NAME_PARAM);
+
             ResourceResolver resolver = resolverFactory.getServiceResourceResolver(INDESIGN_AUTH_INFO);
             Session session = resolver.adaptTo(Session.class);
 
             HashMap<String, Object> jobProps = new HashMap<String, Object>();
             String cfPath = req.getRequestPathInfo().getResourcePath();
-            String valuesJSON = getValuesFromCFAsJSON(resolver, cfPath);
+            String valuesJSON = getValuesFromCFAsJSON(resolver, cfPath, eleName);
 
             if(StringUtils.isEmpty(valuesJSON)){
                 writer.key("error").value("No content fragment - " + cfPath);
@@ -100,7 +103,7 @@ public class IDSRequestServlet extends SlingAllMethodsServlet {
         }
     }
 
-    private String getValuesFromCFAsJSON(ResourceResolver resolver, String cfPath){
+    private String getValuesFromCFAsJSON(ResourceResolver resolver, String cfPath, String eleName){
         Resource cfResource = resolver.getResource(cfPath);
 
         if(cfResource == null){
@@ -117,6 +120,10 @@ public class IDSRequestServlet extends SlingAllMethodsServlet {
             ContentElement cfElement = cfElementsItr.next();
 
             if (cfElement == null) {
+                continue;
+            }
+
+            if(!StringUtils.isEmpty(eleName) && !eleName.equalsIgnoreCase(cfElement.getName())){
                 continue;
             }
 

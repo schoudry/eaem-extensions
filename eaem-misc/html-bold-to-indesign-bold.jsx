@@ -1349,11 +1349,7 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
 
             replaceBoldTags(firstTextFrame);
 
-            replaceParagraphTags(firstTextFrame, "<p>&nbsp;</p>");
-            replaceParagraphTags(firstTextFrame, "<p>");
-            replaceParagraphTags(firstTextFrame, "</p>");
-
-            changeNbsp(firstTextFrame);
+            replaceParaStyles(firstTextFrame);
         }
 
 
@@ -1391,17 +1387,25 @@ function downloadInaccessibleAEMLinks(document, sourceFolder, host, credentials)
         app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
     }
 
-    function changeNbsp(textFrame){
+    function replaceParaStyles(textFrame){
         app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.NOTHING;
         app.changeGrepPreferences.changeTo = " ";
 
         app.findGrepPreferences.findWhat = "&nbsp;";
         textFrame.changeGrep();
 
+        app.changeGrepPreferences.changeTo = "";
+
+        app.findGrepPreferences.findWhat = "<p>";
+        textFrame.changeGrep();
+
+        app.findGrepPreferences.findWhat = "</p>";
+        textFrame.changeGrep();
+
         app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
     }
 
-    function replaceParagraphTags(textFrame, findSeq){
+    function removeTextSequences(textFrame, findSeq){
         app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.NOTHING;
         app.findGrepPreferences.findWhat = findSeq;
 

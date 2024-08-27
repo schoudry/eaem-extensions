@@ -202,7 +202,7 @@ public class IDSServiceImpl implements IDSService{
         String[] inDesignServerScripts() default {
                 "/libs/settings/dam/indesign/scripts/json2.jsx/jcr:content",
                 "/libs/settings/dam/indesign/scripts/cq-lib.jsx/jcr:content",
-                "/apps/eaem-assets-cf-indesign/indesign/scripts/create-indesign-doc.jsx/jcr:content"
+                "/apps/eaem-assets-cf-indesign/indesign/scripts/j-create-indesign-doc.jsx/jcr:content"
         };
 
         @AttributeDefinition(
