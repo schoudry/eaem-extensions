@@ -108,6 +108,14 @@
     <dependencies>
         <dependency>
             <groupId>apps.experienceaem</groupId>
+            <artifactId>eaem-unified-shell-logo.core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>apps.experienceaem</groupId>
             <artifactId>eaem-unified-shell-logo.ui.apps.structure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>

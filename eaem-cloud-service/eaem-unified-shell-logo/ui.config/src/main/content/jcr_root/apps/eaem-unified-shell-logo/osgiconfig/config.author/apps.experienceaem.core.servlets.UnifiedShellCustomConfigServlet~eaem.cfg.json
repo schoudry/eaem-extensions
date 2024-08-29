@@ -1,0 +1,3 @@
+{
+  "usConfigJson": "$[env:EAEM_US_CONFIG_JSON]"
+}

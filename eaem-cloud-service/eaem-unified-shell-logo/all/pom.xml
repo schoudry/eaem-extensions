@@ -60,6 +60,17 @@
                             <type>zip</type>
                             <target>/apps/eaem-unified-shell-logo-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem</groupId>
+                            <artifactId>eaem-unified-shell-logo.core</artifactId>
+                            <target>/apps/eaem-unified-shell-logo-packages/application/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem</groupId>
+                            <artifactId>eaem-unified-shell-logo.ui.config</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-unified-shell-logo-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -167,5 +178,12 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>apps.experienceaem</groupId>
+            <artifactId>eaem-unified-shell-logo.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+
     </dependencies>
 </project>
