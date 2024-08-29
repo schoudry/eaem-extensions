@@ -16,7 +16,8 @@
     let heroImage = usHeader.getElementsByClassName("hero-svg");
 
     if(heroImage && heroImage.length > 0){
-        heroImage[0].src = "./logo.png";
+        let logoPath = "/apps/eaem-unified-shell-logo/clientlibs/custom-logo/logo.png";
+        heroImage[0].src = logoPath;
     }
 
     setTimeout(() => {
