@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-cf-html-rtf-indesign",
+        "create path (nt:unstructured) /content/dam/eaem-cf-html-rtf-indesign/jcr:content",
+        "set properties on /content/dam/eaem-cf-html-rtf-indesign/jcr:content\n  set cq:conf{String} to /conf/eaem-cf-html-rtf-indesign\n  set jcr:title{String} to \"Experience AEM CF to RTF to InDesign\"\nend"
+    ]
+}
