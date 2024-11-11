@@ -22,9 +22,8 @@ import org.slf4j.LoggerFactory;
 @Component(
     service = WorkflowProcess.class,
     property = {
-        Constants.SERVICE_DESCRIPTION + "=Write Content Fragments to File System as RTF Files",
-        Constants.SERVICE_VENDOR + "=Adobe Systems",
-        EAEMContentFragmentToRTF.COMPONENT_LABEL + "=Content Fragments to RTF Files"
+        Constants.SERVICE_DESCRIPTION + "=Write Content Fragments to Repository as RTF Files",
+        EAEMContentFragmentToRTF.COMPONENT_LABEL + "=Experience AEM : Content Fragments to RTF Files"
     }
 )
 public class EAEMContentFragmentToRTF implements WorkflowProcess{
