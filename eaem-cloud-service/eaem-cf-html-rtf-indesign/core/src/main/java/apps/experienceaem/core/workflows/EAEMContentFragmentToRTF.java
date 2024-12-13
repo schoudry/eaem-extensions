@@ -33,6 +33,8 @@ public class EAEMContentFragmentToRTF implements WorkflowProcess{
     private static final Logger LOG = LoggerFactory.getLogger(EAEMContentFragmentToRTF.class);
     private static final String LOG_PREFIX = "CFToRTF Workflow:";
 
+    public static final String CF_RTF_LOCATION = "rtfLocation";
+
     private static final boolean EXPAND_GROUP_MEMBERS = false;
 
     @Override
@@ -65,6 +67,8 @@ public class EAEMContentFragmentToRTF implements WorkflowProcess{
 
                 String rtf = CFToRTF.transpile(html.toString(), config);
                 String rtfLocation = CFToRTFAssetHelper.createRTFAsset(rtf, fragmentResource, assetManager, config);
+
+                workItem.getWorkflowData().getMetaDataMap().put(CF_RTF_LOCATION, rtfLocation);
 
                 LOG.info("{} Successfully created RTF file `{}` from CF `{}`", LOG_PREFIX, rtfLocation, payloadPath);
             }else{
