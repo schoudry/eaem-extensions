@@ -11,9 +11,6 @@
 
         var document = app.documents.add();
 
-        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences.changeTo = "$3";
-
         for(var eleName in contentJson){
             if(eleName == "path"){
                 continue;
@@ -21,26 +18,24 @@
 
             var spread = document.spreads.lastItem();
             var textFrame = createTextFrame(spread);
-            textFrame.contents = contentJson[eleName];
 
-            var tfFont = "Calibri";
-            textFrame.parentStory.appliedFont = tfFont;
+            var rtfPath = sourceFolder + "/" + new Date().getTime() + ".rtf";
+            var rtfFile = new File(rtfPath);
 
-            app.changeGrepPreferences.appliedCharacterStyle = getBoldStyle(document, tfFont);
+            rtfFile.open('w');
+            rtfFile.encoding = 'UTF8';
 
-            app.findGrepPreferences.findWhat = "(<strong(\\s.*)?>)(.+?)(</strong(\\s.*)?>)";
-            textFrame.changeGrep();
+            rtfFile.write(contentJson[eleName]);
+            rtfFile.close();
 
-            app.findGrepPreferences.findWhat = "(<b(\\s.*)?>)(.+?)(</b(\\s.*)?>)";
-            textFrame.changeGrep();
+            textFrame.place(File(rtfPath));
         }
-
-        app.findGrepPreferences = app.changeGrepPreferences = NothingEnum.nothing;
 
         document.exportFile(ExportFormat.pdfType, pdfOutputFile);
         document.save(documentFile);
+        document.close();
 
-        var uploadPath = cfPath.substring(0, cfPath.lastIndexOf("/"));
+/*        var uploadPath = cfPath.substring(0, cfPath.lastIndexOf("/"));
 
         app.consoleout('Uploading files - ' + pdfOutputFile + "," + documentFile);
 
@@ -50,26 +45,16 @@
 
         uploadDAMFile(aemHost, base64EncodedAEMCreds, documentFile, documentFile.name, 'application/indd', uploadPath);
 
-        app.consoleout('Upload Complete - ' + documentFile);
+        app.consoleout('Upload Complete - ' + documentFile);*/
 
         returnObj.success = "completed";
-    }
-
-    function getBoldStyle(document, font) {
-        var boldCharacterStyle = document.characterStyles.add();
-
-        boldCharacterStyle.appliedFont = font;
-        boldCharacterStyle.fontStyle = "Bold";
-        //boldCharacterStyle.pointSize = 28;
-
-        return boldCharacterStyle;
     }
 
     function createTextFrame(spread) {
         var textFrame = spread.textFrames.add();
 
-        var y1 = 10; // upper left  Y-Coordinate
-        var x1 = 10; // upper left  X-Coordinate
+        var y1 = 5; // upper left  Y-Coordinate
+        var x1 = 5; // upper left  X-Coordinate
         var y2 = 50; // lower right Y-Coordinate
         var x2 = 40; // lower right X-Coordinate
 
@@ -201,13 +186,48 @@
     function setTestParams(){
         aemHost = "localhost:4502";
         base64EncodedAEMCreds = "YWRtaW46YWRtaW4=";
-        contentJson = {"rteText":"This is <b>bold</b>","path":"/content/dam/experience-aem/bold"}
+        contentJson = {"rteText":"{\\rtf1\\ansi\\deff0\\nouicompat{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n" +
+                "{\\colortbl ;\\red0\\green0\\blue255;}\n" +
+                "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
+                "Second Run Following sentences are formatted witih Rich Text\n" +
+                "\\par}\n" +
+                "\n" +
+                "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
+                "This is {\\b\n" +
+                "Bold\n" +
+                "}\n" +
+                "\\par}\n" +
+                "\n" +
+                "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
+                "This is {\\i\n" +
+                "Italic\n" +
+                "}\n" +
+                "\\par}\n" +
+                "\n" +
+                "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
+                "This is {\\i\n" +
+                "{\\ul\n" +
+                "Underline\n" +
+                "}\n" +
+                "}\n" +
+                "\\par}\n" +
+                "\n" +
+                "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
+                "This is {\\b\n" +
+                "{\\i\n" +
+                "Bold and Italic\n" +
+                "}\n" +
+                "}\n" +
+                "\\par}\n" +
+                "\n" +
+                "\n" +
+                "}","path":"/content/dam/experience-aem/bold"}
     }
 
     try{
-        setParamsFromScriptArgs();
+        //setParamsFromScriptArgs();
 
-        //setTestParams();
+        setTestParams();
 
         createInDesignDoc();
     }catch(err){
