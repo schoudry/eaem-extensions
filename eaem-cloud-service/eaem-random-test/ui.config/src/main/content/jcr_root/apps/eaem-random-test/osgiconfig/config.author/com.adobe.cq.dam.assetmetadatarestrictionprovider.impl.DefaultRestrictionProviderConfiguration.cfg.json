@@ -1,0 +1,7 @@
+{
+  "restrictionPropertyNames":[
+    "dam:status",
+    "brand"
+  ],
+  "enabled":true
+}
