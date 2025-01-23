@@ -1,5 +1,7 @@
 {
     "scripts": [
+        "create service user eaem-ids-service with path system/experience-aem",
+        "set ACL for eaem-ids-service \n  allow jcr:read on /apps \n allow jcr:read on /conf \n allow jcr:read on /libs \n allow jcr:all on /content \n allow jcr:read on /var \nend",
         "create path (sling:OrderedFolder) /content/dam/eaem-cf-html-rtf-indesign",
         "create path (nt:unstructured) /content/dam/eaem-cf-html-rtf-indesign/jcr:content",
         "set properties on /content/dam/eaem-cf-html-rtf-indesign/jcr:content\n  set cq:conf{String} to /conf/eaem-cf-html-rtf-indesign\n  set jcr:title{String} to \"Experience AEM CF to RTF to InDesign\"\nend"

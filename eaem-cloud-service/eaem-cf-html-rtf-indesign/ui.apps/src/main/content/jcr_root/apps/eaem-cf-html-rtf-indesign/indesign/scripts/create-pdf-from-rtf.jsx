@@ -5,47 +5,34 @@
         cfPath = contentJson.path;
 
         var sourceFolder = getSourceFolder(),
-            fileName = cfPath.substring(cfPath.lastIndexOf ('/') + 1),
+            fileName = cfPath.substring(cfPath.lastIndexOf ('.rtf')),
             documentFile = new File(sourceFolder.fullName + "/" + fileName + '.indd'),
             pdfOutputFile = new File(sourceFolder.fullName + "/" + fileName + '.pdf');
 
         var document = app.documents.add();
+        var spread = document.spreads.lastItem();
+        var textFrame = createTextFrame(spread);
 
-        for(var eleName in contentJson){
-            if(eleName == "path"){
-                continue;
-            }
+        var rtfPath = sourceFolder + "/" + new Date().getTime() + ".rtf";
+        var rtfFile = new File(rtfPath);
 
-            var spread = document.spreads.lastItem();
-            var textFrame = createTextFrame(spread);
+        rtfFile.open('w');
+        rtfFile.encoding = 'UTF8';
 
-            var rtfPath = sourceFolder + "/" + new Date().getTime() + ".rtf";
-            var rtfFile = new File(rtfPath);
+        rtfFile.write(contentJson["rtfText"]);
+        rtfFile.close();
 
-            rtfFile.open('w');
-            rtfFile.encoding = 'UTF8';
-
-            rtfFile.write(contentJson[eleName]);
-            rtfFile.close();
-
-            textFrame.place(File(rtfPath));
-        }
+        textFrame.place(File(rtfPath));
 
         document.exportFile(ExportFormat.pdfType, pdfOutputFile);
         document.save(documentFile);
-        document.close();
+        //document.close();
 
-/*        var uploadPath = cfPath.substring(0, cfPath.lastIndexOf("/"));
+        var uploadPath = cfPath.substring(0, cfPath.lastIndexOf("/"));
 
-        app.consoleout('Uploading files - ' + pdfOutputFile + "," + documentFile);
+        app.consoleout('Uploading file - ' + pdfOutputFile);
 
         uploadDAMFile(aemHost, base64EncodedAEMCreds, pdfOutputFile, pdfOutputFile.name, 'application/pdf', uploadPath);
-
-        app.consoleout('Upload Complete - ' + pdfOutputFile);
-
-        uploadDAMFile(aemHost, base64EncodedAEMCreds, documentFile, documentFile.name, 'application/indd', uploadPath);
-
-        app.consoleout('Upload Complete - ' + documentFile);*/
 
         returnObj.success = "completed";
     }
@@ -186,7 +173,7 @@
     function setTestParams(){
         aemHost = "localhost:4502";
         base64EncodedAEMCreds = "YWRtaW46YWRtaW4=";
-        contentJson = {"rteText":"{\\rtf1\\ansi\\deff0\\nouicompat{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n" +
+        contentJson = {"rtfText":"{\\rtf1\\ansi\\deff0\\nouicompat{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n" +
                 "{\\colortbl ;\\red0\\green0\\blue255;}\n" +
                 "{\\pard\\fs20\\sl288\\slmult1\\charscalex80\n" +
                 "Second Run Following sentences are formatted witih Rich Text\n" +
@@ -221,13 +208,13 @@
                 "\\par}\n" +
                 "\n" +
                 "\n" +
-                "}","path":"/content/dam/experience-aem/bold"}
+                "}","path":"/content/dam/experience-aem/bold.rtf"}
     }
 
     try{
-        //setParamsFromScriptArgs();
+        setParamsFromScriptArgs();
 
-        setTestParams();
+        //setTestParams();
 
         createInDesignDoc();
     }catch(err){
