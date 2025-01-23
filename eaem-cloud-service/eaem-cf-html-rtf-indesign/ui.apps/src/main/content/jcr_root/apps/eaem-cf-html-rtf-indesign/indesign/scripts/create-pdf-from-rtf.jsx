@@ -5,7 +5,7 @@
         cfPath = contentJson.path;
 
         var sourceFolder = getSourceFolder(),
-            fileName = cfPath.substring(cfPath.lastIndexOf ('.rtf')),
+            fileName = cfPath.substring(cfPath.lastIndexOf ('/') + 1, cfPath.lastIndexOf ('.rtf')),
             documentFile = new File(sourceFolder.fullName + "/" + fileName + '.indd'),
             pdfOutputFile = new File(sourceFolder.fullName + "/" + fileName + '.pdf');
 
