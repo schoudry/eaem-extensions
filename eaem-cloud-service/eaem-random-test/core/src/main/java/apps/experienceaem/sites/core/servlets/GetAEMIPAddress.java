@@ -27,7 +27,7 @@ public class GetAEMIPAddress extends SlingSafeMethodsServlet {
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
         throws ServletException, IOException {
         try{
-            response.getWriter().println(getAEMIPAddress());
+            response.getWriter().println("cs dev----" + getAEMIPAddress());
         }catch(Exception e){
             throw new ServletException("Error getting IP", e);
         }

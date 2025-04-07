@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-link-share-pass-protected",
+        "create path (nt:unstructured) /content/dam/eaem-link-share-pass-protected/jcr:content",
+        "set properties on /content/dam/eaem-link-share-pass-protected/jcr:content\n  set cq:conf{String} to /conf/eaem-link-share-pass-protected\n  set jcr:title{String} to \"AEM Cloud Pass Protected Link Share\"\nend"
+    ]
+}
