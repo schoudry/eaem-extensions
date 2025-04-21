@@ -3,6 +3,8 @@
 
     let ASSETS_PAGE = "/assets.html",
         initialized = false,
+        url = document.location.pathname,
+        CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         BESIDE_ACTIVATOR = "button.cq-damadmin-admin-actions-publicLinkShare-activator",
         PP_ACTIVATOR = "button.eaem-protected-link-activator",
         FOU_COL_ACT_HIDDEN = "foundation-collection-action-hidden",
@@ -11,11 +13,27 @@
 
     let $plModal;
 
-    if (!isAssetsPage()) {
-        return;
+    if (isAssetsPage()) {
+        $document.on("foundation-contentloaded", addActionBarButtons);
+    }else if(url.indexOf(MODAL_URL) === 0){
+        $document.on("foundation-contentloaded", handleModalDialog);
+        $document.on("click", CANCEL_CSS, sendCancelMessage);
+
+        $document.submit( () => {
+        });
     }
 
-    $document.on("foundation-contentloaded", addActionBarButtons);
+    function sendCancelMessage(){
+        const message = {
+            action: "cancel"
+        };
+
+        getParent().postMessage(JSON.stringify(message), "*");
+    }
+
+    function handleModalDialog(){
+
+    }
 
     function addActionBarButtons(){
         if (initialized) {
@@ -42,6 +60,8 @@
 
         $but.click(openModal);
 
+        $(window).off('message', closeModal).on('message', closeModal);
+
         $document.on("foundation-selections-change", function(){
             let $but = $(PP_ACTIVATOR),
                 $selections = $(".foundation-selections-item");
@@ -67,6 +87,34 @@
         });
 
         $plModal = $modal;
+    }
+
+    function closeModal(event){
+        event = event.originalEvent || {};
+
+        if (!event.data || !$plModal) {
+            return;
+        }
+
+        let message;
+
+        try { message = JSON.parse(event.data); }catch(e){ return; }
+
+        if (!message || message.action !== "cancel") {
+            return;
+        }
+
+        const modal = $plModal.data('modal');
+        modal.hide();
+        modal.$element.remove();
+    }
+
+    function getParent() {
+        if (window.opener) {
+            return window.opener;
+        }
+
+        return parent;
     }
 
     function isAssetsPage() {
