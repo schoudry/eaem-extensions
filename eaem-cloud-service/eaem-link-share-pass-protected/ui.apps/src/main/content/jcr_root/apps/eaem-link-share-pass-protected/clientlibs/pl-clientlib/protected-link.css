@@ -1,0 +1,20 @@
+.eaem-form{
+    margin: 10px 40px 0px 40px;
+    width: 90%;
+    height: 87%;
+}
+
+.eaem-modal {
+    width: 40%;
+    margin-left: -50%;
+    height: 43%;
+    margin-top: -50%;
+    box-sizing: content-box;
+    z-index: 10100;
+}
+
+.eaem-modal > iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #888;
+}

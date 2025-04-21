@@ -6,7 +6,10 @@
         BESIDE_ACTIVATOR = "button.cq-damadmin-admin-actions-publicLinkShare-activator",
         PP_ACTIVATOR = "button.eaem-protected-link-activator",
         FOU_COL_ACT_HIDDEN = "foundation-collection-action-hidden",
+        MODAL_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/pl-dialog.html",
         BUTTON_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/protected-link-but.html";
+
+    let $plModal;
 
     if (!isAssetsPage()) {
         return;
@@ -37,9 +40,7 @@
 
         $but.find("coral-button-label").css("padding-left", "7px");
 
-        $but.click(() => {
-            alert("hi");
-        });
+        $but.click(openModal);
 
         $document.on("foundation-selections-change", function(){
             let $but = $(PP_ACTIVATOR),
@@ -51,6 +52,21 @@
 
             $but.removeClass(FOU_COL_ACT_HIDDEN);
         });
+    }
+
+    function openModal(){
+        let $iframe = $('<iframe>'),
+            $modal = $('<div>').addClass('eaem-modal coral-Modal');
+
+        $iframe.attr('src', MODAL_URL).appendTo($modal);
+
+        $modal.appendTo('body').modal({
+            type: 'default',
+            buttons: [],
+            visible: true
+        });
+
+        $plModal = $modal;
     }
 
     function isAssetsPage() {

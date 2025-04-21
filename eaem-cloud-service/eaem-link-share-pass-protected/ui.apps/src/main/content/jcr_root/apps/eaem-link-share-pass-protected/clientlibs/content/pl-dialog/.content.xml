@@ -1,109 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
-    granite:id="adhocassetshare-dialog"
-    granite:rel="adhocassetshare-dialog"
-    jcr:primaryType="nt:unstructured"
-    jcr:title="Link Sharing"
-    sling:resourceType="granite/ui/components/coral/foundation/dialog">
-    <items jcr:primaryType="nt:unstructured">
-        <dialog
-            granite:id="adhocassetshareform"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:mixinTypes="[sling:VanityPath]"
             jcr:primaryType="nt:unstructured"
-            jcr:title="Link Sharing"
-            sling:resourceType="granite/ui/components/coral/foundation/form"
-            enctype="application/x-www-form-urlencoded"
-            id="adhocassetshareform"
-            method="POST"
-            style="vertical">
-            <items jcr:primaryType="nt:unstructured">
-                <charset
+            jcr:title="Share Protected Link"
+            sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <favicon
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                    ignoreData="{Boolean}true"
-                    name="_charset_"
-                    value="UTF-8"/>
-                <sharelink
+                    sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <viewport
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="cq/gui/components/projects/admin/simpletable"
-                    id="sharelinkrow"
-                    role="presentation">
-                    <items jcr:primaryType="nt:unstructured">
-                        <sharelink
-                            granite:class="adhocassetshare-share-link"
-                            granite:id="sharelink"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                            class="adhocassetshare-share-link"
-                            fieldLabel="Share Link"
-                            id="sharelink"
-                            name="shareLink"
-                            required="{Boolean}true"/>
-                        <copytoclipboard
-                            granite:class="copy-share-link-button"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/button"
-                            disabled="true"
-                            hideText="{Boolean}true"
-                            icon="copy"
-                            iconSize="S"
-                            text="Copy"
-                            variant="action"/>
-                    </items>
-                </sharelink>
-                <nameandexpiration
+                    sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <clientlibs
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="cq/gui/components/projects/admin/simpletable"
-                    id="nameandexpiration"
-                    role="presentation">
-                    <items jcr:primaryType="nt:unstructured">
-                        <sharejobname
-                            granite:class="adhocassetshare-job-name"
-                            granite:id="sharejobname"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                            class="adhocassetshare-job-name"
-                            fieldLabel="Subject"
-                            id="sharejobname"
-                            name="shareJobName"
-                            required="{Boolean}true"/>
-                        <expirationdate
-                            granite:id="expirationDate"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
-                            displayedFormat="YYYY-MM-DD HH:mm"
-                            fieldLabel="Expiration"
-                            id="expirationDate"
-                            minDate="today"
-                            name="expirationDate"
-                            type="datetime"/>
-                    </items>
-                </nameandexpiration>
-                <operation
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                    ignoreData="{Boolean}true"
-                    name=":operation"
-                    value="dam.adhoc.share"/>
-            </items>
-        </dialog>
-    </items>
-    <footer jcr:primaryType="nt:unstructured">
-        <close
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/coral/foundation/button"
-            text="Close">
-            <parentConfig
+                    sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,granite.ui.shell,dam.gui.admin.coral,eaem.share.protected.link]"/>
+        </head>
+        <body
                 jcr:primaryType="nt:unstructured"
-                close="{Boolean}true"/>
-        </close>
-        <submit
-            granite:class="foundation-toggleable-control"
-            granite:id="adhocassetshareform-submit"
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="granite/ui/components/coral/foundation/button"
-            disabled="{Boolean}true"
-            text="Share"
-            trackingFeature="aem:assets:asset:share"
-            variant="primary"/>
-    </footer>
+                sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <content
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form"
+                        foundationForm="{Boolean}true"
+                        maximized="{Boolean}true"
+                        method="post"
+                        novalidate="{Boolean}true"
+                        style="vertical">
+                    <items jcr:primaryType="nt:unstructured">
+                        <wizard
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Share Protected Link"
+                                sling:resourceType="granite/ui/components/coral/foundation/wizard">
+                            <items jcr:primaryType="nt:unstructured">
+                                <container
+                                        granite:class="eaem-form"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Share Protected Link"
+                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <actionbar
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <sharelink
+                                                        granite:class="adhocassetshare-share-link"
+                                                        granite:id="sharelink"
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        class="adhocassetshare-share-link"
+                                                        fieldLabel="Share Link"
+                                                        id="sharelink"
+                                                        name="shareLink"
+                                                        required="{Boolean}true"/>
+                                                <sharelinkPass
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="cq/gui/components/projects/admin/simpletable"
+                                                        role="presentation">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <password
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                fieldLabel="Password"
+                                                                name="shareLinkPassword"
+                                                                required="{Boolean}true"/>
+                                                    </items>
+                                                </sharelinkPass>
+                                                <nameandexpiration
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="cq/gui/components/projects/admin/simpletable"
+                                                        role="presentation">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <expirationdate
+                                                                granite:id="expirationDate"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
+                                                                displayedFormat="YYYY-MM-DD HH:mm"
+                                                                fieldLabel="Expiration"
+                                                                id="expirationDate"
+                                                                minDate="today"
+                                                                name="expirationDate"
+                                                                type="datetime"/>
+                                                    </items>
+                                                </nameandexpiration>
+                                            </items>
+                                        </actionbar>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                                granite:class="foundation-wizard-control"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                                text="Cancel">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                                granite:class="foundation-wizard-control"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                text="Copy Link &amp; Close"
+                                                type="submit"
+                                                variant="primary">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </container>
+                            </items>
+                        </wizard>
+                    </items>
+                </content>
+            </items>
+        </body>
+    </jcr:content>
 </jcr:root>
