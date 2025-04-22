@@ -7,6 +7,7 @@
         PP_ACTIVATOR = "button.eaem-protected-link-activator",
         FOU_COL_ACT_HIDDEN = "foundation-collection-action-hidden", OP_URL = "/adobe/repository/;api=operations",
         MODAL_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/pl-dialog.html",
+        actionUrl = "/var/dam/share/",
         BUTTON_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/protected-link-but.html";
 
     let $plModal;
@@ -17,7 +18,25 @@
         $document.on("foundation-contentloaded", handleModalDialog);
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
-        $document.submit(() => {
+        $document.submit((event) => {
+            event.preventDefault();
+
+            let token = $("[name='shareLink']")[0].value;
+            token = token.substring(token.indexOf("sh=") + 3, token.lastIndexOf("."))
+            actionUrl = actionUrl + token;
+
+            let data = 'shareLinkPassword=' +  $("[name='shareLinkPassword']")[0].value;
+
+            fetch(actionUrl, {
+                method: "POST", headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: data
+            }).then(() => {
+                sendCancelMessage();
+            })
+
+            return false;
         });
     }
 
