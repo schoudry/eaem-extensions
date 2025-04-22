@@ -50,6 +50,7 @@
             .then(response => response.json())
             .then(linkJson => {
                 $("[name='shareLink']")[0].value = linkJson.link;
+                $("[name='expirationDate']")[0].value = linkJson.expirationDate;
             })
     }
 
