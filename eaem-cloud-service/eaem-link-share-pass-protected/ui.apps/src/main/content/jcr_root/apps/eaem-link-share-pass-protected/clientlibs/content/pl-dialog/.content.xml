@@ -49,13 +49,9 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/container">
                                             <items jcr:primaryType="nt:unstructured">
                                                 <sharelink
-                                                        granite:class="adhocassetshare-share-link"
-                                                        granite:id="sharelink"
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                        class="adhocassetshare-share-link"
                                                         fieldLabel="Share Link"
-                                                        id="sharelink"
                                                         name="shareLink"
                                                         required="{Boolean}true"/>
                                                 <sharelinkPass
@@ -77,7 +73,6 @@
                                                         role="presentation">
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <expirationdate
-                                                                granite:id="expirationDate"
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
                                                                 displayedFormat="YYYY-MM-DD HH:mm"

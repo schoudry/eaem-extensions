@@ -1,13 +1,11 @@
 (function ($, $document) {
     "use strict";
 
-    let ASSETS_PAGE = "/assets.html",
-        initialized = false,
-        url = document.location.pathname,
+    let ASSETS_PAGE = "/assets.html", initialized = false,
         CANCEL_CSS = "[data-foundation-wizard-control-action='cancel']",
         BESIDE_ACTIVATOR = "button.cq-damadmin-admin-actions-publicLinkShare-activator",
         PP_ACTIVATOR = "button.eaem-protected-link-activator",
-        FOU_COL_ACT_HIDDEN = "foundation-collection-action-hidden",
+        FOU_COL_ACT_HIDDEN = "foundation-collection-action-hidden", OP_URL = "/adobe/repository/;api=operations",
         MODAL_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/pl-dialog.html",
         BUTTON_URL = "/apps/eaem-link-share-pass-protected/clientlibs/content/protected-link-but.html";
 
@@ -15,15 +13,15 @@
 
     if (isAssetsPage()) {
         $document.on("foundation-contentloaded", addActionBarButtons);
-    }else if(url.indexOf(MODAL_URL) === 0){
+    } else if (isShareLinkModalUrl()) {
         $document.on("foundation-contentloaded", handleModalDialog);
         $document.on("click", CANCEL_CSS, sendCancelMessage);
 
-        $document.submit( () => {
+        $document.submit(() => {
         });
     }
 
-    function sendCancelMessage(){
+    function sendCancelMessage() {
         const message = {
             action: "cancel"
         };
@@ -31,11 +29,31 @@
         getParent().postMessage(JSON.stringify(message), "*");
     }
 
-    function handleModalDialog(){
+    function handleModalDialog() {
+        const assetPaths = queryParameters()["items"].split(",");
 
+        let data = {
+            op: "share", allowOriginalDownload: true, expirationDate: new Date().toISOString()
+        };
+
+        data.target = [];
+
+        assetPaths.forEach(path => {
+            data.target.push({"repo:path": path});
+        });
+
+        fetch(OP_URL, {
+            method: "POST", headers: {
+                "Content-Type": "application/vnd.adobe.asset-operation+json"
+            }, body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(linkJson => {
+                $("[name='shareLink']")[0].value = linkJson.link;
+            })
     }
 
-    function addActionBarButtons(){
+    function addActionBarButtons() {
         if (initialized) {
             return;
         }
@@ -58,15 +76,16 @@
 
         $but.find("coral-button-label").css("padding-left", "7px");
 
-        $but.click(openModal);
+        $but.click(() => {
+            openModal();
+        });
 
         $(window).off('message', closeModal).on('message', closeModal);
 
-        $document.on("foundation-selections-change", function(){
-            let $but = $(PP_ACTIVATOR),
-                $selections = $(".foundation-selections-item");
+        $document.on("foundation-selections-change", function () {
+            let $but = $(PP_ACTIVATOR), $selections = $(".foundation-selections-item");
 
-            if($selections.length !== 1){
+            if ($selections.length < 1) {
                 return;
             }
 
@@ -74,22 +93,26 @@
         });
     }
 
-    function openModal(){
-        let $iframe = $('<iframe>'),
+    function openModal() {
+        let $iframe = $('<iframe>'), url = MODAL_URL + "?items=",
             $modal = $('<div>').addClass('eaem-modal coral-Modal');
 
-        $iframe.attr('src', MODAL_URL).appendTo($modal);
+        $(".foundation-selections-item").each(function () {
+            url = url + $(this).data("graniteCollectionItemId") + ",";
+        })
+
+        url = url.substring(0, url.lastIndexOf(","));
+
+        $iframe.attr('src', url).appendTo($modal);
 
         $modal.appendTo('body').modal({
-            type: 'default',
-            buttons: [],
-            visible: true
+            type: 'default', buttons: [], visible: true
         });
 
         $plModal = $modal;
     }
 
-    function closeModal(event){
+    function closeModal(event) {
         event = event.originalEvent || {};
 
         if (!event.data || !$plModal) {
@@ -98,7 +121,11 @@
 
         let message;
 
-        try { message = JSON.parse(event.data); }catch(e){ return; }
+        try {
+            message = JSON.parse(event.data);
+        } catch (e) {
+            return;
+        }
 
         if (!message || message.action !== "cancel") {
             return;
@@ -107,6 +134,21 @@
         const modal = $plModal.data('modal');
         modal.hide();
         modal.$element.remove();
+    }
+
+    function queryParameters() {
+        let result = {}, param, params = document.location.search.split(/\?|\&/);
+
+        params.forEach(function (it) {
+            if (!it) {
+                return;
+            }
+
+            param = it.split("=");
+            result[param[0]] = param[1];
+        });
+
+        return result;
     }
 
     function getParent() {
@@ -119,5 +161,9 @@
 
     function isAssetsPage() {
         return (window.location.pathname.indexOf(ASSETS_PAGE) >= 0);
+    }
+
+    function isShareLinkModalUrl() {
+        return (window.location.pathname.indexOf(MODAL_URL) === 0);
     }
 }(jQuery, jQuery(document)));
