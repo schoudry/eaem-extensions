@@ -26,10 +26,11 @@
             const response = await fetch('/libs/granite/csrf/token.json');
             const json = await response.json();
 
-            let token = $("[name='shareLink']")[0].value;
-            token = token.substring(token.indexOf("sh=") + 3, token.lastIndexOf("."))
-            actionUrl = actionUrl + token;
+            const shareLinkUrl = $("[name='shareLink']")[0].value;
+            const shareLinkUrlToken = shareLinkUrl.substring(shareLinkUrl.indexOf("sh=") + 3, shareLinkUrl.lastIndexOf("."))
+            actionUrl = actionUrl + shareLinkUrlToken;
 
+            navigator.clipboard.writeText(shareLinkUrl);
             let data = 'shareLinkPassword=' +  $("[name='shareLinkPassword']")[0].value;
 
             fetch(actionUrl, {
