@@ -29,7 +29,6 @@
                         sling:resourceType="granite/ui/components/coral/foundation/form"
                         foundationForm="{Boolean}true"
                         maximized="{Boolean}true"
-                        method="post"
                         novalidate="{Boolean}true"
                         style="vertical">
                     <items jcr:primaryType="nt:unstructured">
