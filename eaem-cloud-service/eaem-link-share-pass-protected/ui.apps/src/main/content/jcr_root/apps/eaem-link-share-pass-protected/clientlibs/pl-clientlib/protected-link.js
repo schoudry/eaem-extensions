@@ -17,9 +17,14 @@
     } else if (isShareLinkModalUrl()) {
         $document.on("foundation-contentloaded", handleModalDialog);
         $document.on("click", CANCEL_CSS, sendCancelMessage);
+    }
 
-        $document.submit((event) => {
+    function handleSubmit(){
+        document.querySelector('form').addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            const response = await fetch('/libs/granite/csrf/token.json');
+            const json = await response.json();
 
             let token = $("[name='shareLink']")[0].value;
             token = token.substring(token.indexOf("sh=") + 3, token.lastIndexOf("."))
@@ -29,14 +34,13 @@
 
             fetch(actionUrl, {
                 method: "POST", headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    'CSRF-Token': json.token
                 },
                 body: data
             }).then(() => {
                 sendCancelMessage();
             })
-
-            return false;
         });
     }
 
@@ -70,6 +74,7 @@
             .then(linkJson => {
                 $("[name='shareLink']")[0].value = linkJson.link;
                 $("[name='expirationDate']")[0].value = linkJson.expirationDate;
+                handleSubmit();
             })
     }
 
