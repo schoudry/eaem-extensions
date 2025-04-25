@@ -31,7 +31,13 @@
             actionUrl = actionUrl + shareLinkUrlToken;
 
             navigator.clipboard.writeText(shareLinkUrl);
+
             let data = 'shareLinkPassword=' +  $("[name='shareLinkPassword']")[0].value;
+            let expirationDate = $("[name='expirationDate']")[0].value;
+
+            if(expirationDate){
+                data = data + '&expirationDate=' + expirationDate;
+            }
 
             fetch(actionUrl, {
                 method: "POST", headers: {
