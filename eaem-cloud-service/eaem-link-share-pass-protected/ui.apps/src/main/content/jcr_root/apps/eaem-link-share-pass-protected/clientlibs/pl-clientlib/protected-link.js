@@ -56,8 +56,11 @@
     function handleModalDialog() {
         const assetPaths = queryParameters()["items"].split(",");
 
+        let expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1)
+
         let data = {
-            op: "share", allowOriginalDownload: true, expirationDate: new Date().toISOString()
+            op: "share", allowOriginalDownload: true, expirationDate: expirationDate.toISOString()
         };
 
         data.target = [];
