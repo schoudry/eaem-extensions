@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "eaem-random-test.core:eaem-user-service=[eaem-user-service]"
+  ]
+}

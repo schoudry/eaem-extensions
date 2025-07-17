@@ -2,6 +2,8 @@
     "scripts": [
         "create path (sling:OrderedFolder) /content/dam/eaem-random-test",
         "create path (nt:unstructured) /content/dam/eaem-random-test/jcr:content",
-        "set properties on /content/dam/eaem-random-test/jcr:content\n  set cq:conf{String} to /conf/eaem-random-test\n  set jcr:title{String} to \"Experience AEM Random Test\"\nend"
+        "set properties on /content/dam/eaem-random-test/jcr:content\n  set cq:conf{String} to /conf/eaem-random-test\n  set jcr:title{String} to \"Experience AEM Random Test\" \n end",
+        "create service user eaem-user-service with path system/experience-aem",
+        "set ACL for eaem-user-service \n  allow rep:userManagement on /home/users \n allow rep:userManagement on /home/groups \n allow jcr:read, rep:write, jcr:readAccessControl, jcr:modifyAccessControl on / \n end"
     ]
 }
