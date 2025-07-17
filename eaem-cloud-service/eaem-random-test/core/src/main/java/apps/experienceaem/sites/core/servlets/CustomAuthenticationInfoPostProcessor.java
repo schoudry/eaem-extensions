@@ -96,7 +96,7 @@ public class CustomAuthenticationInfoPostProcessor implements AuthenticationInfo
 
             NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 
-            boolean groupExistsInIDP = true;
+            boolean groupExistsInIDP = false;
 
             for (int i = 0; i < itemList.getLength(); i++) {
                 Node item = itemList.item(i);
@@ -107,6 +107,7 @@ public class CustomAuthenticationInfoPostProcessor implements AuthenticationInfo
 
                     if(samlGroup.trim().startsWith("CN=" + restrictedSAMLGroup)){
                         addUserToGroup(um, restrictedSAMLGroup, userAuthorizable);
+                        groupExistsInIDP = true;
                     }
                 }
             }
