@@ -1,0 +1,3 @@
+{
+  "getRestrictedPreviewGroupsJson":"$[env:RESTRICTED_PREVIEW_GROUPS_JSON]"
+}
