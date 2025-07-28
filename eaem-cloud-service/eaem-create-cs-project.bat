@@ -1,5 +1,5 @@
-set JAVA_HOME=C:/Progra~1/Java/jdk-11.0.6
+set JAVA_HOME=C:/Progra~1/Java/jdk-11
 
-mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=51 -D aemVersion="cloud" -D appTitle="AEM Cloud Pass Protected Link Share" -D appId="eaem-link-share-pass-protected" -D groupId="apps.experienceaem.assets" -D frontendModule=none -D includeExamples=n -D includeErrorHandler=n -D includeDispatcherConfig=n
+mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=51 -D aemVersion="cloud" -D appTitle="AEM Page Replicate Restriction Provider" -D appId="eaem-page-replicate-restriction" -D groupId="apps.experienceaem.sites" -D frontendModule=none -D includeExamples=n -D includeErrorHandler=n -D includeDispatcherConfig=n
 
 REM mvn -B archetype:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion="28" -D appTitle="Experience AEM React SSR" -D aemVersion="cloud" -D appId="eaem-cs-react-ssr" -D groupId="apps.experienceaem.sites" -D enableSSR="y" -D frontendModule="react" -D includeExamples=n -D includeDispatcherConfig=n -U

@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/eaem-page-replicate-restriction",
+        "create path (nt:unstructured) /content/dam/eaem-page-replicate-restriction/jcr:content",
+        "set properties on /content/dam/eaem-page-replicate-restriction/jcr:content\n  set cq:conf{String} to /conf/eaem-page-replicate-restriction\n  set jcr:title{String} to \"AEM Page Replicate Restriction Provider\"\nend"
+    ]
+}

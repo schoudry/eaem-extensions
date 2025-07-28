@@ -1,3 +1,4 @@
 {
-  "getRestrictedPreviewGroupsJson":"$[env:RESTRICTED_PREVIEW_GROUPS_JSON]"
+  "getRestrictedPreviewGroupsJson":"$[env:RESTRICTED_PREVIEW_GROUPS_JSON]",
+  "getAEMEnvTier":"$[env:AEM_ENVIRONMENT_TIER]"
 }

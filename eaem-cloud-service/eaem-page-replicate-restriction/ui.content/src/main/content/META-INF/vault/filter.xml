@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-page-replicate-restriction" mode="merge"/>
+    <filter root="/content/eaem-page-replicate-restriction" mode="merge"/>
+    <filter root="/content/dam/eaem-page-replicate-restriction" mode="merge">
+        <exclude pattern="/content/dam/eaem-page-replicate-restriction(/.*)?"/>
+        <include pattern="/content/dam/eaem-page-replicate-restriction/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/eaem-page-replicate-restriction/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/eaem-page-replicate-restriction" mode="merge"/>
+</workspaceFilter>
