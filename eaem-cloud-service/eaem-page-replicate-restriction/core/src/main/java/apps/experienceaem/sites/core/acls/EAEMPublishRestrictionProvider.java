@@ -60,7 +60,7 @@ public class EAEMPublishRestrictionProvider extends AbstractRestrictionProvider 
                 if (EAEMEmbargoTypeRestriction.RESTRICTION_TYPE_EMBARGO.equals(name)) {
                     patterns.add(new EAEMEmbargoTypeRestriction(r.getProperty().getValue(Type.STRING)));
                 } else {
-                    log.info("EAEMPublishRestrictionProvider : Ignoring unsupported restriction " + name);
+                    log.debug("EAEMPublishRestrictionProvider : Ignoring unsupported restriction " + name);
                 }
             }
 
