@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/conf/eaem-page-replicate-restriction" mode="merge"/>
+    <filter root="/conf/global/settings/workflow/models/embargo-publish-to-preview"/>
+    <filter root="/var/workflow/models/embargo-publish-to-preview"/>
     <filter root="/content/eaem-page-replicate-restriction" mode="merge"/>
     <filter root="/content/dam/eaem-page-replicate-restriction" mode="merge">
         <exclude pattern="/content/dam/eaem-page-replicate-restriction(/.*)?"/>
