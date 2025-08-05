@@ -24,7 +24,7 @@ import java.util.Map;
 public class EmbargoReplicationToPreview implements WorkflowProcess {
     private static final Logger log = LoggerFactory.getLogger(EmbargoReplicationToPreview.class.getName());
 
-    private static final String PREVIEW_AGENT = "publish";
+    private static final String PREVIEW_AGENT = "preview";
 
     @Reference
     ResourceResolverFactory resourceResolverFactory;

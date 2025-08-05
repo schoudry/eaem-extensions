@@ -4,7 +4,6 @@
         "create path (nt:unstructured) /content/dam/eaem-page-replicate-restriction/jcr:content",
         "set properties on /content/dam/eaem-page-replicate-restriction/jcr:content\n  set cq:conf{String} to /conf/eaem-page-replicate-restriction\n  set jcr:title{String} to \"AEM Page Replicate Restriction Provider\"\nend",
         "create service user eaem-embargo-service with path system/experience-aem",
-        "set ACL for eaem-embargo-service \n  allow crx:replicate on /content \n  allow jcr:read, rep:write on / \n end",
-        "set ACL for workflow-users \n  deny jcr:all on /conf/global/settings/workflow/models/embargo-publish-to-preview \n end"
+        "set ACL for eaem-embargo-service \n  allow crx:replicate on /content \n  allow jcr:read, rep:write on / \n end"
     ]
 }
