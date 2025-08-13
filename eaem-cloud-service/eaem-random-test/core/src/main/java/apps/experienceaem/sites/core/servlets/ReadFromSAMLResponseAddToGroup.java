@@ -51,6 +51,10 @@ import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils
 public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private static final String AEM_ENVIRONMENT_TIER_PREVIEW = "preview";
+
+    private static final String PREVIEW_GROUPS_PREFIX = "github-";
+
     @Reference
     ResourceResolverFactory resourceResolverFactory;
 
@@ -58,12 +62,15 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
 
     JsonObject restrictedPreviewGroupsJson = new JsonObject();
 
+    private String aemEnvTier;
+
     @Activate
     protected void activate(final ReadFromSAMLResponseAddToGroup.ReadFromSAMLResponseAddToGroupConfig config) {
         logger.info("[activate] - Activating ReadFromSAMLResponseAddToGroupConfig");
 
         try{
             restrictedPreviewGroupsJson = parseJsonString(config.getRestrictedPreviewGroupsJson());
+            aemEnvTier = config.getAEMEnvTier();
         }catch (Exception e){
             logger.error("Error reading configuration", e);
         }
@@ -72,6 +79,11 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(final SlingHttpServletRequest req, final SlingHttpServletResponse resp) {
         try{
+            if(!AEM_ENVIRONMENT_TIER_PREVIEW.equals(aemEnvTier)){
+                logger.info("CustomAuthenticationInfoPostProcessor - disabled as the environment tier set is {}",  aemEnvTier);
+                return;
+            }
+
             ResourceResolver serviceResolver= getUserManagementServiceResolver();
             UserManager um = serviceResolver.adaptTo(UserManager.class);
 
@@ -94,7 +106,7 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
 
             NodeList itemList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 
-            boolean groupExistsInIDP = true;
+            List<String> smalGroupsAdded = new ArrayList<String>();
 
             for (int i = 0; i < itemList.getLength(); i++) {
                 Node item = itemList.item(i);
@@ -105,13 +117,12 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
 
                     if(samlGroup.trim().startsWith("CN=" + restrictedSAMLGroup)){
                         addUserToGroup(serviceResolver, restrictedSAMLGroup, userAuthorizable);
+                        smalGroupsAdded.add(restrictedSAMLGroup);
                     }
                 }
             }
 
-            if(!groupExistsInIDP){
-                removeUserFromGroup(restrictedSAMLGroup, userAuthorizable);
-            }
+            removeUserFromOtherPreviewGroups(smalGroupsAdded, userAuthorizable);
 
             if (serviceResolver.hasChanges()) {
                 serviceResolver.commit();
@@ -130,16 +141,17 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
                 logger.info("Setting allow permission for group {}, on path {}", group.getID(), path);
                 AccessControlUtils.addAccessControlEntry(serviceSession, path, group.getPrincipal(), new String[]{ Privilege.JCR_READ }, isAllow);
             }else{
-                logger.info("Cannot set allow permission for group {}, on path {} as the path does not exist", group.getID(), path)
+                logger.info("Cannot set allow permission for group {}, on path {} as the path does not exist", group.getID(), path);
             }
         }
     }
 
-    private void removeUserFromGroup(String groupName, Authorizable userAuthorizable) throws Exception{
+    private void removeUserFromOtherPreviewGroups(List<String> samlGroupsUserPartOf, Authorizable userAuthorizable) throws Exception{
         for (Iterator<Group> memOfGroups = userAuthorizable.declaredMemberOf(); memOfGroups.hasNext();) {
             Group mGroup = memOfGroups.next();
+            String groupName = mGroup.getID();
 
-            if(mGroup.getID().equals(groupName)){
+            if(groupName.startsWith(PREVIEW_GROUPS_PREFIX) && !samlGroupsUserPartOf.contains(groupName)){
                 mGroup.removeMember(userAuthorizable);
                 logger.info("Removed user {} from group {}", userAuthorizable.getPath(), groupName);
             }
@@ -200,5 +212,10 @@ public class ReadFromSAMLResponseAddToGroup extends SlingSafeMethodsServlet {
                 description = "Provide the Vault Private Key to fetch variable from environment configuration",
                 type = AttributeType.STRING)
         String getRestrictedPreviewGroupsJson();
+
+        @AttributeDefinition(name = "AEM Environment Tier",
+                description = "AEM Environment Tier eg. preview",
+                type = AttributeType.STRING)
+        String getAEMEnvTier();
     }
 }
