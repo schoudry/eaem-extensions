@@ -1,0 +1,19 @@
+
+kind: "CDN"
+version: "1"
+metadata:
+    envTypes: [ "rde", "dev" ]
+data:
+  requestTransformations:
+      rules:
+        - name: set-employee-number-request-header
+          when:
+            reqProperty: path
+            equals: "/content/eaem-random-test/us/en/home.html" 
+          actions:
+            #eyJlYWVtLUVtcGxveWVlTnVtYmVyIjoiOTk4ODc3IiwiZGlzcGxheU5hbWUiOiJFeHBlcmllbmNlIEFFTSIsImVtcGxveWVlSUQiOiI1MzQyMjQzIn0=
+            #{"eaem-EmployeeNumber":"998877","displayName":"Experience AEM","employeeID":"5342243"}
+            - type: set
+              reqHeader: x-employee-number
+              value: { reqCookie: eaem-cookie, transform: [ `base64decode`, {op: 'replace', match: '"eaem-EmployeeNumber":\s*"([^"]*)"', replacement: "\1"} ] }
+

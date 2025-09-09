@@ -1,0 +1,63 @@
+<style type="text/css">
+    #s7video_div.s7videoviewer {
+         width: 100%; 
+         height: auto;
+    }
+    .video-container {
+         width: 700px; 
+         height: auto;
+    }
+</style>
+
+<script type="text/javascript" src="https://assets.verizon.com/s7viewers/html5/js/VideoViewer.js"></script>
+
+<div class="video-container">
+    <div id="s7video_div" class="video"></div>
+</div>
+
+<button id="seekButton">Go to 0:20</button>
+<button id="seekButton40">Go to 0:40</button>
+
+<script type="text/javascript">
+var s7videoplayer = null;
+
+var s7videoviewer = new s7viewers.VideoViewer({
+    "containerId" : "s7video_div",
+    "params" : { 
+        "serverurl" : "https://assets.verizon.com/is/image/",
+        "contenturl" : "https://assets.verizon.com/is/content/", 
+        "config" : "verizon/Video",
+        "posterimage": "verizon/How-To-Get-Started-SafeWalk-AVS",
+        "videoserverurl": "https://assets.verizon.com/is/content",
+        "asset" : "verizon/How-To-Get-Started-SafeWalk-AVS",
+        "caption" : "verizon/How-To-Get-Started-SafeWalk-cc,1",
+        "s7videoplayer.seek" : "20",
+        "navigation" : "verizon/chapter-demo-nc"
+    },
+    "handlers":{
+      "initComplete": function() {
+        s7videoplayer = s7videoviewer.videoplayer;
+        console.log("onReady");
+      }
+    }
+});
+s7videoviewer.init();
+
+document.getElementById("seekButton").addEventListener("click", function() {
+    if (s7videoplayer) {
+        s7videoplayer.seek(20 * 1000);
+        s7videoplayer.play(); // Ensure playback after seeking
+    } else {
+        alert("Video player is not ready yet.");
+    }
+});
+
+document.getElementById("seekButton40").addEventListener("click", function() {
+    if (s7videoplayer) {
+        s7videoplayer.seek(40 * 1000);
+        s7videoplayer.play(); // Ensure playback after seeking
+    } else {
+        alert("Video player is not ready yet.");
+    }
+});
+</script>
