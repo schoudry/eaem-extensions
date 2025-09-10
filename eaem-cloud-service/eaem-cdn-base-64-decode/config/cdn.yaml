@@ -17,5 +17,5 @@ data:
             value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-EmployeeNumber":\s*"([0-9]+)".*$', replacement: '\1'} ] }
           - type: set
             reqHeader: eaem-employee-name
-            value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-displayName":\s*"([0-9]+)".*$', replacement: '\1'} ] }            
+            value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-displayName":\s*"([^"]+)".*$', replacement: '\1'} ] }            
 
