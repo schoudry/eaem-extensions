@@ -16,8 +16,7 @@
 
 <sly data-sly-use.headerHelper="apps.experienceaem.sites.core.servlets.RequestHeaderHelper">
     <ul>
-        <li>Coookie : ${headerHelper.headers['Cookie'] @ context='text'}</li>
-        <li>Employee Number : ${headerHelper.headers['x-employee-number'] @ context='text'}</li>
+        <li>Employee Number : ${headerHelper.headers['Eaem-Employee-Number'] @ context='text'}</li>
     </ul>
 </sly>
 
