@@ -14,6 +14,6 @@ data:
           #{"eaem-EmployeeNumber":"998877","displayName":"Experience AEM","employeeID":"5342243"}
           - type: set
             reqHeader: eaem-employee-number
-            value: "sreek"
-            #value: { reqCookie: eaem-cookie, transform: [ `base64decode`, {op: 'replace', match: '"eaem-EmployeeNumber":\s*"([^"]*)"', replacement: '\1'} ] }
+            #value: { reqCookie: mycookie, transform: [ `base64decode`, {op: 'replace', match: '"wm-EmployeeNumber":\s*"([^"]*)"', replacement: "\1"} ] }
+            value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-EmployeeNumber":\s*"([0-9]+)".*$', replacement: '\1'} ] }
 

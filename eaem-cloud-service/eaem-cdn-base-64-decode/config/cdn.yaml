@@ -1,0 +1,21 @@
+kind: "CDN"
+version: "1"
+metadata:
+    envTypes: [ "rde", "dev" ]
+data:
+  requestTransformations:
+    rules:
+      - name: set-employee-info-request-header
+        when:
+          reqProperty: path
+          equals: "/content/eaem-cdn-base-64-decode/us/en/home.html" 
+        actions:
+          #eyJlYWVtLUVtcGxveWVlTnVtYmVyIjoiOTk4ODc3IiwiZWFlbS1kaXNwbGF5TmFtZSI6IkV4cGVyaWVuY2UgQUVNIn0=
+          #{"eaem-EmployeeNumber":"998877","eaem-displayName":"Experience AEM"}
+          - type: set
+            reqHeader: eaem-employee-number
+            value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-EmployeeNumber":\s*"([0-9]+)".*$', replacement: '\1'} ] }
+          - type: set
+            reqHeader: eaem-employee-name
+            value: { reqCookie: eaem-cookie, transform: [ "base64decode", {op: 'replace', match: '^.*"eaem-displayName":\s*"([0-9]+)".*$', replacement: '\1'} ] }            
+
