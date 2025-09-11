@@ -19,6 +19,10 @@
         <li>Employee Number : ${headerHelper.headers['Eaem-Employee-Number'] @ context='text'}</li>
         <li>Employee Name : ${headerHelper.headers['Eaem-Employee-Name'] @ context='text'}</li>
     </ul>
+
+    <div style="margin-top: 50px;">
+        All Headers: ${headerHelper.headers @ context='text'}
+    </div>
 </sly>
 
 

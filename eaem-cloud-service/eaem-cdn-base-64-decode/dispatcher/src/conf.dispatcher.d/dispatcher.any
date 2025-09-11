@@ -9,3 +9,10 @@
 	# Include all *.farm files in enabled_farms
 	$include "enabled_farms/*.farm"
 }
+
+# DO NOT CACHE /content/eaem-cdn-base-64-decode
+
+/rules  {
+	/0000  { /glob "*"  /type "allow" }
+	/0001  { /glob "/content/eaem-cdn-base-64-decode/*" /type "deny" }
+}

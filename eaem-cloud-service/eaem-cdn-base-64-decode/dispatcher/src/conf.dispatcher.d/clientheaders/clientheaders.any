@@ -5,3 +5,6 @@
 #
 
 $include "./default_clientheaders.any"
+
+"Eaem-Employee-Number"
+"Eaem-Employee-Name"

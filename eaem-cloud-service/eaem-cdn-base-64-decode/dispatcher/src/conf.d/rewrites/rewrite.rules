@@ -24,5 +24,10 @@ RewriteCond %{REQUEST_URI} !^/conf/(.+\.jpe?g|.+\.png|.+\.svg)$
 RewriteCond %{REQUEST_URI} (.html|.jpe?g|.png|.svg)$
 RewriteRule ^/(.*)$ /content/${CONTENT_FOLDER_NAME}/$1 [PT,L]
 
+<LocationMatch "^/content/eaem-cdn-base-64-decode">
+    Header unset Surrogate-Control
+    Header always set Surrogate-Control "no-store, no-cache"
+</LocationMatch>
+
 RewriteCond %{HTTP:Eaem-Employee-Number} !^$
 RewriteRule ^/content/eaem-cdn-base-64-decode/us/en/home.html$ /content/eaem-cdn-base-64-decode/us/en/employee-home.html [PT,L]
