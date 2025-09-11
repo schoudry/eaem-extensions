@@ -1,0 +1,63 @@
+<html>
+<head>
+    <title>Dynamic Media Open API Asset Selector</title>
+</head>
+<body>
+<div style="width: 100%; height: 100%">
+    <h1 style="text-align: center; color: red"> Dynamic Media Open API Asset Selector with IMS Token  </h1>
+    <div id='asset-selector'></div>
+</div>
+<script src="https://experience.adobe.com/solutions/CQ-assets-selectors/static-assets/resources/assets-selectors.js"></script>
+<script>
+    function registerAssetSelector(){
+        const apiToken = queryParameters().imsToken;
+
+        if(!apiToken) {
+            alert("IMS Token is required");
+            return;
+        }
+
+        function handleSelection(selection) {
+            console.log("Selected asset: ", selection);
+        }
+
+        function renderAssetSelectorInline() {
+            console.log("initializing Asset Selector");
+
+            const props = {
+                //"repositoryId": "delivery-p10961-e880305.adobeaemcloud.com",
+                "repositoryId": "author-p10961-e880305.adobeaemcloud.com",
+                "apiKey": "asset_search_service", //Dynamic Media with OpenAPI entitlement (Adobe Support Ticket) is required to use the asset_search_service api-key
+                "imsOrg": "2FBC7B975CFE21C40A495FBB@AdobeOrg",
+                "imsToken": apiToken,
+                handleSelection,
+                hideTreeNav: true
+            }
+
+            const container = document.getElementById('asset-selector');
+
+            PureJSSelectors.renderAssetSelector(container, props);
+        }
+
+        window.addEventListener("load", (event) => {
+            renderAssetSelectorInline();
+        });
+    }
+
+    function queryParameters() {
+        let result = {}, param,
+            params = document.location.search.split(/\?|\&/);
+
+        params.forEach( function(it) {
+            param = it.split("=");
+            result[param[0]] = param[1];
+        });
+
+        return result;
+    }
+
+    registerAssetSelector();
+
+</script>
+</body>
+</html>
