@@ -1,0 +1,3 @@
+maps:
+    - name: eaem-redirects.map
+      path: /content/dam/eaem-redirects/eaem-redirects.txt

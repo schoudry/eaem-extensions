@@ -31,3 +31,8 @@ RewriteRule ^/(.*)$ /content/${CONTENT_FOLDER_NAME}/$1 [PT,L]
 
 RewriteCond %{HTTP:Eaem-Employee-Number} !^$
 RewriteRule ^/content/eaem-cdn-base-64-decode/us/en/home.html$ /content/eaem-cdn-base-64-decode/us/en/employee-home.html [PT,L]
+
+RewriteMap eaem-redirects dbm=sdbm:/tmp/rewrites/eaem-redirects.map
+RewriteMap lowercase int:tolower
+RewriteCond ${eaem-redirects:${lowercase:$1}} !=""
+RewriteRule ^(.*)$ ${eaem-redirects:${lowercase:$1}|/} [L,R=301]
