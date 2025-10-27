@@ -1,5 +1,5 @@
 {
     "user.mapping": [
-      "experience-aem.core:eaem-no-auth-paths-service=[eaem-no-auth-paths-service-user]"
+      "eaem-publish-ims-login-cust-auth.core:eaem-no-auth-paths-service=[eaem-no-auth-paths-service-user]"
     ]
 }

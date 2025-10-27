@@ -110,6 +110,11 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
                 return null;
             }
 
+            if(serviceResolver == null) {
+                LOG.error("Service resolver is null");
+                return null;
+            }
+
             AuthenticationInfo authInfo = new AuthenticationInfo(AUTH_TYPE_EAEM_NO_AUTH_PATHS);
             authInfo.put(JcrResourceConstants.AUTHENTICATION_INFO_SESSION, serviceResolver.adaptTo(Session.class));
 
