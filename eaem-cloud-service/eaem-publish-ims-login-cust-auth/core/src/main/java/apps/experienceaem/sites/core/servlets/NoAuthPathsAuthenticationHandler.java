@@ -1,22 +1,29 @@
 package apps.experienceaem.sites.core.servlets;
 
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.auth.core.spi.AuthenticationHandler;
 import org.apache.sling.auth.core.spi.AuthenticationInfo;
 import org.apache.sling.auth.core.spi.DefaultAuthenticationFeedbackHandler;
+import org.apache.sling.jcr.resource.api.JcrResourceConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,9 +42,14 @@ import java.util.Set;
 public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedbackHandler implements AuthenticationHandler {
     
     private static final Logger LOG = LoggerFactory.getLogger(NoAuthPathsAuthenticationHandler.class);
+
+    private static final String AUTH_TYPE_EAEM_NO_AUTH_PATHS = "AUTH_TYPE_EAEM_NO_AUTH_PATHS";
     
     private Set<String> noAuthPaths = new HashSet<>();
     private boolean enabled = false;
+
+    @Reference
+    ResourceResolverFactory resourceResolverFactory;    
     
     @ObjectClassDefinition(
         name = "Experience AEM - No Auth Paths Authentication Handler",
@@ -56,7 +68,7 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
             description = "List of paths that do not require authentication (supports wildcards with *)"
         )
         String[] noAuthPaths() default {
-            "/content/eaem-publish-ims-login-cust-auth/noauth/*"
+            "/content/eaem-publish-ims-login-cust-auth/us/en/home/no-auth"
         };
     }
     
@@ -75,25 +87,36 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
         }
         
         String requestPath = request.getPathInfo();
+
         if (requestPath == null) {
             requestPath = request.getRequestURI();
         }
+
+        if(requestPath.endsWith(".html")) {
+            requestPath = requestPath.substring(0, requestPath.length() - 5);
+        }
         
-        LOG.debug("Checking authentication for path: {}", requestPath);
+        LOG.info("Checking authentication for requested resource: {}", requestPath);
         
         if (isNoAuthPath(requestPath)) {
-            LOG.debug("Path {} matches no-auth pattern, allowing anonymous access", requestPath);
-            
-            AuthenticationInfo authInfo = new AuthenticationInfo(
-                AuthenticationHandler.TYPE_PROPERTY,
-                "anonymous"
-            );
-            authInfo.put("user.jcr.credentials", "anonymous");
-            
+            LOG.info("Path {} matches no-auth pattern, allowing anonymous access", requestPath);
+
+            ResourceResolver serviceResolver = null;
+
+            try {
+                serviceResolver = getServiceResolver();
+            } catch (Exception e) {
+                LOG.error("Error getting service resolver", e);
+                return null;
+            }
+
+            AuthenticationInfo authInfo = new AuthenticationInfo(AUTH_TYPE_EAEM_NO_AUTH_PATHS);
+            authInfo.put(JcrResourceConstants.AUTHENTICATION_INFO_SESSION, serviceResolver.adaptTo(Session.class));
+
             return authInfo;
         }
         
-        LOG.debug("Path {} requires authentication", requestPath);
+        LOG.info("Path {} requires authentication", requestPath);
         return null;
     }
     
@@ -112,26 +135,18 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
         }
         
         for (String pattern : noAuthPaths) {
-            if (matchesPattern(path, pattern)) {
+            if (path.startsWith(pattern)) {
                 return true;
             }
         }
         
         return false;
     }
-    
-    private boolean matchesPattern(String path, String pattern) {
-        if (pattern.equals(path)) {
-            return true;
-        }
-        
-        if (pattern.contains("*")) {
-            String regex = pattern
-                .replace(".", "\\.")
-                .replace("*", ".*");
-            return path.matches(regex);
-        }
-        
-        return false;
+
+    private ResourceResolver getServiceResolver() throws Exception{
+        Map<String, Object> SERVICE_MAP = new HashMap<>();
+        SERVICE_MAP.put(ResourceResolverFactory.SUBSERVICE, "eaem-no-auth-paths-service");
+
+        return resourceResolverFactory.getServiceResourceResolver(SERVICE_MAP);
     }
 }

@@ -1,0 +1,6 @@
+{
+    "scripts": [
+        "create service user eaem-no-auth-paths-service-user with path system/experience-aem",
+        "set ACL for eaem-no-auth-paths-service-user \n  allow jcr:read on /content \n  allow jcr:read on /conf \n end"
+    ]
+}

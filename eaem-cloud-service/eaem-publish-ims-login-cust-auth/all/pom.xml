@@ -62,9 +62,20 @@
                         </embedded>
                         <embedded>
                             <groupId>apps.experienceaem.sites</groupId>
+                            <artifactId>eaem-publish-ims-login-cust-auth.core</artifactId>
+                            <target>/apps/eaem-publish-ims-login-cust-auth-packages/application/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.sites</groupId>
                             <artifactId>eaem-publish-ims-login-cust-auth.ui.content</artifactId>
                             <type>zip</type>
                             <target>/apps/eaem-publish-ims-login-cust-auth-packages/content/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>apps.experienceaem.sites</groupId>
+                            <artifactId>eaem-publish-ims-login-cust-auth.ui.config</artifactId>
+                            <type>zip</type>
+                            <target>/apps/eaem-publish-ims-login-cust-auth-packages/application/install</target>
                         </embedded>
                     </embeddeds>
                 </configuration>

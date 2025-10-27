@@ -108,6 +108,12 @@
     <dependencies>
         <dependency>
             <groupId>apps.experienceaem.sites</groupId>
+            <artifactId>eaem-publish-ims-login-cust-auth.core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>apps.experienceaem.sites</groupId>
             <artifactId>eaem-publish-ims-login-cust-auth.ui.apps.structure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
