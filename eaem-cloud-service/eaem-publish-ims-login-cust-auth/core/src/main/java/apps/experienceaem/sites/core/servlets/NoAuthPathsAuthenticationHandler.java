@@ -99,7 +99,7 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
         LOG.info("Checking authentication for requested resource: {}", requestPath);
         
         if (isNoAuthPath(requestPath)) {
-            LOG.info("Path {} matches no-auth pattern, allowing anonymous access", requestPath);
+            LOG.info("Path {} matches cust auth handler no-auth pattern, allowing anonymous access", requestPath);
 
             ResourceResolver serviceResolver = null;
 

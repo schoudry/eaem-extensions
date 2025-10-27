@@ -190,5 +190,11 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>apps.experienceaem.sites</groupId>
+            <artifactId>eaem-publish-ims-login-cust-auth.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
     </dependencies>
 </project>
