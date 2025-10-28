@@ -65,7 +65,7 @@ public class NoAuthPathsAuthenticationHandler extends DefaultAuthenticationFeedb
         
         @AttributeDefinition(
             name = "No Auth Paths",
-            description = "List of paths that do not require authentication (supports wildcards with *)"
+            description = "List of paths that do not require authentication"
         )
         String[] noAuthPaths() default {
             "/content/eaem-publish-ims-login-cust-auth/us/en/home/no-auth"
