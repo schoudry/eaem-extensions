@@ -26,9 +26,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Custom Authentication Handler that allows specific paths to bypass authentication
- */
 @Component(
     service = AuthenticationHandler.class,
     immediate = true,
