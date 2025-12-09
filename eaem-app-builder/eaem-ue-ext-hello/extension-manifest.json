@@ -1,0 +1,12 @@
+{
+  "name": "eaemrdeueexthello",
+  "id": "eaemrdeueexthello",
+  "description": "EAEM RDE UE Ext Hello",
+  "version": "0.0.1",
+  "rightPanelRails": [
+    {
+      "header": "eaem rde hello",
+      "id": "eaem-rde-hello"
+    }
+  ]
+}
