@@ -22,4 +22,6 @@ dist
 **/node
 **/build
 eaem-cloud-service/dispatcher
+eaem-aem-jcr-eds/
+eaem-ue-eds-sample/
 .vscode
