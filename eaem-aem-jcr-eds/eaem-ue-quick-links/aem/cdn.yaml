@@ -21,18 +21,3 @@ data:
           - type: set
             respHeader: Set-Cookie
             value: { respHeader: Set-Cookie, transform: [ {op: 'replace', match: 'SameSite=(Lax|Strict|None)', replacement: 'SameSite=None'} ] } 
-  originSelectors:
-    rules:
-      - name: select-edge-delivery-services-origin
-        when:
-          allOf:
-            - reqProperty: tier
-              equals: publish
-            - reqProperty: path
-              matches: "^(/index)"
-        action:
-          type: selectOrigin
-          originName: aem-live
-    origins:
-      - name: aem-live
-        domain: main--eaem-rde-eds-brand-seven--schoudry.aem.live            

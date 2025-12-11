@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM UE Quick Links",
+  "id": "experience-aem-ue-quick-links",
+  "description": "Experience AEM UE Quick Links",
+  "version": "0.0.1",
+  "rightPanelRails": [
+    {
+      "header": "Experience AEM UE Quick Links",
+      "id": "experience-aem-ue-quick-links"
+    }
+  ]
+}
