@@ -113,6 +113,11 @@ export default function EaemrdehelloRail () {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
+  const handleOpenLive = () => {
+    const url = getPreviewOrLiveUrl(edsSitesRoots, pagePath, githubOrg, 'LIVE');
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
   useEffect(() => {
     (async () => {
       const guestConnection = await attach({ id: extensionId })
@@ -139,10 +144,15 @@ export default function EaemrdehelloRail () {
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark'>
-      <div style={{ height: '905px',paddingTop: '20px' ,fontSize: '20px', textAlign: 'center' }}>
+      <div style={{ height: '905px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
         <Button variant="primary" onPress={handleOpenPreview} UNSAFE_style={{ cursor: 'pointer' }}>
           Open page in preview
         </Button>
+        <div style={{ marginTop: '10px' }}>
+          <Button variant="primary" onPress={handleOpenLive} UNSAFE_style={{ cursor: 'pointer' }}>
+            Open page in live
+          </Button>
+        </div>
       </div>
     </Provider>
   )
