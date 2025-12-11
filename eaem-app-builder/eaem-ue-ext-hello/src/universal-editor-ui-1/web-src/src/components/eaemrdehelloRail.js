@@ -5,18 +5,9 @@
 import React, { useState, useEffect } from 'react'
 import { attach } from "@adobe/uix-guest"
 import {
-  Flex,
-  Form,
-  ProgressCircle,
   Provider,
-  Content,
   defaultTheme,
-  Text,
-  TextField,
-  ButtonGroup,
   Button,
-  Heading,
-  View
 } from '@adobe/react-spectrum'
 
 import { extensionId } from "./Constants"
@@ -145,6 +136,9 @@ export default function EaemrdehelloRail () {
   return (
     <Provider theme={defaultTheme} colorScheme='dark'>
       <div style={{ height: '905px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '20px', border: '2px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+          Quick Links
+        </div>
         <Button variant="primary" onPress={handleOpenPreview} UNSAFE_style={{ cursor: 'pointer' }}>
           Open page in preview
         </Button>
