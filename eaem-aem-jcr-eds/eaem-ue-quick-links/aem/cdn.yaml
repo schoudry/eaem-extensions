@@ -5,10 +5,10 @@ metadata:
 data:
   responseTransformations:
     rules:
-      - name: "frame-security-policy-for-author-rde"
+      - name: "frame-security-policy-for-author-dev"
         when:
             reqProperty: domain
-            equals: "author-p10961-e1322140.adobeaemcloud.com"
+            equals: "author-p10961-e880305.adobeaemcloud.com"
         actions:
           - type: set
             value:  frame-ancestors 'self' https://experience.adobe.com

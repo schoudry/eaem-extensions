@@ -20,7 +20,7 @@ function ExtensionRegistration() {
               {
                 'id': 'experience-aem-ue-quick-links',
                 'header': 'Experience AEM UE Quick Links',
-                'icon': 'PublishCheck',
+                'icon': 'Airplane',
                 'url': '/#/experience-aem-ue-quick-links-rail'
               },
             ];
