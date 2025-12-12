@@ -40,7 +40,9 @@ export default function ExperienceAEMUEQuickLinksRail () {
       }
     };
     const response = await fetch(sitesQueryUrl, requestOptions)
-    const responseData = await response.json()
+    const responseData = await response.text()
+
+    console.log("responseData----->" , responseData);
 
     return responseData.hits ? responseData.hits.reduce((map, hit) => {
       const value = hit.path.substring(hit.path.lastIndexOf('/') + 1);
