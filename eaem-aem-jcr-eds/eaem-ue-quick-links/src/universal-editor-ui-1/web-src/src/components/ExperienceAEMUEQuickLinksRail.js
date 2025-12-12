@@ -40,9 +40,7 @@ export default function ExperienceAEMUEQuickLinksRail () {
       }
     };
     const response = await fetch(sitesQueryUrl, requestOptions)
-    const responseData = await response.text()
-
-    console.log("responseData----->" , responseData);
+    const responseData = await response.json()
 
     return responseData.hits ? responseData.hits.reduce((map, hit) => {
       const value = hit.path.substring(hit.path.lastIndexOf('/') + 1);
@@ -137,11 +135,11 @@ export default function ExperienceAEMUEQuickLinksRail () {
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark'>
-      <div style={{ height: '905px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
+      <div style={{ height: '940px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '20px', border: '2px solid #ccc', padding: '10px', borderRadius: '5px' }}>
           Quick Links
         </div>
-        <Button variant="primary" onPress={handleOpenPreview} UNSAFE_style={{ cursor: 'pointer' }}>
+        <Button variant="primary" onPress={handleOpenPreview} UNSAFE_style={{ cursor: 'pointer' }} title="Open page in preview">
           Open page in preview
         </Button>
         <div style={{ marginTop: '10px' }}>

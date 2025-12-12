@@ -12,38 +12,7 @@ data:
         actions:
           - type: set
             value:  frame-ancestors 'self' https://experience.adobe.com
-            respHeader: Content-Security-Policy
-      - name: "allow-cors-localhost"
-        when:
-            allOf:
-              - reqProperty: domain
-                equals: "author-p10961-e880305.adobeaemcloud.com"
-              - reqHeader: Origin
-                equals: "https://localhost:9080"
-        actions:
-          - type: set
-            respHeader: Access-Control-Allow-Origin
-            value: "https://localhost:9080"         
-          - type: set
-            respHeader: Access-Control-Allow-Credentials
-            value: "true"
-          - type: set
-            respHeader: Access-Control-Allow-Headers
-            value: "Authorization, Content-Type, Accept, Origin, X-Requested-With"
-          - type: set
-            respHeader: Access-Control-Allow-Methods
-            value: "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-      - name: "allow-cors-experience-adobe"
-        when:
-            allOf:
-              - reqProperty: domain
-                equals: "author-p10961-e880305.adobeaemcloud.com"
-              - reqHeader: Origin
-                equals: "https://experience.adobe.com"
-        actions:
-          - type: set
-            respHeader: Access-Control-Allow-Origin
-            value: "https://experience.adobe.com"         
+            respHeader: Content-Security-Policy       
       - name: "set-samesite-none-for-login-token"
         when:
             respHeader: Set-Cookie
@@ -51,4 +20,4 @@ data:
         actions:
           - type: set
             respHeader: Set-Cookie
-            value: { respHeader: Set-Cookie, transform: [ {op: 'replace', match: 'SameSite=(Lax|Strict|None)', replacement: 'SameSite=None'} ] }
+            value: { respHeader: Set-Cookie, transform: [ {op: 'replace', match: 'SameSite=(Lax|Strict|None)', replacement: 'SameSite=None'} ] } 
