@@ -1,5 +1,5 @@
 {
-  "alloworigin": ["http://localhost:3000", "https://localhost:9080", "https://*.adobeio-static.net"],
+  "alloworigin": ["http://localhost:3000", "https://localhost:9080", "https://258616-eaemuequicklinks-stage.adobeio-static.net", "https://258616-eaemuequicklinks.adobeio-static.net"],
   "allowedpaths": [".*"],
   "supportedheaders": [
     "Authorization",

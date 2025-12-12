@@ -124,8 +124,6 @@ export default function ExperienceAEMUEQuickLinksRail () {
         const githubOrgValue = await getGithubOrg(hostValue, guestConnection);
         const pagePathValue = getPagePath(hostValue, editorState.location);
 
-        console.log("getPreviewOrLiveUrl----->" , getPreviewOrLiveUrl(siteRoots, pagePathValue, githubOrgValue));
-  
         setEdsSitesRoots(siteRoots)
         setGithubOrg(githubOrgValue)
         setPagePath(pagePathValue)
@@ -135,7 +133,7 @@ export default function ExperienceAEMUEQuickLinksRail () {
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark'>
-      <div style={{ height: '940px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
+      <div style={{ height: '900px',paddingTop: '20px' ,fontSize: '20px', paddingLeft: '20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '20px', border: '2px solid #ccc', padding: '10px', borderRadius: '5px' }}>
           Quick Links
         </div>
