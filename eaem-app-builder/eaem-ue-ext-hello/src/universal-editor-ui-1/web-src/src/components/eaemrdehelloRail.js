@@ -106,6 +106,15 @@ export default function EaemrdehelloRail () {
       ...prev,
       [itemId]: updatedContent
     }));
+
+    setItemLinks(prev => ({
+      ...prev,
+      [itemId]: prev[itemId].map(link => 
+        link.outerHTML === linkOuterHTML 
+          ? { ...link, isOpenInNewTab: isChecked, outerHTML: updatedLink }
+          : link
+      )
+    }));
   }
 
   const handleTextChange = (itemId, newValue) => {
@@ -124,13 +133,7 @@ export default function EaemrdehelloRail () {
       content: updatedContent
     };
 
-    console.log('updatedItem-----', updatedItem);
-
     await updateRichtext(updatedItem, editorState, token);
-
-    item.content = updatedContent;
-
-    window.location.reload();
   }
 
   useEffect(() => {
