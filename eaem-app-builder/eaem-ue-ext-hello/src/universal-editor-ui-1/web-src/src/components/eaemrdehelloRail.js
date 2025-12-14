@@ -17,7 +17,7 @@ import {
   Heading
 } from '@adobe/react-spectrum'
 
-import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT } from "./Constants"
+import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants"
 
 export default function EaemrdehelloRail () {
   const [guestConnection, setGuestConnection] = useState()
@@ -42,6 +42,8 @@ export default function EaemrdehelloRail () {
       },
       value: item.content
     };
+
+    console.log("------> item.content ", item.content);
 
     try {
       const response = await fetch('https://universal-editor-service.adobe.io/update', {
@@ -121,7 +123,7 @@ export default function EaemrdehelloRail () {
 
     await updateRichtext(updatedItem, editorState, token);
 
-    //guestConnection.host.editorActions.refreshPage();
+    await guestConnection.host.editorActions.refreshPage();
   }
 
   useEffect(() => {
@@ -129,23 +131,26 @@ export default function EaemrdehelloRail () {
       const connection = await attach({ id: extensionId })
       setGuestConnection(connection);
 
-      const state = await connection.host.editorState.get();
-      setEditorState(state);
-
       const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
     
-      channel.onmessage = (event) => {
-        if (event.data.type !== EVENT_AUE_UI_SELECT) {
+      channel.onmessage = async (event) => {
+        if (!event.data.type) {
           return;
         }
+
+        const state = await connection.host.editorState.get();
+        setEditorState(state);
+
+        console.log("------> Sreek event.data.type: ", event.data);
   
-        if(event.data.type === EVENT_AUE_UI_SELECT) {
-          const item = state.editables.filter(editableItem => editableItem.resource === event.data.data.resource)[0];
-          
+        if(event.data.type) {
+          const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
+          const item = (event.data.type === EVENT_AUE_UI_SELECT) ? state.editables.filter(editableItem => editableItem.resource === resource)[0] : event.data.data.item;
+
           if (item) {
             setRichtextItem(item);
-            setTextValue(item.content);
-            setItemLinks(extractLinks(item.content));
+            setTextValue(item.content || '');
+            setItemLinks(extractLinks(item.content || ''));
           }
         }
   
@@ -183,9 +188,11 @@ export default function EaemrdehelloRail () {
                   ) : (
                     <Text>No links found</Text>
                   )}
-                  <Flex direction='row' marginTop='size-100'>
-                    <Button variant="primary" onPress={() => handleSave(richtextItem)} isDisabled={textValue === richtextItem.content} UNSAFE_style={{ cursor: "pointer" }}>Save</Button>
-                  </Flex>
+                  {itemLinks.length > 0 && (
+                    <Flex direction='row' marginTop='size-100'>
+                      <Button variant="primary" onPress={() => handleSave(richtextItem)} isDisabled={textValue === richtextItem.content} UNSAFE_style={{ cursor: "pointer" }}>Save</Button>
+                    </Flex>
+                  )}
                 </Flex>
               </Flex>
             )}
