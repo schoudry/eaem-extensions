@@ -17,15 +17,14 @@ import {
   Heading
 } from '@adobe/react-spectrum'
 
-import { extensionId, RICHTEXT_TYPE } from "./Constants"
+import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT } from "./Constants"
 
 export default function EaemrdehelloRail () {
   const [guestConnection, setGuestConnection] = useState()
-  const [richtextItems, setRichtextItems] = useState([])
   const [editorState, setEditorState] = useState(null)
-  const [textValues, setTextValues] = useState({})
-  const [pageUrl, setPageUrl] = useState('')
-  const [itemLinks, setItemLinks] = useState({})
+  const [richtextItem, setRichtextItem] = useState({})
+  const [textValue, setTextValue] = useState('')
+  const [itemLinks, setItemLinks] = useState([])
 
   const updateRichtext = async (item, editorState, token) => {
     const aemHost = editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -77,7 +76,7 @@ export default function EaemrdehelloRail () {
   }
 
   const handleLinkTargetChange = (itemId, linkOuterHTML, isChecked) => {
-    const currentContent = textValues[itemId];
+    const currentContent = textValue;
     
     const hrefMatch = linkOuterHTML.match(/href="([^"]*)"/);
     if (!hrefMatch) return;
@@ -102,31 +101,18 @@ export default function EaemrdehelloRail () {
     const updatedLink = linkOuterHTML.replace(`href="${oldHref}"`, `href="${newHref}"`);
     const updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
     
-    setTextValues(prev => ({
-      ...prev,
-      [itemId]: updatedContent
-    }));
+    setTextValue(updatedContent);
 
-    setItemLinks(prev => ({
-      ...prev,
-      [itemId]: prev[itemId].map(link => 
-        link.outerHTML === linkOuterHTML 
-          ? { ...link, isOpenInNewTab: isChecked, outerHTML: updatedLink }
-          : link
-      )
-    }));
-  }
-
-  const handleTextChange = (itemId, newValue) => {
-    setTextValues(prev => ({
-      ...prev,
-      [itemId]: newValue
-    }));
+    setItemLinks(prev => prev.map(link => 
+      link.outerHTML === linkOuterHTML 
+        ? { ...link, isOpenInNewTab: isChecked, outerHTML: updatedLink }
+        : link
+    ));
   }
 
   const handleSave = async (item) => {
     const token = guestConnection.sharedContext.get("token");
-    const updatedContent = textValues[item.id] || item.content;
+    const updatedContent = textValue || item.content;
     
     const updatedItem = {
       ...item,
@@ -134,6 +120,8 @@ export default function EaemrdehelloRail () {
     };
 
     await updateRichtext(updatedItem, editorState, token);
+
+    guestConnection.host.editorActions.refreshPage();
   }
 
   useEffect(() => {
@@ -144,26 +132,29 @@ export default function EaemrdehelloRail () {
       const state = await connection.host.editorState.get();
       setEditorState(state);
 
-      if(!state){
-        return;
-      }
+      const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+    
+      channel.onmessage = (event) => {
+        if (event.data.type !== EVENT_AUE_UI_SELECT) {
+          return;
+        }
+  
+        if(event.data.type === EVENT_AUE_UI_SELECT) {
+          const item = state.editables.filter(editableItem => editableItem.resource === event.data.data.resource)[0];
 
-      const url = state.location.split('?')[0];
-      setPageUrl(url);
-        
-      if(state.editables && Array.isArray(state.editables)) {
-        const items = state.editables.filter(item => item.type === RICHTEXT_TYPE);
-        setRichtextItems(items);
-        
-        const initialValues = {};
-        const linksMap = {};
-        items.forEach(item => {
-          initialValues[item.id] = item.content;
-          linksMap[item.id] = extractLinks(item.content);
-        });
-        setTextValues(initialValues);
-        setItemLinks(linksMap);
-      }
+          console.log("------> Sreek item: ", item);
+          
+          if (item) {
+            setRichtextItem(item);
+            setTextValue(item.content);
+            setItemLinks(extractLinks(item.content));
+          }
+        }
+  
+        return () => {
+          channel.close();
+        };
+      };
     })()
   }, [])
 
@@ -173,43 +164,40 @@ export default function EaemrdehelloRail () {
         <View padding='size-200'>
           <Heading marginBottom='size-100' level='3'>Links in Richtext</Heading>
           <View>
-            {richtextItems?.slice(0, 1).map((item, i) => {
-              const links = itemLinks[item.id] || [];
-              return (
-                <Flex direction='column' gap='size-65' marginBottom='size-200' key={item.id}>
-                  <Flex direction='column'>
-                      {links.length > 0 ? (
-                        links.map((link, idx) => (
-                          <Flex key={idx} direction='column' marginTop='size-100' marginBottom='size-100'>
-                            <View borderWidth='thin' borderColor='gray-400' borderRadius='medium' padding='size-100' backgroundColor='gray-50'>
-                              <Flex direction='column'>
-                                <Text marginBottom='size-100'>
-                                  {link.text}
-                                </Text>
-                                <Checkbox isSelected={link.isOpenInNewTab} onChange={(isChecked) => handleLinkTargetChange(item.id, link.outerHTML, isChecked)}>
-                                  Open in new tab
-                                </Checkbox>
-                              </Flex>
-                            </View>
+            {richtextItem?.id && (
+              <Flex direction='column' gap='size-65' marginBottom='size-200' key={richtextItem.id}>
+                <Flex direction='column'>
+                  {itemLinks.length > 0 ? (
+                    itemLinks.map((link, idx) => (
+                      <Flex key={idx} direction='column' marginTop='size-100' marginBottom='size-100'>
+                        <View borderWidth='thin' borderColor='gray-400' borderRadius='medium' padding='size-100' backgroundColor='gray-50'>
+                          <Flex direction='column'>
+                            <Text marginBottom='size-100'>
+                              {link.text}
+                            </Text>
+                            <Checkbox isSelected={link.isOpenInNewTab} onChange={(isChecked) => handleLinkTargetChange(richtextItem.id, link.outerHTML, isChecked)}>
+                              Open in new tab
+                            </Checkbox>
                           </Flex>
-                        ))
-                      ) : (
-                        <Text>No links found</Text>
-                      )}
-                    <Flex direction='row' marginTop='size-100'>
-                      <Button 
-                        variant="primary" 
-                        onPress={() => handleSave(item)} 
-                        isDisabled={textValues[item.id] === item.content}
-                        UNSAFE_style={{ cursor: "pointer" }}
-                      >
-                        Save
-                      </Button>
-                    </Flex>
+                        </View>
+                      </Flex>
+                    ))
+                  ) : (
+                    <Text>No links found</Text>
+                  )}
+                  <Flex direction='row' marginTop='size-100'>
+                    <Button 
+                      variant="primary" 
+                      onPress={() => handleSave(richtextItem)} 
+                      isDisabled={textValue === richtextItem.content}
+                      UNSAFE_style={{ cursor: "pointer" }}
+                    >
+                      Save
+                    </Button>
                   </Flex>
                 </Flex>
-              )
-            })}
+              </Flex>
+            )}
           </View>
         </View>
       </Content>
