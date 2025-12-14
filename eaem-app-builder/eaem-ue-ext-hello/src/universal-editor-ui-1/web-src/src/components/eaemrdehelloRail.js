@@ -25,6 +25,7 @@ export default function EaemrdehelloRail () {
   const [editorState, setEditorState] = useState(null)
   const [textValues, setTextValues] = useState({})
   const [pageUrl, setPageUrl] = useState('')
+  const [itemLinks, setItemLinks] = useState({})
 
   const updateRichtext = async (item, editorState, token) => {
     const aemHost = editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -115,10 +116,13 @@ export default function EaemrdehelloRail () {
         setRichtextItems(items);
         
         const initialValues = {};
+        const linksMap = {};
         items.forEach(item => {
           initialValues[item.id] = item.content;
+          linksMap[item.id] = extractLinks(item.content);
         });
         setTextValues(initialValues);
+        setItemLinks(linksMap);
       }
     })()
   }, [])
@@ -129,8 +133,8 @@ export default function EaemrdehelloRail () {
         <View padding='size-200'>
           <Heading marginBottom='size-100' level='3'>Links in Block</Heading>
           <View>
-            {richtextItems?.map((item, i) => {
-              const links = extractLinks(item.content);
+            {richtextItems?.slice(0, 1).map((item, i) => {
+              const links = itemLinks[item.id] || [];
               return (
                 <Flex direction='column' gap='size-65' marginBottom='size-200' key={item.id}>
                   <Flex direction='column'>
