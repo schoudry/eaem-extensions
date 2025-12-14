@@ -13,7 +13,7 @@ import {
   Text,
   View,
   Content,
-  Divider,
+  Checkbox,
   Heading
 } from '@adobe/react-spectrum'
 
@@ -128,7 +128,6 @@ export default function EaemrdehelloRail () {
       <Content height='100%'>
         <View padding='size-200'>
           <Heading marginBottom='size-100' level='3'>Links in Block</Heading>
-          <Divider size='S' marginBottom='size-100'/>
           <View>
             {richtextItems?.map((item, i) => {
               const links = extractLinks(item.content);
@@ -142,26 +141,18 @@ export default function EaemrdehelloRail () {
                       padding='size-100'
                       backgroundColor='gray-50'
                     >
-                      <Text><em>Links found:</em></Text>
                       {links.length > 0 ? (
                         links.map((link, idx) => (
-                          <View key={idx} marginTop='size-50'>
-                            <Text>
+                          <Flex key={idx} direction='column' marginTop='size-100' marginBottom='size-100'>
+                            <Text marginBottom='size-50'>
                               {link.text}
                             </Text>
-                          </View>
+                            <Checkbox>Open in new tab</Checkbox>
+                          </Flex>
                         ))
                       ) : (
                         <Text>No links found</Text>
                       )}
-                    </View>
-                    <View marginTop='size-100'>
-                      <TextArea
-                        width='100%'
-                        label="Edit Content"
-                        value={textValues[item.id] || ''}
-                        onChange={(value) => handleTextChange(item.id, value)}
-                      />
                     </View>
                     <Flex direction='row' marginTop='size-100'>
                       <Button 
@@ -173,7 +164,6 @@ export default function EaemrdehelloRail () {
                       </Button>
                     </Flex>
                   </Flex>
-                  <Divider size='S' marginTop='size-100'/>
                 </Flex>
               )
             })}
