@@ -121,7 +121,7 @@ export default function EaemrdehelloRail () {
 
     await updateRichtext(updatedItem, editorState, token);
 
-    guestConnection.host.editorActions.refreshPage();
+    //guestConnection.host.editorActions.refreshPage();
   }
 
   useEffect(() => {
@@ -141,8 +141,6 @@ export default function EaemrdehelloRail () {
   
         if(event.data.type === EVENT_AUE_UI_SELECT) {
           const item = state.editables.filter(editableItem => editableItem.resource === event.data.data.resource)[0];
-
-          console.log("------> Sreek item: ", item);
           
           if (item) {
             setRichtextItem(item);
@@ -186,14 +184,7 @@ export default function EaemrdehelloRail () {
                     <Text>No links found</Text>
                   )}
                   <Flex direction='row' marginTop='size-100'>
-                    <Button 
-                      variant="primary" 
-                      onPress={() => handleSave(richtextItem)} 
-                      isDisabled={textValue === richtextItem.content}
-                      UNSAFE_style={{ cursor: "pointer" }}
-                    >
-                      Save
-                    </Button>
+                    <Button variant="primary" onPress={() => handleSave(richtextItem)} isDisabled={textValue === richtextItem.content} UNSAFE_style={{ cursor: "pointer" }}>Save</Button>
                   </Flex>
                 </Flex>
               </Flex>
