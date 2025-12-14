@@ -141,28 +141,23 @@ export default function EaemrdehelloRail () {
         const state = await connection.host.editorState.get();
         setEditorState(state);
 
-        console.log("------> state: ", state);
-
-        console.log("------> Sreek event.data: ", event.data);
-  
         if(event.data.type) {
           const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
           const item = state.editables.filter(editableItem => editableItem.resource === resource)[0];
 
           if (item) {
-            setRichtextItem(item);
-
             if(!item.content && item.children && item.children.length > 0){
               //for custom componentts "richtext" is child of the custom component
-              const child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
-              item.content = child ? child.content : ''
-              item.prop = child ? child.prop : ''
+              let child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
+              child.resource = item.resource;
+
+              item = child;
             }
+
+            setRichtextItem(item);
 
             setTextValue( item.content || '');
             
-            console.log("------> Sreek item.content: ", item.content);
-
             setItemLinks(extractLinks(item.content || ''));
           }
         }
