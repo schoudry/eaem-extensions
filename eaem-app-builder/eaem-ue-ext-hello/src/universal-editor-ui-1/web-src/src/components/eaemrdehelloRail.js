@@ -145,7 +145,7 @@ export default function EaemrdehelloRail () {
   
         if(event.data.type) {
           const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
-          const item = (event.data.type === EVENT_AUE_UI_SELECT) ? state.editables.filter(editableItem => editableItem.resource === resource)[0] : event.data.data.item;
+          const item = state.editables.filter(editableItem => editableItem.resource === resource)[0];
 
           if (item) {
             setRichtextItem(item);
