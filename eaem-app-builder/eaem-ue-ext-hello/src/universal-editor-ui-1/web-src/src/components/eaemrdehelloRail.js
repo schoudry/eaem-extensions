@@ -68,8 +68,29 @@ export default function EaemrdehelloRail () {
     return Array.from(links).map(link => ({
       href: link.getAttribute('href'),
       title: link.getAttribute('title') || '',
-      text: link.textContent
+      text: link.textContent,
+      outerHTML: link.outerHTML
     }));
+  }
+
+  const handleLinkTargetChange = (itemId, linkOuterHTML, isChecked) => {
+    const currentContent = textValues[itemId];
+    let updatedContent = currentContent;
+
+    if (isChecked) {
+      const updatedLink = linkOuterHTML.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
+      updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
+    } else {
+      const updatedLink = linkOuterHTML.replace(/ target="_blank"/g, '');
+      updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
+    }
+    
+    setTextValues(prev => ({
+      ...prev,
+      [itemId]: updatedContent
+    }));
+
+    console.log('textValues-----', textValues);
   }
 
   const handleTextChange = (itemId, newValue) => {
@@ -151,7 +172,9 @@ export default function EaemrdehelloRail () {
                             <Text marginBottom='size-50'>
                               {link.text}
                             </Text>
-                            <Checkbox>Open in new tab</Checkbox>
+                            <Checkbox onChange={(isChecked) => handleLinkTargetChange(item.id, link.outerHTML, isChecked)}>
+                              Open in new tab
+                            </Checkbox>
                           </Flex>
                         ))
                       ) : (
