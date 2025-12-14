@@ -141,7 +141,9 @@ export default function EaemrdehelloRail () {
         const state = await connection.host.editorState.get();
         setEditorState(state);
 
-        console.log("------> Sreek event.data.type: ", event.data);
+        console.log("------> state: ", state);
+
+        console.log("------> Sreek event.data: ", event.data);
   
         if(event.data.type) {
           const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
@@ -149,7 +151,18 @@ export default function EaemrdehelloRail () {
 
           if (item) {
             setRichtextItem(item);
-            setTextValue(item.content || '');
+
+            if(!item.content && item.children && item.children.length > 0){
+              //for custom componentts "richtext" is child of the custom component
+              const child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
+              item.content = child ? child.content : ''
+              item.prop = child ? child.prop : ''
+            }
+
+            setTextValue( item.content || '');
+            
+            console.log("------> Sreek item.content: ", item.content);
+
             setItemLinks(extractLinks(item.content || ''));
           }
         }
