@@ -3,5 +3,6 @@
 */
 
 module.exports = {
-  extensionId: 'eaemrdeueexthello'
+  extensionId: 'eaemrdeueexthello',
+  RICHTEXT_TYPE: 'richtext'
 }
