@@ -65,31 +65,47 @@ export default function EaemrdehelloRail () {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const links = doc.querySelectorAll('a');
-    return Array.from(links).map(link => ({
-      text: link.textContent,
-      outerHTML: link.outerHTML,
-      isOpenInNewTab: link.getAttribute('target') === '_blank'
-    }));
+    return Array.from(links).map(link => {
+      const href = link.getAttribute('href') || '';
+      const hasOpenInNewTab = href.includes('open_in_new_tab=true');
+      return {
+        text: link.textContent,
+        outerHTML: link.outerHTML,
+        isOpenInNewTab: hasOpenInNewTab
+      };
+    });
   }
 
   const handleLinkTargetChange = (itemId, linkOuterHTML, isChecked) => {
     const currentContent = textValues[itemId];
-    let updatedContent = currentContent;
-
+    
+    const hrefMatch = linkOuterHTML.match(/href="([^"]*)"/);
+    if (!hrefMatch) return;
+    
+    const oldHref = hrefMatch[1];
+    let newHref = oldHref;
+    
     if (isChecked) {
-      const updatedLink = linkOuterHTML.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
-      updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
+      if (newHref.includes('?')) {
+        newHref = newHref.includes('open_in_new_tab=') 
+          ? newHref.replace(/open_in_new_tab=(true|false)/, 'open_in_new_tab=true')
+          : newHref + '&open_in_new_tab=true';
+      } else {
+        newHref = newHref + '?open_in_new_tab=true';
+      }
     } else {
-      const updatedLink = linkOuterHTML.replace(/ target="_blank"/g, '');
-      updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
+      newHref = newHref
+        .replace(/[?&]open_in_new_tab=true/, '')
+        .replace(/\?&/, '?');
     }
+    
+    const updatedLink = linkOuterHTML.replace(`href="${oldHref}"`, `href="${newHref}"`);
+    const updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
     
     setTextValues(prev => ({
       ...prev,
       [itemId]: updatedContent
     }));
-
-    console.log('textValues-----', textValues);
   }
 
   const handleTextChange = (itemId, newValue) => {
@@ -107,7 +123,8 @@ export default function EaemrdehelloRail () {
       ...item,
       content: updatedContent
     };
-    
+
+    console.log('updatedItem-----', updatedItem);
 
     await updateRichtext(updatedItem, editorState, token);
 
