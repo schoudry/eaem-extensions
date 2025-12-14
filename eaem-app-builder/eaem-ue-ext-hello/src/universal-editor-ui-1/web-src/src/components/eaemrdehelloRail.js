@@ -178,25 +178,32 @@ export default function EaemrdehelloRail () {
               return (
                 <Flex direction='column' gap='size-65' marginBottom='size-200' key={item.id}>
                   <Flex direction='column'>
-                    <View borderWidth='thin' borderColor='gray-400' borderRadius='medium' padding='size-100' backgroundColor='gray-50'>
                       {links.length > 0 ? (
                         links.map((link, idx) => (
                           <Flex key={idx} direction='column' marginTop='size-100' marginBottom='size-100'>
-                            <Text marginBottom='size-50'>
-                              {link.text}
-                            </Text>
-                            <Checkbox isSelected={link.isOpenInNewTab} onChange={(isChecked) => handleLinkTargetChange(item.id, link.outerHTML, isChecked)}>
-                              Open in new tab
-                            </Checkbox>
+                            <View borderWidth='thin' borderColor='gray-400' borderRadius='medium' padding='size-100' backgroundColor='gray-50'>
+                              <Flex direction='column'>
+                                <Text marginBottom='size-100'>
+                                  {link.text}
+                                </Text>
+                                <Checkbox isSelected={link.isOpenInNewTab} onChange={(isChecked) => handleLinkTargetChange(item.id, link.outerHTML, isChecked)}>
+                                  Open in new tab
+                                </Checkbox>
+                              </Flex>
+                            </View>
                           </Flex>
                         ))
                       ) : (
                         <Text>No links found</Text>
                       )}
-                    </View>
                     <Flex direction='row' marginTop='size-100'>
-                      <Button variant="primary" onPress={() => handleSave(item)} isDisabled={textValues[item.id] === item.content}>
-                        Save & Refresh
+                      <Button 
+                        variant="primary" 
+                        onPress={() => handleSave(item)} 
+                        isDisabled={textValues[item.id] === item.content}
+                        UNSAFE_style={{ cursor: "pointer" }}
+                      >
+                        Save
                       </Button>
                     </Flex>
                   </Flex>
