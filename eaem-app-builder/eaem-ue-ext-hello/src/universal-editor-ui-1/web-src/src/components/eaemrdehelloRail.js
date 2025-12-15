@@ -43,8 +43,6 @@ export default function EaemrdehelloRail () {
       value: item.content
     };
 
-    console.log("------> item.content ", item.content);
-
     try {
       const response = await fetch('https://universal-editor-service.adobe.io/update', {
         method: 'POST',
@@ -68,7 +66,7 @@ export default function EaemrdehelloRail () {
     const links = doc.querySelectorAll('a');
     return Array.from(links).map(link => {
       const href = link.getAttribute('href') || '';
-      const hasOpenInNewTab = href.includes('open_in_new_tab=true');
+      const hasOpenInNewTab = href.includes('open_in_new_tab=true') || link.getAttribute('target') === '_blank';
       return {
         text: link.textContent,
         outerHTML: link.outerHTML,
@@ -81,6 +79,10 @@ export default function EaemrdehelloRail () {
     const currentContent = textValue;
     
     const hrefMatch = linkOuterHTML.match(/href="([^"]*)"/);
+
+    console.log("---1---> hrefMatch: ", hrefMatch);
+
+
     if (!hrefMatch) return;
     
     const oldHref = hrefMatch[1];
@@ -102,7 +104,7 @@ export default function EaemrdehelloRail () {
     
     const updatedLink = linkOuterHTML.replace(`href="${oldHref}"`, `href="${newHref}"`);
     const updatedContent = currentContent.replace(linkOuterHTML, updatedLink);
-    
+
     setTextValue(updatedContent);
 
     setItemLinks(prev => prev.map(link => 
