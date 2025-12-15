@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM UE RTE Links Open New Tab",
+  "id": "experience-aem-ue-rte-links-open-new-tab",
+  "description": "Experience AEM UE RTE Links Open New Tab",
+  "version": "0.0.1",
+  "rightPanelRails": [
+    {
+      "header": "Experience AEM UE RTE Links Open New Tab",
+      "id": "experience-aem-ue-rte-links-open-new-tab"
+    }
+  ]
+}
