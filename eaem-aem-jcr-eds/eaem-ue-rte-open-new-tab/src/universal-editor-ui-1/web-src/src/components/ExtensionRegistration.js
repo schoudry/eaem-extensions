@@ -1,16 +1,14 @@
-/*
- * <license header>
- */
 
 import { Text } from "@adobe/react-spectrum";
 import { register } from "@adobe/uix-guest";
-import { extensionId } from "./Constants";
 import metadata from '../../../../app-metadata.json';
 
 import { extensionId, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants";
 
 function ExtensionRegistration() {
   const init = async () => {
+    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+
     const guestConnection = await register({
       id: extensionId,
       metadata,
@@ -28,11 +26,10 @@ function ExtensionRegistration() {
         rightPanel: {
           addRails() {
             return [
-              // YOUR ACTION BAR BUTTONS CODE SHOULD BE HERE
               {
                 'id': 'experience-aem-ue-rte-links-open-new-tab',
                 'header': 'Experience AEM UE RTE Links Open New Tab',
-                'icon': 'PublishCheck',
+                'icon': 'Link',
                 'url': '/#/experience-aem-ue-rte-links-open-new-tab-rail'
               },
             ];

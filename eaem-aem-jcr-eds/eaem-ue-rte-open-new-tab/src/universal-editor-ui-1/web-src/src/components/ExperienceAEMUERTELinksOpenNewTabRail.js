@@ -1,23 +1,7 @@
-/*
- * <license header>
- */
  
 import React, { useState, useEffect } from 'react'
 import { attach } from "@adobe/uix-guest"
-import {
-  Flex,
-  Form,
-  ProgressCircle,
-  Provider,
-  Content,
-  defaultTheme,
-  Text,
-  TextField,
-  ButtonGroup,
-  Button,
-  Heading,
-  View
-} from '@adobe/react-spectrum'
+import { Flex, Form, ProgressCircle, Provider, Content, defaultTheme, Text, Checkbox, ButtonGroup, Button, Heading, View } from '@adobe/react-spectrum'
 
 import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants"
 
@@ -79,11 +63,7 @@ export default function ExperienceAEMUERTELinksOpenNewTabRail ()  {
 
   const handleLinkTargetChange = (itemId, linkOuterHTML, isChecked) => {
     const currentContent = textValue;
-    
     const hrefMatch = linkOuterHTML.match(/href="([^"]*)"/);
-
-    console.log("---1---> hrefMatch: ", hrefMatch);
-
 
     if (!hrefMatch) return;
     
@@ -151,10 +131,9 @@ export default function ExperienceAEMUERTELinksOpenNewTabRail ()  {
 
           if (item) {
             if(!item.content && item.children && item.children.length > 0){
-              //for custom componentts "richtext" is child of the custom component
+              //for custom blocks "richtext" is child of the custom block
               let child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
               child.resource = item.resource;
-
               item = child;
             }
 
