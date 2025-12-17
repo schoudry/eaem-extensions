@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/eaem-meta-schema-json-synt-res" mode="merge"/>
+    <filter root="/content/api" mode="merge"/>
+    <filter root="/content/dam/eaem-meta-schema-json-synt-res" mode="merge">
+        <exclude pattern="/content/dam/eaem-meta-schema-json-synt-res(/.*)?"/>
+        <include pattern="/content/dam/eaem-meta-schema-json-synt-res/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/eaem-meta-schema-json-synt-res/asset.jpg" mode="merge"/>
+</workspaceFilter>

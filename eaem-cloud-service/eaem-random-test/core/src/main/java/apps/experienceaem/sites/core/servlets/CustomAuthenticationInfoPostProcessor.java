@@ -64,15 +64,12 @@ public class CustomAuthenticationInfoPostProcessor implements AuthenticationInfo
                             final HttpServletRequest httpServletRequest,
                             final HttpServletResponse httpServletResponse) throws LoginException {
 
-        LOG.info("CustomAuthenticationInfoPostProcessor - postProcess()");
-
         String result = "";
 
         try{
             String base64SamlResponse = httpServletRequest.getParameter("SAMLResponse");
 
             if(StringUtils.isAllBlank(base64SamlResponse)){
-                LOG.info("CustomAuthenticationInfoPostProcessor - postProcess() empty SAMLResponse");
                 return;
             }
 
