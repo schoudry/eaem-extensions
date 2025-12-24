@@ -4,8 +4,8 @@ import {
   Provider,
   defaultTheme,
   View,
-  Content,
-  ComboBox, Item
+  Flex,
+  ComboBox, Item, ListBox
 } from '@adobe/react-spectrum'
 
 import { extensionId } from "./Constants"
@@ -21,8 +21,10 @@ export default function EaemDynamicSelectField () {
   const FOLDERS_QUERY = "/bin/querybuilder.json?" +
                             "path=/content/dam" +
                             "&type=sling:Folder" +
+                            "&property=hidden" +
+                            "&property.operation=not" +
+                            "&path.flat=true" +
                             "&p.limit=10"
-
   const fetchRootFolders = async (AEM_HOST, connection) => {
     const foldersQueryUrl = `${AEM_HOST}${FOLDERS_QUERY}`;       
     const requestOptions = {
@@ -33,10 +35,8 @@ export default function EaemDynamicSelectField () {
     const response = await fetch(foldersQueryUrl, requestOptions)
     const folderList = (await response.json()).hits?.map(hit => ({
             path: hit.path,
-            name: hit.name || hit.path.split('/').pop()
+            title: hit.title
         })) || [];
-
-    console.log("folderList----0000----", folderList);
 
     return (folderList);
   };
@@ -63,6 +63,9 @@ export default function EaemDynamicSelectField () {
         const folderList = await fetchRootFolders(hostValue, connection);
         setFolders(folderList);
         setLoading(false);
+
+        document.body.style.height = '200px';
+        //document.body.style.backgroundColor = 'black';
       }
     })()
   }, [])
@@ -74,7 +77,6 @@ export default function EaemDynamicSelectField () {
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
-        <Content height='100%'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
         <ComboBox 
           selectedKey={value} 
@@ -84,11 +86,10 @@ export default function EaemDynamicSelectField () {
           width="100%"
         >
           {folders.map(folder => (
-            <Item key={folder.path}>{folder.name}</Item>
+            <Item key={folder.path}>{folder.title}</Item>
           ))}
         </ComboBox>
       </View>
-      </Content>
     </Provider>
   )
 }
