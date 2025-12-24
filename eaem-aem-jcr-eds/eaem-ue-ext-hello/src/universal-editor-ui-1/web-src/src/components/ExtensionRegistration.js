@@ -35,7 +35,6 @@ function ExtensionRegistration() {
         },
         events: {
           listen: (eventName, eventData) => {
-            console.log('-------->', eventName, eventData);
             if (eventName === EVENT_AUE_UI_SELECT || eventName === EVENT_AUE_UI_UPDATE) {
               channel.postMessage({
                 type: eventName,
