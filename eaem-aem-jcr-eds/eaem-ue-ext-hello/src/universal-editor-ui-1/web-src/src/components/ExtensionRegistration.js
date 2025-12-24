@@ -15,8 +15,27 @@ function ExtensionRegistration() {
       id: extensionId,
       metadata,
       methods: {
+        canvas: {
+          getRenderers() {
+            return [
+              {
+                extension: 'eaem-asset-picker-field',
+                dataType: 'eaem-custom-asset-namespace:custom-asset',
+                url: '/index.html#/open-asset-picker',
+                icon: 'OpenIn'
+              },
+              {
+                extension: 'eaem-dynamic-select-field',
+                dataType: 'eaem:dynamic-select-field',
+                url: '/index.html#/dynamic-select-field',
+                icon: 'OpenIn'
+              }
+            ];
+          },
+        },
         events: {
           listen: (eventName, eventData) => {
+            console.log('-------->', eventName, eventData);
             if (eventName === EVENT_AUE_UI_SELECT || eventName === EVENT_AUE_UI_UPDATE) {
               channel.postMessage({
                 type: eventName,

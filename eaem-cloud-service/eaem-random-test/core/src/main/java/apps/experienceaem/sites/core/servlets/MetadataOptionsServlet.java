@@ -25,11 +25,11 @@ public class MetadataOptionsServlet extends SlingSafeMethodsServlet {
         String json = "{\n" +
                       "  \"options\":[\n" +
                       "    {\n" +
-                      "      \"text\":\"Option One\",\n" +
+                      "      \"text\":\"Bolo One\",\n" +
                       "      \"value\":\"OPTION_ONE\"\n" +
                       "    },\n" +
                       "    {\n" +
-                      "      \"text\":\"Option Two\",\n" +
+                      "      \"text\":\"Bolo Two\",\n" +
                       "      \"value\":\"OPTION_TWO\"\n" +
                       "    },\n" +
                       "    {\n" +

@@ -20,7 +20,10 @@
     "react-router-dom": "^6.3.0",
     "regenerator-runtime": "^0.13.5",
     "ajv": "^8.12.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "prosemirror-state": "^1.2.2",
+    "prosemirror-view": "^1.4.2",
+    "@adobe/universal-editor-cors": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^8",

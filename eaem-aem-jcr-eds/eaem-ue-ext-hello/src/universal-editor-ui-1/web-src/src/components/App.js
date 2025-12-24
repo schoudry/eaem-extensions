@@ -7,6 +7,8 @@ import ErrorBoundary from "react-error-boundary";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ExtensionRegistration from "./ExtensionRegistration";
 import EaemrdehelloRail from "./EaemrdehelloRail";
+import Openassetpicker from "./Openassetpicker";
+import EaemDynamicSelectField from "./EaemDynamicSelectField";
 
 function App() {
   return (
@@ -14,15 +16,10 @@ function App() {
       <ErrorBoundary onError={onError} FallbackComponent={fallbackComponent}>
         <Routes>
           <Route index element={<ExtensionRegistration />} />
-          <Route
-            exact path="index.html"
-            element={<ExtensionRegistration />} 
-          />
-          <Route
-            exact path="eaem-rde-hello-rail"
-            element={<EaemrdehelloRail />}
-          />
-          // YOUR CUSTOM ROUTES SHOULD BE HERE
+          <Route exact path="index.html" element={<ExtensionRegistration />} />
+          <Route exact path="eaem-rde-hello-rail" element={<EaemrdehelloRail />} />
+          <Route exact={true} path="open-asset-picker" element={<Openassetpicker />} />
+          <Route exact={true} path="dynamic-select-field" element={<EaemDynamicSelectField />} />
         </Routes>
       </ErrorBoundary>
     </Router>
