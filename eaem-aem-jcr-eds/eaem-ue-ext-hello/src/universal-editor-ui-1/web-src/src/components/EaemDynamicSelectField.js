@@ -73,20 +73,21 @@ export default function EaemDynamicSelectField () {
   }
 
   return (
-    <Provider theme={defaultTheme} colorScheme='dark'>
-      <Content>
-        <View padding='size-100'>
-            <ComboBox 
-              selectedKey={value} 
-              onSelectionChange={handleSelectionChange} 
-              label="Root Folder"
-              isDisabled={loading}
-            >
-              {folders.map(folder => (
-                <Item key={folder.path}>{folder.name}</Item>
-              ))}
-            </ComboBox>
-        </View>
+    <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
+        <Content height='100%'>
+      <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
+        <ComboBox 
+          selectedKey={value} 
+          onSelectionChange={handleSelectionChange} 
+          label="Root Folder"
+          isDisabled={loading}
+          width="100%"
+        >
+          {folders.map(folder => (
+            <Item key={folder.path}>{folder.name}</Item>
+          ))}
+        </ComboBox>
+      </View>
       </Content>
     </Provider>
   )
