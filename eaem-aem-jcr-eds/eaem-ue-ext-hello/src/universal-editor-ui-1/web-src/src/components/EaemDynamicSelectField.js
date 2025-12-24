@@ -14,7 +14,6 @@ export default function EaemDynamicSelectField () {
   const [guestConnection, setGuestConnection] = useState()
   let [value, setValue] = useState(null);
   const [model, setModel] = useState(null);
-  const fieldRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -24,7 +23,7 @@ export default function EaemDynamicSelectField () {
       const model = await connection.host.field.getModel();
       setModel(model);
 
-      setValue(connection.host.field.getValue() || '');
+      setValue(await connection.host.field.getValue() || '');
     })()
   }, [])
 
