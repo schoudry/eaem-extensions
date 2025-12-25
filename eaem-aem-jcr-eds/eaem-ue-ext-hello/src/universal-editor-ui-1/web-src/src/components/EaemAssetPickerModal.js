@@ -43,6 +43,8 @@ export default function EaemAssetPickerModal() {
         hideTreeNav: true,
     };
 
+    console.log('selectorProps------------', selectorProps);
+
     setAssetSelectorProps(selectorProps);
   };
 

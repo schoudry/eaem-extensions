@@ -143,11 +143,9 @@ export default function EaemDynamicSelectField () {
   }
 
   const showAssetSelectorModal = () => {
-
-    console.log('showAssetSelectorModal------------');
     guestConnection.host.modal.showUrl({
         title: 'Asset Picker',
-        url: '/open-asset-picker-modal',
+        url: '/index.html#open-asset-picker-modal',
         width: '80vw',
         height: '70vh',
     });
