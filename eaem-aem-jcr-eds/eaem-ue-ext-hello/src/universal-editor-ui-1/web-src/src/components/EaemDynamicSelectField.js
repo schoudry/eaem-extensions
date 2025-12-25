@@ -183,8 +183,8 @@ export default function EaemDynamicSelectField () {
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
         {Object.keys(imageMarkers).length === 0 ? (
           <Text>No image markers found, a sample is shown below..
-            <br/><br/>This is //External Image 1// picked from Dynamic Media Open API folder
-            <br/><br/>This is //External Image 2// picked from Experience Edge folder</Text>
+            <br/><br/>This folowing image is picked from Dynamic Media Open API folder
+            <br/><br/>//External Image 1//</Text>
         ) : (
           Object.keys(imageMarkers).map((marker, index) => (
             <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
@@ -198,8 +198,7 @@ export default function EaemDynamicSelectField () {
                 <ActionButton 
                   onPress={showAssetSelectorModal}
                   isQuiet
-                  UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}
-                >
+                  UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}>
                   <ImageSearch aria-label="Search Image" />
                 </ActionButton>
               </View>

@@ -4,15 +4,35 @@ import { Provider, defaultTheme, Content } from "@adobe/react-spectrum";
 import { extensionId } from "./Constants";
 
 export default function EaemAssetPickerModal() {
-  const [token, setToken] = useState("");
+  const [guestConnection, setGuestConnection] = useState()
   const [colorScheme, setColorScheme] = useState("dark");
-  const [guestConnection, setGuestConnection] = useState();
-  const [authorDomain, setAuthorDomain] = useState("");
   const [assetSelectorProps, setAssetSelectorProps] = useState({});
   const [AssetSelector, setAssetSelector] = useState(null);
 
   const handleSelection = (assets) => {
-    console.log("Selected assets:", assets);
+    const renditionLinks = getAssetRenditionLinks(assets);
+    const optimalRenditionLink = getOptimalRenditionLink(renditionLinks);
+    const assetDelLink = optimalRenditionLink.href.split('?')[0];
+    console.log("assetDelLink----------------->:", assetDelLink);
+
+    onCloseHandler();
+  };
+
+  const getAssetRenditionLinks = (selectedAssets) => {
+    const asset = selectedAssets?.[0];
+    return asset?._links?.['http://ns.adobe.com/adobecloud/rel/rendition'];
+  };
+
+  const getOptimalRenditionLink = (renditions) => {
+    return renditions.reduce((optimalRendition, currentRendition) => {
+      const optimalResolution = optimalRendition.width * optimalRendition.height;
+      const currentResolution = currentRendition.width * currentRendition.height;
+      return currentResolution > optimalResolution ? currentRendition : optimalRendition;
+    });
+  };
+
+  const onCloseHandler = () => {
+    guestConnection.host.modal.close();
   };
 
   const init = async () => {
@@ -27,19 +47,14 @@ export default function EaemAssetPickerModal() {
 
     const editorState = await connection.host.editorState.get();
     const location = new URL(editorState.location);
-    const host = `${location.protocol}//${location.host}`;
-
     const imsToken = connection.sharedContext.get("token");
-    setToken(imsToken);
-
-    setAuthorDomain(host);
+    const orgId = connection.sharedContext.get("orgId");
 
     const selectorProps = {
-      repositoryId: "delivery-p10961-e880305.adobeaemcloud.com",
+      repositoryId: `${location.host.replace('author', 'delivery')}`,
       apiKey: "asset_search_service",
-      imsOrg: "2FBC7B975CFE21C40A495FBB@AdobeOrg",
+      imsOrg: orgId,
       imsToken: imsToken,
-      handleSelection,
       hideUploadButton: true,
       hideTreeNav: true,
     };
@@ -64,7 +79,10 @@ export default function EaemAssetPickerModal() {
   return (
     <Provider theme={defaultTheme} colorScheme={colorScheme} height="100vh">
       <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
-        <AssetSelector dialogSize="fullscreen" colorScheme={colorScheme} {...assetSelectorProps} />
+        <AssetSelector colorScheme={colorScheme} 
+        onClose={onCloseHandler} 
+        handleSelection={handleSelection}
+        {...assetSelectorProps} />
       </div>
     </Provider>
   );
