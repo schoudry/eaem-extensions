@@ -17,7 +17,7 @@ function App() {
           <Route index element={<ExtensionRegistration />} />
           <Route exact path="index.html" element={<ExtensionRegistration />} />
           <Route exact path="eaem-rde-hello-rail" element={<EaemrdehelloRail />} />
-          <Route exact={true} path="dynamic-select-field" element={<EaemDynamicSelectField />} />
+          <Route exact={true} path="eaem-rte-image-picker" element={<EaemDynamicSelectField />} />
         </Routes>
       </ErrorBoundary>
     </Router>

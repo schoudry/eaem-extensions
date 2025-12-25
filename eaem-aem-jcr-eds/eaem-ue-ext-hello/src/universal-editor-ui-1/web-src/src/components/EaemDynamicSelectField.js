@@ -5,90 +5,90 @@ import {
   defaultTheme,
   View,
   Flex,
-  ComboBox, Item, ListBox
+  TextArea,
+  Text
 } from '@adobe/react-spectrum'
 
-import { extensionId } from "./Constants"
+import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants"
 
 export default function EaemDynamicSelectField () {
   const [guestConnection, setGuestConnection] = useState()
-  const [aemHost, setAemHost] = useState('')
   let [value, setValue] = useState(null);
-  const [model, setModel] = useState(null);
-  const [folders, setFolders] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const FOLDERS_QUERY = "/bin/querybuilder.json?" +
-                            "path=/content/dam" +
-                            "&type=sling:Folder" +
-                            "&property=hidden" +
-                            "&property.operation=not" +
-                            "&path.flat=true" +
-                            "&p.limit=10"
-  const fetchRootFolders = async (AEM_HOST, connection) => {
-    const foldersQueryUrl = `${AEM_HOST}${FOLDERS_QUERY}`;       
-    const requestOptions = {
-      headers: {
-        'Authorization': `Bearer ${connection.sharedContext.get("token")}`
-      }
-    };
-    const response = await fetch(foldersQueryUrl, requestOptions)
-    const folderList = (await response.json()).hits?.map(hit => ({
-            path: hit.path,
-            title: hit.title
-        })) || [];
-
-    return (folderList);
-  };
+  const [editorState, setEditorState] = useState(null)
+  const [richtextItem, setRichtextItem] = useState({})
+  const [textValue, setTextValue] = useState('')
+  const [imageMarkers, setImageMarkers] = useState([])
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
   }
 
+  const extractImageMarkers = (content) => {
+    if (!content) return [];
+    
+    const regex = /\/\/External Image.*?\/\//g;
+    const matches = content.match(regex);
+    
+    return matches || [];
+  }
+
+  const styleFieldArea = () => {
+    document.body.style.height = '400px';
+  }
+
   useEffect(() => {
     (async () => {
+      styleFieldArea();
+
       const connection = await attach({ id: extensionId })
       setGuestConnection(connection);
 
-      const model = await connection.host.field.getModel();
-      setModel(model);
-      setValue(await connection.host.field.getValue() || '');
+      const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
-      const editorState = await connection.host.editorState.get();
+      channel.onmessage = async (event) => {
+        if (!event.data.type) {
+          return;
+        }
 
-      if(editorState){
-        const hostValue = getAemHost(editorState);
-        setAemHost(hostValue);
+        const state = await connection.host.editorState.get();
+        setEditorState(state);
 
-        const folderList = await fetchRootFolders(hostValue, connection);
-        setFolders(folderList);
-        setLoading(false);
+        if(event.data.type) {
+          const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
+          const item = state.editables.filter(editableItem => editableItem.resource === resource)[0];
 
-        document.body.style.height = '200px';
-        //document.body.style.backgroundColor = 'black';
-      }
+          if (item) {
+            if(!item.content && item.children && item.children.length > 0){
+              //for custom blocks "richtext" is child of the custom block
+              let child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
+              child.resource = item.resource;
+              item = child;
+            }
+
+            setRichtextItem(item);
+
+            setTextValue( item.content || '');
+            
+            setImageMarkers(extractImageMarkers(item.content || ''));
+          }
+        }
+  
+        return () => {
+          channel.close();
+        };
+      };
     })()
   }, [])
-
-  const handleSelectionChange = (newValue) => {
-    setValue(newValue);
-    guestConnection?.host.field.onChange(newValue);
-  }
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
-        <ComboBox 
-          selectedKey={value} 
-          onSelectionChange={handleSelectionChange} 
-          label="Root Folder"
-          isDisabled={loading}
-          width="100%"
-        >
-          {folders.map(folder => (
-            <Item key={folder.path}>{folder.title}</Item>
-          ))}
-        </ComboBox>
+        {imageMarkers.map((marker, index) => (
+          <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
+            <Text>{marker}</Text>
+            <TextArea width="100%" />
+          </Flex>
+        ))}
       </View>
     </Provider>
   )

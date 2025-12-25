@@ -19,15 +19,9 @@ function ExtensionRegistration() {
           getRenderers() {
             return [
               {
-                extension: 'eaem-asset-picker-field',
-                dataType: 'eaem-custom-asset-namespace:custom-asset',
-                url: '/index.html#/open-asset-picker',
-                icon: 'OpenIn'
-              },
-              {
-                extension: 'eaem-dynamic-select-field',
-                dataType: 'eaem:dynamic-select-field',
-                url: '/index.html#/dynamic-select-field',
+                extension: 'eaem-rte-image-picker',
+                dataType: 'eaem:rte-image-picker',
+                url: '/index.html#/eaem-rte-image-picker',
                 icon: 'OpenIn'
               }
             ];
