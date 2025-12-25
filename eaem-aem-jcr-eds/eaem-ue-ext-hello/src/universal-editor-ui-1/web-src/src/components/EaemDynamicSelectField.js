@@ -17,10 +17,14 @@ export default function EaemDynamicSelectField () {
   const [editorState, setEditorState] = useState(null)
   const [textValue, setTextValue] = useState('')
   const [imageMarkers, setImageMarkers] = useState([])
-  const [imageValues, setImageValues] = useState({})
+  const [imageValues, setImageValues] = useState('')
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
+  }
+
+  const styleFieldArea = () => {
+    document.body.style.height = '400px';
   }
 
   const extractImageMarkers = (content) => {
@@ -32,21 +36,35 @@ export default function EaemDynamicSelectField () {
     return matches || [];
   }
 
-  const styleFieldArea = () => {
-    document.body.style.height = '400px';
-  }
-
   const extractMarkerKey = (marker) => {
     // Extract "External Image 1" from "//External Image 1//"
     return marker.replace(/^\/\//, '').replace(/\/\/$/, '');
   }
 
+  const parseImageValues = (imageValuesString) => {
+    // Parse "key1=value1|key2=value2" into object
+    if (!imageValuesString) return {};
+    const pairs = imageValuesString.split('|');
+    const obj = {};
+    pairs.forEach(pair => {
+      const [key, value] = pair.split('=');
+      if (key) obj[key] = value || '';
+    });
+    return obj;
+  }
+
+  const buildImageValuesString = (obj) => {
+    // Build "key1=value1|key2=value2" from object
+    return Object.keys(obj)
+      .map(key => `${key}=${obj[key] || ''}`)
+      .join('|');
+  }
+
   const handleTextAreaChange = (marker, newValue) => {
     const key = extractMarkerKey(marker);
-    setImageValues(prev => ({
-      ...prev,
-      [key]: newValue
-    }));
+    const currentObj = parseImageValues(imageValues);
+    currentObj[key] = newValue;
+    setImageValues(buildImageValuesString(currentObj));
   }
 
   const getCurrentEditable = (state) => {
@@ -75,7 +93,6 @@ export default function EaemDynamicSelectField () {
 
       if (currentEditable) {
         setTextValue( currentEditable.content || '');
-
         setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
       }
     })()
@@ -98,7 +115,7 @@ export default function EaemDynamicSelectField () {
               <Text>{marker}</Text>
               <TextArea 
                 width="100%" 
-                defaultValue={imageValues[extractMarkerKey(marker)] || ''}
+                defaultValue={parseImageValues(imageValues)[extractMarkerKey(marker)] || ''}
                 onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
               />
             </Flex>
