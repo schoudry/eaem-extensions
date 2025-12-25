@@ -1,5 +1,8 @@
 module.exports = {
   devtool: 'inline-source-map',
+  externals: {
+    '@assets/selectors': '@assets/selectors'
+  },
   module: {
     rules: [
       {

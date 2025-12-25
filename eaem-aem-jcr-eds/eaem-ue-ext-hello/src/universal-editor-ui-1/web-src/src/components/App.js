@@ -8,6 +8,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ExtensionRegistration from "./ExtensionRegistration";
 import EaemrdehelloRail from "./EaemrdehelloRail";
 import EaemDynamicSelectField from "./EaemDynamicSelectField";
+import EaemAssetPickerModal from "./EaemAssetPickerModal";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<ExtensionRegistration />} />
           <Route exact path="index.html" element={<ExtensionRegistration />} />
           <Route exact path="eaem-rde-hello-rail" element={<EaemrdehelloRail />} />
+          <Route exact={true} path="open-asset-picker-modal" element={<EaemAssetPickerModal />} />
           <Route exact={true} path="eaem-rte-image-picker" element={<EaemDynamicSelectField />} />
         </Routes>
       </ErrorBoundary>

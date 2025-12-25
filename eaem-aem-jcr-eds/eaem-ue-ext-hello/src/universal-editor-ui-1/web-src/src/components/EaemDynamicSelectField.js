@@ -141,6 +141,15 @@ export default function EaemDynamicSelectField () {
     }
   }
 
+  const showAssetSelectorModal = () => {
+    guestConnection.host.modal.showUrl({
+        title: 'Asset Picker',
+        url: '/open-asset-picker-modal',
+        width: '80vw',
+        height: '70vh',
+    });
+  };
+
   useEffect(() => {
     (async () => {
       styleFieldArea();
@@ -186,7 +195,10 @@ export default function EaemDynamicSelectField () {
                   defaultValue={imageMarkers[marker]}
                   onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
                 />
-                <View UNSAFE_style={{ position: 'absolute', bottom: '0px', right: '8px', cursor: 'pointer' }}>
+                <View 
+                  onClick={showAssetSelectorModal}
+                  UNSAFE_style={{ position: 'absolute', bottom: '0px', right: '8px', cursor: 'pointer' }}
+                >
                   <ImageSearch aria-label="Search Image" />
                 </View>
               </View>
