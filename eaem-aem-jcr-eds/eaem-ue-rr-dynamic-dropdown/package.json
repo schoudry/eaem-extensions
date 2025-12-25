@@ -1,0 +1,48 @@
+{
+  "name": "eaemUEQuickLinks",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@adobe/universal-editor-ui-ext-tpl": "^1.0.0-beta.1",
+    "@adobe/aio-sdk": "^3.0.0",
+    "@adobe/exc-app": "^0.2.21",
+    "@adobe/react-spectrum": "^3.4.0",
+    "@adobe/uix-guest": "^0.10.3",
+    "@react-spectrum/list": "^3.0.0-rc.0",
+    "@spectrum-icons/workflow": "^3.2.0",
+    "chalk": "^4",
+    "core-js": "^3.6.4",
+    "node-fetch": "^2.6.0",
+    "node-html-parser": "^5.4.2-0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-error-boundary": "^1.2.5",
+    "react-router-dom": "^6.3.0",
+    "regenerator-runtime": "^0.13.5",
+    "ajv": "^8.12.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-plugin-jest": "^27.2.3",
+    "jest": "^27.2.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.4",
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@openwhisk/wskdebug": "^1.3.0"
+  },
+  "scripts": {
+    "test": "jest --passWithNoTests ./test",
+    "e2e": "jest --collectCoverage=false --testRegex ./e2e",
+    "lint": "eslint --ignore-pattern web-src --no-error-on-unmatched-pattern test src actions",
+    "lint:fix": "npm run lint -- --fix",
+    "transform:yaml-to-json": "node node_modules/@adobe/uix-guest/scripts/generate-metadata.js"
+  },
+  "description": "Experience AEM Right Rail Dynamic Dropdown",
+  "aio-app-builder-templates": [
+    "@adobe/universal-editor-ui-ext-tpl"
+  ]
+}

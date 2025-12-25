@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM Right Rail Dynamic Dropdown",
+  "id": "experience-aem-right-rail-dynamic-dropdown",
+  "description": "Experience AEM Right Rail Dynamic Dropdown",
+  "version": "0.0.1",
+  "customRenderers": [
+    {
+      "dataType": "component",
+      "url": "/#/renderer/component"
+    }
+  ]
+}
