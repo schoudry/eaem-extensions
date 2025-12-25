@@ -58,6 +58,20 @@ export default function EaemDynamicSelectField () {
     }
   }
 
+  const updateTextContent = (marker, newValue) => {
+    // First remove anchor tag if it exists
+    const escapedMarker = marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const anchorRegex = new RegExp(`<a[^>]*href="[^"]*"[^>]*>${escapedMarker}</a>`, 'g');
+    let updatedTextValue = textValue.replace(anchorRegex, marker);
+    
+    // Then create new anchor tag if newValue is not empty
+    if (newValue) {
+      updatedTextValue = updatedTextValue.replace(marker, `<a href="${newValue}">${marker}</a>`);
+    }
+    
+    return updatedTextValue;
+  }
+
   const extractImageMarkers = (content) => {
     if (!content) return {};
     
@@ -84,7 +98,7 @@ export default function EaemDynamicSelectField () {
   }
 
   const handleTextAreaChange = async (marker, newValue) => {
-    const updatedTextValue = textValue.replace(marker, `<a href="${newValue}">${marker}</a>`);
+    const updatedTextValue = updateTextContent(marker, newValue);
     setTextValue(updatedTextValue);
 
     currentEditable.content = updatedTextValue;
@@ -100,6 +114,10 @@ export default function EaemDynamicSelectField () {
     await updateRichtext(currentEditable, editorState, guestConnection.sharedContext.get("token"));
 
     await guestConnection.host.editorActions.refreshPage();
+    
+    setTimeout(() => {
+      initImageMarkers(editorState);
+    }, 1000);
   }
 
   const getCurrentEditable = (state) => {
@@ -109,6 +127,16 @@ export default function EaemDynamicSelectField () {
     if(selectedId && state.editables) {
       const editable = state.editables.find(item => item.id === selectedId);
       return editable || null;
+    }
+  }
+
+  const initImageMarkers = (state) => {
+    const currentEditable = getCurrentEditable(state);
+
+    if (currentEditable) {
+      setCurrentEditable(currentEditable);
+      setTextValue( currentEditable.content || '');
+      setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
     }
   }
 
@@ -122,13 +150,7 @@ export default function EaemDynamicSelectField () {
       const state = await connection.host.editorState.get();
       setEditorState(state);
 
-      const currentEditable = getCurrentEditable(state);
-
-      if (currentEditable) {
-        setCurrentEditable(currentEditable);
-        setTextValue( currentEditable.content || '');
-        setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
-      }
+      initImageMarkers(state);
 
       const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
