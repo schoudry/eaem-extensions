@@ -35,15 +35,14 @@ export default function EaemAssetPickerModal() {
     setAuthorDomain(host);
 
     const selectorProps = {
-        repositoryId: "author-p10961-e880305.adobeaemcloud.com",
-        apiKey: "asset_search_service",
-        imsOrg: "2FBC7B975CFE21C40A495FBB@AdobeOrg",
-        imsToken: imsToken,
-        handleSelection,
-        hideTreeNav: true,
+      repositoryId: "delivery-p10961-e880305.adobeaemcloud.com",
+      apiKey: "asset_search_service",
+      imsOrg: "2FBC7B975CFE21C40A495FBB@AdobeOrg",
+      imsToken: imsToken,
+      handleSelection,
+      hideUploadButton: true,
+      hideTreeNav: true,
     };
-
-    console.log('selectorProps------------', selectorProps);
 
     setAssetSelectorProps(selectorProps);
   };
@@ -54,17 +53,19 @@ export default function EaemAssetPickerModal() {
 
   if (!AssetSelector) {
     return (
-      <Provider theme={defaultTheme} colorScheme={colorScheme}>
-        <Content>Loading Asset Selector...</Content>
+      <Provider theme={defaultTheme} colorScheme={colorScheme} height="100vh">
+        <div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          Loading Asset Selector...
+        </div>
       </Provider>
     );
   }
 
   return (
-    <Provider theme={defaultTheme} colorScheme={colorScheme}>
-      <Content>
-        <AssetSelector {...assetSelectorProps} />
-      </Content>
+    <Provider theme={defaultTheme} colorScheme={colorScheme} height="100vh">
+      <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
+        <AssetSelector dialogSize="fullscreen" colorScheme={colorScheme} {...assetSelectorProps} />
+      </div>
     </Provider>
   );
 }
