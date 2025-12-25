@@ -17,6 +17,7 @@ export default function EaemDynamicSelectField () {
   const [editorState, setEditorState] = useState(null)
   const [textValue, setTextValue] = useState('')
   const [imageMarkers, setImageMarkers] = useState([])
+  const [imageValues, setImageValues] = useState({})
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -28,13 +29,24 @@ export default function EaemDynamicSelectField () {
     const regex = /\/\/External Image.*?\/\//g;
     const matches = content.match(regex);
 
-    console.log('matches------', matches);
-    
     return matches || [];
   }
 
   const styleFieldArea = () => {
     document.body.style.height = '400px';
+  }
+
+  const extractMarkerKey = (marker) => {
+    // Extract "External Image 1" from "//External Image 1//"
+    return marker.replace(/^\/\//, '').replace(/\/\/$/, '');
+  }
+
+  const handleTextAreaChange = (marker, newValue) => {
+    const key = extractMarkerKey(marker);
+    setImageValues(prev => ({
+      ...prev,
+      [key]: newValue
+    }));
   }
 
   const getCurrentEditable = (state) => {
@@ -69,6 +81,10 @@ export default function EaemDynamicSelectField () {
     })()
   }, [])
 
+  useEffect(() => {
+    console.log('Collected Image Values----:', imageValues);
+  }, [imageValues])
+
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
@@ -80,7 +96,11 @@ export default function EaemDynamicSelectField () {
           imageMarkers.map((marker, index) => (
             <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
               <Text>{marker}</Text>
-              <TextArea width="100%" />
+              <TextArea 
+                width="100%" 
+                defaultValue={imageValues[extractMarkerKey(marker)] || ''}
+                onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
+              />
             </Flex>
           ))
         )}
