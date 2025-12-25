@@ -20,7 +20,7 @@ export default function EaemAssetPickerModal() {
     // Using dynamic string to prevent Parcel from resolving at build time
     const moduleName = "@assets" + "/" + "selectors";
     const assetSelectorModule = await import(/* @vite-ignore */ moduleName);
-    setAssetSelector(() => assetSelectorModule.AssetSelectorWithAuthFlow);
+    setAssetSelector(() => assetSelectorModule.AssetSelector);
 
     const connection = await attach({ id: extensionId });
     setGuestConnection(connection);
