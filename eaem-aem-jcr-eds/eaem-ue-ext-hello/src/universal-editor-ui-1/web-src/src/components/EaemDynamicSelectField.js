@@ -8,6 +8,7 @@ import {
   TextArea,
   Text
 } from '@adobe/react-spectrum'
+import ImageSearch from '@spectrum-icons/workflow/ImageSearch'
 
 import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants"
 
@@ -179,11 +180,16 @@ export default function EaemDynamicSelectField () {
           Object.keys(imageMarkers).map((marker, index) => (
             <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
               <Text>{marker}</Text>
-              <TextArea 
-                width="100%" 
-                defaultValue={imageMarkers[marker]}
-                onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
-              />
+              <View UNSAFE_style={{ position: 'relative' }}>
+                <TextArea 
+                  width="100%" 
+                  defaultValue={imageMarkers[marker]}
+                  onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
+                />
+                <View UNSAFE_style={{ position: 'absolute', bottom: '0px', right: '8px', cursor: 'pointer' }}>
+                  <ImageSearch aria-label="Search Image" />
+                </View>
+              </View>
             </Flex>
           ))
         )}
