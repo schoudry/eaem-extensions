@@ -29,8 +29,7 @@ function ExtensionRegistration() {
         },
         events: {
           listen: (eventName, eventData) => {
-            if (eventName === EVENT_AUE_CONTENT_DETAILS) {
-                console.log('eventData--1--2--', eventData);
+            if (eventName === EVENT_AUE_UI_UPDATE ) {
               channel.postMessage({
                 type: eventName,
                 data: eventData.data

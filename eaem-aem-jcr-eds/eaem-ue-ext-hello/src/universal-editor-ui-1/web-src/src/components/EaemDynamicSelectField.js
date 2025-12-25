@@ -72,7 +72,6 @@ export default function EaemDynamicSelectField () {
     const selectedId = Object.keys(state.selected).find(key => state.selected[key] === true) || null;
 
     if(selectedId && state.editables) {
-      console.log('selectedId------', selectedId);
       const editable = state.editables.find(item => item.id === selectedId);
       return editable || null;
     }
@@ -94,6 +93,21 @@ export default function EaemDynamicSelectField () {
       if (currentEditable) {
         setTextValue( currentEditable.content || '');
         setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
+      }
+
+      const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+
+      channel.onmessage = async (event) => {
+        console.log('eventData--1----', event);
+        if (!event.data.type) {
+          return;
+        }
+
+        setImageMarkers(extractImageMarkers(event.data?.data?.value || '')  );
+  
+        return () => {
+          channel.close();
+        };
       }
     })()
   }, [])
