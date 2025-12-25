@@ -16,7 +16,7 @@ export default function EaemDynamicSelectField () {
   const [currentEditable, setCurrentEditable] = useState({});
   const [editorState, setEditorState] = useState(null)
   const [textValue, setTextValue] = useState('')
-  const [imageMarkers, setImageMarkers] = useState([])
+  const [imageMarkers, setImageMarkers] = useState({})
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -59,17 +59,28 @@ export default function EaemDynamicSelectField () {
   }
 
   const extractImageMarkers = (content) => {
-    if (!content) return [];
+    if (!content) return {};
     
     const regex = /\/\/External Image.*?\/\//g;
     const matches = content.match(regex) || [];
+    const markersObj = {};
     
-    // Filter out markers that are already wrapped in anchor tags
-    return matches.filter(marker => {
+    matches.forEach(marker => {
       const escapedMarker = marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const anchorRegex = new RegExp(`<a[^>]*>${escapedMarker}</a>`, 'g');
-      return !content.match(anchorRegex);
+      const anchorRegex = new RegExp(`<a[^>]*href="([^"]*)"[^>]*>${escapedMarker}</a>`, 'g');
+      const anchorMatch = content.match(anchorRegex);
+      
+      if (anchorMatch) {
+        // Extract href from the anchor tag
+        const hrefMatch = anchorMatch[0].match(/href="([^"]*)"/);
+        markersObj[marker] = hrefMatch ? hrefMatch[1] : '';
+      } else {
+        // Marker not wrapped in anchor tag
+        markersObj[marker] = '';
+      }
     });
+    
+    return markersObj;
   }
 
   const handleTextAreaChange = async (marker, newValue) => {
@@ -138,16 +149,17 @@ export default function EaemDynamicSelectField () {
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
-        {imageMarkers.length === 0 ? (
+        {Object.keys(imageMarkers).length === 0 ? (
           <Text>No image markers found, a sample is shown below..
             <br/><br/>This is //External Image 1// picked from Dynamic Media Open API folder
             <br/><br/>This is //External Image 2// picked from Experience Edge folder</Text>
         ) : (
-          imageMarkers.map((marker, index) => (
+          Object.keys(imageMarkers).map((marker, index) => (
             <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
               <Text>{marker}</Text>
               <TextArea 
                 width="100%" 
+                defaultValue={imageMarkers[marker]}
                 onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
               />
             </Flex>
