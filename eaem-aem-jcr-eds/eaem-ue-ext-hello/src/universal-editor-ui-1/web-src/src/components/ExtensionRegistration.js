@@ -4,7 +4,7 @@
 
 import { Text } from "@adobe/react-spectrum";
 import { register } from "@adobe/uix-guest";
-import { extensionId, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants";
+import { extensionId, BROADCAST_CHANNEL_NAME, EVENT_AUE_CONTENT_DETAILS, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants";
 import metadata from '../../../../app-metadata.json';
 
 function ExtensionRegistration() {
@@ -20,7 +20,7 @@ function ExtensionRegistration() {
             return [
               {
                 extension: 'eaem-rte-image-picker',
-                dataType: 'eaem:rte-image-picker',
+                dataType: 'eaem:rte-dm-open-api-images',
                 url: '/index.html#/eaem-rte-image-picker',
                 icon: 'OpenIn'
               }
@@ -29,7 +29,8 @@ function ExtensionRegistration() {
         },
         events: {
           listen: (eventName, eventData) => {
-            if (eventName === EVENT_AUE_UI_SELECT || eventName === EVENT_AUE_UI_UPDATE) {
+            if (eventName === EVENT_AUE_CONTENT_DETAILS) {
+                console.log('eventData--1--2--', eventData);
               channel.postMessage({
                 type: eventName,
                 data: eventData.data

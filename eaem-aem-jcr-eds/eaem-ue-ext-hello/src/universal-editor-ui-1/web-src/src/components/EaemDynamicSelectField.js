@@ -15,7 +15,6 @@ export default function EaemDynamicSelectField () {
   const [guestConnection, setGuestConnection] = useState()
   let [value, setValue] = useState(null);
   const [editorState, setEditorState] = useState(null)
-  const [richtextItem, setRichtextItem] = useState({})
   const [textValue, setTextValue] = useState('')
   const [imageMarkers, setImageMarkers] = useState([])
 
@@ -28,12 +27,25 @@ export default function EaemDynamicSelectField () {
     
     const regex = /\/\/External Image.*?\/\//g;
     const matches = content.match(regex);
+
+    console.log('matches------', matches);
     
     return matches || [];
   }
 
   const styleFieldArea = () => {
     document.body.style.height = '400px';
+  }
+
+  const getCurrentEditable = (state) => {
+    if (!state.selected) return null;
+    const selectedId = Object.keys(state.selected).find(key => state.selected[key] === true) || null;
+
+    if(selectedId && state.editables) {
+      console.log('selectedId------', selectedId);
+      const editable = state.editables.find(item => item.id === selectedId);
+      return editable || null;
+    }
   }
 
   useEffect(() => {
@@ -43,52 +55,35 @@ export default function EaemDynamicSelectField () {
       const connection = await attach({ id: extensionId })
       setGuestConnection(connection);
 
-      const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+      const state = await connection.host.editorState.get();
+      setEditorState(state);
 
-      channel.onmessage = async (event) => {
-        if (!event.data.type) {
-          return;
-        }
+      const model = await connection.host.field.getModel();
+      const currentEditable = getCurrentEditable(state);
 
-        const state = await connection.host.editorState.get();
-        setEditorState(state);
+      if (currentEditable) {
+        setTextValue( currentEditable.content || '');
 
-        if(event.data.type) {
-          const resource = (event.data.type === EVENT_AUE_UI_SELECT) ? event.data.data.resource : event.data.data.request.target.resource;
-          const item = state.editables.filter(editableItem => editableItem.resource === resource)[0];
-
-          if (item) {
-            if(!item.content && item.children && item.children.length > 0){
-              //for custom blocks "richtext" is child of the custom block
-              let child = state.editables.filter(editableItem => editableItem.id === item.children[0])[0];
-              child.resource = item.resource;
-              item = child;
-            }
-
-            setRichtextItem(item);
-
-            setTextValue( item.content || '');
-            
-            setImageMarkers(extractImageMarkers(item.content || ''));
-          }
-        }
-  
-        return () => {
-          channel.close();
-        };
-      };
+        setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
+      }
     })()
   }, [])
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
-        {imageMarkers.map((marker, index) => (
-          <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
-            <Text>{marker}</Text>
-            <TextArea width="100%" />
-          </Flex>
-        ))}
+        {imageMarkers.length === 0 ? (
+          <Text>No image markers found, a sample is shown below..
+            <br/><br/>This is //External Image 1// picked from Dynamic Media Open API folder
+            <br/><br/>This is //External Image 2// picked from Experience Edge folder</Text>
+        ) : (
+          imageMarkers.map((marker, index) => (
+            <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
+              <Text>{marker}</Text>
+              <TextArea width="100%" />
+            </Flex>
+          ))
+        )}
       </View>
     </Provider>
   )
