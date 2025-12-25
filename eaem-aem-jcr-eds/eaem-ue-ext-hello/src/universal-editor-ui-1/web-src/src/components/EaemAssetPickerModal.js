@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { attach } from "@adobe/uix-guest";
-import { Provider, defaultTheme, Content, useDialogContainer } from "@adobe/react-spectrum";
-import {
-  registerAssetsSelectorsAuthService as registerAssetsSelectorsAuthServiceInternal,
-  AssetSelectorWithAuthFlow,
-} from "@assets/selectors";
-
+import { Provider, defaultTheme, Content } from "@adobe/react-spectrum";
 import { extensionId } from "./Constants";
 
 export default function EaemAssetPickerModal() {
@@ -14,13 +9,19 @@ export default function EaemAssetPickerModal() {
   const [guestConnection, setGuestConnection] = useState();
   const [authorDomain, setAuthorDomain] = useState("");
   const [assetSelectorProps, setAssetSelectorProps] = useState({});
-  const dialog = useDialogContainer();
+  const [AssetSelector, setAssetSelector] = useState(null);
 
   const handleSelection = (assets) => {
     console.log("Selected assets:", assets);
   };
 
   const init = async () => {
+    // Dynamically import the asset selector module at runtime
+    // Using dynamic string to prevent Parcel from resolving at build time
+    const moduleName = "@assets" + "/" + "selectors";
+    const assetSelectorModule = await import(/* @vite-ignore */ moduleName);
+    setAssetSelector(() => assetSelectorModule.AssetSelectorWithAuthFlow);
+
     const connection = await attach({ id: extensionId });
     setGuestConnection(connection);
 
@@ -35,7 +36,7 @@ export default function EaemAssetPickerModal() {
 
     const selectorProps = {
         repositoryId: "author-p10961-e880305.adobeaemcloud.com",
-        apiKey: "asset_search_service", //Dynamic Media with OpenAPI entitlement (Adobe Support Ticket) is required to use the asset_search_service api-key
+        apiKey: "asset_search_service",
         imsOrg: "2FBC7B975CFE21C40A495FBB@AdobeOrg",
         imsToken: imsToken,
         handleSelection,
@@ -49,12 +50,18 @@ export default function EaemAssetPickerModal() {
     init().catch((e) => console.log("Error loading asset picker modal--->", e));
   }, []);
 
+  if (!AssetSelector) {
+    return (
+      <Provider theme={defaultTheme} colorScheme={colorScheme}>
+        <Content>Loading Asset Selector...</Content>
+      </Provider>
+    );
+  }
+
   return (
     <Provider theme={defaultTheme} colorScheme={colorScheme}>
       <Content>
-        <AssetSelectorWithAuthFlow
-            {...assetSelectorProps}
-        ></AssetSelectorWithAuthFlow>
+        <AssetSelector {...assetSelectorProps} />
       </Content>
     </Provider>
   );

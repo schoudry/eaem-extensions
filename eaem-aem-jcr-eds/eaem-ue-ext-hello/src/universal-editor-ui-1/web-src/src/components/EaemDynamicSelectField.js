@@ -6,7 +6,8 @@ import {
   View,
   Flex,
   TextArea,
-  Text
+  Text,
+  ActionButton
 } from '@adobe/react-spectrum'
 import ImageSearch from '@spectrum-icons/workflow/ImageSearch'
 
@@ -142,6 +143,8 @@ export default function EaemDynamicSelectField () {
   }
 
   const showAssetSelectorModal = () => {
+
+    console.log('showAssetSelectorModal------------');
     guestConnection.host.modal.showUrl({
         title: 'Asset Picker',
         url: '/open-asset-picker-modal',
@@ -195,12 +198,13 @@ export default function EaemDynamicSelectField () {
                   defaultValue={imageMarkers[marker]}
                   onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
                 />
-                <View 
-                  onClick={showAssetSelectorModal}
-                  UNSAFE_style={{ position: 'absolute', bottom: '0px', right: '8px', cursor: 'pointer' }}
+                <ActionButton 
+                  onPress={showAssetSelectorModal}
+                  isQuiet
+                  UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}
                 >
                   <ImageSearch aria-label="Search Image" />
-                </View>
+                </ActionButton>
               </View>
             </Flex>
           ))
