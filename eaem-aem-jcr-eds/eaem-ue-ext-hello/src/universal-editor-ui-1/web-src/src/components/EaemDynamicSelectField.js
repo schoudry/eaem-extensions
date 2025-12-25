@@ -13,11 +13,10 @@ import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT
 
 export default function EaemDynamicSelectField () {
   const [guestConnection, setGuestConnection] = useState()
-  let [value, setValue] = useState(null);
+  const [currentEditable, setCurrentEditable] = useState({});
   const [editorState, setEditorState] = useState(null)
   const [textValue, setTextValue] = useState('')
   const [imageMarkers, setImageMarkers] = useState([])
-  const [imageValues, setImageValues] = useState('')
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -27,44 +26,69 @@ export default function EaemDynamicSelectField () {
     document.body.style.height = '400px';
   }
 
+  const updateRichtext = async (item, editorState, token) => {
+    const payload = {
+      connections: [{
+        name: "aemconnection",
+        protocol: "xwalk",
+        uri: getAemHost(editorState)
+      }],
+      target: {
+        prop: item.prop,
+        resource: item.resource,
+        type: item.type
+      },
+      value: item.content
+    };
+
+    try {
+      const response = await fetch('https://universal-editor-service.adobe.io/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error updating richtext:', error);
+      throw error;
+    }
+  }
+
   const extractImageMarkers = (content) => {
     if (!content) return [];
     
     const regex = /\/\/External Image.*?\/\//g;
-    const matches = content.match(regex);
-
-    return matches || [];
-  }
-
-  const extractMarkerKey = (marker) => {
-    // Extract "External Image 1" from "//External Image 1//"
-    return marker.replace(/^\/\//, '').replace(/\/\/$/, '');
-  }
-
-  const parseImageValues = (imageValuesString) => {
-    // Parse "key1=value1|key2=value2" into object
-    if (!imageValuesString) return {};
-    const pairs = imageValuesString.split('|');
-    const obj = {};
-    pairs.forEach(pair => {
-      const [key, value] = pair.split('=');
-      if (key) obj[key] = value || '';
+    const matches = content.match(regex) || [];
+    
+    // Filter out markers that are already wrapped in anchor tags
+    return matches.filter(marker => {
+      const escapedMarker = marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const anchorRegex = new RegExp(`<a[^>]*>${escapedMarker}</a>`, 'g');
+      return !content.match(anchorRegex);
     });
-    return obj;
   }
 
-  const buildImageValuesString = (obj) => {
-    // Build "key1=value1|key2=value2" from object
-    return Object.keys(obj)
-      .map(key => `${key}=${obj[key] || ''}`)
-      .join('|');
-  }
+  const handleTextAreaChange = async (marker, newValue) => {
+    const updatedTextValue = textValue.replace(marker, `<a href="${newValue}">${marker}</a>`);
+    setTextValue(updatedTextValue);
 
-  const handleTextAreaChange = (marker, newValue) => {
-    const key = extractMarkerKey(marker);
-    const currentObj = parseImageValues(imageValues);
-    currentObj[key] = newValue;
-    setImageValues(buildImageValuesString(currentObj));
+    currentEditable.content = updatedTextValue;
+
+    if(!currentEditable.resource) {
+      // Extract resource from selector: [data-aue-resource="urn:aemconnection:/content/..."]
+      const match = currentEditable.selector?.match(/data-aue-resource="([^"]+)"/);
+      if (match) {
+        currentEditable.resource = match[1];
+      }
+    }
+
+    await updateRichtext(currentEditable, editorState, guestConnection.sharedContext.get("token"));
+
+    await guestConnection.host.editorActions.refreshPage();
   }
 
   const getCurrentEditable = (state) => {
@@ -87,10 +111,10 @@ export default function EaemDynamicSelectField () {
       const state = await connection.host.editorState.get();
       setEditorState(state);
 
-      const model = await connection.host.field.getModel();
       const currentEditable = getCurrentEditable(state);
 
       if (currentEditable) {
+        setCurrentEditable(currentEditable);
         setTextValue( currentEditable.content || '');
         setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
       }
@@ -98,7 +122,6 @@ export default function EaemDynamicSelectField () {
       const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
       channel.onmessage = async (event) => {
-        console.log('eventData--1----', event);
         if (!event.data.type) {
           return;
         }
@@ -111,10 +134,6 @@ export default function EaemDynamicSelectField () {
       }
     })()
   }, [])
-
-  useEffect(() => {
-    console.log('Collected Image Values----:', imageValues);
-  }, [imageValues])
 
   return (
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
@@ -129,7 +148,6 @@ export default function EaemDynamicSelectField () {
               <Text>{marker}</Text>
               <TextArea 
                 width="100%" 
-                defaultValue={parseImageValues(imageValues)[extractMarkerKey(marker)] || ''}
                 onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
               />
             </Flex>
