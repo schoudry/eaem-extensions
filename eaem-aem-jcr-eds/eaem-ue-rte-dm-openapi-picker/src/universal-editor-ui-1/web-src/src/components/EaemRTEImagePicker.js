@@ -12,7 +12,7 @@ import {
 } from '@adobe/react-spectrum'
 import ImageSearch from '@spectrum-icons/workflow/ImageSearch'
 
-import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants"
+import { extensionId, BROADCAST_CHANNEL_NAME } from "./Constants"
 
 export default function EaemRTEImagePicker () {
   const [guestConnection, setGuestConnection] = useState()

@@ -7,6 +7,7 @@ import ErrorBoundary from "react-error-boundary";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ExtensionRegistration from "./ExtensionRegistration";
 import EaemRTEImagePicker from "./EaemRTEImagePicker";
+import EaemAssetPickerModal from "./EaemAssetPickerModal";
 
 function App() {
   return (
