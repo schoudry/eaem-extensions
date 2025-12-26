@@ -31,9 +31,42 @@ export default function ExperienceAEMUERTEStylesRail() {
     );
   };
 
-  const handleSelectionChange = (styleName) => {
+  const updateRichtext = async (item, editorState, token) => {
+    const payload = {
+      connections: [{
+        name: "aemconnection",
+        protocol: "xwalk",
+        uri: getAemHost(editorState)
+      }],
+      target: {
+        prop: item.prop,
+        resource: item.resource,
+        type: item.type
+      },
+      value: item.content
+    };
+
+    try {
+      const response = await fetch('https://universal-editor-service.adobe.io/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error updating richtext:', error);
+      throw error;
+    }
+  }
+
+  const handleSelectionChange = async (styleName) => {
     setSelectedStyle(styleName);
-    console.log("Selected style:", styleName);
+    
+    let updatedTextValue = textValue;
 
     if (markedText && textValue) {
       // Replace //markedText// with //[styleName] markedText//
@@ -41,21 +74,41 @@ export default function ExperienceAEMUERTEStylesRail() {
       const oldPattern = new RegExp(`(?<!:)\/\/${escapedMarkedText}\/\/`, 'g');
       const newPattern = `//[${styleName}] ${markedText}//`;
       
-      const updatedTextValue = textValue.replace(oldPattern, newPattern);
+      updatedTextValue = textValue.replace(oldPattern, newPattern);
       setTextValue(updatedTextValue);
-      
-      console.log("Updated text value:", updatedTextValue);
     }
+
+    const updatedItem = {
+      ...richtextItem,
+      content: updatedTextValue
+    };
+
+    await updateRichtext(updatedItem, editorState, await guestConnection.sharedContext.get("token"));
+
+    await guestConnection.host.editorActions.refreshPage();
+  };
+
+  const convertSpanToMarkedText = (content) => {
+    if (!content) return content;
+
+    // Pattern: <span class="classname">text</span> to //[classname]text//
+    const pattern = /<span class="([^"]+)">([^<]+)<\/span>/g;
+    
+    const converted = content.replace(pattern, '//[$1]$2//');
+    
+    console.log("Converted content:", converted);
+    
+    return converted;
   };
 
   const extractMarkedText = (content) => {
     if (!content) return "";
 
-    // Pattern: // ANYTHING //
-    const pattern = /(?<!:)\/\/([^\/]+?)\/\//;
+    // Match //text// but NOT //[classname] text// ( ignore already styled text)
+    const pattern = /(?<!:)\/\/(?!\[)([^\/]+?)\/\//;
     const match = content.match(pattern);
 
-    return match ? match[1] : "";
+    return match ? match[1].trim() : "";
   };
 
   const loadRTEStyles = async () => {
@@ -113,11 +166,11 @@ export default function ExperienceAEMUERTEStylesRail() {
               item = child;
             }
 
+            const convertedContent = convertSpanToMarkedText(item.content || "");
+            
             setRichtextItem(item);
-
-            setTextValue(item.content || "");
-
-            setMarkedText(extractMarkedText(item.content || ""));
+            setTextValue(convertedContent);
+            setMarkedText(extractMarkedText(convertedContent));
           }
         }
 
