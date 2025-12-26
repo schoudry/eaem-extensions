@@ -64,6 +64,8 @@ export default function ExperienceAEMUERTEStylesRail() {
   }
 
   const handleSelectionChange = async (styleName) => {
+    if(!markedText)  return;
+    
     setSelectedStyle(styleName);
     
     let updatedTextValue = textValue;
@@ -188,7 +190,9 @@ export default function ExperienceAEMUERTEStylesRail() {
           <Heading marginBottom="size-100" level="3">
             Marked Text
           </Heading>
-          <Text>{markedText}</Text>
+          <Text UNSAFE_style={{ fontStyle: markedText ? 'normal' : 'italic' }}>
+            {markedText || "No marked text found, add using pattern // eg. //This is marked text//"}
+          </Text>
           <Heading marginTop="size-300" marginBottom="size-100" level="3">
             Available Styles
           </Heading>
