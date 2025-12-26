@@ -7,7 +7,8 @@ import {
   Flex,
   TextArea,
   Text,
-  ActionButton
+  ActionButton,
+  Button
 } from '@adobe/react-spectrum'
 import ImageSearch from '@spectrum-icons/workflow/ImageSearch'
 
@@ -27,7 +28,7 @@ export default function EaemDynamicSelectField () {
   }
 
   const styleFieldArea = () => {
-    document.body.style.height = '400px';
+    document.body.style.height = '430px';
   }
 
   const updateRichtext = async (item, editorState, token) => {
@@ -101,29 +102,28 @@ export default function EaemDynamicSelectField () {
     return markersObj;
   }
 
-  const handleTextAreaChange = async (marker, assetUrl) => {
-    const updatedTextValue = updateTextContent(marker, assetUrl);
-    setTextValue(updatedTextValue);
-
-    currentEditable.content = updatedTextValue;
-
-    if(!currentEditable.resource) {
-      // Extract resource from selector: [data-aue-resource="urn:aemconnection:/content/..."]
-      const match = currentEditable.selector?.match(/data-aue-resource="([^"]+)"/);
-      if (match) {
-        currentEditable.resource = match[1];
+  const handleTextAreaChange = async (imageMarkers) => {
+    let updatedTextValue = textValue;
+    
+    for (const marker of Object.keys(imageMarkers)) {
+      const assetUrl = imageMarkers[marker];
+      
+      // First remove anchor tag if it exists
+      const escapedMarker = marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const anchorRegex = new RegExp(`<a[^>]*href="[^"]*"[^>]*>${escapedMarker}</a>`, 'g');
+      updatedTextValue = updatedTextValue.replace(anchorRegex, marker);
+      
+      // Then create new anchor tag if assetUrl is not empty
+      if (assetUrl) {
+        updatedTextValue = updatedTextValue.replace(marker, `<a href="${assetUrl}">${marker}</a>`);
       }
     }
+    
+    setTextValue(updatedTextValue);
 
-    console.log("currentEditable------>", currentEditable);
-
-    console.log("editorState------>", editorState);
-
-    await updateRichtext(currentEditable, editorState, aemToken);
-
-    await guestConnection.host.editorActions.refreshPage();
-
-    initImageMarkers(editorState);
+    console.log("updatedTextValue-------->", updatedTextValue);
+    
+    return updatedTextValue;
   }
 
   const getCurrentEditable = (state) => {
@@ -145,6 +145,30 @@ export default function EaemDynamicSelectField () {
       setImageMarkers(extractImageMarkers(currentEditable.content || '')  );
     }
   }
+
+  const fillEditableResourceIfEmpty = () => {
+    if(!currentEditable.resource) {
+      // Extract resource from selector: [data-aue-resource="urn:aemconnection:/content/..."]
+      const match = currentEditable.selector?.match(/data-aue-resource="([^"]+)"/);
+      if (match) {
+        currentEditable.resource = match[1];
+      }
+    }
+  }
+
+  const handleApplyAll = async () => {
+    const updatedTextValue = await handleTextAreaChange(imageMarkers);
+
+    currentEditable.content = updatedTextValue;
+
+    fillEditableResourceIfEmpty();
+
+    await updateRichtext(currentEditable, editorState, aemToken);
+
+    await guestConnection.host.editorActions.refreshPage();
+
+    initImageMarkers(editorState);
+  };
 
   const showAssetSelectorModal = (marker) => {
     currentMarkerRef.current = marker;
@@ -199,29 +223,36 @@ export default function EaemDynamicSelectField () {
     <Provider theme={defaultTheme} colorScheme='dark' height='100vh'>
       <View padding='size-200' UNSAFE_style={{ overflow: 'hidden' }}>
         {Object.keys(imageMarkers).length === 0 ? (
-          <Text>No image markers found, a sample is shown below..
-            <br/><br/>This folowing image is picked from Dynamic Media Open API folder
-            <br/><br/>//External Image 1//</Text>
+          <Text>No image markers found, a sample is shown below...
+            <br/><br/><span style={{fontStyle: 'italic'}}>This folowing image is picked from Dynamic Media Open API folder
+            <br/><br/>//External Image 1//</span></Text>
         ) : (
-          Object.keys(imageMarkers).map((marker, index) => (
-            <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
-              <Text>{marker}</Text>
-              <View UNSAFE_style={{ position: 'relative' }}>
-                <TextArea 
-                  width="100%" 
-                  value={imageMarkers[marker]}
-                  onChange={(value) => setImageMarkers(prev => ({ ...prev, [marker]: value }))}
-                  onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
-                />
-                <ActionButton 
-                  onPress={() => showAssetSelectorModal(marker)}
-                  isQuiet
-                  UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}>
-                  <ImageSearch aria-label="Search Image" />
-                </ActionButton>
-              </View>
+          <Flex direction="column" gap="size-100">
+            <Flex direction="row" justifyContent="space-between" alignItems="center" marginBottom="size-100">
+              <Text UNSAFE_style={{ fontSize: '16px', fontWeight: 'bold' }}>Image Markers</Text>
+              <Button variant="primary" onPress={handleApplyAll}>
+                Apply
+              </Button>
             </Flex>
-          ))
+            {Object.keys(imageMarkers).map((marker, index) => (
+              <Flex key={index} direction="column" gap="size-100" marginBottom="size-200">
+                <Text>{marker}</Text>
+                <View UNSAFE_style={{ position: 'relative' }}>
+                  <TextArea 
+                    width="100%" 
+                    value={imageMarkers[marker]}
+                    onChange={(value) => setImageMarkers(prev => ({ ...prev, [marker]: value }))}
+                  />
+                  <ActionButton 
+                    onPress={() => showAssetSelectorModal(marker)}
+                    isQuiet
+                    UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}>
+                    <ImageSearch aria-label="Search Image" />
+                  </ActionButton>
+                </View>
+              </Flex>
+            ))}
+          </Flex>
         )}
       </View>
     </Provider>
