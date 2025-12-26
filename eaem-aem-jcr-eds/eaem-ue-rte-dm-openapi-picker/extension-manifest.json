@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM RTE DM OpenAPI Picker",
+  "id": "experience-aem-rte-dm-openapi-picker",
+  "description": "Experience AEM RTE DM OpenAPI Picker",
+  "version": "0.0.1",
+  "customRenderers": [
+    {
+      "dataType": "component",
+      "url": "/#/renderer/component"
+    }
+  ]
+}
