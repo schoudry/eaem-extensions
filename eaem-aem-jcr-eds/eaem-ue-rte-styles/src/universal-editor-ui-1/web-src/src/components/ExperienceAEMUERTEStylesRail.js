@@ -34,17 +34,26 @@ export default function ExperienceAEMUERTEStylesRail() {
   const handleSelectionChange = (styleName) => {
     setSelectedStyle(styleName);
     console.log("Selected style:", styleName);
+
+    if (markedText && textValue) {
+      // Replace //markedText// with //[styleName] markedText//
+      const escapedMarkedText = markedText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const oldPattern = new RegExp(`(?<!:)\/\/${escapedMarkedText}\/\/`, 'g');
+      const newPattern = `//[${styleName}] ${markedText}//`;
+      
+      const updatedTextValue = textValue.replace(oldPattern, newPattern);
+      setTextValue(updatedTextValue);
+      
+      console.log("Updated text value:", updatedTextValue);
+    }
   };
 
   const extractMarkedText = (content) => {
     if (!content) return "";
 
-    // Pattern: // ANYTHING // (using negative lookbehind to avoid matching URLs like https://)
+    // Pattern: // ANYTHING //
     const pattern = /(?<!:)\/\/([^\/]+?)\/\//;
     const match = content.match(pattern);
-
-    console.log("----------content:", content);
-    console.log("----------match:", match );
 
     return match ? match[1] : "";
   };
