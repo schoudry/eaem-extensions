@@ -15,10 +15,12 @@ import { extensionId, RICHTEXT_TYPE, BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT
 
 export default function EaemDynamicSelectField () {
   const [guestConnection, setGuestConnection] = useState()
+  const [aemToken, setAemToken] = useState('')
   const [currentEditable, setCurrentEditable] = useState({});
   const [editorState, setEditorState] = useState(null)
   const [textValue, setTextValue] = useState('')
   const [imageMarkers, setImageMarkers] = useState({})
+  const currentMarkerRef = useRef(null)
 
   const getAemHost = (editorState) => {
     return editorState.connections.aemconnection.substring(editorState.connections.aemconnection.indexOf('xwalk:') + 6);
@@ -60,15 +62,15 @@ export default function EaemDynamicSelectField () {
     }
   }
 
-  const updateTextContent = (marker, newValue) => {
+  const updateTextContent = (marker, linkUrl) => {
     // First remove anchor tag if it exists
     const escapedMarker = marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const anchorRegex = new RegExp(`<a[^>]*href="[^"]*"[^>]*>${escapedMarker}</a>`, 'g');
     let updatedTextValue = textValue.replace(anchorRegex, marker);
     
-    // Then create new anchor tag if newValue is not empty
-    if (newValue) {
-      updatedTextValue = updatedTextValue.replace(marker, `<a href="${newValue}">${marker}</a>`);
+    // Then create new anchor tag if linkUrl is not empty
+    if (linkUrl) {
+      updatedTextValue = updatedTextValue.replace(marker, `<a href="${linkUrl}">${marker}</a>`);
     }
     
     return updatedTextValue;
@@ -99,8 +101,8 @@ export default function EaemDynamicSelectField () {
     return markersObj;
   }
 
-  const handleTextAreaChange = async (marker, newValue) => {
-    const updatedTextValue = updateTextContent(marker, newValue);
+  const handleTextAreaChange = async (marker, assetUrl) => {
+    const updatedTextValue = updateTextContent(marker, assetUrl);
     setTextValue(updatedTextValue);
 
     currentEditable.content = updatedTextValue;
@@ -113,13 +115,15 @@ export default function EaemDynamicSelectField () {
       }
     }
 
-    await updateRichtext(currentEditable, editorState, guestConnection.sharedContext.get("token"));
+    console.log("currentEditable------>", currentEditable);
+
+    console.log("editorState------>", editorState);
+
+    await updateRichtext(currentEditable, editorState, aemToken);
 
     await guestConnection.host.editorActions.refreshPage();
-    
-    setTimeout(() => {
-      initImageMarkers(editorState);
-    }, 1000);
+
+    initImageMarkers(editorState);
   }
 
   const getCurrentEditable = (state) => {
@@ -142,7 +146,9 @@ export default function EaemDynamicSelectField () {
     }
   }
 
-  const showAssetSelectorModal = () => {
+  const showAssetSelectorModal = (marker) => {
+    currentMarkerRef.current = marker;
+
     guestConnection.host.modal.showUrl({
         url: '/index.html#open-asset-picker-modal',
         width: '80vw',
@@ -160,6 +166,9 @@ export default function EaemDynamicSelectField () {
       const state = await connection.host.editorState.get();
       setEditorState(state);
 
+      const aemToken = await connection.sharedContext.get("token");
+      setAemToken(aemToken);
+
       initImageMarkers(state);
 
       const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
@@ -169,7 +178,15 @@ export default function EaemDynamicSelectField () {
           return;
         }
 
-        setImageMarkers(extractImageMarkers(event.data?.data?.value || '')  );
+        if (event.data.type === 'EAEM_ASSET_PICKER_ASSET_SELECTED' && currentMarkerRef.current) {
+          setImageMarkers(prev => ({
+            ...prev,
+            [currentMarkerRef.current]: event.data.assetUrl
+          }));
+          currentMarkerRef.current = null;
+        } else {
+          setImageMarkers(extractImageMarkers(event.data?.data?.value || '')  );
+        }
   
         return () => {
           channel.close();
@@ -192,11 +209,12 @@ export default function EaemDynamicSelectField () {
               <View UNSAFE_style={{ position: 'relative' }}>
                 <TextArea 
                   width="100%" 
-                  defaultValue={imageMarkers[marker]}
+                  value={imageMarkers[marker]}
+                  onChange={(value) => setImageMarkers(prev => ({ ...prev, [marker]: value }))}
                   onBlur={(e) => handleTextAreaChange(marker, e.target.value)}
                 />
                 <ActionButton 
-                  onPress={showAssetSelectorModal}
+                  onPress={() => showAssetSelectorModal(marker)}
                   isQuiet
                   UNSAFE_style={{ position: 'absolute', bottom: '4px', right: '4px', cursor: 'pointer' }}>
                   <ImageSearch aria-label="Search Image" />

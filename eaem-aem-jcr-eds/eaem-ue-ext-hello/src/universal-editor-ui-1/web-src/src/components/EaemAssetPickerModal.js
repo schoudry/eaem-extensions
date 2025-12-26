@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { attach } from "@adobe/uix-guest";
 import { Provider, defaultTheme, Content } from "@adobe/react-spectrum";
-import { extensionId } from "./Constants";
+import { extensionId, BROADCAST_CHANNEL_NAME } from "./Constants";
 
 export default function EaemAssetPickerModal() {
   const [guestConnection, setGuestConnection] = useState()
@@ -10,10 +10,15 @@ export default function EaemAssetPickerModal() {
   const [AssetSelector, setAssetSelector] = useState(null);
 
   const handleSelection = (assets) => {
-    const renditionLinks = getAssetRenditionLinks(assets);
-    const optimalRenditionLink = getOptimalRenditionLink(renditionLinks);
+    const optimalRenditionLink = getOptimalRenditionLink(getAssetRenditionLinks(assets));
     const assetDelLink = optimalRenditionLink.href.split('?')[0];
-    console.log("assetDelLink----------------->:", assetDelLink);
+
+    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+    channel.postMessage({
+      type: 'EAEM_ASSET_PICKER_ASSET_SELECTED',
+      assetUrl: assetDelLink
+    });
+    channel.close();
 
     onCloseHandler();
   };
