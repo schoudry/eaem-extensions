@@ -1,0 +1,3 @@
+extensions:
+  universal-editor/ui/1:
+    $include: src/universal-editor-ui-1/ext.config.yaml

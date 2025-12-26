@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM UE RTE Styles",
+  "id": "experience-aem-ue-rte-styles",
+  "description": "Experience AEM UE RTE Styles",
+  "version": "0.0.1",
+  "rightPanelRails": [
+    {
+      "header": "Experience AEM UE RTE Styles",
+      "id": "experience-aem-ue-rte-styles"
+    }
+  ]
+}
