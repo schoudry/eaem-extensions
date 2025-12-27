@@ -7,14 +7,14 @@ import {
   Heading,
   View,
   ComboBox,
-  Item,Text
+  Item,
+  Text,
+  Button,
+  Flex
 } from "@adobe/react-spectrum";
 
-import {
-  extensionId,
-  BROADCAST_CHANNEL_NAME,
-  EVENT_AUE_UI_SELECT,
-} from "./Constants";
+import { extensionId, UNIVERSAL_EDITOR_CONFIG_SPREADSHEET, RTE_STYLES_URL, 
+  BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT} from "./Constants";
 
 export default function ExperienceAEMUERTEStylesRail() {
   const [guestConnection, setGuestConnection] = useState();
@@ -29,6 +29,15 @@ export default function ExperienceAEMUERTEStylesRail() {
     return editorState.connections.aemconnection.substring(
       editorState.connections.aemconnection.indexOf("xwalk:") + 6
     );
+  };
+
+  const getSiteRoot = (editorState) => {
+    const url = new URL(editorState.location);
+    
+    // Extract root something like /content/site-name
+    const match = url.pathname.match(/^(\/content\/[^\/]+)/);
+    
+    return match ? match[1] : '';
   };
 
   const updateRichtext = async (item, editorState, token) => {
@@ -90,6 +99,26 @@ export default function ExperienceAEMUERTEStylesRail() {
     await guestConnection.host.editorActions.refreshPage();
   };
 
+  const handleShowStyled = () => {
+    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+    channel.postMessage({
+      type: 'SHOW_STYLED',
+      message: 'Show styled content'
+    });
+    channel.close();
+    console.log('Sent SHOW_STYLED message on channel');
+  };
+
+  const handleShowMarked = () => {
+    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+    channel.postMessage({
+      type: 'SHOW_MARKED',
+      message: 'Show marked content'
+    });
+    channel.close();
+    console.log('Sent SHOW_MARKED message on channel');
+  };
+
   const convertSpanToMarkedText = (content) => {
     if (!content) return content;
 
@@ -97,8 +126,6 @@ export default function ExperienceAEMUERTEStylesRail() {
     const pattern = /<span class="([^"]+)">([^<]+)<\/span>/g;
     
     const converted = content.replace(pattern, '//[$1]$2//');
-    
-    console.log("Converted content:", converted);
     
     return converted;
   };
@@ -113,11 +140,39 @@ export default function ExperienceAEMUERTEStylesRail() {
     return match ? match[1].trim() : "";
   };
 
-  const loadRTEStyles = async () => {
+  const loadUniversalEditorConfig = async (siteRoot, aemHost, aemToken) => {
     try {
+      const requestOptions = {
+        headers: {
+          'Authorization': `Bearer ${aemToken}`
+        }
+      };
+
       const response = await fetch(
-        "https://raw.githubusercontent.com/schoudry/eaem-dev-eds/main/styles/rte-styles.css"
+        `${aemHost}/bin/querybuilder.json?path=${siteRoot}/${UNIVERSAL_EDITOR_CONFIG_SPREADSHEET}` +
+        `&property=Key&property.value=${RTE_STYLES_URL}` +
+        `&p.hits=selective&p.properties=Key Value`, requestOptions
       );
+
+      const data = await response.json();
+      const config = {};
+
+      data.hits.forEach(hit => {
+        if (hit.Key && hit.Value) {
+          config[hit.Key] = hit.Value;
+        }
+      });
+      
+      return config;
+    } catch (error) {
+      console.error("Error loading Universal Editor config:", error);
+      return {};
+    }
+  };
+
+  const loadRTEStyles = async (stylesUrl) => {
+    try {
+      const response = await fetch(stylesUrl);
       const cssText = await response.text();
 
       // Extract class names from CSS using regex, Pattern: .classname { ... }
@@ -139,10 +194,16 @@ export default function ExperienceAEMUERTEStylesRail() {
 
   useEffect(() => {
     (async () => {
-      await loadRTEStyles();
-
       const connection = await attach({ id: extensionId });
       setGuestConnection(connection);
+
+      const state = await connection.host.editorState.get();
+      setEditorState(state);
+
+      const ueConfig = await loadUniversalEditorConfig(getSiteRoot(state), getAemHost(state), 
+                        await connection.sharedContext.get("token"));
+
+      await loadRTEStyles(ueConfig[RTE_STYLES_URL]);
 
       const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
@@ -151,10 +212,7 @@ export default function ExperienceAEMUERTEStylesRail() {
           return;
         }
 
-        const state = await connection.host.editorState.get();
-        setEditorState(state);
-
-        if (event.data.type) {
+        if (event.data.type === EVENT_AUE_UI_SELECT || event.data.type === EVENT_AUE_UI_UPDATE) {
           const resource = event.data.type === EVENT_AUE_UI_SELECT ? event.data.data.resource : event.data.data.request.target.resource;
           const item = state.editables.filter( (editableItem) => editableItem.resource === resource)[0];
 
@@ -206,6 +264,22 @@ export default function ExperienceAEMUERTEStylesRail() {
               <Item key={styleName}>{styleName}</Item>
             ))}
           </ComboBox>
+          <Flex direction="row" gap="size-100" marginTop="size-500">
+            <Button 
+              variant="secondary" 
+              onPress={handleShowMarked}
+              flex={1}
+            >
+              Show Marked
+            </Button>
+            <Button 
+              variant="secondary" 
+              onPress={handleShowStyled}
+              flex={1}
+            >
+              Show Styled
+            </Button>
+          </Flex>
         </View>
       </Content>
     </Provider>
