@@ -14,7 +14,7 @@ import {
 } from "@adobe/react-spectrum";
 
 import { extensionId, UNIVERSAL_EDITOR_CONFIG_SPREADSHEET, RTE_STYLES_URL, 
-  BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT} from "./Constants";
+  BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE} from "./Constants";
 
 export default function ExperienceAEMUERTEStylesRail() {
   const [guestConnection, setGuestConnection] = useState();
@@ -99,24 +99,14 @@ export default function ExperienceAEMUERTEStylesRail() {
     await guestConnection.host.editorActions.refreshPage();
   };
 
-  const handleShowStyled = () => {
-    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
-    channel.postMessage({
-      type: 'SHOW_STYLED',
-      message: 'Show styled content'
-    });
-    channel.close();
-    console.log('Sent SHOW_STYLED message on channel');
+  const handleShowStyled = async () => {
+    const moveTo = "https://author-p10961-e880305.adobeaemcloud.com/content/eaem-dev-eds/index/rte-styles.html?eaemRTEShowStyled=true";
+    await guestConnection.host.editorActions.navigateTo(moveTo)
   };
 
-  const handleShowMarked = () => {
-    const channel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
-    channel.postMessage({
-      type: 'SHOW_MARKED',
-      message: 'Show marked content'
-    });
-    channel.close();
-    console.log('Sent SHOW_MARKED message on channel');
+  const handleShowMarked = async () => {
+    const moveTo = "https://author-p10961-e880305.adobeaemcloud.com/content/eaem-dev-eds/index/rte-styles.html?eaemRTEShowStyled=false";
+    await guestConnection.host.editorActions.navigateTo(moveTo)
   };
 
   const convertSpanToMarkedText = (content) => {
