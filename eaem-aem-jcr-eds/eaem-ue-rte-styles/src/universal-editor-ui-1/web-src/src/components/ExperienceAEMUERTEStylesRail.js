@@ -29,36 +29,18 @@ export default function ExperienceAEMUERTEStylesRail() {
     return match ? match[1] : '';
   };
 
-  const updateRichtext = async (item, editorState, token) => {
-    const payload = {
-      connections: [{
-        name: "aemconnection",
-        protocol: "xwalk",
-        uri: getAemHost(editorState)
-      }],
-      target: {
-        prop: item.prop,
-        resource: item.resource,
-        type: item.type
-      },
-      value: item.content
+  const updateRichtextWithGuest = async (editable) => {
+    const target = {
+      editable: { id: editable.id }
     };
 
-    try {
-      const response = await fetch('https://universal-editor-service.adobe.io/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
+    const patch = [{
+      op: "replace",
+      path: "/" + editable.prop,
+      value: editable.content
+    }]
 
-      return await response.json();
-    } catch (error) {
-      console.error('Error updating richtext:', error);
-      throw error;
-    }
+    await guestConnection.host.editorActions.update( { target, patch });
   }
 
   const handleSelectionChange = async (styleName) => {
@@ -83,7 +65,7 @@ export default function ExperienceAEMUERTEStylesRail() {
       content: updatedTextValue
     };
 
-    await updateRichtext(updatedItem, editorState, await guestConnection.sharedContext.get("token"));
+    await updateRichtextWithGuest(updatedItem);
 
     await guestConnection.host.editorActions.refreshPage();
   };
