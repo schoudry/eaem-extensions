@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { attach } from "@adobe/uix-guest";
-import {
-  Provider,
-  Content,
-  defaultTheme,
-  Heading,
-  View,
-  ComboBox,
-  Item,
-  Text,
-  Button,
-  Flex
-} from "@adobe/react-spectrum";
+import { Provider, Content, defaultTheme, Heading, View, ComboBox, Item, Text, Button, Flex } from "@adobe/react-spectrum";
 
 import { extensionId, UNIVERSAL_EDITOR_CONFIG_SPREADSHEET, RTE_STYLES_URL, 
   BROADCAST_CHANNEL_NAME, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE} from "./Constants";
@@ -239,41 +228,19 @@ export default function ExperienceAEMUERTEStylesRail() {
     <Provider theme={defaultTheme} colorScheme="dark" height="100vh">
       <Content height="100%">
         <View padding="size-200">
-          <Heading marginBottom="size-100" level="3">
-            Marked Text
-          </Heading>
+          <Heading marginBottom="size-100" level="3">Marked Text</Heading>
           <Text UNSAFE_style={{ fontStyle: markedText ? 'normal' : 'italic' }}>
             {markedText || "No marked text found, add using pattern // eg. //This is marked text//"}
           </Text>
-          <Heading marginTop="size-300" marginBottom="size-100" level="3">
-            Available Styles
-          </Heading>
-          <ComboBox
-            selectedKey={selectedStyle}
-            onSelectionChange={handleSelectionChange}
-            width="100%"
-            placeholder="Select Style"
-            marginTop="size-200"
-          >
+          <Heading marginTop="size-300" marginBottom="size-100" level="3">Available Styles</Heading>
+          <ComboBox selectedKey={selectedStyle} onSelectionChange={handleSelectionChange} width="100%" placeholder="Select Style" marginTop="size-200">
             {rteStyles.map((styleName) => (
               <Item key={styleName}>{styleName}</Item>
             ))}
           </ComboBox>
           <Flex direction="row" gap="size-100" marginTop="size-500">
-            <Button 
-              variant="secondary" 
-              onPress={handleShowMarked}
-              flex={1}
-            >
-              Show Marked
-            </Button>
-            <Button 
-              variant="secondary" 
-              onPress={handleShowStyled}
-              flex={1}
-            >
-              Show Styled
-            </Button>
+            <Button variant="secondary" onPress={handleShowMarked} flex={1}>Show Marked</Button>
+            <Button variant="secondary" onPress={handleShowStyled} flex={1}>Show Styled</Button>
           </Flex>
         </View>
       </Content>
