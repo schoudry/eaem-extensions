@@ -27,3 +27,4 @@ eaem-aem-jcr-eds/eaem-rde-eds
 eaem-aem-jcr-eds/eaem-da-eds
 eaem-ue-eds-sample/
 .vscode
+*.code-workspace

@@ -1,7 +1,3 @@
-/*
- * <license header>
- */
-
 import { Text } from "@adobe/react-spectrum";
 import { register } from "@adobe/uix-guest";
 import { extensionId, BROADCAST_CHANNEL_NAME, EVENT_AUE_CONTENT_DETAILS, EVENT_AUE_UI_SELECT, EVENT_AUE_UI_UPDATE } from "./Constants";
