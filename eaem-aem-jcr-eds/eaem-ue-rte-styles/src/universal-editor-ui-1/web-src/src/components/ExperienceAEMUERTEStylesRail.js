@@ -33,7 +33,7 @@ export default function ExperienceAEMUERTEStylesRail() {
 
   const getSiteRoot = (editorState) => {
     const url = new URL(editorState.location);
-    
+
     // Extract root something like /content/site-name
     const match = url.pathname.match(/^(\/content\/[^\/]+)/);
     
@@ -100,13 +100,15 @@ export default function ExperienceAEMUERTEStylesRail() {
   };
 
   const handleShowStyled = async () => {
-    const moveTo = "https://author-p10961-e880305.adobeaemcloud.com/content/eaem-dev-eds/index/rte-styles.html?eaemRTEShowStyled=true";
-    await guestConnection.host.editorActions.navigateTo(moveTo)
+    const url = new URL(editorState.location);
+    url.searchParams.set('eaemRTEShowStyled', 'true');
+    await guestConnection.host.editorActions.navigateTo(url.toString())
   };
 
   const handleShowMarked = async () => {
-    const moveTo = "https://author-p10961-e880305.adobeaemcloud.com/content/eaem-dev-eds/index/rte-styles.html?eaemRTEShowStyled=false";
-    await guestConnection.host.editorActions.navigateTo(moveTo)
+    const url = new URL(editorState.location);
+    url.searchParams.set('eaemRTEShowStyled', 'false');
+    await guestConnection.host.editorActions.navigateTo(url.toString())
   };
 
   const convertSpanToMarkedText = (content) => {
@@ -248,6 +250,7 @@ export default function ExperienceAEMUERTEStylesRail() {
             selectedKey={selectedStyle}
             onSelectionChange={handleSelectionChange}
             width="100%"
+            placeholder="Select Style"
             marginTop="size-200"
           >
             {rteStyles.map((styleName) => (
