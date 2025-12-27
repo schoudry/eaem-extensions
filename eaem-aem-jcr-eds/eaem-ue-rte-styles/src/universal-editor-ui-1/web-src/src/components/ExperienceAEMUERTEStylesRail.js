@@ -189,7 +189,7 @@ export default function ExperienceAEMUERTEStylesRail() {
       const connection = await attach({ id: extensionId });
       setGuestConnection(connection);
 
-      const state = await connection.host.editorState.get();
+      let state = await connection.host.editorState.get();
       setEditorState(state);
 
       const ueConfig = await loadUniversalEditorConfig(getSiteRoot(state), getAemHost(state), 
@@ -205,6 +205,9 @@ export default function ExperienceAEMUERTEStylesRail() {
         }
 
         if (event.data.type === EVENT_AUE_UI_SELECT || event.data.type === EVENT_AUE_UI_UPDATE) {
+          state = await connection.host.editorState.get();
+          setEditorState(state);
+
           const resource = event.data.type === EVENT_AUE_UI_SELECT ? event.data.data.resource : event.data.data.request.target.resource;
           const item = state.editables.filter( (editableItem) => editableItem.resource === resource)[0];
 
@@ -219,7 +222,6 @@ export default function ExperienceAEMUERTEStylesRail() {
             }
 
             const convertedContent = convertSpanToMarkedText(item.content || "");
-            
             setRichtextItem(item);
             setTextValue(convertedContent);
             setMarkedText(extractMarkedText(convertedContent));
