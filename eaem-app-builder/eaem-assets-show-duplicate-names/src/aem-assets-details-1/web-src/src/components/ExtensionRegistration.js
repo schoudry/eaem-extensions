@@ -14,13 +14,12 @@ function ExtensionRegistration() {
       methods: {
         detailSidePanel: {
           getPanels() {
-            // YOUR SIDE PANELS CODE SHOULD BE HERE
             return [
               {
                 'id': 'experience-aem-assets-duplicate-names',
-                'tooltip': 'Experience AEM Assets Duplicate Names',
-                'icon': 'Airplane',
-                'title': 'Experience AEM Assets Duplicate Names',
+                'tooltip': 'Experience AEM Assets Show Duplicates',
+                'icon': 'Hand2',
+                'title': 'Experience AEM Assets Duplicates',
                 'contentUrl': '/#experience-aem-assets-duplicate-names',
                 'reloadOnThemeChange': 'true',
               },
