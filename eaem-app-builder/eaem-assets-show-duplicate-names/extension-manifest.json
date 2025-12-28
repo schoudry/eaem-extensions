@@ -1,0 +1,15 @@
+{
+  "name": "Experience AEM Assets Duplicate Names",
+  "id": "experience-aem-assets-duplicate-names",
+  "description": "Experience AEM Assets Duplicate Names",
+  "version": "0.0.1",
+  "detailsSidePanels": [
+    {
+      "tooltip": "Experience AEM Assets Duplicate Names",
+      "title": "Experience AEM Assets Duplicate Names",
+      "icon": "Airplane",
+      "id": "experience-aem-assets-duplicate-names",
+      "componentName": "PanelExperienceAemAssetsDuplicateNames"
+    }
+  ]
+}
