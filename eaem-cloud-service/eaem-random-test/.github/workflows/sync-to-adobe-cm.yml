@@ -3,7 +3,9 @@ name: Sync to Adobe Cloud Manager
 on:
   push:
     branches:
-      - eaem-random-test
+      - main
+      - master
+      - develop
 
 jobs:
   sync:
