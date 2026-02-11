@@ -25,6 +25,7 @@ eaem-cloud-service/dispatcher
 eaem-aem-jcr-eds/eaem-dev-eds
 eaem-aem-jcr-eds/eaem-rde-eds
 eaem-aem-jcr-eds/eaem-da-eds
+eaem-aem-jcr-eds/eaem-xwalk-eds
 eaem-ue-eds-sample/
 .vscode
 *.code-workspace

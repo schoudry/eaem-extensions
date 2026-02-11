@@ -1,0 +1,8 @@
+kind: "API"
+version: "1.0"
+metadata:
+    envTypes: ["dev"]
+data:
+    allowedClientIDs:
+        author:
+          - "experience-catalyst-prod"
