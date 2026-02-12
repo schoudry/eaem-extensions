@@ -1,1 +1,1 @@
-# eaem-extensions
+# Experience AEM Extensions
