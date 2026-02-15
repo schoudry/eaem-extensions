@@ -2,6 +2,21 @@ const fetch = require('node-fetch');
 const https = require('https');
 const fs = require('fs');
 
+// Setup log file
+const logFile = 'page-counts.log';
+const logStream = fs.createWriteStream(logFile, { flags: 'w' });
+
+// Override console.log to write to both console and file
+const originalConsoleLog = console.log;
+console.log = function(...args) {
+  const message = args.map(arg => 
+    typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+  ).join(' ');
+  
+  originalConsoleLog.apply(console, args);
+  logStream.write(message + '\n');
+};
+
 // Configuration
 // Usage: node basic-auth-fetch.js [username] [password] [baseUrl]
 const config = {
@@ -93,11 +108,40 @@ async function main() {
         if (pathResponse.ok) {
           const pathData = await pathResponse.json();
           const total = pathData.results || 0;
-          grandTotal += total;
-          console.log(`Total pages under this path: ${total}\n`);
+          
+          // Check if any of the results have paths with language nodes ending with numbers
+          let validCount = 0;
+          let skippedCount = 0;
+          
+          if (pathData.hits && Array.isArray(pathData.hits)) {
+            pathData.hits.forEach((hit) => {
+              if (hit.path) {
+                // Check if path contains a language node with number (e.g., en-us-15, en-15-us)
+                const segments = hit.path.split('/');
+                const hasLanguageNodeWithNumber = segments.some(segment => {
+                  // Check if segment looks like a language code (xx-xx) and contains any digit
+                  return /^[a-z]{2}-[a-z]{2}/.test(segment) && /\d/.test(segment);
+                });
+                
+                if (hasLanguageNodeWithNumber) {
+                  skippedCount++;
+                } else {
+                  validCount++;
+                }
+              }
+            });
+          }
+          
+          grandTotal += validCount;
+          console.log(`Total pages under this path: ${total}`);
+          console.log(`Valid pages (without numbered language nodes): ${validCount}`);
+          if (skippedCount > 0) {
+            console.log(`Skipped pages (language node contains number): ${skippedCount}`);
+          }
+          console.log('');
           
           // Write to CSV
-          fs.appendFileSync(csvFile, `"${path}",${total}\n`, 'utf8');
+          fs.appendFileSync(csvFile, `"${path}",${validCount}\n`, 'utf8');
         } else {
           console.log(`   ⚠️ Error: ${pathResponse.status} ${pathResponse.statusText}\n`);
         }
@@ -110,11 +154,16 @@ async function main() {
     console.log(`Total paths queried: ${paths.length}`);
     console.log(`Grand Total (sum of all paths): ${grandTotal} pages`);
     console.log(`CSV file saved: ${csvFile}`);
+    console.log(`Log file saved: ${logFile}`);
     console.log(`\n✅ Completed`);
+    
+    // Close log stream
+    logStream.end();
 
   } catch (error) {
     console.error('\n❌ Error:', error.message);
     console.error(error.stack);
+    logStream.end();
     process.exit(1);
   }
 }
