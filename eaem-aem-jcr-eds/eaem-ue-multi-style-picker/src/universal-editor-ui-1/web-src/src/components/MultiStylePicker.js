@@ -209,7 +209,7 @@ export default function MultiStylePicker () {
 
   return (
     <Provider theme={defaultTheme}  colorScheme='dark'>
-      <View UNSAFE_style={{ overflow: 'hidden', backgroundColor: 'white', padding: '16px 16px 16px 0' }}>
+      <View UNSAFE_style={{ overflow: 'hidden', padding: '16px 16px 16px 0' }}>
         <ComboBox 
           onSelectionChange={handleSelectionChange}
           label={label}
@@ -233,10 +233,11 @@ export default function MultiStylePicker () {
                   alignItems: 'center',
                   gap: '4px',
                   padding: '4px 8px',
-                  backgroundColor: 'white',
-                  border: '1px solid black',
+                  backgroundColor: '#3a3a3a',
+                  border: '1px solid #6b6b6b',
                   borderRadius: '4px',
-                  fontSize: '13px'
+                  fontSize: '13px',
+                  color: '#fff'
                 }}
               >
                 <Text>{getStyleName(tag)}</Text>
