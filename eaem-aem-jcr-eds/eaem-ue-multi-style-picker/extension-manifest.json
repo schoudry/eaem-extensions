@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM Block Multi Style Select",
+  "id": "experience-aem-block-multi-style-select",
+  "description": "Experience AEM Block Multi Style Select",
+  "version": "0.0.1",
+  "customRenderers": [
+    {
+      "dataType": "component",
+      "url": "/#/renderer/component"
+    }
+  ]
+}
