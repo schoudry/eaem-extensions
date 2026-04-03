@@ -208,7 +208,7 @@ export default function MultiStylePicker () {
   };
 
   return (
-    <Provider theme={defaultTheme} >
+    <Provider theme={defaultTheme}  colorScheme='dark'>
       <View UNSAFE_style={{ overflow: 'hidden', backgroundColor: 'white', padding: '16px 16px 16px 0' }}>
         <ComboBox 
           onSelectionChange={handleSelectionChange}
