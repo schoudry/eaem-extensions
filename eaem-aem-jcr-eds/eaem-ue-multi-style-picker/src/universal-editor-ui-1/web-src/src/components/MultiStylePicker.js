@@ -80,8 +80,6 @@ export default function MultiStylePicker () {
       
       const configData = await response.json();
       
-      // Parse JCR structure: find all nodes with jcr:primaryType = "nt:unstructured"
-      // and extract their "Style Name" and "Style Class" properties
       let optionsList = [];
       
       if (configData && configData['jcr:content']) {

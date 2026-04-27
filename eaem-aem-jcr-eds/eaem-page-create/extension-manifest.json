@@ -1,0 +1,13 @@
+{
+  "name": "page-creator",
+  "id": "page-creator",
+  "description": "creates AEM page resource on AEM Author",
+  "version": "0.0.1",
+  "headerMenuButtons": [
+    {
+      "label": "Add Page",
+      "needsModal": true,
+      "id": "add-page"
+    }
+  ]
+}
