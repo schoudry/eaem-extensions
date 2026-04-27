@@ -160,21 +160,11 @@ async function fetchConfTemplates(aemHost, aemToken) {
   }
 }
 
-/** Stable row key for Query Builder hits */
-function qbHitRowKey(hit, index) {
-  const p = hit?.path ?? hit?.['jcr:path'] ?? hit?.name
-  return p != null ? String(p) : `tpl-${index}`
-}
-
 /** Display title from a cq:Template QB hit */
 function qbHitTitle(hit) {
-  const path = hit?.path ?? hit?.['jcr:path'] ?? ''
-  const segments = String(path).split('/').filter(Boolean)
-  const leaf = segments.length ? segments[segments.length - 1] : ''
-  return leaf || hit?.name || 'Template'
+  return hit?.title || 'Template'
 }
 
-/** Repository path line for subtitle */
 function qbHitPathLabel(hit) {
   return hit?.path ?? hit?.['jcr:path'] ?? ''
 }
@@ -184,7 +174,8 @@ export default function AddPageModal () {
   const [pageTitle, setPageTitle] = useState('')
   const [parentPath, setParentPath] = useState('')
   const [confTemplates, setConfTemplates] = useState([])
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState(null)
+  /** Index into `confTemplates`; avoids duplicate QB paths breaking React keys / selection. */
+  const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -361,83 +352,87 @@ export default function AddPageModal () {
                 width="100%"
                 marginTop="size-200"
               />
+            </Form>
 
-              {/*
-               * Spectrum 2 CardView (`@react-spectrum/s2/CardView`) uses package.json exports;
-               * Parcel’s default resolver often fails on that subpath. S2 also targets React 19 + style macros.
-               * Use React Spectrum v3 Grid + View for the same card-wall layout here.
-               */}
-              <Heading id="template-cards-heading" level={4} marginTop="size-400">
-                Page templates (cq:Template under /conf)
-              </Heading>
-              {confTemplates.length === 0 ? (
-                <Text marginTop="size-150">
-                  No templates loaded yet, or none returned from Query Builder.
-                </Text>
-              ) : (
-                <Grid
-                  aria-labelledby="template-cards-heading"
-                  columns={repeat('auto-fill', minmax('148px', '1fr'))}
-                  gap="size-150"
-                  marginTop="size-200"
-                  width="100%"
-                  UNSAFE_style={{
-                    maxHeight: 260,
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                  }}
-                >
-                  {confTemplates.map((hit, index) => {
-                    const rowKey = qbHitRowKey(hit, index)
-                    const selected = selectedTemplateKey === rowKey
-                    return (
-                      <View
-                        key={rowKey}
-                        padding="size-150"
-                        borderRadius="medium"
-                        backgroundColor={selected ? 'blue-100' : 'gray-100'}
-                        borderWidth={selected ? 'thick' : 'thin'}
-                        borderColor={selected ? 'blue-500' : 'gray-400'}
-                        UNSAFE_style={{
-                          cursor: 'pointer',
-                          boxSizing: 'border-box',
-                          minWidth: 0,
-                        }}
-                        role="button"
-                        tabIndex={0}
-                        aria-pressed={selected}
-                        aria-label={`Template ${qbHitTitle(hit)}`}
-                        onClick={() =>
-                          setSelectedTemplateKey((k) =>
-                            k === rowKey ? null : rowKey
-                          )
+            <Heading id="template-cards-heading" level={4} marginTop="size-300">
+              Templates
+            </Heading>
+            {confTemplates.length === 0 ? (
+              <Text marginTop="size-150">
+                No templates loaded yet, or none returned from Query Builder.
+              </Text>
+            ) : (
+              <Grid
+                aria-labelledby="template-cards-heading"
+                columns={repeat('auto-fill', minmax('148px', '1fr'))}
+                gap="size-150"
+                marginTop="size-200"
+                width="100%"
+                UNSAFE_style={{
+                  maxHeight: 260,
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                }}
+              >
+                {confTemplates.map((hit, index) => {
+                  const selected = selectedTemplateIndex === index
+                  const toggle = () =>
+                    setSelectedTemplateIndex((i) =>
+                      i === index ? null : index
+                    )
+
+                  return (
+                    <View
+                      key={`template-card-${index}`}
+                      padding="size-150"
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={selected}
+                      aria-label={`Template ${qbHitTitle(hit)}`}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        toggle()
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          toggle()
                         }
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            setSelectedTemplateKey((k) =>
-                              k === rowKey ? null : rowKey
-                            )
-                          }
+                      }}
+                      UNSAFE_style={{
+                        cursor: 'pointer',
+                        boxSizing: 'border-box',
+                        minWidth: 0,
+                        borderRadius: 8,
+                        userSelect: 'none',
+                        outline: selected ? '2px solid #1473e6' : 'none',
+                        outlineOffset: selected ? 2 : 0,
+                        backgroundColor: selected ? '#dbeafe' : '#f5f5f5',
+                        border: selected
+                          ? '2px solid #1473e6'
+                          : '1px solid #d0d0d0',
+                        boxShadow: selected
+                          ? 'inset 0 0 0 1px rgba(20, 115, 230, 0.35)'
+                          : 'none',
+                      }}
+                    >
+                      <Heading level={5}>{qbHitTitle(hit)}</Heading>
+                      <Text
+                        marginTop="size-75"
+                        UNSAFE_style={{
+                          fontSize: 11,
+                          opacity: 0.85,
+                          wordBreak: 'break-word',
                         }}
                       >
-                        <Heading level={5}>{qbHitTitle(hit)}</Heading>
-                        <Text
-                          marginTop="size-75"
-                          UNSAFE_style={{
-                            fontSize: 11,
-                            opacity: 0.85,
-                            wordBreak: 'break-word',
-                          }}
-                        >
-                          {qbHitPathLabel(hit)}
-                        </Text>
-                      </View>
-                    )
-                  })}
-                </Grid>
-              )}
-            </Form>
+                        {qbHitPathLabel(hit)}
+                      </Text>
+                    </View>
+                  )
+                })}
+              </Grid>
+            )}
           </section>
 
           <View
