@@ -2,7 +2,7 @@
  * <license header>
  */
 
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { attach } from "@adobe/uix-guest"
 import {
   Flex,
@@ -185,7 +185,6 @@ export default function AddPageModal () {
   const [parentPath, setParentPath] = useState('')
   const [confTemplates, setConfTemplates] = useState([])
   const [selectedTemplateKey, setSelectedTemplateKey] = useState(null)
-  const modalWidthBoostApplied = useRef(false)
 
   useEffect(() => {
     (async () => {
@@ -363,7 +362,81 @@ export default function AddPageModal () {
                 marginTop="size-200"
               />
 
-
+              {/*
+               * Spectrum 2 CardView (`@react-spectrum/s2/CardView`) uses package.json exports;
+               * Parcel’s default resolver often fails on that subpath. S2 also targets React 19 + style macros.
+               * Use React Spectrum v3 Grid + View for the same card-wall layout here.
+               */}
+              <Heading id="template-cards-heading" level={4} marginTop="size-400">
+                Page templates (cq:Template under /conf)
+              </Heading>
+              {confTemplates.length === 0 ? (
+                <Text marginTop="size-150">
+                  No templates loaded yet, or none returned from Query Builder.
+                </Text>
+              ) : (
+                <Grid
+                  aria-labelledby="template-cards-heading"
+                  columns={repeat('auto-fill', minmax('148px', '1fr'))}
+                  gap="size-150"
+                  marginTop="size-200"
+                  width="100%"
+                  UNSAFE_style={{
+                    maxHeight: 260,
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                  }}
+                >
+                  {confTemplates.map((hit, index) => {
+                    const rowKey = qbHitRowKey(hit, index)
+                    const selected = selectedTemplateKey === rowKey
+                    return (
+                      <View
+                        key={rowKey}
+                        padding="size-150"
+                        borderRadius="medium"
+                        backgroundColor={selected ? 'blue-100' : 'gray-100'}
+                        borderWidth={selected ? 'thick' : 'thin'}
+                        borderColor={selected ? 'blue-500' : 'gray-400'}
+                        UNSAFE_style={{
+                          cursor: 'pointer',
+                          boxSizing: 'border-box',
+                          minWidth: 0,
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={selected}
+                        aria-label={`Template ${qbHitTitle(hit)}`}
+                        onClick={() =>
+                          setSelectedTemplateKey((k) =>
+                            k === rowKey ? null : rowKey
+                          )
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            setSelectedTemplateKey((k) =>
+                              k === rowKey ? null : rowKey
+                            )
+                          }
+                        }}
+                      >
+                        <Heading level={5}>{qbHitTitle(hit)}</Heading>
+                        <Text
+                          marginTop="size-75"
+                          UNSAFE_style={{
+                            fontSize: 11,
+                            opacity: 0.85,
+                            wordBreak: 'break-word',
+                          }}
+                        >
+                          {qbHitPathLabel(hit)}
+                        </Text>
+                      </View>
+                    )
+                  })}
+                </Grid>
+              )}
             </Form>
           </section>
 
