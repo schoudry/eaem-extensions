@@ -36,7 +36,6 @@ function canvasHashHrefForSlug(slug) {
   return `${base}/${s}`
 }
 
-/** UE `navigateTo` expects a content path, not a shell hash segment (`/@org/...`) or full https URL. */
 function isHostEditorNavigateHref(href) {
   const h = String(href).trim()
   if (!h || !h.startsWith('/') || h.startsWith('//')) return false
@@ -49,11 +48,6 @@ function fullExperienceUrlForSlug(slug) {
   return `https://experience.adobe.com/#${canvasHashHrefForSlug(slug)}`
 }
 
-/**
- * Modal iframes use `attach()` (GuestUI). Universal Editor does not expose
- * `host.editorActions.navigateTo` there — only the primary `register()` frame gets it.
- * Navigating `window.top` to the Experience Cloud URL updates the shell hash the same way.
- */
 function navigateExperienceShell(url) {
   try {
     const topWin = window.top
@@ -72,11 +66,6 @@ function navigateExperienceShell(url) {
   }
 }
 
-/**
- * Universal Editor's navigateTo expects an AEM content path (e.g. /content/site/us/en/page).
- * Derive the parent folder from editorState.location when Parent path is blank.
- * Locations are often /content/... on classic AEM, or site-root paths such as /df/... on DA.
- */
 function normalizeAemParentPath(input) {
   const t = String(input).trim().replace(/\/+$/, '')
   if (!t) return ''
@@ -124,9 +113,6 @@ function parentDirFromEditorLocation(location) {
   return dirnamePathSegments(trimmed)
 }
 
-/** Extra width (px) beyond the host’s auto-sized modal, which tracks document.body. */
-const MODAL_WIDTH_EXTRA_PX = 150
-
 export default function AddPageModal () {
   const [guestConnection, setGuestConnection] = useState()
   const [pageTitle, setPageTitle] = useState('')
@@ -140,31 +126,6 @@ export default function AddPageModal () {
       setGuestConnection(guestConnection)
     })()
   }, [])
-
-  useLayoutEffect(() => {
-    const modalSet = guestConnection?.host?.modal?.set
-    if (!modalSet || modalWidthBoostApplied.current) return
-
-    const applyWiderModal = () => {
-      if (modalWidthBoostApplied.current) return false
-      const w = Math.ceil(document.body.getBoundingClientRect().width)
-      if (w < 100) return false
-      modalWidthBoostApplied.current = true
-      const inner =
-        typeof window !== 'undefined' ? Math.floor(window.innerWidth) : Infinity
-      const desired = w + MODAL_WIDTH_EXTRA_PX
-      /* Do not exceed the iframe viewport — extra px was causing a horizontal scrollbar. */
-      const widthPx = Math.min(desired, inner)
-      modalSet({ width: widthPx }).catch(() => {
-        modalWidthBoostApplied.current = false
-      })
-      return true
-    }
-
-    if (applyWiderModal()) return undefined
-    const t = window.setTimeout(applyWiderModal, 100)
-    return () => window.clearTimeout(t)
-  }, [guestConnection])
 
   const onCloseHandler = () => {
     guestConnection?.host?.modal?.close?.()
@@ -271,12 +232,6 @@ export default function AddPageModal () {
         >
           <header>
             <Heading level={2}>Create AEM page (v5)</Heading>
-            <View marginTop="size-100">
-              <Text>
-                Use this panel from Universal Editor to add a new page under the
-                current site.
-              </Text>
-            </View>
           </header>
 
           <Divider size="S" marginTop="size-300" marginBottom="size-300" />
@@ -332,10 +287,6 @@ export default function AddPageModal () {
             marginTop="size-300"
             UNSAFE_style={{ backgroundColor: "white" }}
           >
-            <Text UNSAFE_style={{ fontSize: "12px", opacity: 0.85 }}>
-              Page path segment derived from Page title (spaces become hyphens;
-              letters lowercased).
-            </Text>
             <Flex
               width="100%"
               maxWidth="100%"
