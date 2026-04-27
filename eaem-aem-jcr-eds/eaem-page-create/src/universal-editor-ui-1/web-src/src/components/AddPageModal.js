@@ -16,7 +16,10 @@ import {
   Button,
   Heading,
   View,
-  Divider
+  Divider,
+  Grid,
+  repeat,
+  minmax,
 } from '@adobe/react-spectrum'
 
 import { extensionId, editorCanvasHashPathPrefix } from "./Constants"
@@ -113,10 +116,75 @@ function parentDirFromEditorLocation(location) {
   return dirnamePathSegments(trimmed)
 }
 
+function getAemHost(editorState) {
+  const conn = editorState?.connections?.aemconnection
+  if (!conn || typeof conn !== 'string') return ''
+  const idx = conn.indexOf('xwalk:')
+  if (idx < 0) return ''
+  let host = conn.substring(idx + 6)
+  if (host.includes('?ref=')) {
+    host = host.split('?ref=')[0]
+  }
+  return host
+}
+
+async function fetchConfTemplates(aemHost, aemToken) {
+  try {
+    const base = String(aemHost || '').replace(/\/+$/, '')
+    if (!base) return []
+
+    const url = new URL(`${base}/bin/querybuilder.json`)
+    url.searchParams.set('path', '/conf')
+    url.searchParams.set('type', 'cq:Template')
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${aemToken}`,
+      },
+    })
+
+    if (!response.ok) {
+      console.warn(
+        'QueryBuilder conf templates:',
+        response.status,
+        response.statusText
+      )
+      return []
+    }
+
+    const data = await response.json()
+    return Array.isArray(data.hits) ? data.hits : []
+  } catch (e) {
+    console.error('fetchConfTemplates failed', e)
+    return []
+  }
+}
+
+/** Stable row key for Query Builder hits */
+function qbHitRowKey(hit, index) {
+  const p = hit?.path ?? hit?.['jcr:path'] ?? hit?.name
+  return p != null ? String(p) : `tpl-${index}`
+}
+
+/** Display title from a cq:Template QB hit */
+function qbHitTitle(hit) {
+  const path = hit?.path ?? hit?.['jcr:path'] ?? ''
+  const segments = String(path).split('/').filter(Boolean)
+  const leaf = segments.length ? segments[segments.length - 1] : ''
+  return leaf || hit?.name || 'Template'
+}
+
+/** Repository path line for subtitle */
+function qbHitPathLabel(hit) {
+  return hit?.path ?? hit?.['jcr:path'] ?? ''
+}
+
 export default function AddPageModal () {
   const [guestConnection, setGuestConnection] = useState()
   const [pageTitle, setPageTitle] = useState('')
   const [parentPath, setParentPath] = useState('')
+  const [confTemplates, setConfTemplates] = useState([])
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState(null)
   const modalWidthBoostApplied = useRef(false)
 
   useEffect(() => {
@@ -124,6 +192,20 @@ export default function AddPageModal () {
       const guestConnection = await attach({ id: extensionId })
 
       setGuestConnection(guestConnection)
+
+      try {
+        const state = await guestConnection.host?.editorState?.get?.()
+        const token = await guestConnection.sharedContext?.get?.('token')
+        const aemHost = state ? getAemHost(state) : ''
+        
+        if (aemHost && token) {
+          const hits = await fetchConfTemplates(aemHost, token)
+
+          setConfTemplates(hits)
+        }
+      } catch (e) {
+        console.warn('AddPageModal: could not load cq:Template list under /conf', e)
+      }
     })()
   }, [])
 
@@ -280,6 +362,8 @@ export default function AddPageModal () {
                 width="100%"
                 marginTop="size-200"
               />
+
+
             </Form>
           </section>
 
