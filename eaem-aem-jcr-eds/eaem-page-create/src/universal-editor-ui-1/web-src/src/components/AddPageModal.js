@@ -381,39 +381,35 @@ export default function AddPageModal () {
                       i === index ? null : index
                     )
 
+                  /* Native div: RS View merges style props that can override UNSAFE_style borders */
                   return (
-                    <View
+                    <div
                       key={`template-card-${index}`}
-                      padding="size-150"
                       role="button"
                       tabIndex={0}
                       aria-pressed={selected}
                       aria-label={`Template ${qbHitTitle(hit)}`}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        toggle()
-                      }}
+                      onClick={() => toggle()}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault()
                           toggle()
                         }
                       }}
-                      UNSAFE_style={{
+                      style={{
                         cursor: 'pointer',
                         boxSizing: 'border-box',
                         minWidth: 0,
                         borderRadius: 8,
                         userSelect: 'none',
-                        outline: selected ? '2px solid #1473e6' : 'none',
-                        outlineOffset: selected ? 2 : 0,
+                        padding: '12px',
+                        margin: 0,
                         backgroundColor: selected ? '#dbeafe' : '#f5f5f5',
                         border: selected
-                          ? '2px solid #1473e6'
-                          : '1px solid #d0d0d0',
+                          ? '3px solid #1473e6'
+                          : '2px solid #d0d0d0',
                         boxShadow: selected
-                          ? 'inset 0 0 0 1px rgba(20, 115, 230, 0.35)'
+                          ? '0 0 0 1px rgba(20, 115, 230, 0.25)'
                           : 'none',
                       }}
                     >
@@ -428,7 +424,7 @@ export default function AddPageModal () {
                       >
                         {qbHitPathLabel(hit)}
                       </Text>
-                    </View>
+                    </div>
                   )
                 })}
               </Grid>
