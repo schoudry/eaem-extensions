@@ -27,7 +27,7 @@ function ExtensionRegistration() {
               {
                 'id': 'experience-aem-ue-rte-styles',
                 'header': 'Experience AEM UE RTE Styles',
-                'icon': 'TextStyle',
+                'icon': 'ColorPalette',
                 'url': '/#/experience-aem-ue-rte-styles-rail'
               },
             ];

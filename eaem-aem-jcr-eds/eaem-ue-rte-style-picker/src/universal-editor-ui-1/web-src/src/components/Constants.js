@@ -9,5 +9,9 @@ module.exports = {
   EVENT_AUE_UI_SELECT: 'aue:ui-select',
   UNIVERSAL_EDITOR_CONFIG_SPREADSHEET: 'universal-editor-config',
   RTE_STYLES_URL: 'RTE_STYLES_URL',
-  EVENT_AUE_UI_UPDATE: 'aue:content-update'
+  EVENT_AUE_UI_UPDATE: 'aue:content-update',
+  RTE_STYLE_CLASS_PREFIX: 'rte-',
+  SELECTION_MESSAGE_TYPE: 'eds-user-text-selection',
+  MARKED_TEXT_PREFIX: '//',
+  MARKED_TEXT_SUFFIX: '//'  
 }
