@@ -87,7 +87,7 @@ export default function ExperienceAEMUERTEStylesRail() {
   const getSiteRoot = (editorState) => {
     const url = new URL(editorState.location);
 
-    const tokenizedPath = url.pathname.match(/^(\/content\/[^/]+\/[^/]+)/);
+    const tokenizedPath = url.pathname.match(/^(\/content\/[^/]+)/);
     if (tokenizedPath) {
       return tokenizedPath[1];
     }
@@ -184,6 +184,8 @@ export default function ExperienceAEMUERTEStylesRail() {
 
       const response = await fetch(queryBuilderUrl, requestOptions);
 
+      console.log('response------', response);
+
       const data = await response.json();
       const config = {};
 
@@ -266,6 +268,8 @@ export default function ExperienceAEMUERTEStylesRail() {
       const ueConfig = await loadUniversalEditorConfig(getSiteRoot(state), getAemHost(state), 
                         await connection.sharedContext.get("token"));
 
+      console.log('ueConfig------', ueConfig);
+
       const stylesPath = typeof ueConfig[RTE_STYLES_URL] === "string"
           ? ueConfig[RTE_STYLES_URL].trim()
           : ueConfig[RTE_STYLES_URL];
@@ -322,9 +326,9 @@ export default function ExperienceAEMUERTEStylesRail() {
   }, []);
 
   return (
-    <Provider theme={defaultTheme} >
+    <Provider theme={defaultTheme} height="100vh" >
       <Content height="100%">
-        <View padding="size-200" UNSAFE_style={{ backgroundColor: 'white' }}>
+        <View padding="size-200">
           {rteStylesUrlMissing ? (
             <Text>
               No {RTE_STYLES_URL} configured in &apos;{UNIVERSAL_EDITOR_CONFIG_SPREADSHEET}&apos; spreadsheet
