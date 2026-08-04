@@ -1,14 +1,14 @@
 kind: "CDN"
 version: "1"
 metadata:
-    envTypes: [ "rde", "dev" ]
+    envTypes: [ "dev", "prod", "stage" ]
 data:
   responseTransformations:
     rules:
-      - name: "frame-security-policy-for-author-rde"
+      - name: "frame-security-policy-for-author"
         when:
             reqProperty: domain
-            equals: "author-p10961-e1322140.adobeaemcloud.com"
+            matches: "author-p10961-e\\d+\\.adobeaemcloud\\.com"
         actions:
           - type: set
             value:  frame-ancestors 'self' https://experience.adobe.com

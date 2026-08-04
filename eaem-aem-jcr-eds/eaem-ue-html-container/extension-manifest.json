@@ -1,0 +1,12 @@
+{
+  "name": "Experience AEM HTML Container",
+  "id": "experience-aem-html-container",
+  "description": "Experience AEM HTML Container",
+  "version": "0.0.1",
+  "customRenderers": [
+    {
+      "dataType": "component",
+      "url": "/#/renderer/component"
+    }
+  ]
+}

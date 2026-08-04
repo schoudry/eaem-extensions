@@ -111,8 +111,6 @@ export default function ExperienceAEMUERTEStylesRail() {
     if(!pageSelectedText)  return;
     
     setSelectedStyle(styleName);
-
-    console.log('textValue------', textValue);
     
     let markedSelectedText = `//[${styleName}] ${pageSelectedText}//`;
     let updatedTextValue = textValue.replace(pageSelectedText, markedSelectedText);
@@ -184,8 +182,6 @@ export default function ExperienceAEMUERTEStylesRail() {
 
       const response = await fetch(queryBuilderUrl, requestOptions);
 
-      console.log('response------', response);
-
       const data = await response.json();
       const config = {};
 
@@ -211,8 +207,6 @@ export default function ExperienceAEMUERTEStylesRail() {
         return;
       }
 
-      console.log('event.data.text------', event.data.text);
-
       setPageSelectedText(event.data.text);
     };
 
@@ -229,9 +223,6 @@ export default function ExperienceAEMUERTEStylesRail() {
         }
       };
       
-      console.log('Styles url------', stylesUrl);
-      console.log('aemTokenl------', aemToken);
-
       const response = await fetch(stylesUrl, requestOptions);
 
       const cssText = await response.text();
@@ -268,11 +259,14 @@ export default function ExperienceAEMUERTEStylesRail() {
       const ueConfig = await loadUniversalEditorConfig(getSiteRoot(state), getAemHost(state), 
                         await connection.sharedContext.get("token"));
 
-      console.log('ueConfig------', ueConfig);
-
-      const stylesPath = typeof ueConfig[RTE_STYLES_URL] === "string"
+      let stylesPath = typeof ueConfig[RTE_STYLES_URL] === "string"
           ? ueConfig[RTE_STYLES_URL].trim()
           : ueConfig[RTE_STYLES_URL];
+
+       if (typeof stylesPath === 'string' && stylesPath) {
+        const sep = stylesPath.includes('?') ? '&' : '?';
+        stylesPath = `${stylesPath}${sep}ck=${Math.floor(Math.random() * 1e12)}`;
+      }
 
       if (!stylesPath) {
         setRteStylesUrlMissing(true);
@@ -307,11 +301,7 @@ export default function ExperienceAEMUERTEStylesRail() {
               item = child;
             }
 
-            console.log('item.content------', item.content);
-
             const convertedContent = convertSpanToMarkedText(item.content || "");
-
-            console.log('convertedContent------', convertedContent);
 
             setRichtextItem(item);
             setTextValue(convertedContent);

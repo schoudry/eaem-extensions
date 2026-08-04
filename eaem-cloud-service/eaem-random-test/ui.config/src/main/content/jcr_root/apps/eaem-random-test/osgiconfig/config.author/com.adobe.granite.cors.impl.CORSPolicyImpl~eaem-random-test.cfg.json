@@ -1,6 +1,6 @@
 {
   "alloworigin": ["http://localhost:3000", "https://localhost:9080"],
-  "allowedpaths": [".*"],
+  "allowedpaths": ["/content/eaem-dev-eds.*", "/bin/querybuilder.json"],
   "supportedheaders": [
     "Authorization",
     "Origin",
