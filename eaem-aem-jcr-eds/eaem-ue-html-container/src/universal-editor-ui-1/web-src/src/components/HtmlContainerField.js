@@ -54,7 +54,7 @@ export default function HtmlContainerField () {
       setHtmlValue(decodeFromBase64(storedValue));
       setLoading(false);
 
-      document.body.style.height = '300px';
+      document.body.style.height = '600px';
     })()
   }, [])
 
@@ -72,7 +72,7 @@ export default function HtmlContainerField () {
           onChange={handleChange}
           isDisabled={loading}
           width="100%"
-          height="size-2400"
+          height="500px"
           placeholder="Enter HTML code..."
         />
         <Text UNSAFE_style={{ display: 'block', marginTop: '8px', fontSize: '11px', opacity: 0.7 }}>
