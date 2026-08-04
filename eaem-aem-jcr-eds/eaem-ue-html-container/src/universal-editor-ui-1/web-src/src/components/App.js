@@ -3,6 +3,7 @@ import ErrorBoundary from "react-error-boundary";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ExtensionRegistration from "./ExtensionRegistration";
 import HtmlContainerField from "./HtmlContainerField";
+import HtmlContainerModalEditor from "./HtmlContainerModalEditor";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<ExtensionRegistration />} />
           <Route exact path="index.html" element={<ExtensionRegistration />} />
           <Route exact path="eaem-html-container" element={<HtmlContainerField />} />
+          <Route exact path="eaem-html-container-editor" element={<HtmlContainerModalEditor />} />
         </Routes>
       </ErrorBoundary>
     </Router>
